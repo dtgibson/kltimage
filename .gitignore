@@ -1,0 +1,26 @@
+# Xcode and Swift build products
+.build/
+.qa-build/
+.qa-release/
+.qa-analyze/
+DerivedData/
+build/
+*.xcresult
+*.dSYM/
+*.profraw
+
+# Per-user Xcode state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Packaged releases are published as GitHub Release assets
+*.zip
+
+# macOS metadata
+.DS_Store
+__MACOSX/
+
+# Weft working-session state
+/pipeline/handoff.md

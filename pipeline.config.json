@@ -1,0 +1,22 @@
+{
+  "projectName": "KLT Image",
+  "projectType": "macOS desktop app",
+  "entryPath": "new",
+  "stack": {
+    "platform": "macOS",
+    "language": "Swift 6",
+    "frontend": "SwiftUI",
+    "componentLibrary": "Native SwiftUI controls",
+    "nativeIntegration": "AppKit",
+    "imageProcessing": [
+      "Accelerate",
+      "Core Graphics",
+      "ImageIO"
+    ],
+    "backend": null,
+    "database": null
+  },
+  "deployment": null,
+  "createdAt": "2026-09-11T02:22:22Z",
+  "updatedAt": "2026-09-11T02:22:22Z"
+}

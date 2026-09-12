@@ -1,8 +1,10 @@
 ## Using KLT Image locally
 
-The currently hosted private [KLT Image 1.1.0 build 3 package](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-3.zip) is a known-bad release artifact: it is ad-hoc signed, has no notarization ticket, and is rejected by Gatekeeper after a normal download. Do not remove quarantine or bypass the warning. Build 3 remains hosted only until its notarized Build 4 replacement is explicitly approved for publication.
+If you have access to the project's tailnet, download the private [KLT Image 1.1.0 build 4 package](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-4.zip). Its SHA-256 is `4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442`.
 
-For now, run from source: open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and `My Mac`, and press Command-R.
+Unzip it and double-click **KLT Image**. The universal app runs on Apple silicon and Intel Macs without Xcode. It is Developer ID-signed, notarized by Apple, and stapled, so a normally downloaded copy passes Gatekeeper without removing quarantine or using a security bypass. The affected Build 3 package remains hosted only as an unadvertised rollback artifact and should not be used.
+
+To run from source instead, open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and `My Mac`, and press Command-R.
 
 1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Processing starts with RGB, Covariance, and Whole image selected, and stays on your Mac. Larger images are rejected before full-resolution decoding with a readable size-limit message.
 

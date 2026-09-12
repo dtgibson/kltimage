@@ -33,9 +33,22 @@
     "artifactDirectory": "/Users/developer/devwork/kltimage/releases",
     "serveRoute": "/kltimage-preview",
     "serveProxy": "http://127.0.0.1:8786",
+    "currentRelease": {
+      "version": "1.1.0",
+      "build": "4",
+      "url": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-4.zip",
+      "sha256": "4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442"
+    },
+    "rollbackArtifact": {
+      "version": "1.1.0",
+      "build": "3",
+      "artifact": "releases/KLT-Image-1.1.0-build-3.zip",
+      "sha256": "011ad363f46f9b9d81a6be3aeb936de1f692ed19fcc63e2ad0ba0207c353db7a",
+      "advertised": false
+    },
     "releasePolicy": "publish each approved build at a distinct versioned path and update advertised links only after the served bytes pass independent release verification",
     "rollback": "restore the pre-deployment source-only guidance and remove only the failed new build; preserve Build 3 unchanged but do not advertise it as trusted"
   },
   "createdAt": "2026-09-11T02:22:22Z",
-  "updatedAt": "2026-09-12T17:26:18Z"
+  "updatedAt": "2026-09-12T18:09:32Z"
 }

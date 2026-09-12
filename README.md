@@ -11,7 +11,11 @@ KLT Image supports RGB or Lab processing, covariance or correlation analysis, an
 
 ## Download
 
-The previously advertised 1.1.0 build 3 tailnet package is ad-hoc signed, is not notarized, and is rejected by Gatekeeper after a normal download. Do not bypass the warning or remove quarantine. A Developer ID-signed and notarized 1.1.0 build 4 replacement is being prepared; until it is explicitly approved and published, build the app from source in Xcode.
+KLT Image 1.1.0 build 4 is available privately to members of the project's tailnet: [Download KLT Image](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-4.zip).
+
+SHA-256: `4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442`
+
+Build 4 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, and stapled. The affected ad-hoc-signed Build 3 remains hosted only as an unadvertised rollback artifact and should not be used.
 
 ## What it does
 
@@ -76,7 +80,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.1.0 build 4 is the pending unambiguous replacement for affected build 3. It must pass the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks before private publication. Broad public distribution remains unapproved until the documented QA evidence gaps are closed. The next planned feature is reproducible analysis with recorded settings and exported transformation data.
+Version 1.1.0 build 4 is published on the private tailnet and has passed the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, Gatekeeper, and launch checks. Broad public distribution remains unapproved until the documented QA evidence gaps are closed. The next planned feature is reproducible analysis with recorded settings and exported transformation data.
 
 ## License
 

@@ -28,6 +28,8 @@
 
 **Decision:** The current ad-hoc-signed, unnotarized package is approved only for private/local distribution over the project's tailnet; broad public distribution is not approved.
 
+**Status:** Superseded on 2026-09-12 by the trusted-signing requirement and verified Build 4 private-tailnet deployment below.
+
 **Rationale:** Core verification and security review found no open product defect, but 22 QA criteria retain evidence gaps across UI automation, VoiceOver, platform/runtime coverage, cancellation workflows, and dynamic privacy checks.
 
 **Implications:** Public distribution requires closing the accepted evidence debt and producing a Developer ID-signed, notarized artifact without development entitlements, followed by verification of the exact package.
@@ -39,3 +41,11 @@
 **Rationale:** Download quarantine and Gatekeeper apply independently of audience size. Build 3's valid ad-hoc seal protected integrity but could not authenticate the publisher or carry a notarization ticket, causing the normal “move to Trash” rejection.
 
 **Implications:** Release automation must fail on signing identity, team, timestamp, hardened-runtime, entitlement, architecture, version, notarization, ticket, checksum, or Gatekeeper mismatches. Packaging happens only after stapling, and quarantine removal is never an acceptance workaround. This trust decision does not remove the existing QA evidence debt or approve broad public distribution.
+
+## Publish verified Build 4 on the private tailnet — 2026-09-12
+
+**Decision:** Advertise KLT Image 1.1.0 build 4 at its distinct tailnet-only URL with SHA-256 `4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442`. Preserve affected Build 3 unchanged as an unadvertised rollback artifact rather than replacing it in place.
+
+**Rationale:** The exact served Build 4 download matched the approved artifact byte-for-byte, passed the independent Developer ID, notarization, stapling, quarantine, and Gatekeeper checks, and launched normally under App Translocation.
+
+**Implications:** Build 4 is the only recommended tailnet download. If it must be rolled back, remove only its versioned file and restore source-only guidance; do not present Build 3 as a trusted release. Tailnet-only availability does not authorize broad public distribution.

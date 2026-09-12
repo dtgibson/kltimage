@@ -52,7 +52,7 @@ The full-frame pipeline now validates a documented 64-megapixel ceiling from ima
 - The script signs KLTCore before its containing app with secure timestamps and hardened runtime, then enforces the expected identity, Team ID, bundle IDs, version, architectures, and exact sandbox/user-selected-file entitlements. It rejects ad-hoc signatures, unexpected entitlements, and `get-task-allow`.
 - The distributable ZIP is created only after Apple accepts notarization and the ticket is stapled and validated.
 - Added `scripts/verify-macos-release.sh` to enforce an expected SHA-256 on the exact ZIP, extract a clean verification copy, apply quarantine, recheck the signature and ticket, and require Gatekeeper acceptance specifically as `Notarized Developer ID`.
-- Updated local-use guidance to identify hosted build 3 as affected and prohibit quarantine removal as a workaround. Publishing or replacing that file remains a separate deployment action.
+- Updated local-use guidance to advertise the verified Build 4 tailnet package and checksum. The affected Build 3 package remains hosted only as an unadvertised rollback artifact.
 
 ### Engineer verification
 
@@ -64,7 +64,7 @@ The full-frame pipeline now validates a documented 64-megapixel ceiling from ima
 - App Store Connect Team API-key authentication completed without reading or printing private key material. Apple accepted submission `0d58fc72-c6d2-4a41-b1ad-61091db2761d`; its ticket was stapled and validated.
 - The final ZIP at `/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release.MEV7ae/KLT-Image-1.1.0-build-4.zip` has SHA-256 `4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442`.
 - The independent verifier matched that checksum, revalidated the exact signatures and entitlements, validated the stapled ticket, applied quarantine to an extracted copy, and received Gatekeeper `accepted` with `source=Notarized Developer ID`.
-- The final candidate is not published. Build 3 and all tailnet/server state remain untouched pending the explicit deployment gate.
+- After explicit production approval, Build 4 was published at its distinct tailnet-only URL without replacing Build 3. A fresh download matched SHA-256 `4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442`, passed the independent verifier as `Notarized Developer ID`, and launched under App Translocation with quarantine retained.
 - Security remediation: the release archive and checksum now remain under `UNVERIFIED-…pending` names while the independent verifier runs. A verifier rejection is routed through the release script's explicit failure path, preserves the staged app/workspace/pending diagnostics, and leaves no final-named artifact. Only verifier success permits same-volume atomic renames to the final ZIP and checksum names.
 - `./scripts/release-macos.sh --self-test-promotion` passed both regression branches: forced verifier failure retained pending diagnostics with no final names and emitted the release failure path; forced success removed pending names, atomically promoted both final names, and left a valid checksum naming the promoted archive.
 - The packaging-boundary change does not alter the already accepted, stapled app or archive bytes. The existing candidate and SHA-256 were re-run through the real independent verifier after remediation and again passed signatures, entitlements, ticket validation, quarantine, and Gatekeeper acceptance, so a duplicate Apple submission was neither required nor created.

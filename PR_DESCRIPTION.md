@@ -1,35 +1,44 @@
-## Core RGB enhancement workflow
+## Analysis controls
 
 ### What this does
 
-KLT Image is now a native macOS app that opens JPEG, PNG, TIFF, and HEIC images, converts them to an oriented 8-bit sRGB working image, and applies a deterministic covariance-based RGB decorrelation stretch. It keeps the unchanged original beside the enhanced result, synchronizes zoom and pan, explains the method and its exploratory limits, and exports full-resolution PNG, TIFF, or JPEG files.
+KLT Image now lets an analyst choose RGB or CIE Lab D65 variables, covariance or correlation analysis, and whole-image or selected-region statistics. All eight combinations enhance the complete source image at full resolution while keeping RGB covariance with whole-image sampling as the pixel-identical default.
 
-The numerical core uses Welford covariance, a deterministic symmetric 3 × 3 eigendecomposition, bounded component gains, uniform output-range fitting, and explicit handling for uniform or nearly uniform images. Processing and export run away from the main thread and can be canceled.
+A single rectangular sample can be drawn, moved, or resized directly over the image, or entered as exact top-left source-pixel X, Y, width, and height values. The same source-coordinate region remains aligned through fit, zoom, pan, and Split view. Invalid drafts remain available for correction, stop recalculation, disable export, and never fall back to whole-image statistics or an older committed region.
+
+Method changes automatically supersede older work, and only the newest result matching the visible method and sample can be exported. The unchanged source and any prior enhancement remain available for comparison while a request is processing or needs correction, with clear not-current status.
+
+The full-frame pipeline now validates a documented 64-megapixel ceiling from image metadata before requesting full-resolution decoding, then rechecks the decoder output before allocating its RGBA buffer. Oversized images fail with a specific import message instead of entering an unbounded memory-pressure path.
 
 ### How to test
 
-1. Open `KLTImage.xcodeproj` in Xcode 26 or later.
-2. Select the `KLTImage` scheme and the `My Mac` destination.
-3. Press Command-R.
-4. Open an oriented JPEG, PNG, TIFF, or HEIC image and confirm the original and enhanced panes appear.
-5. Switch among Original, Split, and Enhanced, then zoom and drag the image. Both split panes should stay aligned.
-6. Open the method details and confirm it reports whole-image RGB covariance in sRGB.
-7. Export PNG, TIFF, and JPEG copies. Confirm their pixel dimensions match the source; PNG and TIFF should retain transparency.
-8. Open a uniform-color image and confirm it remains viewable with the limited-variation explanation.
-9. Run the `KLTImage` scheme's tests with Command-U.
+1. Open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and `My Mac`, then press Command-R.
+2. Open an oriented JPEG, PNG, TIFF, or HEIC image. Confirm RGB, Covariance, and Whole image are selected by default and an enhanced result appears.
+3. Switch independently between RGB and Lab, and between Covariance and Correlation. Confirm each change recalculates from the unchanged source and the active method updates in the metadata strip.
+4. Choose Selected region. Confirm export becomes unavailable and the app asks for a sample instead of using whole-image statistics.
+5. Drag on the source pane to create a rectangle. Move it from its interior and resize it from a corner; in Split view, confirm both panes show the same source-pixel bounds.
+6. Enter exact X, Y, Width, and Height values and click Apply bounds. Enter an invalid or smaller-than-four-pixel region and confirm the attempted values remain editable, the problem is explained, and export stays unavailable. Correct the values and apply again.
+7. Switch back to Whole image, then return to Selected region. Confirm the valid region is retained and reused. Clear it and confirm the app returns to the awaiting-region state.
+8. Open the method details and confirm it explains the active variables, matrix basis, statistical sample, full-image application, stable components, and exploratory limits.
+9. Export a current result as PNG, TIFF, or JPEG. Confirm its dimensions match the source and no region outline is included; PNG and TIFF should retain transparency.
+10. Open a second image. Confirm its sample resets to Whole image and navigation resets, while the current RGB/Lab and Covariance/Correlation choices remain selected.
+11. Open an image whose declared dimensions exceed 64 megapixels and confirm it is rejected with the documented limit before processing begins.
+12. Press Command-U to run the numerical, image-pipeline, and interface automation checks.
 
 ### Notes for reviewer
 
-- This feature intentionally implements RGB covariance with whole-image sampling only. Lab, correlation mode, and selectable-region statistics remain in the next roadmap item.
-- JPEG has no alpha channel, so transparent areas are composited over white for JPEG export. PNG and TIFF preserve alpha.
-- Fully transparent pixels have no recoverable RGB value after standard premultiplied decoding and therefore enter the analysis as zero RGB; their alpha is still preserved exactly.
-- Decorrelation stretch can reveal source compression or low-resolution artifacts along with subtle color differences; lossless or higher-resolution sources provide a cleaner result.
-- Build 1.0.0 (2) keeps the native comparison control in the app's fixed light appearance and adds an explicit high-contrast boundary so every unselected mode remains visible under macOS dark mode.
-- IBM Plex Sans and IBM Plex Mono are bundled under the SIL Open Font License.
-- The Release performance regression test processes a 24-megapixel fixture and enforces the five-second target on Apple Silicon.
+- Lab processing converts sRGB values through CIE 1976 L*a*b* with a D65 reference white, transforms all source pixels, converts back to sRGB, and clips finite out-of-gamut channels while preserving alpha.
+- Correlation normalizes numerically stable variables to unit variance. Flat or nearly flat variables are excluded from normalization and reported as limited variation rather than silently switching methods.
+- A selected region supplies statistics only. Its half-open integer source-pixel bounds do not crop, mask, or localize the full-image enhancement.
+- Region sampling supports one axis-aligned rectangle with at least four source pixels. Multiple regions, freehand selection, saved presets, and exported transform data remain out of scope.
+- The shipped RGB covariance whole-image path remains byte-identical, including transparent and degenerate inputs.
+- The Release performance suite exercises all eight analysis combinations on a 24-megapixel fixture and enforces the five-second target on Apple silicon.
+- Full-frame processing is intentionally capped at 64 megapixels. Larger-image support belongs in a future tiled or out-of-core path rather than a hardware-dependent allocation attempt.
+- IBM Plex Sans and IBM Plex Mono remain bundled under the SIL Open Font License.
 
 ## Convention Flags
 
 - Keep scientific transforms in the independently testable `KLTCore` framework and keep file-panel and presentation state in the main-actor workspace model.
 - Normalize imported images to oriented 8-bit sRGB premultiplied RGBA before analysis, and preserve the original decoded buffer unchanged.
-- Keep all image processing local, cancellable, and off the main thread.
+- Keep analysis keys and request identity explicit so canceled or superseded work can never become current or exportable.
+- Keep all image processing local, cancellable, deterministic, and off the main thread.

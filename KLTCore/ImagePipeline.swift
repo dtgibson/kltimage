@@ -29,9 +29,40 @@ public struct DecodedImage: @unchecked Sendable {
 public struct EnhancedImage: @unchecked Sendable {
     public let image: CGImage
     public let analysis: StretchAnalysis
+    public let descriptor: AnalysisDescriptor
     public let notice: String?
 
     let rgba8Premultiplied: Data
+}
+
+/// The supported boundary for the app's full-frame, in-memory image pipeline.
+public enum ImageProcessingLimits {
+    /// A 64 MP frame occupies 256 MB as 8-bit RGBA. The ceiling leaves room for
+    /// the source, enhanced result, decoder storage, and export working buffers
+    /// on the lowest-memory supported Mac class.
+    public static let maximumPixelCount = 64_000_000
+
+    private static let rgbaBytesPerPixel = 4
+
+    /// Validates declared or decoded dimensions and returns the required RGBA bytes.
+    public static func checkedRGBAByteCount(width: Int, height: Int) throws -> Int {
+        guard width > 0, height > 0 else {
+            throw ImagePipelineError.invalidDimensions
+        }
+
+        let (pixelCount, pixelOverflow) = width.multipliedReportingOverflow(by: height)
+        guard !pixelOverflow, pixelCount <= maximumPixelCount else {
+            throw ImagePipelineError.imageTooLarge
+        }
+
+        let (byteCount, byteOverflow) = pixelCount.multipliedReportingOverflow(
+            by: rgbaBytesPerPixel
+        )
+        guard !byteOverflow else {
+            throw ImagePipelineError.imageTooLarge
+        }
+        return byteCount
+    }
 }
 
 public enum ImageExportFormat: String, CaseIterable, Sendable {
@@ -86,7 +117,7 @@ public enum ImagePipelineError: Error, LocalizedError, Equatable {
         case .invalidDimensions:
             "This image has invalid pixel dimensions. Try a different file."
         case .imageTooLarge:
-            "This image is too large to process safely. Try a smaller file."
+            "This image exceeds KLT Image's 64-megapixel processing limit. Try a smaller file."
         case .cannotCreateWorkingImage:
             "The image could not be converted to the sRGB working space."
         case .cannotEncodeImage:
@@ -106,7 +137,8 @@ public enum ImagePipeline {
     public static func decode(_ data: Data) throws -> DecodedImage {
         try Task.checkCancellation()
 
-        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
+        let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let source = CGImageSourceCreateWithData(data as CFData, sourceOptions) else {
             throw ImagePipelineError.unreadableImage
         }
         guard CGImageSourceGetCount(source) > 0 else {
@@ -119,6 +151,12 @@ public enum ImagePipeline {
         guard rawWidth > 0, rawHeight > 0 else {
             throw ImagePipelineError.invalidDimensions
         }
+
+        // Reject from metadata before ImageIO is asked for a full-resolution decode.
+        _ = try ImageProcessingLimits.checkedRGBAByteCount(
+            width: rawWidth,
+            height: rawHeight
+        )
 
         let thumbnailOptions: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
@@ -138,15 +176,11 @@ public enum ImagePipeline {
 
         let width = orientedImage.width
         let height = orientedImage.height
-        guard width > 0, height > 0 else {
-            throw ImagePipelineError.invalidDimensions
-        }
-
-        let (pixelCount, pixelOverflow) = width.multipliedReportingOverflow(by: height)
-        let (byteCount, byteOverflow) = pixelCount.multipliedReportingOverflow(by: 4)
-        guard !pixelOverflow, !byteOverflow, byteCount <= 2_000_000_000 else {
-            throw ImagePipelineError.imageTooLarge
-        }
+        // Revalidate the decoder's actual output before allocating the app-owned buffer.
+        let byteCount = try ImageProcessingLimits.checkedRGBAByteCount(
+            width: width,
+            height: height
+        )
 
         var rgba = Data(count: byteCount)
         let drewImage = rgba.withUnsafeMutableBytes { rawBuffer -> Bool in
@@ -218,6 +252,11 @@ public enum ImagePipeline {
             return EnhancedImage(
                 image: source.originalImage,
                 analysis: analysis(for: plan, outputScale: 1),
+                descriptor: descriptor(
+                    input: .baseline,
+                    samplePixelCount: source.pixelCount,
+                    plan: plan
+                ),
                 notice: "Not enough color variation to enhance this image.",
                 rgba8Premultiplied: source.rgba8Premultiplied
             )
@@ -285,7 +324,117 @@ public enum ImagePipeline {
         return EnhancedImage(
             image: image,
             analysis: analysis(for: plan, outputScale: outputScale),
+            descriptor: descriptor(
+                input: .baseline,
+                samplePixelCount: source.pixelCount,
+                plan: plan
+            ),
             notice: nil,
+            rgba8Premultiplied: output
+        )
+    }
+
+    /// Applies one explicit analysis request to the immutable decoded source.
+    /// The baseline overload above remains its original arithmetic path so its
+    /// output bytes cannot drift as new methods are added.
+    public static func enhance(_ source: DecodedImage, input: AnalysisInput) throws -> EnhancedImage {
+        if input == .baseline {
+            return try enhance(source)
+        }
+
+        try Task.checkCancellation()
+        let validatedRegion: ValidatedSourcePixelRegion?
+        switch input.sampleSource {
+        case .wholeImage:
+            validatedRegion = nil
+        case .selectedRegion:
+            validatedRegion = try SourcePixelRegionValidator.validate(
+                input.region,
+                sourceWidth: source.width,
+                sourceHeight: source.height
+            )
+        }
+
+        var accumulator = RunningCovariance3()
+        try source.rgba8Premultiplied.withUnsafeBytes { rawBuffer in
+            let bytes = rawBuffer.bindMemory(to: UInt8.self)
+            let minimumX = validatedRegion?.bounds.x ?? 0
+            let maximumX = minimumX + (validatedRegion?.bounds.width ?? source.width)
+            let minimumY = validatedRegion?.bounds.y ?? 0
+            let maximumY = minimumY + (validatedRegion?.bounds.height ?? source.height)
+            var sampled = 0
+            for y in minimumY..<maximumY {
+                for x in minimumX..<maximumX {
+                    if sampled.isMultiple(of: cancellationStride) {
+                        try Task.checkCancellation()
+                    }
+                    let offset = ((y * source.width) + x) * 4
+                    switch input.method.colorSpace {
+                    case .rgb:
+                        try accumulator.add(unpremultipliedRGB(bytes: bytes, offset: offset))
+                    case .lab:
+                        try accumulator.add(
+                            CIELabD65.fromPremultipliedSRGB(bytes: bytes, offset: offset)
+                        )
+                    }
+                    sampled += 1
+                }
+            }
+        }
+
+        let plan = try DecorrelationStretch.makePlan(
+            accumulator: accumulator,
+            matrixMode: input.method.matrixMode
+        )
+        if plan.isDegenerate {
+            if input.sampleSource == .selectedRegion {
+                throw RegionValidationIssue.insufficientVariation(
+                    stableComponentCount: plan.stableComponentCount
+                )
+            }
+            return EnhancedImage(
+                image: source.originalImage,
+                analysis: analysis(for: plan, outputScale: 1),
+                descriptor: descriptor(
+                    input: input,
+                    samplePixelCount: source.pixelCount,
+                    plan: plan
+                ),
+                notice: "Not enough color variation to enhance this image.",
+                rgba8Premultiplied: source.rgba8Premultiplied
+            )
+        }
+
+        let output: Data
+        let outputScale: Double
+        switch input.method.colorSpace {
+        case .rgb:
+            let rendered = try renderRGB(source: source, plan: plan)
+            output = rendered.data
+            outputScale = rendered.scale
+        case .lab:
+            output = try renderLab(source: source, plan: plan)
+            outputScale = 1
+        }
+
+        try Task.checkCancellation()
+        guard let image = makeImage(width: source.width, height: source.height, rgba: output) else {
+            throw ImagePipelineError.cannotCreateWorkingImage
+        }
+
+        let resultDescriptor = descriptor(
+            input: input,
+            samplePixelCount: validatedRegion?.pixelCount ?? source.pixelCount,
+            plan: plan
+        )
+        let notice = resultDescriptor.hasLimitedVariation
+            ? "Limited variation: \(plan.stableComponentCount) of 3 components are stable."
+            : nil
+        return EnhancedImage(
+            image: image,
+            analysis: analysis(for: plan, outputScale: outputScale),
+            descriptor: resultDescriptor,
+            notice: notice,
             rgba8Premultiplied: output
         )
     }
@@ -332,12 +481,113 @@ public enum ImagePipeline {
         StretchAnalysis(
             mean: plan.mean,
             covariance: plan.covariance,
+            analysisMatrix: plan.analysisMatrix,
             eigenvalues: plan.eigenvalues,
             eigenvectors: plan.eigenvectors,
+            stableVariableCount: plan.stableVariableCount,
             stableComponentCount: plan.stableComponentCount,
             outputScale: outputScale,
             isDegenerate: plan.isDegenerate
         )
+    }
+
+    private static func descriptor(
+        input: AnalysisInput,
+        samplePixelCount: Int,
+        plan: StretchPlan
+    ) -> AnalysisDescriptor {
+        AnalysisDescriptor(
+            input: input,
+            samplePixelCount: samplePixelCount,
+            stableVariableCount: plan.stableVariableCount,
+            stableComponentCount: plan.stableComponentCount,
+            hasLimitedVariation: plan.stableVariableCount < 3 || plan.stableComponentCount < 3
+        )
+    }
+
+    private static func renderRGB(source: DecodedImage, plan: StretchPlan) throws -> (data: Data, scale: Double) {
+        var minimum = Double.infinity
+        var maximum = -Double.infinity
+        try source.rgba8Premultiplied.withUnsafeBytes { rawBuffer in
+            let bytes = rawBuffer.bindMemory(to: UInt8.self)
+            for pixelIndex in 0..<source.pixelCount {
+                if pixelIndex.isMultiple(of: cancellationStride) {
+                    try Task.checkCancellation()
+                }
+                let offset = pixelIndex * 4
+                let transformed = plan.transformed(unpremultipliedRGB(bytes: bytes, offset: offset))
+                guard transformed.x.isFinite, transformed.y.isFinite, transformed.z.isFinite else {
+                    throw DecorrelationStretchError.nonFiniteInput
+                }
+                minimum = min(minimum, transformed.x, transformed.y, transformed.z)
+                maximum = max(maximum, transformed.x, transformed.y, transformed.z)
+            }
+        }
+
+        let range = maximum - minimum
+        guard range.isFinite else { throw DecorrelationStretchError.nonFiniteInput }
+        let outputScale = range > DecorrelationStretch.absoluteVarianceFloor ? 1 / range : 1
+        guard range > DecorrelationStretch.absoluteVarianceFloor else {
+            return (source.rgba8Premultiplied, outputScale)
+        }
+
+        var output = Data(count: source.pixelCount * 4)
+        try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
+            try output.withUnsafeMutableBytes { outputBuffer in
+                let sourceBytes = sourceBuffer.bindMemory(to: UInt8.self)
+                let outputBytes = outputBuffer.bindMemory(to: UInt8.self)
+                for pixelIndex in 0..<source.pixelCount {
+                    if pixelIndex.isMultiple(of: cancellationStride) {
+                        try Task.checkCancellation()
+                    }
+                    let offset = pixelIndex * 4
+                    let value = plan.transformed(unpremultipliedRGB(bytes: sourceBytes, offset: offset))
+                    let alpha = sourceBytes[offset + 3]
+                    outputBytes[offset] = premultipliedByte(
+                        normalized: (value.x - minimum) * outputScale,
+                        alpha: alpha
+                    )
+                    outputBytes[offset + 1] = premultipliedByte(
+                        normalized: (value.y - minimum) * outputScale,
+                        alpha: alpha
+                    )
+                    outputBytes[offset + 2] = premultipliedByte(
+                        normalized: (value.z - minimum) * outputScale,
+                        alpha: alpha
+                    )
+                    outputBytes[offset + 3] = alpha
+                }
+            }
+        }
+        return (output, outputScale)
+    }
+
+    private static func renderLab(source: DecodedImage, plan: StretchPlan) throws -> Data {
+        var output = Data(count: source.pixelCount * 4)
+        try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
+            try output.withUnsafeMutableBytes { outputBuffer in
+                let sourceBytes = sourceBuffer.bindMemory(to: UInt8.self)
+                let outputBytes = outputBuffer.bindMemory(to: UInt8.self)
+                for pixelIndex in 0..<source.pixelCount {
+                    if pixelIndex.isMultiple(of: cancellationStride) {
+                        try Task.checkCancellation()
+                    }
+                    let offset = pixelIndex * 4
+                    let lab = try CIELabD65.fromPremultipliedSRGB(
+                        bytes: sourceBytes,
+                        offset: offset
+                    )
+                    let transformed = plan.transformed(lab)
+                    let rgb = try CIELabD65.toClippedSRGB(transformed)
+                    let alpha = sourceBytes[offset + 3]
+                    outputBytes[offset] = premultipliedByte(normalized: rgb.x, alpha: alpha)
+                    outputBytes[offset + 1] = premultipliedByte(normalized: rgb.y, alpha: alpha)
+                    outputBytes[offset + 2] = premultipliedByte(normalized: rgb.z, alpha: alpha)
+                    outputBytes[offset + 3] = alpha
+                }
+            }
+        }
+        return output
     }
 
     @inline(__always)

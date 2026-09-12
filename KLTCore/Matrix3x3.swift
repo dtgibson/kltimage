@@ -80,6 +80,10 @@ public struct Matrix3x3: Equatable, Sendable {
         }
         return result
     }
+
+    var isFinite: Bool {
+        storage.allSatisfy(\.isFinite)
+    }
 }
 
 public struct EigenDecomposition3x3: Sendable {

@@ -181,14 +181,32 @@ final class ImagePipelineTests: XCTestCase {
         let height = 4_000
         let fixture = try fixtureData(width: width, height: height, type: .tiff)
         let decoded = try ImagePipeline.decode(fixture)
+        let region = SourcePixelRegion(x: 1_500, y: 1_000, width: 3_000, height: 2_000)
 
-        let start = CFAbsoluteTimeGetCurrent()
-        let result = try ImagePipeline.enhance(decoded)
-        let elapsed = CFAbsoluteTimeGetCurrent() - start
+        for colorSpace in AnalysisColorSpace.allCases {
+            for matrixMode in AnalysisMatrixMode.allCases {
+                for sampleSource in AnalysisSampleSource.allCases {
+                    let input = AnalysisInput(
+                        method: AnalysisMethod(colorSpace: colorSpace, matrixMode: matrixMode),
+                        sampleSource: sampleSource,
+                        region: sampleSource == .selectedRegion ? region : nil
+                    )
+                    let start = CFAbsoluteTimeGetCurrent()
+                    let result = try ImagePipeline.enhance(decoded, input: input)
+                    let elapsed = CFAbsoluteTimeGetCurrent() - start
+                    let timing = "24 MP \(colorSpace.displayName) \(matrixMode.displayName) \(sampleSource.displayName) took \(elapsed) seconds"
+                    print(timing)
 
-        XCTAssertEqual(result.image.width, width)
-        XCTAssertEqual(result.image.height, height)
-        XCTAssertLessThan(elapsed, 5, "24 MP processing took \(elapsed) seconds")
+                    XCTAssertEqual(result.image.width, width)
+                    XCTAssertEqual(result.image.height, height)
+                    XCTAssertLessThan(
+                        elapsed,
+                        5,
+                        timing
+                    )
+                }
+            }
+        }
     }
 #endif
 
@@ -198,6 +216,47 @@ final class ImagePipelineTests: XCTestCase {
             let decoded = try ImagePipeline.decode(data)
             XCTAssertEqual(decoded.width, 6, "Wrong width for \(type.identifier)")
             XCTAssertEqual(decoded.height, 4, "Wrong height for \(type.identifier)")
+        }
+    }
+
+    func testFullFrameProcessingLimitAllowsExactlySixtyFourMegapixels() throws {
+        XCTAssertEqual(ImageProcessingLimits.maximumPixelCount, 64_000_000)
+        XCTAssertEqual(
+            try ImageProcessingLimits.checkedRGBAByteCount(width: 8_000, height: 8_000),
+            256_000_000
+        )
+    }
+
+    func testFullFrameProcessingLimitRejectsOnePixelOverBoundary() {
+        XCTAssertThrowsError(
+            try ImageProcessingLimits.checkedRGBAByteCount(width: 64_000_001, height: 1)
+        ) { error in
+            XCTAssertEqual(error as? ImagePipelineError, .imageTooLarge)
+            XCTAssertEqual(
+                (error as? LocalizedError)?.errorDescription,
+                "This image exceeds KLT Image's 64-megapixel processing limit. Try a smaller file."
+            )
+        }
+    }
+
+    func testFullFrameProcessingLimitRejectsInvalidAndOverflowingDimensions() {
+        XCTAssertThrowsError(
+            try ImageProcessingLimits.checkedRGBAByteCount(width: 0, height: 4_000)
+        ) { error in
+            XCTAssertEqual(error as? ImagePipelineError, .invalidDimensions)
+        }
+        XCTAssertThrowsError(
+            try ImageProcessingLimits.checkedRGBAByteCount(width: Int.max, height: 2)
+        ) { error in
+            XCTAssertEqual(error as? ImagePipelineError, .imageTooLarge)
+        }
+    }
+
+    func testOversizedMetadataIsRejectedBeforeFullFrameDecode() {
+        let source = oversizedBilevelTIFF(width: 8_000, height: 8_001)
+
+        XCTAssertThrowsError(try ImagePipeline.decode(source)) { error in
+            XCTAssertEqual(error as? ImagePipelineError, .imageTooLarge)
         }
     }
 
@@ -280,6 +339,57 @@ final class ImagePipelineTests: XCTestCase {
         )
         XCTAssertTrue(CGImageDestinationFinalize(destination))
         return output as Data
+    }
+
+    private func oversizedBilevelTIFF(width: UInt32, height: UInt32) -> Data {
+        var data = Data()
+
+        func appendUInt16(_ value: UInt16) {
+            data.append(UInt8(truncatingIfNeeded: value))
+            data.append(UInt8(truncatingIfNeeded: value >> 8))
+        }
+
+        func appendUInt32(_ value: UInt32) {
+            data.append(UInt8(truncatingIfNeeded: value))
+            data.append(UInt8(truncatingIfNeeded: value >> 8))
+            data.append(UInt8(truncatingIfNeeded: value >> 16))
+            data.append(UInt8(truncatingIfNeeded: value >> 24))
+        }
+
+        func appendLongEntry(tag: UInt16, value: UInt32) {
+            appendUInt16(tag)
+            appendUInt16(4) // LONG
+            appendUInt32(1)
+            appendUInt32(value)
+        }
+
+        func appendShortEntry(tag: UInt16, value: UInt16) {
+            appendUInt16(tag)
+            appendUInt16(3) // SHORT
+            appendUInt32(1)
+            appendUInt16(value)
+            appendUInt16(0)
+        }
+
+        let rowBytes = (width + 7) / 8
+        let byteCount = rowBytes * height
+
+        data.append(contentsOf: [0x49, 0x49]) // Little-endian TIFF.
+        appendUInt16(42)
+        appendUInt32(8)
+        appendUInt16(9)
+        appendLongEntry(tag: 256, value: width)
+        appendLongEntry(tag: 257, value: height)
+        appendShortEntry(tag: 258, value: 1)
+        appendShortEntry(tag: 259, value: 1)
+        appendShortEntry(tag: 262, value: 1)
+        appendLongEntry(tag: 273, value: 122)
+        appendShortEntry(tag: 277, value: 1)
+        appendLongEntry(tag: 278, value: height)
+        appendLongEntry(tag: 279, value: byteCount)
+        appendUInt32(0)
+        data.append(Data(count: Int(byteCount)))
+        return data
     }
 
     private func fixtureImage(

@@ -2,7 +2,7 @@
 
 KLT Image is a focused, native Mac app for revealing subtle color structure in photographs with a Karhunen-Loeve decorrelation stretch. It keeps the unchanged photograph available throughout the workflow so the enhanced result can be interpreted beside its source.
 
-The first release is intentionally narrow and testable. It performs a whole-image covariance transform in RGB, provides Original, Split, and Enhanced views, and exports the full-resolution result.
+KLT Image supports RGB or Lab processing, covariance or correlation analysis, and statistics from either the whole image or one rectangular sample. Every method enhances the complete image and keeps the unchanged source available in Original, Split, and Enhanced views.
 
 ## Requirements
 
@@ -11,15 +11,18 @@ The first release is intentionally narrow and testable. It performs a whole-imag
 
 ## Download
 
-Download the current build from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/latest).
+The current 1.1.0 build 3 package is available privately to members of the project's tailnet: [Download KLT Image](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-3.zip).
 
-The downloadable app is ad-hoc signed and sandboxed, but it is not Developer ID-signed or notarized by Apple. macOS may ask you to confirm that you want to open it. If you prefer, build the app from source in Xcode.
+The package is intended for private/local use. It is ad-hoc signed and sandboxed, but it is not Developer ID-signed or notarized by Apple, so macOS may ask you to confirm that you want to open it. If you do not have tailnet access, build the app from source in Xcode.
 
 ## What it does
 
 - Opens JPEG, PNG, TIFF, and HEIC images
 - Converts the oriented source to an 8-bit sRGB working image
-- Applies a deterministic covariance-based RGB decorrelation stretch
+- Applies deterministic decorrelation stretch in RGB or CIE Lab D65
+- Supports covariance or correlation analysis
+- Uses either whole-image statistics or one rectangular source-pixel sample
+- Applies a region-derived transform to the complete image rather than cropping or masking it
 - Preserves the original image for visual comparison
 - Synchronizes zoom and pan in Split view
 - Exports full-resolution PNG, TIFF, or JPEG results
@@ -29,13 +32,13 @@ The downloadable app is ad-hoc signed and sandboxed, but it is not Developer ID-
 
 ## Using the app
 
-Open a photograph and processing begins automatically. Switch among Original, Split, and Enhanced to compare the result. Use the information button beside Whole-image covariance to inspect the method and component-stability result. Export Result writes the enhanced image without changing the source file.
+Open a photograph and processing begins with RGB, Covariance, and Whole image selected. Choose another color space or matrix mode to recalculate from the unchanged source, or choose Selected region and draw a rectangle over the source pane or enter exact source-pixel bounds. Switch among Original, Split, and Enhanced to compare the result, use the information button to inspect the active method and stability result, and choose Export Result to write the current full-resolution enhancement without changing the source file.
 
 Higher-resolution and lossless sources usually produce cleaner results. The transform can amplify compression blocks, sensor noise, and other small variations along with the color structure you want to study.
 
 ## Method
 
-KLT Image computes the RGB mean and sample covariance across all image pixels using an online covariance calculation. It diagonalizes the symmetric covariance matrix with a deterministic orthonormal eigendecomposition. Numerically stable principal components are scaled toward the largest component variance, with gain bounded to avoid uncontrolled noise amplification. The inverse eigenvector basis maps the values back to RGB, then one uniform scale fits the transformed values into the available output range.
+KLT Image calculates a mean and covariance from either every pixel or one rectangular sample in RGB or CIE Lab D65. Covariance preserves the original variable scale, while correlation normalizes numerically stable variables to unit variance. It diagonalizes the resulting symmetric matrix with a deterministic orthonormal eigendecomposition, applies bounded component gains to the full image, and returns the result to displayable sRGB while preserving alpha.
 
 The unchanged decoded source buffer is kept separately from the result. Processing is cancellable and runs away from the main user-interface thread.
 
@@ -43,13 +46,14 @@ Karhunen-Loeve transform, principal component analysis, Hotelling transform, and
 
 ## Scientific limits
 
-This is an exploratory visualization tool, not a measurement or biological conclusion. The current transform:
+This is an exploratory visualization tool, not a measurement or biological conclusion. The current workflow:
 
-- Uses whole-image statistics, so a bird's background can influence the result
-- Operates on 8-bit sRGB values rather than linear-light RGB or a perceptual Lab space
-- Uses covariance only; correlation-matrix processing is not yet available
+- Uses 8-bit sRGB as its decoded source representation; RGB and Lab are alternative exploratory working spaces, not ranks of accuracy
+- Lets a rectangle control the statistics, but still applies the resulting transform to the complete image
+- Clips finite out-of-gamut values when transformed Lab colors return to displayable sRGB
 - Can magnify compression artifacts, noise, color-management effects, and lighting differences
 - Treats fully transparent decoded pixels as having no recoverable RGB value while preserving their alpha
+- Processes full frames up to a fixed limit of 64 megapixels
 
 Keep the original visible when interpreting an enhancement. Use controlled capture conditions and lossless source files when repeatability matters.
 
@@ -74,7 +78,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.0.0 build 2 is the first public release. Planned work includes Lab processing, correlation mode, selectable-region sampling, and export of transform data for reproducible quantitative analysis.
+Version 1.1.0 build 3 is available for private/local use through the project's tailnet. Broad public distribution remains unapproved until the documented verification gaps are closed and a Developer ID-signed, notarized package is produced. The next planned feature is reproducible analysis with recorded settings and exported transformation data.
 
 ## License
 

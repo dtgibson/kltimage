@@ -15,8 +15,11 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
-# Packaged releases are published as GitHub Release assets
+# Packaged releases are published separately from source control
 *.zip
+
+# Feature-specific Xcode build products
+.build-*/
 
 # macOS metadata
 .DS_Store

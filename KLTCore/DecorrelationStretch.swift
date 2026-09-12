@@ -21,8 +21,10 @@ public struct RGBAPixel: Equatable, Sendable {
 public struct StretchAnalysis: Sendable {
     public let mean: SIMD3<Double>
     public let covariance: Matrix3x3
+    public let analysisMatrix: Matrix3x3
     public let eigenvalues: SIMD3<Double>
     public let eigenvectors: Matrix3x3
+    public let stableVariableCount: Int
     public let stableComponentCount: Int
     public let outputScale: Double
     public let isDegenerate: Bool
@@ -84,9 +86,11 @@ struct RunningCovariance3: Sendable {
 struct StretchPlan: Sendable {
     let mean: SIMD3<Double>
     let covariance: Matrix3x3
+    let analysisMatrix: Matrix3x3
     let eigenvalues: SIMD3<Double>
     let eigenvectors: Matrix3x3
     let transform: Matrix3x3
+    let stableVariableCount: Int
     let stableComponentCount: Int
     let isDegenerate: Bool
 
@@ -165,29 +169,57 @@ public enum DecorrelationStretch {
     }
 
     static func makePlan(accumulator: RunningCovariance3) throws -> StretchPlan {
+        try makeCovariancePlan(accumulator: accumulator)
+    }
+
+    static func makePlan(
+        accumulator: RunningCovariance3,
+        matrixMode: AnalysisMatrixMode
+    ) throws -> StretchPlan {
+        switch matrixMode {
+        case .covariance:
+            try makeCovariancePlan(accumulator: accumulator)
+        case .correlation:
+            try makeCorrelationPlan(accumulator: accumulator)
+        }
+    }
+
+    private static func makeCovariancePlan(accumulator: RunningCovariance3) throws -> StretchPlan {
         guard accumulator.count >= 2 else {
             return StretchPlan(
                 mean: accumulator.mean,
                 covariance: Matrix3x3(),
+                analysisMatrix: Matrix3x3(),
                 eigenvalues: .zero,
                 eigenvectors: .identity,
                 transform: .identity,
+                stableVariableCount: 0,
                 stableComponentCount: 0,
                 isDegenerate: true
             )
         }
 
         let covariance = try accumulator.covariance()
+        guard covariance.isFinite else { throw DecorrelationStretchError.nonFiniteInput }
         let decomposition = covariance.symmetricEigenDecomposition()
         let largest = decomposition.values.x
+
+        let largestVariableVariance = max(covariance[0, 0], covariance[1, 1], covariance[2, 2])
+        let variableFloor = max(
+            absoluteVarianceFloor,
+            largestVariableVariance / (maximumStableGain * maximumStableGain)
+        )
+        let stableVariableCount = (0..<3).count { covariance[$0, $0] >= variableFloor }
 
         guard largest > absoluteVarianceFloor else {
             return StretchPlan(
                 mean: accumulator.mean,
                 covariance: covariance,
+                analysisMatrix: covariance,
                 eigenvalues: decomposition.values,
                 eigenvectors: decomposition.vectors,
                 transform: .identity,
+                stableVariableCount: 0,
                 stableComponentCount: 0,
                 isDegenerate: true
             )
@@ -212,9 +244,122 @@ public enum DecorrelationStretch {
         return StretchPlan(
             mean: accumulator.mean,
             covariance: covariance,
+            analysisMatrix: covariance,
             eigenvalues: decomposition.values,
             eigenvectors: decomposition.vectors,
             transform: transform,
+            stableVariableCount: stableVariableCount,
+            stableComponentCount: stableComponentCount,
+            isDegenerate: false
+        )
+    }
+
+    private static func makeCorrelationPlan(accumulator: RunningCovariance3) throws -> StretchPlan {
+        guard accumulator.count >= 2 else {
+            return StretchPlan(
+                mean: accumulator.mean,
+                covariance: Matrix3x3(),
+                analysisMatrix: Matrix3x3(),
+                eigenvalues: .zero,
+                eigenvectors: .identity,
+                transform: .identity,
+                stableVariableCount: 0,
+                stableComponentCount: 0,
+                isDegenerate: true
+            )
+        }
+
+        let covariance = try accumulator.covariance()
+        guard covariance.isFinite else { throw DecorrelationStretchError.nonFiniteInput }
+        let largestVariance = max(covariance[0, 0], covariance[1, 1], covariance[2, 2])
+        guard largestVariance > absoluteVarianceFloor else {
+            return StretchPlan(
+                mean: accumulator.mean,
+                covariance: covariance,
+                analysisMatrix: Matrix3x3(),
+                eigenvalues: .zero,
+                eigenvectors: .identity,
+                transform: .identity,
+                stableVariableCount: 0,
+                stableComponentCount: 0,
+                isDegenerate: true
+            )
+        }
+
+        let variableFloor = max(
+            absoluteVarianceFloor,
+            largestVariance / (maximumStableGain * maximumStableGain)
+        )
+        var stable = [Bool](repeating: false, count: 3)
+        var standardDeviations = SIMD3<Double>(repeating: 1)
+        var stableVariableCount = 0
+        for index in 0..<3 where covariance[index, index] >= variableFloor {
+            stable[index] = true
+            standardDeviations[index] = sqrt(covariance[index, index])
+            stableVariableCount += 1
+        }
+
+        guard stableVariableCount > 0 else {
+            return StretchPlan(
+                mean: accumulator.mean,
+                covariance: covariance,
+                analysisMatrix: Matrix3x3(),
+                eigenvalues: .zero,
+                eigenvectors: .identity,
+                transform: .identity,
+                stableVariableCount: 0,
+                stableComponentCount: 0,
+                isDegenerate: true
+            )
+        }
+
+        var correlation = Matrix3x3()
+        for row in 0..<3 where stable[row] {
+            correlation[row, row] = 1
+            for column in 0..<3 where stable[column] && row != column {
+                correlation[row, column] = covariance[row, column]
+                    / (standardDeviations[row] * standardDeviations[column])
+            }
+        }
+        guard correlation.isFinite else { throw DecorrelationStretchError.nonFiniteInput }
+
+        let decomposition = correlation.symmetricEigenDecomposition()
+        let largest = decomposition.values.x
+        let componentFloor = max(
+            absoluteVarianceFloor,
+            largest / (maximumStableGain * maximumStableGain)
+        )
+        let targetDeviation = sqrt(largest)
+        var gains = SIMD3<Double>(repeating: 1)
+        var stableComponentCount = 0
+        for index in 0..<3 {
+            let variance = decomposition.values[index]
+            guard variance >= componentFloor else { continue }
+            gains[index] = targetDeviation / sqrt(variance)
+            stableComponentCount += 1
+        }
+
+        let standardizedTransform = decomposition.vectors
+            * Matrix3x3.diagonal(gains)
+            * decomposition.vectors.transposed
+        var transform = Matrix3x3.identity
+        for row in 0..<3 where stable[row] {
+            for column in 0..<3 {
+                transform[row, column] = stable[column]
+                    ? standardDeviations[row] * standardizedTransform[row, column] / standardDeviations[column]
+                    : 0
+            }
+        }
+        guard transform.isFinite else { throw DecorrelationStretchError.nonFiniteInput }
+
+        return StretchPlan(
+            mean: accumulator.mean,
+            covariance: covariance,
+            analysisMatrix: correlation,
+            eigenvalues: decomposition.values,
+            eigenvectors: decomposition.vectors,
+            transform: transform,
+            stableVariableCount: stableVariableCount,
             stableComponentCount: stableComponentCount,
             isDegenerate: false
         )
@@ -224,8 +369,10 @@ public enum DecorrelationStretch {
         StretchAnalysis(
             mean: plan.mean,
             covariance: plan.covariance,
+            analysisMatrix: plan.analysisMatrix,
             eigenvalues: plan.eigenvalues,
             eigenvectors: plan.eigenvectors,
+            stableVariableCount: plan.stableVariableCount,
             stableComponentCount: plan.stableComponentCount,
             outputScale: outputScale,
             isDegenerate: plan.isDegenerate

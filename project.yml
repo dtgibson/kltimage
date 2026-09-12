@@ -41,8 +41,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.mac
         PRODUCT_NAME: KLT Image
         PRODUCT_MODULE_NAME: KLTImage
-        MARKETING_VERSION: 1.0.0
-        CURRENT_PROJECT_VERSION: 2
+        MARKETING_VERSION: 1.1.0
+        CURRENT_PROJECT_VERSION: 3
         VERSIONING_SYSTEM: apple-generic
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: KLT Image
@@ -86,4 +86,5 @@ schemes:
     test:
       targets:
         - KLTCoreTests
+        - KLTImageUITests
       gatherCoverageData: true

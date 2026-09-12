@@ -79,6 +79,17 @@
                ReferencedContainer = "container:KLTImage.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4D4E433BCDB3E6D26A95372A"
+               BuildableName = "KLTImageUITests.xctest"
+               BlueprintName = "KLTImageUITests"
+               ReferencedContainer = "container:KLTImage.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

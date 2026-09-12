@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KLT Image — Analysis Controls</title>
+  <style>
+    :root {
+      --ink-strong: #142a36;
+      --ink: #304854;
+      --ink-muted: #667b84;
+      --navy: #193a4a;
+      --accent: #007f92;
+      --accent-pressed: #006c7d;
+      --accent-soft: #d9f0f3;
+      --surface: #f7f9f9;
+      --surface-raised: #ffffff;
+      --surface-tint: #edf3f4;
+      --canvas: #dbe3e5;
+      --divider: #9fb1b8;
+      --line: #c9d4d8;
+      --success: #18745f;
+      --warning: #a35f15;
+      --selection-fill: rgba(0, 127, 146, .08);
+      --selection-shadow: rgba(16, 39, 49, .28);
+      --window-shadow: 0 24px 62px rgba(24, 55, 68, .18), 0 4px 14px rgba(24, 55, 68, .1);
+      --popover-shadow: 0 18px 44px rgba(21, 48, 60, .22), 0 2px 8px rgba(21, 48, 60, .12);
+      --ease-out: cubic-bezier(.2, .8, .2, 1);
+      --radius-window: 16px;
+      --radius-control: 8px;
+      --radius-small: 6px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      overflow: hidden;
+      color: var(--ink-strong);
+      font-family: "IBM Plex Sans", "Avenir Next", sans-serif;
+      background:
+        radial-gradient(circle at 13% 7%, rgba(123, 187, 197, .3), transparent 35%),
+        radial-gradient(circle at 92% 90%, rgba(57, 104, 123, .17), transparent 42%),
+        linear-gradient(145deg, #dce6e8, #c9d6da);
+    }
+
+    button, input { font: inherit; }
+    button { border: 0; color: inherit; }
+    button:not(:disabled) { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(0, 127, 146, .3);
+      outline-offset: 2px;
+    }
+
+    .app-window {
+      width: min(1480px, 100%);
+      height: min(940px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: 56px 46px minmax(0, 1fr) 84px;
+      overflow: hidden;
+      border: 1px solid rgba(106, 130, 139, .58);
+      border-radius: var(--radius-window);
+      background: var(--surface);
+      box-shadow: var(--window-shadow);
+    }
+
+    .titlebar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(250, 252, 252, .96);
+    }
+
+    .window-controls { display: flex; align-items: center; gap: 8px; }
+    .window-dot { width: 12px; height: 12px; border: 1px solid rgba(20, 42, 54, .18); border-radius: 50%; }
+    .window-dot.close { background: #ee6b60; }
+    .window-dot.min { background: #eeb847; }
+    .window-dot.max { background: #62bd72; }
+
+    .document-title { min-width: 0; text-align: center; }
+    .document-title strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+      letter-spacing: -.01em;
+      font-weight: 650;
+    }
+    .document-title span {
+      display: block;
+      margin-top: 2px;
+      color: var(--ink-muted);
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 10px;
+      letter-spacing: .015em;
+    }
+
+    .title-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
+
+    .button {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border: 1px solid var(--divider);
+      border-radius: var(--radius-control);
+      background: var(--surface-raised);
+      color: var(--ink-strong);
+      font-size: 12px;
+      font-weight: 600;
+      transition: background 150ms var(--ease-out), border-color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .button:not(:disabled):hover { border-color: #8099a2; background: var(--surface-tint); }
+    .button:not(:disabled):active { transform: translateY(1px); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: #f8ffff; box-shadow: 0 5px 13px rgba(0, 127, 146, .2); }
+    .button.primary:not(:disabled):hover { border-color: var(--accent-pressed); background: var(--accent-pressed); }
+    .button.compact { min-height: 28px; padding: 4px 9px; font-size: 11px; }
+    .button.text { border-color: transparent; background: transparent; color: var(--ink); box-shadow: none; }
+    .button.text:not(:disabled):hover { border-color: var(--line); background: var(--surface-raised); }
+
+    .icon { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(270px, 1fr) auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-tint);
+    }
+
+    .status-cluster, .zoom-cluster { display: flex; align-items: center; gap: 8px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px rgba(24, 116, 95, .1); transition: background 180ms var(--ease-out); }
+    .status-dot.updating { background: var(--accent); box-shadow: 0 0 0 3px rgba(0, 127, 146, .1); }
+    .status-dot.warning { background: var(--warning); box-shadow: 0 0 0 3px rgba(163, 95, 21, .1); }
+
+    .eyebrow {
+      color: var(--ink-muted);
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .method-value { color: var(--ink); font-size: 12px; font-weight: 600; }
+
+    .segment {
+      display: inline-flex;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: rgba(255, 255, 255, .72);
+    }
+    .segment button {
+      min-width: 72px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--ink-muted);
+      font-size: 11px;
+      font-weight: 650;
+      transition: color 150ms var(--ease-out), background 150ms var(--ease-out), box-shadow 150ms var(--ease-out);
+    }
+    .segment button[aria-pressed="true"] { color: var(--ink-strong); background: var(--surface-raised); box-shadow: 0 1px 4px rgba(24, 55, 68, .16); }
+
+    .zoom-cluster { justify-self: end; }
+    .icon-button {
+      width: 28px;
+      height: 28px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--ink);
+      transition: background 150ms var(--ease-out), border-color 150ms var(--ease-out);
+    }
+    .icon-button:not(:disabled):hover { border-color: var(--line); background: var(--surface-raised); }
+    .zoom-value { width: 42px; color: var(--ink); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 10px; text-align: center; }
+
+    .main-region { min-height: 0; display: grid; grid-template-columns: 278px minmax(0, 1fr); }
+
+    .analysis-panel {
+      position: relative;
+      z-index: 6;
+      min-height: 0;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .panel-heading { padding: 16px 16px 13px; border-bottom: 1px solid var(--line); }
+    .panel-heading h1 { margin: 0; font-size: 20px; line-height: 1.15; letter-spacing: -.028em; font-weight: 700; }
+    .panel-heading p { margin: 6px 0 0; color: var(--ink-muted); font-size: 11px; line-height: 1.45; }
+
+    .control-section { padding: 13px 16px; border-bottom: 1px solid var(--line); }
+    .section-title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
+    .section-title { margin: 0; color: var(--ink); font-size: 12px; line-height: 1.2; font-weight: 650; }
+    .section-count { color: var(--ink-muted); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 9px; }
+
+    .choice-group { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-tint); }
+    .choice-group button {
+      min-height: 30px;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--ink-muted);
+      font-size: 11px;
+      font-weight: 600;
+      transition: background 150ms var(--ease-out), color 150ms var(--ease-out), box-shadow 150ms var(--ease-out);
+    }
+    .choice-group button:not([aria-pressed="true"]):hover { color: var(--ink-strong); background: rgba(255, 255, 255, .56); }
+    .choice-group button[aria-pressed="true"] { background: var(--surface-raised); color: var(--accent-pressed); box-shadow: 0 1px 4px rgba(24, 55, 68, .15), inset 0 -2px 0 var(--accent); }
+    .choice-explainer { min-height: 31px; margin: 7px 1px 0; color: var(--ink-muted); font-size: 10px; line-height: 1.45; }
+
+    .sample-options { display: grid; gap: 6px; }
+    .sample-option {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      gap: 8px;
+      align-items: start;
+      padding: 7px 8px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      text-align: left;
+      transition: background 150ms var(--ease-out), border-color 150ms var(--ease-out);
+    }
+    .sample-option:hover { background: var(--surface-tint); }
+    .sample-option[aria-pressed="true"] { border-color: rgba(0, 127, 146, .38); background: var(--accent-soft); }
+    .radio-mark { width: 14px; height: 14px; margin-top: 1px; border: 1.5px solid var(--divider); border-radius: 50%; background: var(--surface-raised); box-shadow: inset 0 0 0 3px var(--surface-raised); }
+    .sample-option[aria-pressed="true"] .radio-mark { border-color: var(--accent); background: var(--accent); }
+    .sample-copy strong { display: block; color: var(--ink-strong); font-size: 11px; line-height: 1.2; font-weight: 650; }
+    .sample-copy span { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 9.5px; line-height: 1.35; }
+
+    .region-editor { padding-top: 10px; border-top: 1px solid var(--line); margin-top: 10px; }
+    .region-editor[hidden] { display: none; }
+    .region-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+    .region-head strong { color: var(--ink); font-size: 11px; font-weight: 650; }
+    .region-head button { padding: 2px 4px; background: transparent; color: var(--ink-muted); font-size: 10px; text-decoration: underline; text-underline-offset: 2px; }
+    .region-head button:hover { color: var(--ink-strong); }
+    .numeric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 8px; }
+    .numeric-field label { display: flex; justify-content: space-between; margin-bottom: 3px; color: var(--ink-muted); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 9px; }
+    .numeric-field input {
+      width: 100%;
+      height: 28px;
+      padding: 4px 7px;
+      border: 1px solid var(--divider);
+      border-radius: 6px;
+      background: var(--surface-raised);
+      color: var(--ink-strong);
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 10px;
+    }
+    .numeric-field input[aria-invalid="true"] { border-color: var(--warning); background: #fff9f2; }
+    .origin-note { margin: 7px 0; color: var(--ink-muted); font-size: 9px; line-height: 1.4; }
+    .region-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .region-pixels { color: var(--ink-muted); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 9px; }
+    .region-feedback { min-height: 30px; display: flex; gap: 7px; align-items: flex-start; margin-top: 8px; padding: 7px 8px; border-left: 3px solid var(--success); background: rgba(24, 116, 95, .06); color: var(--ink); font-size: 9.5px; line-height: 1.45; }
+    .region-feedback.warning { border-left-color: var(--warning); background: #fff7ed; color: #71430f; }
+
+    .panel-foot { padding: 11px 16px 15px; }
+    .method-summary { display: flex; align-items: start; gap: 9px; }
+    .summary-mark { flex: 0 0 auto; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 7px; background: var(--accent-soft); color: var(--accent-pressed); }
+    .method-summary strong { display: block; font-size: 11px; line-height: 1.25; }
+    .method-summary span { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 9.5px; line-height: 1.4; }
+
+    .canvas-shell { position: relative; min-width: 0; min-height: 0; }
+    .workspace {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(80, 107, 117, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 107, 117, .08) 1px, transparent 1px),
+        var(--canvas);
+      background-size: 18px 18px;
+    }
+    .workspace[data-mode="original"] { grid-template-columns: minmax(0, 1fr) 0 0; }
+    .workspace[data-mode="enhanced"] { grid-template-columns: 0 0 minmax(0, 1fr); }
+    .workspace[data-mode="original"] .enhanced-pane,
+    .workspace[data-mode="enhanced"] .original-pane { opacity: 0; pointer-events: none; }
+    .divider { z-index: 3; background: var(--divider); box-shadow: 0 0 0 1px rgba(255, 255, 255, .45); }
+
+    .image-pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; transition: opacity 180ms var(--ease-out); }
+    .pane-label {
+      position: absolute;
+      z-index: 8;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 9px;
+      border: 1px solid rgba(105, 128, 137, .48);
+      border-radius: 7px;
+      background: rgba(248, 251, 251, .92);
+      color: var(--ink-strong);
+      box-shadow: 0 4px 12px rgba(20, 42, 54, .1);
+      backdrop-filter: blur(10px);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .enhanced-pane .pane-label { border-color: rgba(0, 127, 146, .44); }
+    .tiny-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-muted); }
+    .enhanced-pane .tiny-dot { background: var(--accent); }
+    .pane-state { color: var(--ink-muted); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 8px; font-weight: 500; }
+
+    .image-stage { position: absolute; inset: 0; display: grid; place-items: center; padding: 50px 24px 26px; }
+    .photo-frame {
+      position: relative;
+      width: min(100%, calc((100vh - 260px) * 1.5));
+      max-height: 100%;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border: 1px solid rgba(25, 58, 74, .28);
+      border-radius: 4px;
+      background: #afbbb6;
+      box-shadow: 0 18px 24px rgba(30, 49, 55, .18);
+      transform: scale(var(--zoom, 1));
+      transform-origin: center;
+      transition: transform 180ms var(--ease-out), filter 180ms var(--ease-out);
+    }
+    .photo-frame svg { display: block; width: 100%; height: 100%; }
+
+    .region-overlay {
+      position: absolute;
+      z-index: 5;
+      left: var(--region-left);
+      top: var(--region-top);
+      width: var(--region-width);
+      height: var(--region-height);
+      border: 2px solid var(--accent);
+      background: var(--selection-fill);
+      box-shadow: 0 0 0 9999px var(--selection-shadow), inset 0 0 0 1px rgba(255, 255, 255, .72);
+      transition: border-color 150ms var(--ease-out), opacity 150ms var(--ease-out), background 150ms var(--ease-out);
+    }
+    .original-pane .region-overlay { cursor: move; touch-action: none; }
+    .enhanced-pane .region-overlay { pointer-events: none; }
+    .region-overlay.inactive { border: 1px dashed var(--divider); background: rgba(237, 243, 244, .08); box-shadow: none; opacity: .74; }
+    .region-overlay.missing { display: none; }
+    .region-tag { position: absolute; top: -26px; left: -2px; padding: 4px 6px; border-radius: 5px 5px 5px 0; background: var(--accent-pressed); color: #f8ffff; font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 8px; white-space: nowrap; }
+    .region-overlay.inactive .region-tag { background: var(--navy); color: #f8ffff; }
+    .resize-handle { position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; border: 2px solid var(--surface-raised); border-radius: 3px; background: var(--accent); box-shadow: 0 1px 4px rgba(20, 42, 54, .28); cursor: nwse-resize; }
+    .region-overlay.inactive .resize-handle { display: none; }
+
+    .draw-layer { position: absolute; z-index: 4; inset: 0; cursor: crosshair; touch-action: none; }
+    .draw-layer.region-active { pointer-events: none; }
+    .image-pane .photo-frame[data-region-active="true"] .draw-layer { pointer-events: auto; }
+    .original-pane .photo-frame[data-region-active="true"] .region-overlay { pointer-events: auto; }
+
+    .updating-shade {
+      position: absolute;
+      z-index: 6;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(20, 42, 54, .24);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms var(--ease-out);
+    }
+    .updating-shade.visible { opacity: 1; }
+    .progress-plate { min-width: 220px; padding: 13px 15px; border: 1px solid rgba(255, 255, 255, .48); border-radius: 9px; background: rgba(247, 249, 249, .94); color: var(--ink-strong); box-shadow: var(--popover-shadow); }
+    .progress-plate strong { display: block; font-size: 11px; }
+    .progress-plate span { display: block; margin-top: 4px; color: var(--ink-muted); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 9px; }
+    .progress-track { height: 3px; margin-top: 10px; overflow: hidden; border-radius: 2px; background: var(--line); }
+    .progress-track::after { content: ""; display: block; width: 42%; height: 100%; background: var(--accent); animation: progress-sweep 280ms var(--ease-out) infinite; }
+    @keyframes progress-sweep { from { transform: translateX(-115%); } to { transform: translateX(345%); } }
+
+    .awaiting-banner {
+      position: absolute;
+      z-index: 9;
+      left: 50%;
+      bottom: 18px;
+      width: min(430px, calc(100% - 36px));
+      padding: 10px 12px;
+      border: 1px solid rgba(163, 95, 21, .36);
+      border-radius: 8px;
+      background: rgba(255, 249, 242, .96);
+      color: #71430f;
+      box-shadow: 0 8px 24px rgba(25, 58, 74, .16);
+      font-size: 10px;
+      line-height: 1.4;
+      transform: translateX(-50%);
+    }
+    .awaiting-banner[hidden] { display: none; }
+
+    .popover {
+      position: absolute;
+      z-index: 20;
+      left: 14px;
+      bottom: 14px;
+      width: min(390px, calc(100% - 28px));
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .98);
+      box-shadow: var(--popover-shadow);
+      transform-origin: left bottom;
+      animation: popover-in 170ms var(--ease-out) both;
+    }
+    .popover[hidden] { display: none; }
+    @keyframes popover-in { from { opacity: 0; transform: translateY(5px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .popover-header { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+    .popover h2 { margin: 0; font-size: 18px; line-height: 1.2; letter-spacing: -.025em; font-weight: 700; }
+    .popover-close { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 6px; background: transparent; color: var(--ink-muted); font-size: 17px; }
+    .popover-close:hover { background: var(--surface-tint); color: var(--ink-strong); }
+    .popover p { margin: 8px 0 0; color: var(--ink); font-size: 11px; line-height: 1.52; }
+    .method-definition { display: grid; grid-template-columns: auto 1fr; gap: 7px 14px; margin: 13px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 10px; }
+    .method-definition dt { color: var(--ink-muted); }
+    .method-definition dd { margin: 0; text-align: right; font-family: "IBM Plex Mono", "SFMono-Regular", monospace; }
+    .guidance-note { margin-top: 12px; padding: 9px 10px; border-left: 3px solid var(--warning); background: #fff8ef; color: #71430f; font-size: 10px; line-height: 1.45; }
+
+    .metadata-strip { display: grid; grid-template-columns: .9fr 1.15fr 1.55fr; align-items: center; border-top: 1px solid var(--line); background: var(--surface-raised); }
+    .metadata-group { min-width: 0; height: 58px; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 0 24px; border-right: 1px solid var(--line); }
+    .metadata-group:last-child { border-right: 0; }
+    .metadata-primary { color: var(--ink-strong); font-size: 12px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .metadata-secondary { color: var(--ink-muted); font-size: 10px; line-height: 1.35; }
+    .method-row { display: flex; align-items: center; gap: 8px; }
+    .method-button { width: 22px; height: 22px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface-tint); color: var(--ink); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 11px; font-weight: 700; transition: border-color 150ms var(--ease-out), color 150ms var(--ease-out), background 150ms var(--ease-out); }
+    .method-button:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-pressed); }
+    .notice { display: flex; align-items: flex-start; gap: 12px; }
+    .notice-mark { flex: 0 0 auto; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 7px; background: var(--accent-soft); color: var(--accent-pressed); }
+
+    .toast { position: absolute; z-index: 24; left: 50%; bottom: 18px; display: flex; align-items: center; gap: 9px; padding: 10px 13px; border-radius: 9px; background: var(--navy); color: #f6fbfc; box-shadow: var(--popover-shadow); font-size: 12px; font-weight: 600; opacity: 0; pointer-events: none; transform: translate(-50%, 16px); transition: opacity 180ms var(--ease-out), transform 220ms var(--ease-out); }
+    .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 1120px) {
+      body { padding: 0; overflow: auto; }
+      .app-window { min-width: 980px; min-height: 720px; height: 100%; border: 0; border-radius: 0; }
+      .main-region { grid-template-columns: 258px minmax(0, 1fr); }
+      .metadata-strip { grid-template-columns: 1fr 1.25fr; }
+      .metadata-group:last-child { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001s !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001s !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <defs>
+      <linearGradient id="sky-original" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bdc9c4"/><stop offset=".48" stop-color="#8d9f96"/><stop offset="1" stop-color="#596e67"/></linearGradient>
+      <linearGradient id="bird-original" x1=".15" y1=".1" x2=".8" y2=".9"><stop stop-color="#536b69"/><stop offset=".2" stop-color="#233c40"/><stop offset=".48" stop-color="#1d292c"/><stop offset=".78" stop-color="#433b36"/><stop offset="1" stop-color="#806f5a"/></linearGradient>
+      <radialGradient id="head-original" cx="36%" cy="30%" r="75%"><stop stop-color="#4e716c"/><stop offset=".34" stop-color="#223f42"/><stop offset=".72" stop-color="#17292c"/><stop offset="1" stop-color="#3e3b38"/></radialGradient>
+      <linearGradient id="wing-original" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a4a4c"/><stop offset=".48" stop-color="#273133"/><stop offset="1" stop-color="#715e4b"/></linearGradient>
+      <linearGradient id="sky-enhanced" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4d1c7"/><stop offset=".42" stop-color="#799c87"/><stop offset="1" stop-color="#3e6b66"/></linearGradient>
+      <linearGradient id="bird-enhanced" x1=".15" y1=".1" x2=".8" y2=".9"><stop stop-color="#2bb6b1"/><stop offset=".2" stop-color="#176b7a"/><stop offset=".48" stop-color="#262c50"/><stop offset=".73" stop-color="#77395f"/><stop offset="1" stop-color="#c38c4f"/></linearGradient>
+      <radialGradient id="head-enhanced" cx="36%" cy="30%" r="75%"><stop stop-color="#4dc7ad"/><stop offset=".32" stop-color="#13798c"/><stop offset=".68" stop-color="#273654"/><stop offset="1" stop-color="#633e65"/></radialGradient>
+      <linearGradient id="wing-enhanced" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#168ea0"/><stop offset=".4" stop-color="#353560"/><stop offset=".72" stop-color="#8c3f68"/><stop offset="1" stop-color="#d59a4e"/></linearGradient>
+      <filter id="background-blur"><feGaussianBlur stdDeviation="13"/></filter>
+      <filter id="bird-shadow"><feDropShadow dx="0" dy="11" stdDeviation="10" flood-color="#172b2f" flood-opacity=".32"/></filter>
+      <filter id="soft-grain"><feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="2" seed="9" result="noise"/><feColorMatrix in="noise" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .08 0"/></filter>
+      <symbol id="bird-scene-original" viewBox="0 0 1200 800">
+        <rect width="1200" height="800" fill="url(#sky-original)"/>
+        <g filter="url(#background-blur)" opacity=".76">
+          <circle cx="130" cy="155" r="86" fill="#dce2c2"/><circle cx="325" cy="90" r="72" fill="#6e9581"/><circle cx="1020" cy="120" r="118" fill="#d2d4ac"/><circle cx="1100" cy="520" r="140" fill="#455d50"/><circle cx="100" cy="650" r="125" fill="#6e7557"/>
+          <path d="M75 810C90 570 80 350 24 90M1030 820c-28-260 20-490 120-705M930 810c-5-230-45-425-120-650" stroke="#7d795c" stroke-width="26" fill="none"/>
+        </g>
+        <path d="M-60 690C240 612 550 651 1260 548" stroke="#3d3a31" stroke-width="39" fill="none"/>
+        <path d="M-60 678C245 604 555 640 1260 537" stroke="#817963" stroke-width="15" fill="none" opacity=".72"/>
+        <g filter="url(#bird-shadow)">
+          <path d="M682 598C632 526 615 456 625 374c13-111 77-196 172-213 102-19 213 39 251 146 29 80 6 187-58 264-59 71-218 94-308 27Z" fill="url(#bird-original)" stroke="#1b3032" stroke-width="4"/>
+          <path d="M730 576c-41 78-69 126-118 183 72-18 130-61 171-135l31-67Z" fill="#262f30" stroke="#1b292b" stroke-width="4"/>
+          <path d="M800 592c8 77 1 126-11 187 53-49 78-106 72-178Z" fill="#443c36" stroke="#252e2d" stroke-width="4"/>
+          <circle cx="833" cy="190" r="111" fill="url(#head-original)" stroke="#1b3032" stroke-width="4"/>
+          <path d="M755 151c-87-13-148 10-207 50 69 15 124 17 209-7Z" fill="#b9a578" stroke="#4d4a3e" stroke-width="4"/>
+          <path d="M754 183c-68 4-122 15-171 34 60 5 117-1 175-20Z" fill="#7e6b51" opacity=".66"/>
+          <circle cx="802" cy="168" r="18" fill="#101e22"/><circle cx="797" cy="162" r="5" fill="#edf3ea"/>
+          <path d="M691 326C765 269 911 265 991 342c-4 118-69 211-177 254-93-38-148-129-123-270Z" fill="url(#wing-original)" stroke="#1a2d30" stroke-width="4"/>
+          <g fill="none" stroke="#a7936d" stroke-linecap="round" opacity=".66">
+            <path d="M728 343c59 29 140 29 222 1" stroke-width="7"/><path d="M709 386c69 35 157 35 248-2" stroke-width="8"/><path d="M708 433c69 38 150 39 231 8" stroke-width="8"/><path d="M723 481c62 35 125 37 188 17" stroke-width="8"/><path d="M750 529c42 24 83 27 121 17" stroke-width="8"/>
+          </g>
+          <g fill="#d6c79c" opacity=".84">
+            <ellipse cx="781" cy="246" rx="8" ry="13" transform="rotate(-18 781 246)"/><ellipse cx="833" cy="270" rx="8" ry="13" transform="rotate(14 833 270)"/><ellipse cx="892" cy="245" rx="8" ry="13" transform="rotate(23 892 245)"/><ellipse cx="934" cy="292" rx="8" ry="13" transform="rotate(27 934 292)"/><ellipse cx="673" cy="394" rx="8" ry="13" transform="rotate(-20 673 394)"/><ellipse cx="663" cy="460" rx="8" ry="13" transform="rotate(-12 663 460)"/><ellipse cx="960" cy="409" rx="8" ry="13" transform="rotate(20 960 409)"/>
+          </g>
+          <path d="M738 600c4 24 1 44-10 63M825 607c-2 20-1 38 5 55" stroke="#725c43" stroke-width="8" fill="none"/>
+          <path d="M728 659c-23 3-42 12-59 26m62-24c13 1 29 7 45 18m54-18c-18 4-33 12-46 25m47-24c17 0 32 6 47 18" stroke="#5a4635" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </g>
+        <rect width="1200" height="800" filter="url(#soft-grain)" opacity=".35"/>
+        <g fill="#f3f7f4" opacity=".82" font-family="IBM Plex Mono, monospace" font-size="18" letter-spacing="2"><text x="30" y="42">EUROPEAN STARLING · DIFFUSE DAYLIGHT</text><text x="30" y="770">SOURCE FRAME · 6048 × 4024</text></g>
+      </symbol>
+      <symbol id="bird-scene-enhanced" viewBox="0 0 1200 800">
+        <rect width="1200" height="800" fill="url(#sky-enhanced)"/>
+        <g filter="url(#background-blur)" opacity=".8">
+          <circle cx="130" cy="155" r="86" fill="#e3ddad"/><circle cx="325" cy="90" r="72" fill="#4a9e76"/><circle cx="1020" cy="120" r="118" fill="#e2cd8c"/><circle cx="1100" cy="520" r="140" fill="#2a6a5e"/><circle cx="100" cy="650" r="125" fill="#897044"/>
+          <path d="M75 810C90 570 80 350 24 90M1030 820c-28-260 20-490 120-705M930 810c-5-230-45-425-120-650" stroke="#90743d" stroke-width="26" fill="none"/>
+        </g>
+        <path d="M-60 690C240 612 550 651 1260 548" stroke="#342e34" stroke-width="39" fill="none"/>
+        <path d="M-60 678C245 604 555 640 1260 537" stroke="#a27f54" stroke-width="15" fill="none" opacity=".78"/>
+        <g filter="url(#bird-shadow)">
+          <path d="M682 598C632 526 615 456 625 374c13-111 77-196 172-213 102-19 213 39 251 146 29 80 6 187-58 264-59 71-218 94-308 27Z" fill="url(#bird-enhanced)" stroke="#183647" stroke-width="4"/>
+          <path d="M730 576c-41 78-69 126-118 183 72-18 130-61 171-135l31-67Z" fill="#2d3555" stroke="#1c2940" stroke-width="4"/>
+          <path d="M800 592c8 77 1 126-11 187 53-49 78-106 72-178Z" fill="#70415e" stroke="#3b2d48" stroke-width="4"/>
+          <circle cx="833" cy="190" r="111" fill="url(#head-enhanced)" stroke="#183647" stroke-width="4"/>
+          <path d="M755 151c-87-13-148 10-207 50 69 15 124 17 209-7Z" fill="#d6b45c" stroke="#53484a" stroke-width="4"/>
+          <path d="M754 183c-68 4-122 15-171 34 60 5 117-1 175-20Z" fill="#a05e50" opacity=".72"/>
+          <circle cx="802" cy="168" r="18" fill="#101c2b"/><circle cx="797" cy="162" r="5" fill="#f3f8e4"/>
+          <path d="M691 326C765 269 911 265 991 342c-4 118-69 211-177 254-93-38-148-129-123-270Z" fill="url(#wing-enhanced)" stroke="#193647" stroke-width="4"/>
+          <g fill="none" stroke-linecap="round" opacity=".78">
+            <path d="M728 343c59 29 140 29 222 1" stroke="#e6c65b" stroke-width="7"/><path d="M709 386c69 35 157 35 248-2" stroke="#64d1c2" stroke-width="8"/><path d="M708 433c69 38 150 39 231 8" stroke="#e47775" stroke-width="8"/><path d="M723 481c62 35 125 37 188 17" stroke="#54b8ca" stroke-width="8"/><path d="M750 529c42 24 83 27 121 17" stroke="#e7ab58" stroke-width="8"/>
+          </g>
+          <g fill="#f0d977" opacity=".92">
+            <ellipse cx="781" cy="246" rx="8" ry="13" transform="rotate(-18 781 246)"/><ellipse cx="833" cy="270" rx="8" ry="13" transform="rotate(14 833 270)"/><ellipse cx="892" cy="245" rx="8" ry="13" transform="rotate(23 892 245)"/><ellipse cx="934" cy="292" rx="8" ry="13" transform="rotate(27 934 292)"/><ellipse cx="673" cy="394" rx="8" ry="13" transform="rotate(-20 673 394)"/><ellipse cx="663" cy="460" rx="8" ry="13" transform="rotate(-12 663 460)"/><ellipse cx="960" cy="409" rx="8" ry="13" transform="rotate(20 960 409)"/>
+          </g>
+          <path d="M738 600c4 24 1 44-10 63M825 607c-2 20-1 38 5 55" stroke="#936046" stroke-width="8" fill="none"/>
+          <path d="M728 659c-23 3-42 12-59 26m62-24c13 1 29 7 45 18m54-18c-18 4-33 12-46 25m47-24c17 0 32 6 47 18" stroke="#764638" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </g>
+        <rect width="1200" height="800" filter="url(#soft-grain)" opacity=".4"/>
+        <g fill="#f5fbf6" opacity=".86" font-family="IBM Plex Mono, monospace" font-size="18" letter-spacing="2"><text x="30" y="42">DECORRELATION STRETCH · REGION-DERIVED TRANSFORM</text><text x="30" y="770">FULL FRAME OUTPUT · DISPLAY GAMUT CLIPPED</text></g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="app-window" aria-label="KLT Image scientific image enhancement workspace">
+    <header class="titlebar">
+      <div class="window-controls" aria-hidden="true"><span class="window-dot close"></span><span class="window-dot min"></span><span class="window-dot max"></span></div>
+      <div class="document-title"><strong>KLT Image</strong><span>starling-field-study.heic · 6048 × 4024</span></div>
+      <div class="title-actions">
+        <button class="button" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5V6.8a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v10.7"></path><path d="M3 19.5l3.2-8h14.6l-3.2 8H3Z"></path></svg>Open Image</button>
+        <button class="button primary" id="export-button" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"></path><path d="m7.5 10.5 4.5 4.5 4.5-4.5"></path><path d="M5 20h14"></path></svg>Export Result</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Comparison controls">
+      <div class="status-cluster" aria-live="polite"><span class="status-dot" id="status-dot"></span><span class="eyebrow" id="status-label">Result ready</span><span class="method-value" id="toolbar-method">Lab · correlation · selected region</span></div>
+      <div class="segment" aria-label="Image view">
+        <button type="button" data-mode="original" aria-pressed="false">Original</button><button type="button" data-mode="split" aria-pressed="true">Split</button><button type="button" data-mode="enhanced" aria-pressed="false">Enhanced</button>
+      </div>
+      <div class="zoom-cluster" aria-label="Synchronized zoom controls">
+        <button class="icon-button" id="zoom-out" type="button" aria-label="Zoom out"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M8 11h6M20 20l-4-4"></path></svg></button>
+        <span class="zoom-value" id="zoom-value">100%</span>
+        <button class="icon-button" id="zoom-in" type="button" aria-label="Zoom in"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M8 11h6M11 8v6M20 20l-4-4"></path></svg></button>
+      </div>
+    </section>
+
+    <section class="main-region">
+      <aside class="analysis-panel" aria-labelledby="analysis-title">
+        <header class="panel-heading"><h1 id="analysis-title">Analysis controls</h1><p>Choose the variables, matrix, and pixels that establish the transform.</p></header>
+
+        <section class="control-section" aria-labelledby="color-title">
+          <div class="section-title-row"><h2 class="section-title" id="color-title">Color space</h2><span class="section-count">1 OF 3</span></div>
+          <div class="choice-group" data-control="color"><button type="button" data-value="RGB" aria-pressed="false">RGB</button><button type="button" data-value="Lab" aria-pressed="true">Lab</button></div>
+          <p class="choice-explainer" id="color-explainer">Separates lightness from two chromatic axes using CIE Lab with D65.</p>
+        </section>
+
+        <section class="control-section" aria-labelledby="matrix-title">
+          <div class="section-title-row"><h2 class="section-title" id="matrix-title">Matrix mode</h2><span class="section-count">2 OF 3</span></div>
+          <div class="choice-group" data-control="matrix"><button type="button" data-value="Covariance" aria-pressed="false">Covariance</button><button type="button" data-value="Correlation" aria-pressed="true">Correlation</button></div>
+          <p class="choice-explainer" id="matrix-explainer">Normalizes stable variables to unit variance before finding components.</p>
+        </section>
+
+        <section class="control-section" aria-labelledby="sample-title">
+          <div class="section-title-row"><h2 class="section-title" id="sample-title">Statistical sample</h2><span class="section-count">3 OF 3</span></div>
+          <div class="sample-options">
+            <button class="sample-option" type="button" data-sample="whole" aria-pressed="false"><span class="radio-mark" aria-hidden="true"></span><span class="sample-copy"><strong>Whole image</strong><span>All 24.3 million source pixels establish the transform.</span></span></button>
+            <button class="sample-option" type="button" data-sample="region" aria-pressed="true"><span class="radio-mark" aria-hidden="true"></span><span class="sample-copy"><strong>Selected region</strong><span>Sample the bird’s plumage; enhance the complete frame.</span></span></button>
+          </div>
+
+          <div class="region-editor" id="region-editor">
+            <div class="region-head"><strong>Source-pixel bounds</strong><button id="clear-region" type="button">Clear region</button></div>
+            <div class="numeric-grid">
+              <div class="numeric-field"><label for="region-x"><span>X</span><span>0–6047</span></label><input id="region-x" inputmode="numeric" type="number" min="0" max="6047" step="1" value="3125"></div>
+              <div class="numeric-field"><label for="region-y"><span>Y</span><span>0–4023</span></label><input id="region-y" inputmode="numeric" type="number" min="0" max="4023" step="1" value="1328"></div>
+              <div class="numeric-field"><label for="region-w"><span>Width</span><span>1–6048</span></label><input id="region-w" inputmode="numeric" type="number" min="1" max="6048" step="1" value="1764"></div>
+              <div class="numeric-field"><label for="region-h"><span>Height</span><span>1–4024</span></label><input id="region-h" inputmode="numeric" type="number" min="1" max="4024" step="1" value="1476"></div>
+            </div>
+            <p class="origin-note">Origin is the source image’s top-left. Drag the rectangle or enter exact integers.</p>
+            <div class="region-actions"><span class="region-pixels" id="region-pixels">2,603,664 px</span><button class="button compact" id="apply-region" type="button">Apply bounds</button></div>
+            <div class="region-feedback" id="region-feedback" role="status">Region is valid. Its pixels establish the transform; the full image receives it.</div>
+          </div>
+        </section>
+
+        <footer class="panel-foot"><div class="method-summary"><span class="summary-mark" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"></path><rect x="3" y="3" width="18" height="18" rx="3"></rect></svg></span><div><strong id="summary-method">Lab correlation · selected region</strong><span id="summary-detail">3 stable components · local processing</span></div></div></footer>
+      </aside>
+
+      <div class="canvas-shell">
+        <section class="workspace" id="workspace" data-mode="split" aria-label="Synchronized original and enhanced image comparison">
+          <figure class="image-pane original-pane" aria-label="Original European starling photograph with selected source-pixel sample">
+            <figcaption class="pane-label"><span class="tiny-dot"></span>Original <span class="pane-state">SOURCE</span></figcaption>
+            <div class="image-stage"><div class="photo-frame" data-region-active="true"><svg viewBox="0 0 1200 800" role="img" aria-label="Original photograph-style rendering of a European starling on a branch"><use href="#bird-scene-original"></use></svg><div class="draw-layer" aria-hidden="true"></div><div class="region-overlay" aria-label="Selected sample region, X 3125, Y 1328, width 1764, height 1476 source pixels"><span class="region-tag">SAMPLE · 2.60 MP</span><span class="resize-handle" aria-hidden="true"></span></div></div></div>
+          </figure>
+          <div class="divider" aria-hidden="true"></div>
+          <figure class="image-pane enhanced-pane" aria-label="Enhanced European starling photograph using Lab correlation from selected region">
+            <figcaption class="pane-label"><span class="tiny-dot"></span>Enhanced <span class="pane-state" id="pane-state">CURRENT</span></figcaption>
+            <div class="image-stage"><div class="photo-frame"><svg viewBox="0 0 1200 800" role="img" aria-label="Decorrelation-stretch rendering of a European starling with amplified plumage colors"><use href="#bird-scene-enhanced"></use></svg><div class="region-overlay" aria-hidden="true"><span class="region-tag">SAME SAMPLE</span></div><div class="updating-shade" id="updating-shade"><div class="progress-plate"><strong>Recalculating full image</strong><span id="progress-method">Lab · correlation · selected region</span><div class="progress-track"></div></div></div></div></div>
+          </figure>
+
+          <div class="awaiting-banner" id="awaiting-banner" role="status" hidden>Select a region on the image or enter source-pixel bounds. KLT Image will not substitute whole-image statistics.</div>
+          <aside class="popover" id="method-popover" hidden>
+            <div class="popover-header"><h2 id="popover-title">Lab correlation</h2><button class="popover-close" id="popover-close" type="button" aria-label="Close method details">×</button></div>
+            <p id="popover-copy">Lab separates lightness from chromatic axes. Correlation gives each stable variable unit variance before the transform is derived.</p>
+            <dl class="method-definition"><dt>Statistics from</dt><dd id="detail-sample">Selected region · 2.60 MP</dd><dt>Applied to</dt><dd>Full 6048 × 4024 image</dd><dt>Stable components</dt><dd>3 of 3</dd><dt>Processing</dt><dd>Local only</dd></dl>
+            <div class="guidance-note">Methods are alternative exploratory views, not ranks of accuracy. Conversion, normalization, gamut clipping, noise, compression, lighting, and region choice can affect what you see.</div>
+          </aside>
+
+          <div class="toast" id="toast" role="status" aria-live="polite"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>Export panel ready · overlay excluded</div>
+        </section>
+      </div>
+    </section>
+
+    <footer class="metadata-strip">
+      <section class="metadata-group" aria-label="Image metadata"><span class="eyebrow">Source</span><span class="metadata-primary">European starling · field study 24–017</span><span class="metadata-secondary">HEIC · 8-bit RGB · Display P3 converted to sRGB</span></section>
+      <section class="metadata-group" aria-label="Enhancement method"><span class="eyebrow">Active method</span><div class="method-row"><span class="metadata-primary" id="footer-method">Lab correlation · selected region</span><button class="method-button" id="method-button" type="button" aria-label="Show active method details" aria-expanded="false" aria-controls="method-popover">i</button></div><span class="metadata-secondary" id="footer-detail">Region statistics · full-image transform · 3 stable components</span></section>
+      <section class="metadata-group" aria-label="Interpretation note"><div class="notice"><span class="notice-mark" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 10v6M12 7h.01"></path></svg></span><div><span class="metadata-primary">Exploratory enhancement</span><div class="metadata-secondary">Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.</div></div></div></section>
+    </footer>
+  </main>
+
+  <script>
+    const sourceWidth = 6048;
+    const sourceHeight = 4024;
+    const state = {
+      color: 'Lab',
+      matrix: 'Correlation',
+      sample: 'region',
+      region: { x: 3125, y: 1328, width: 1764, height: 1476 },
+      hasRegion: true,
+      valid: true,
+      zoom: 1,
+      timer: null
+    };
+
+    const workspace = document.getElementById('workspace');
+    const statusDot = document.getElementById('status-dot');
+    const statusLabel = document.getElementById('status-label');
+    const toolbarMethod = document.getElementById('toolbar-method');
+    const exportButton = document.getElementById('export-button');
+    const paneState = document.getElementById('pane-state');
+    const updatingShade = document.getElementById('updating-shade');
+    const progressMethod = document.getElementById('progress-method');
+    const footerMethod = document.getElementById('footer-method');
+    const footerDetail = document.getElementById('footer-detail');
+    const summaryMethod = document.getElementById('summary-method');
+    const regionEditor = document.getElementById('region-editor');
+    const regionFeedback = document.getElementById('region-feedback');
+    const regionPixels = document.getElementById('region-pixels');
+    const awaitingBanner = document.getElementById('awaiting-banner');
+    const photoFrames = [...document.querySelectorAll('.photo-frame')];
+    const regionOverlays = [...document.querySelectorAll('.region-overlay')];
+    const originalFrame = document.querySelector('.original-pane .photo-frame');
+    const originalOverlay = document.querySelector('.original-pane .region-overlay');
+    const drawLayer = document.querySelector('.original-pane .draw-layer');
+    const inputs = {
+      x: document.getElementById('region-x'),
+      y: document.getElementById('region-y'),
+      width: document.getElementById('region-w'),
+      height: document.getElementById('region-h')
+    };
+
+    function methodText(lowercase = false) {
+      const text = `${state.color} · ${state.matrix.toLowerCase()} · ${state.sample === 'region' ? 'selected region' : 'whole image'}`;
+      return lowercase ? text.toLowerCase() : text;
+    }
+
+    function setPressed(selector, active) {
+      document.querySelectorAll(selector).forEach(button => button.setAttribute('aria-pressed', String(button === active)));
+    }
+
+    function updateMethodCopy() {
+      const concise = methodText();
+      toolbarMethod.textContent = concise;
+      footerMethod.textContent = concise;
+      summaryMethod.textContent = concise;
+      progressMethod.textContent = concise;
+      document.getElementById('popover-title').textContent = `${state.color} ${state.matrix.toLowerCase()}`;
+      document.getElementById('popover-copy').textContent = state.color === 'Lab'
+        ? `Lab separates lightness from chromatic axes. ${state.matrix === 'Correlation' ? 'Correlation gives each stable variable unit variance before the transform is derived.' : 'Covariance preserves the original scale of variation while the transform is derived.'}`
+        : `RGB works from the display-oriented red, green, and blue channels. ${state.matrix === 'Correlation' ? 'Correlation gives each stable channel unit variance before the transform is derived.' : 'Covariance preserves the shipped channel-variance baseline.'}`;
+      const sampleText = state.sample === 'region' && state.hasRegion ? `Selected region · ${formatMegapixels()} MP` : 'Whole image · 24.34 MP';
+      document.getElementById('detail-sample').textContent = sampleText;
+      footerDetail.textContent = state.sample === 'region' ? 'Region statistics · full-image transform · 3 stable components' : 'Whole-image statistics · full-image transform · 3 stable components';
+    }
+
+    function formatMegapixels() {
+      return ((state.region.width * state.region.height) / 1000000).toFixed(2);
+    }
+
+    function renderRegion() {
+      const r = state.region;
+      document.documentElement.style.setProperty('--region-left', `${(r.x / sourceWidth) * 100}%`);
+      document.documentElement.style.setProperty('--region-top', `${(r.y / sourceHeight) * 100}%`);
+      document.documentElement.style.setProperty('--region-width', `${(r.width / sourceWidth) * 100}%`);
+      document.documentElement.style.setProperty('--region-height', `${(r.height / sourceHeight) * 100}%`);
+      regionOverlays.forEach(overlay => {
+        overlay.classList.toggle('missing', !state.hasRegion);
+        overlay.classList.toggle('inactive', state.sample !== 'region');
+      });
+      const firstTag = originalOverlay.querySelector('.region-tag');
+      firstTag.textContent = state.sample === 'region' ? `SAMPLE · ${formatMegapixels()} MP` : 'SAVED SAMPLE · INACTIVE';
+      originalOverlay.setAttribute('aria-label', `Selected sample region, X ${r.x}, Y ${r.y}, width ${r.width}, height ${r.height} source pixels`);
+      regionPixels.textContent = `${(r.width * r.height).toLocaleString()} px`;
+      Object.entries(inputs).forEach(([key, input]) => { if (document.activeElement !== input) input.value = r[key]; });
+      originalFrame.dataset.regionActive = String(state.sample === 'region');
+      awaitingBanner.hidden = !(state.sample === 'region' && !state.hasRegion);
+      updateMethodCopy();
+    }
+
+    function validateRegion(candidate) {
+      if (!Number.isInteger(candidate.x) || !Number.isInteger(candidate.y) || !Number.isInteger(candidate.width) || !Number.isInteger(candidate.height)) return 'Enter whole source-pixel values in every field.';
+      if (candidate.width <= 0 || candidate.height <= 0) return 'Width and height must both be positive.';
+      if (candidate.width * candidate.height < 4) return 'The region must contain at least four source pixels.';
+      if (candidate.x < 0 || candidate.y < 0 || candidate.x + candidate.width > sourceWidth || candidate.y + candidate.height > sourceHeight) return 'These bounds extend outside the 6048 × 4024 source. Values are kept for correction.';
+      return '';
+    }
+
+    function setInvalid(message) {
+      state.valid = false;
+      window.clearTimeout(state.timer);
+      statusDot.className = 'status-dot warning';
+      statusLabel.textContent = state.hasRegion ? 'Region needs attention' : 'Awaiting region';
+      paneState.textContent = 'PREVIOUS · NOT CURRENT';
+      updatingShade.classList.remove('visible');
+      exportButton.disabled = true;
+      regionFeedback.textContent = message;
+      regionFeedback.classList.add('warning');
+      inputs.width.setAttribute('aria-invalid', String(Number(inputs.width.value) <= 0));
+      inputs.height.setAttribute('aria-invalid', String(Number(inputs.height.value) <= 0));
+    }
+
+    function startRecalculation() {
+      if (state.sample === 'region' && !state.hasRegion) {
+        setInvalid('Draw a region or enter valid source-pixel bounds. No whole-image fallback will be used.');
+        return;
+      }
+      state.valid = true;
+      inputs.width.setAttribute('aria-invalid', 'false');
+      inputs.height.setAttribute('aria-invalid', 'false');
+      regionFeedback.textContent = state.sample === 'region' ? 'Region is valid. Its pixels establish the transform; the full image receives it.' : 'Saved region is inactive. Whole-image pixels now establish the transform.';
+      regionFeedback.classList.remove('warning');
+      window.clearTimeout(state.timer);
+      statusDot.className = 'status-dot updating';
+      statusLabel.textContent = 'Updating result';
+      paneState.textContent = 'PREVIOUS · UPDATING';
+      exportButton.disabled = true;
+      updatingShade.classList.add('visible');
+      state.timer = window.setTimeout(() => {
+        statusDot.className = 'status-dot';
+        statusLabel.textContent = 'Result ready';
+        paneState.textContent = 'CURRENT';
+        exportButton.disabled = false;
+        updatingShade.classList.remove('visible');
+      }, 820);
+    }
+
+    document.querySelectorAll('[data-control="color"] button').forEach(button => button.addEventListener('click', () => {
+      state.color = button.dataset.value;
+      setPressed('[data-control="color"] button', button);
+      document.getElementById('color-explainer').textContent = state.color === 'Lab' ? 'Separates lightness from two chromatic axes using CIE Lab with D65.' : 'Uses the source’s display-oriented red, green, and blue channel values.';
+      updateMethodCopy();
+      startRecalculation();
+    }));
+
+    document.querySelectorAll('[data-control="matrix"] button').forEach(button => button.addEventListener('click', () => {
+      state.matrix = button.dataset.value;
+      setPressed('[data-control="matrix"] button', button);
+      document.getElementById('matrix-explainer').textContent = state.matrix === 'Correlation' ? 'Normalizes stable variables to unit variance before finding components.' : 'Preserves each variable’s original scale of variation.';
+      updateMethodCopy();
+      startRecalculation();
+    }));
+
+    document.querySelectorAll('[data-sample]').forEach(button => button.addEventListener('click', () => {
+      state.sample = button.dataset.sample;
+      setPressed('[data-sample]', button);
+      regionEditor.hidden = state.sample !== 'region';
+      renderRegion();
+      startRecalculation();
+    }));
+
+    document.getElementById('apply-region').addEventListener('click', () => {
+      const candidate = Object.fromEntries(Object.entries(inputs).map(([key, input]) => [key, Number(input.value)]));
+      const problem = validateRegion(candidate);
+      Object.values(inputs).forEach(input => input.setAttribute('aria-invalid', String(Boolean(problem))));
+      if (problem) { setInvalid(problem); return; }
+      state.region = candidate;
+      state.hasRegion = true;
+      renderRegion();
+      startRecalculation();
+    });
+
+    document.getElementById('clear-region').addEventListener('click', () => {
+      state.hasRegion = false;
+      renderRegion();
+      setInvalid('A selected region is required. Draw on the source image or enter bounds; whole-image statistics will not be substituted.');
+    });
+
+    Object.values(inputs).forEach(input => input.addEventListener('input', () => {
+      const candidate = Object.fromEntries(Object.entries(inputs).map(([key, field]) => [key, Number(field.value)]));
+      const problem = validateRegion(candidate);
+      input.setAttribute('aria-invalid', String(Boolean(problem)));
+      if (problem) setInvalid(problem);
+      else {
+        regionFeedback.textContent = 'Bounds are ready. Choose Apply bounds to recalculate from the unchanged source.';
+        regionFeedback.classList.remove('warning');
+      }
+    }));
+    Object.values(inputs).forEach(input => input.addEventListener('keydown', event => {
+      if (event.key === 'Enter') document.getElementById('apply-region').click();
+    }));
+
+    let gesture = null;
+    function pointFromEvent(event) {
+      const rect = originalFrame.getBoundingClientRect();
+      return { x: Math.max(0, Math.min(sourceWidth, ((event.clientX - rect.left) / rect.width) * sourceWidth)), y: Math.max(0, Math.min(sourceHeight, ((event.clientY - rect.top) / rect.height) * sourceHeight)) };
+    }
+
+    originalOverlay.addEventListener('pointerdown', event => {
+      if (state.sample !== 'region' || !state.hasRegion) return;
+      event.preventDefault();
+      originalOverlay.setPointerCapture(event.pointerId);
+      gesture = { mode: event.target.classList.contains('resize-handle') ? 'resize' : 'move', start: pointFromEvent(event), region: { ...state.region } };
+    });
+
+    drawLayer.addEventListener('pointerdown', event => {
+      if (state.sample !== 'region') return;
+      event.preventDefault();
+      drawLayer.setPointerCapture(event.pointerId);
+      const start = pointFromEvent(event);
+      gesture = { mode: 'draw', start, region: { x: Math.round(start.x), y: Math.round(start.y), width: 1, height: 1 } };
+      state.hasRegion = true;
+    });
+
+    function updateGesture(event) {
+      if (!gesture) return;
+      const point = pointFromEvent(event);
+      if (gesture.mode === 'move') {
+        const nextX = gesture.region.x + point.x - gesture.start.x;
+        const nextY = gesture.region.y + point.y - gesture.start.y;
+        state.region.x = Math.round(Math.max(0, Math.min(sourceWidth - gesture.region.width, nextX)));
+        state.region.y = Math.round(Math.max(0, Math.min(sourceHeight - gesture.region.height, nextY)));
+      } else if (gesture.mode === 'resize') {
+        state.region.width = Math.round(Math.max(2, Math.min(sourceWidth - gesture.region.x, gesture.region.width + point.x - gesture.start.x)));
+        state.region.height = Math.round(Math.max(2, Math.min(sourceHeight - gesture.region.y, gesture.region.height + point.y - gesture.start.y)));
+      } else {
+        state.region.x = Math.round(Math.min(gesture.start.x, point.x));
+        state.region.y = Math.round(Math.min(gesture.start.y, point.y));
+        state.region.width = Math.round(Math.max(2, Math.abs(point.x - gesture.start.x)));
+        state.region.height = Math.round(Math.max(2, Math.abs(point.y - gesture.start.y)));
+      }
+      renderRegion();
+    }
+
+    originalOverlay.addEventListener('pointermove', updateGesture);
+    drawLayer.addEventListener('pointermove', updateGesture);
+    function finishGesture() { if (!gesture) return; gesture = null; renderRegion(); startRecalculation(); }
+    originalOverlay.addEventListener('pointerup', finishGesture);
+    drawLayer.addEventListener('pointerup', finishGesture);
+
+    document.querySelectorAll('.segment [data-mode]').forEach(button => button.addEventListener('click', () => {
+      workspace.dataset.mode = button.dataset.mode;
+      setPressed('.segment [data-mode]', button);
+    }));
+
+    function setZoom(next) {
+      state.zoom = Math.max(.8, Math.min(1.35, next));
+      photoFrames.forEach(frame => frame.style.setProperty('--zoom', state.zoom));
+      document.getElementById('zoom-value').textContent = `${Math.round(state.zoom * 100)}%`;
+    }
+    document.getElementById('zoom-out').addEventListener('click', () => setZoom(state.zoom - .1));
+    document.getElementById('zoom-in').addEventListener('click', () => setZoom(state.zoom + .1));
+
+    const methodButton = document.getElementById('method-button');
+    const popover = document.getElementById('method-popover');
+    function setPopover(open) { popover.hidden = !open; methodButton.setAttribute('aria-expanded', String(open)); if (open) document.getElementById('popover-close').focus(); }
+    methodButton.addEventListener('click', () => setPopover(popover.hidden));
+    document.getElementById('popover-close').addEventListener('click', () => { setPopover(false); methodButton.focus(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && !popover.hidden) { setPopover(false); methodButton.focus(); } });
+
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    exportButton.addEventListener('click', () => { window.clearTimeout(toastTimer); toast.classList.add('visible'); toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 1800); });
+
+    renderRegion();
+  </script>
+</body>
+</html>

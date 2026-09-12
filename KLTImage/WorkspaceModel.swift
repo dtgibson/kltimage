@@ -14,10 +14,62 @@ enum ComparisonMode: String, CaseIterable, Identifiable {
 
 enum WorkspacePhase: Equatable {
     case empty
+    case importing
+    case awaitingRegion(RegionValidationIssue)
+    case invalidRegion(RegionValidationIssue)
     case processing
     case ready
     case exporting
     case failed(String)
+}
+
+enum ResultCurrency: Equatable {
+    case none
+    case current
+    case previousUpdating
+    case previousNotCurrent
+}
+
+struct SourceIdentity: Equatable, Hashable, Sendable {
+    let generation: UUID
+}
+
+struct AnalysisRequestKey: Equatable, Hashable, Sendable {
+    let source: SourceIdentity
+    let input: AnalysisInput
+}
+
+struct AnalysisJobIdentity: Equatable, Sendable {
+    let id: UUID
+    let key: AnalysisRequestKey
+}
+
+struct CompletedEnhancement: @unchecked Sendable {
+    let key: AnalysisRequestKey
+    let value: EnhancedImage
+}
+
+struct RegionEditorState: Equatable {
+    var committed: SourcePixelRegion?
+    var draftX = ""
+    var draftY = ""
+    var draftWidth = ""
+    var draftHeight = ""
+    var validationIssue: RegionValidationIssue?
+
+    mutating func setDrafts(from region: SourcePixelRegion) {
+        draftX = String(region.x)
+        draftY = String(region.y)
+        draftWidth = String(region.width)
+        draftHeight = String(region.height)
+    }
+}
+
+enum RegionField: Hashable, Sendable {
+    case x
+    case y
+    case width
+    case height
 }
 
 @MainActor
@@ -60,10 +112,16 @@ private final class ExportFormatAccessoryController: NSObject {
 @Observable
 final class WorkspaceModel {
     private(set) var source: DecodedImage?
-    private(set) var enhanced: EnhancedImage?
+    private(set) var completedEnhancement: CompletedEnhancement?
     private(set) var phase: WorkspacePhase = .empty
     private(set) var sourceName = ""
     private(set) var exportNotice: String?
+    private(set) var colorSpace: AnalysisColorSpace = .rgb
+    private(set) var matrixMode: AnalysisMatrixMode = .covariance
+    private(set) var sampleSource: AnalysisSampleSource = .wholeImage
+    private(set) var regionEditor = RegionEditorState()
+    private(set) var currentRequestKey: AnalysisRequestKey?
+    private(set) var activeAnalysisJob: AnalysisJobIdentity?
     private(set) var statusAnnouncement = "Open an image to begin." {
         didSet {
             NSAccessibility.post(
@@ -76,95 +134,205 @@ final class WorkspaceModel {
             )
         }
     }
+
     var comparisonMode: ComparisonMode = .split
     var zoom = 1.0
     var pan = CGSize.zero
 
+    private var sourceIdentity: SourceIdentity?
     private var activeOperation: Task<Void, Never>?
     private var noticeTask: Task<Void, Never>?
     private var operationID = UUID()
 
+    var enhanced: EnhancedImage? { completedEnhancement?.value }
+
+    var analysisInput: AnalysisInput {
+        AnalysisInput(
+            method: AnalysisMethod(colorSpace: colorSpace, matrixMode: matrixMode),
+            sampleSource: sampleSource,
+            region: sampleSource == .selectedRegion ? regionEditor.committed : nil
+        )
+    }
+
+    var methodText: String {
+        "\(colorSpace.displayName) · \(matrixMode.displayName.lowercased()) · \(sampleSource.displayName.lowercased())"
+    }
+
     var canExport: Bool {
-        enhanced != nil && phase == .ready
+        guard phase == .ready,
+              let completedEnhancement,
+              let currentRequestKey
+        else { return false }
+        return completedEnhancement.key == currentRequestKey
     }
 
-    var canChangePresentation: Bool {
-        enhanced != nil && phase == .ready
+    var canChangePresentation: Bool { source != nil }
+
+    var analysisControlsEnabled: Bool {
+        source != nil && phase != .importing && phase != .exporting
     }
 
-    var isBusy: Bool {
-        phase == .processing || phase == .exporting
+    var isBusy: Bool { phase == .importing || phase == .exporting }
+
+    var resultCurrency: ResultCurrency {
+        guard let completedEnhancement else { return .none }
+        if phase == .processing { return .previousUpdating }
+        guard let currentRequestKey, completedEnhancement.key == currentRequestKey else {
+            return .previousNotCurrent
+        }
+        return phase == .ready || phase == .exporting ? .current : .previousNotCurrent
     }
 
     var statusLabel: String {
         switch phase {
         case .empty: "Awaiting image"
-        case .processing: "Calculating color components"
-        case .ready:
-            enhanced?.notice == nil ? "Result ready" : "Limited variation"
+        case .importing: "Reading image"
+        case .awaitingRegion: "Awaiting region"
+        case .invalidRegion: "Region needs attention"
+        case .processing: enhanced == nil ? "Calculating result" : "Updating result"
+        case .ready: enhanced?.descriptor.hasLimitedVariation == true ? "Limited variation" : "Result ready"
         case .exporting: "Exporting full resolution"
         case .failed: "Needs attention"
         }
     }
 
     func presentOpenPanel() {
-        guard phase != .processing, phase != .exporting else { return }
-
+        guard !isBusy else { return }
         let panel = NSOpenPanel()
         panel.title = "Open an image"
         panel.prompt = "Open Image"
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         panel.allowedContentTypes = [.jpeg, .png, .tiff, .heic]
-
         guard panel.runModal() == .OK, let url = panel.url else { return }
         openImage(at: url)
     }
 
     func openImage(at url: URL) {
-        guard phase != .processing, phase != .exporting else { return }
+        guard phase != .importing, phase != .exporting else { return }
 
-        activeOperation?.cancel()
+        invalidateActiveOperation()
         noticeTask?.cancel()
         exportNotice = nil
         source = nil
-        enhanced = nil
+        sourceIdentity = nil
+        completedEnhancement = nil
+        currentRequestKey = nil
+        activeAnalysisJob = nil
         sourceName = url.lastPathComponent
+        sampleSource = .wholeImage
+        regionEditor = RegionEditorState()
         comparisonMode = .split
         zoom = 1
         pan = .zero
-        phase = .processing
-        statusAnnouncement = "Calculating color components for \(sourceName)."
+        phase = .importing
+        statusAnnouncement = "Reading \(sourceName) locally."
 
         let newOperationID = UUID()
         operationID = newOperationID
         let accessedSecurityScope = url.startAccessingSecurityScopedResource()
-
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
             defer {
-                if accessedSecurityScope {
-                    url.stopAccessingSecurityScopedResource()
-                }
+                if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
             }
-
             do {
                 let data = try Data(contentsOf: url, options: [.mappedIfSafe])
                 try Task.checkCancellation()
                 let decoded = try ImagePipeline.decode(data)
-                await self?.acceptDecodedImage(decoded, operationID: newOperationID)
-                let result = try ImagePipeline.enhance(decoded)
                 try Task.checkCancellation()
-                await self?.acceptEnhancedImage(result, operationID: newOperationID)
+                await self?.acceptDecodedImage(decoded, operationID: newOperationID)
             } catch is CancellationError {
-                await self?.acceptCancellation(operationID: newOperationID)
+                await self?.acceptImportCancellation(operationID: newOperationID)
             } catch {
-                await self?.acceptFailure(error, operationID: newOperationID)
+                await self?.acceptImportFailure(error, operationID: newOperationID)
             }
         }
     }
 
+    func selectColorSpace(_ selection: AnalysisColorSpace) {
+        guard analysisControlsEnabled, selection != colorSpace else { return }
+        colorSpace = selection
+        clearMethodDependentValidation()
+        requestAnalysis()
+    }
+
+    func selectMatrixMode(_ selection: AnalysisMatrixMode) {
+        guard analysisControlsEnabled, selection != matrixMode else { return }
+        matrixMode = selection
+        clearMethodDependentValidation()
+        requestAnalysis()
+    }
+
+    func selectSampleSource(_ selection: AnalysisSampleSource) {
+        guard analysisControlsEnabled, selection != sampleSource else { return }
+        sampleSource = selection
+        requestAnalysis()
+    }
+
+    func updateRegionDraft(_ field: RegionField, value: String) {
+        switch field {
+        case .x: regionEditor.draftX = value
+        case .y: regionEditor.draftY = value
+        case .width: regionEditor.draftWidth = value
+        case .height: regionEditor.draftHeight = value
+        }
+    }
+
+    func applyRegionDraft() {
+        guard let source else { return }
+        guard
+            let x = parsedInteger(regionEditor.draftX),
+            let y = parsedInteger(regionEditor.draftY),
+            let width = parsedInteger(regionEditor.draftWidth),
+            let height = parsedInteger(regionEditor.draftHeight)
+        else {
+            rejectRegion(.nonIntegerValues)
+            return
+        }
+        let region = SourcePixelRegion(x: x, y: y, width: width, height: height)
+        do {
+            _ = try SourcePixelRegionValidator.validate(
+                region,
+                sourceWidth: source.width,
+                sourceHeight: source.height
+            )
+            regionEditor.committed = region
+            regionEditor.validationIssue = nil
+            if sampleSource == .selectedRegion { requestAnalysis() }
+        } catch let issue as RegionValidationIssue {
+            rejectRegion(issue)
+        } catch {
+            rejectRegion(.nonIntegerValues)
+        }
+    }
+
+    func commitPointerRegion(_ region: SourcePixelRegion) {
+        guard let source, sampleSource == .selectedRegion else { return }
+        regionEditor.setDrafts(from: region)
+        do {
+            _ = try SourcePixelRegionValidator.validate(
+                region,
+                sourceWidth: source.width,
+                sourceHeight: source.height
+            )
+            regionEditor.committed = region
+            regionEditor.validationIssue = nil
+            requestAnalysis()
+        } catch let issue as RegionValidationIssue {
+            rejectRegion(issue)
+        } catch {
+            rejectRegion(.nonIntegerValues)
+        }
+    }
+
+    func clearRegion() {
+        regionEditor = RegionEditorState()
+        guard sampleSource == .selectedRegion else { return }
+        requestAnalysis()
+    }
+
     func presentExportPanel() {
-        guard canExport, let enhanced else { return }
+        guard canExport, let completedEnhancement else { return }
 
         let panel = NSSavePanel()
         panel.title = "Export enhanced image"
@@ -177,24 +345,22 @@ final class WorkspaceModel {
 
         guard panel.runModal() == .OK, var url = panel.url else { return }
         let format = accessory.format
-        if url.pathExtension.isEmpty {
-            url.appendPathExtension(format.filenameExtension)
-        }
-        export(enhanced, to: url, format: format)
+        if url.pathExtension.isEmpty { url.appendPathExtension(format.filenameExtension) }
+        export(completedEnhancement, to: url, format: format)
     }
 
     func cancelCurrentOperation() {
-        activeOperation?.cancel()
-        activeOperation = nil
-        operationID = UUID()
-
-        switch phase {
-        case .processing:
+        let priorPhase = phase
+        invalidateActiveOperation()
+        switch priorPhase {
+        case .importing:
             source = nil
-            enhanced = nil
+            sourceIdentity = nil
+            completedEnhancement = nil
+            currentRequestKey = nil
             sourceName = ""
             phase = .empty
-            statusAnnouncement = "Image processing canceled."
+            statusAnnouncement = "Image import canceled."
         case .exporting:
             phase = .ready
             statusAnnouncement = "Image export canceled."
@@ -203,69 +369,213 @@ final class WorkspaceModel {
         }
     }
 
-    func zoomIn() {
-        zoom = min(8, zoom * 1.25)
-    }
-
-    func zoomOut() {
-        zoom = max(0.25, zoom / 1.25)
-    }
-
+    func zoomIn() { zoom = min(8, zoom * 1.25) }
+    func zoomOut() { zoom = max(0.25, zoom / 1.25) }
     func resetView() {
         zoom = 1
         pan = .zero
     }
 
-    private func export(_ result: EnhancedImage, to url: URL, format: ImageExportFormat) {
+    private func requestAnalysis() {
+        guard let source, let sourceIdentity else { return }
+        activeOperation?.cancel()
+        activeOperation = nil
+        activeAnalysisJob = nil
+
+        let input = analysisInput
+        let key = AnalysisRequestKey(source: sourceIdentity, input: input)
+        currentRequestKey = key
+
+        if input.sampleSource == .selectedRegion {
+            if input.region == nil {
+                phase = .awaitingRegion(.missing)
+                regionEditor.validationIssue = .missing
+                statusAnnouncement = "A selected region is required. No whole-image fallback will be used."
+                return
+            }
+            if let issue = regionEditor.validationIssue {
+                if case .insufficientVariation = issue {
+                    regionEditor.validationIssue = nil
+                } else {
+                    phase = .invalidRegion(issue)
+                    return
+                }
+            }
+            do {
+                _ = try SourcePixelRegionValidator.validate(
+                    input.region,
+                    sourceWidth: source.width,
+                    sourceHeight: source.height
+                )
+            } catch let issue as RegionValidationIssue {
+                rejectRegion(issue)
+                return
+            } catch {
+                rejectRegion(.nonIntegerValues)
+                return
+            }
+        }
+
+        let job = AnalysisJobIdentity(id: UUID(), key: key)
+        activeAnalysisJob = job
+        phase = .processing
+        statusAnnouncement = "Calculating \(methodText) locally from the unchanged source."
+        activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
+            do {
+                let result = try ImagePipeline.enhance(source, input: input)
+                try Task.checkCancellation()
+                await self?.acceptEnhancedImage(result, job: job)
+            } catch is CancellationError {
+                await self?.acceptAnalysisCancellation(job: job)
+            } catch {
+                await self?.acceptAnalysisFailure(error, job: job)
+            }
+        }
+    }
+
+    private func clearMethodDependentValidation() {
+        if case .insufficientVariation = regionEditor.validationIssue {
+            regionEditor.validationIssue = nil
+        }
+    }
+
+    private func rejectRegion(_ issue: RegionValidationIssue) {
+        activeOperation?.cancel()
+        activeOperation = nil
+        activeAnalysisJob = nil
+        regionEditor.validationIssue = issue
+        phase = issue == .missing ? .awaitingRegion(issue) : .invalidRegion(issue)
+        statusAnnouncement = issue.message()
+    }
+
+    private func parsedInteger(_ value: String) -> Int? {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+        return Int(trimmed)
+    }
+
+    private func export(
+        _ result: CompletedEnhancement,
+        to url: URL,
+        format: ImageExportFormat
+    ) {
         activeOperation?.cancel()
         phase = .exporting
         exportNotice = nil
-        statusAnnouncement = "Exporting the full-resolution enhanced image."
+        statusAnnouncement = "Exporting the current full-resolution enhanced image."
         let newOperationID = UUID()
         operationID = newOperationID
         let accessedSecurityScope = url.startAccessingSecurityScopedResource()
-
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
             defer {
-                if accessedSecurityScope {
-                    url.stopAccessingSecurityScopedResource()
-                }
+                if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
             }
-
             do {
-                let data = try ImagePipeline.encodedData(for: result.image, format: format)
+                let data = try ImagePipeline.encodedData(for: result.value.image, format: format)
                 try Task.checkCancellation()
                 try data.write(to: url, options: .atomic)
                 try Task.checkCancellation()
-                await self?.acceptExport(url: url, format: format, operationID: newOperationID)
+                await self?.acceptExport(
+                    url: url,
+                    format: format,
+                    requestKey: result.key,
+                    operationID: newOperationID
+                )
             } catch is CancellationError {
-                await self?.acceptCancellation(operationID: newOperationID)
+                await self?.acceptExportCancellation(operationID: newOperationID)
             } catch {
-                await self?.acceptFailure(error, operationID: newOperationID)
+                await self?.acceptExportFailure(error, operationID: newOperationID)
             }
         }
     }
 
     private func acceptDecodedImage(_ decoded: DecodedImage, operationID: UUID) {
-        guard operationID == self.operationID, phase == .processing else { return }
+        guard operationID == self.operationID, phase == .importing else { return }
+        activeOperation = nil
         source = decoded
+        sourceIdentity = SourceIdentity(generation: UUID())
+        requestAnalysis()
     }
 
-    private func acceptEnhancedImage(_ result: EnhancedImage, operationID: UUID) {
-        guard operationID == self.operationID else { return }
-        enhanced = result
+    private func acceptEnhancedImage(_ result: EnhancedImage, job: AnalysisJobIdentity) {
+        guard RequestAcceptanceGate.accepts(
+            completedJobID: job.id,
+            completedKey: job.key,
+            activeJobID: activeAnalysisJob?.id,
+            currentKey: currentRequestKey
+        ) else { return }
+        completedEnhancement = CompletedEnhancement(key: job.key, value: result)
         phase = .ready
         activeOperation = nil
-        statusAnnouncement = result.notice ?? "Enhancement complete. Original and enhanced images are ready to compare."
+        activeAnalysisJob = nil
+        regionEditor.validationIssue = nil
+        statusAnnouncement = result.notice
+            ?? "Enhancement complete using \(methodText). Original and enhanced images are ready to compare."
     }
 
-    private func acceptExport(url: URL, format: ImageExportFormat, operationID: UUID) {
-        guard operationID == self.operationID else { return }
+    private func acceptAnalysisCancellation(job: AnalysisJobIdentity) {
+        guard RequestAcceptanceGate.accepts(
+            completedJobID: job.id,
+            completedKey: job.key,
+            activeJobID: activeAnalysisJob?.id,
+            currentKey: currentRequestKey
+        ) else { return }
+        activeOperation = nil
+        activeAnalysisJob = nil
+        phase = .failed("The enhancement was canceled. Change a control to try again.")
+    }
+
+    private func acceptAnalysisFailure(_ error: Error, job: AnalysisJobIdentity) {
+        guard RequestAcceptanceGate.accepts(
+            completedJobID: job.id,
+            completedKey: job.key,
+            activeJobID: activeAnalysisJob?.id,
+            currentKey: currentRequestKey
+        ) else { return }
+        activeOperation = nil
+        activeAnalysisJob = nil
+        if let issue = error as? RegionValidationIssue {
+            regionEditor.validationIssue = issue
+            phase = .invalidRegion(issue)
+        } else {
+            let message = (error as? LocalizedError)?.errorDescription
+                ?? "The image operation could not be completed."
+            phase = .failed(message)
+        }
+        statusAnnouncement = (error as? LocalizedError)?.errorDescription
+            ?? "The image operation could not be completed."
+    }
+
+    private func acceptImportCancellation(operationID: UUID) {
+        guard operationID == self.operationID, phase == .importing else { return }
+        activeOperation = nil
+        sourceName = ""
+        phase = .empty
+    }
+
+    private func acceptImportFailure(_ error: Error, operationID: UUID) {
+        guard operationID == self.operationID, phase == .importing else { return }
+        activeOperation = nil
+        let message = (error as? LocalizedError)?.errorDescription
+            ?? "The image operation could not be completed."
+        phase = .failed(message)
+        statusAnnouncement = message
+    }
+
+    private func acceptExport(
+        url: URL,
+        format: ImageExportFormat,
+        requestKey: AnalysisRequestKey,
+        operationID: UUID
+    ) {
+        guard operationID == self.operationID,
+              currentRequestKey == requestKey,
+              completedEnhancement?.key == requestKey
+        else { return }
         phase = .ready
         activeOperation = nil
         exportNotice = "Exported \(format.displayName) at full resolution"
         statusAnnouncement = "Enhanced image exported to \(url.lastPathComponent)."
-
         noticeTask?.cancel()
         noticeTask = Task { [weak self] in
             try? await Task.sleep(for: .seconds(2.2))
@@ -274,30 +584,27 @@ final class WorkspaceModel {
         }
     }
 
-    private func acceptCancellation(operationID: UUID) {
-        guard operationID == self.operationID else { return }
-        if phase == .exporting {
-            phase = .ready
-        } else if phase == .processing {
-            source = nil
-            enhanced = nil
-            sourceName = ""
-            phase = .empty
-        }
+    private func acceptExportCancellation(operationID: UUID) {
+        guard operationID == self.operationID, phase == .exporting else { return }
         activeOperation = nil
+        phase = .ready
     }
 
-    private func acceptFailure(_ error: Error, operationID: UUID) {
-        guard operationID == self.operationID else { return }
-        let message = (error as? LocalizedError)?.errorDescription ?? "The image operation could not be completed."
-        if phase == .exporting, enhanced != nil {
-            phase = .ready
-            exportNotice = message
-        } else {
-            phase = .failed(message)
-        }
+    private func acceptExportFailure(_ error: Error, operationID: UUID) {
+        guard operationID == self.operationID, phase == .exporting else { return }
         activeOperation = nil
+        phase = .ready
+        let message = (error as? LocalizedError)?.errorDescription
+            ?? "The image operation could not be completed."
+        exportNotice = message
         statusAnnouncement = message
+    }
+
+    private func invalidateActiveOperation() {
+        activeOperation?.cancel()
+        activeOperation = nil
+        activeAnalysisJob = nil
+        operationID = UUID()
     }
 }
 
@@ -308,11 +615,13 @@ extension WorkspaceModel {
         guard let data = previewImageData(),
               let source = try? ImagePipeline.decode(data),
               let enhanced = try? ImagePipeline.enhance(source)
-        else {
-            return model
-        }
+        else { return model }
+        let sourceIdentity = SourceIdentity(generation: UUID())
+        let key = AnalysisRequestKey(source: sourceIdentity, input: .baseline)
         model.source = source
-        model.enhanced = enhanced
+        model.sourceIdentity = sourceIdentity
+        model.currentRequestKey = key
+        model.completedEnhancement = CompletedEnhancement(key: key, value: enhanced)
         model.sourceName = "starling-feather.png"
         model.phase = .ready
         model.statusAnnouncement = "Enhancement complete."
@@ -321,9 +630,8 @@ extension WorkspaceModel {
 
     static func previewProcessing() -> WorkspaceModel {
         let model = previewReady()
-        model.enhanced = nil
         model.phase = .processing
-        model.statusAnnouncement = "Calculating color components."
+        model.statusAnnouncement = "Updating the enhancement."
         return model
     }
 
@@ -348,9 +656,7 @@ extension WorkspaceModel {
             colorSpaceName: .deviceRGB,
             bytesPerRow: width * 4,
             bitsPerPixel: 32
-        ), let bytes = bitmap.bitmapData else {
-            return nil
-        }
+        ), let bytes = bitmap.bitmapData else { return nil }
 
         for y in 0..<height {
             for x in 0..<width {

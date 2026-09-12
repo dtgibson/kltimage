@@ -6,15 +6,15 @@ This is a living document. It reflects the current best thinking on what to buil
 
 ## Shipped
 
-- **Count:** 1
-- **Last shipped:** Core RGB enhancement workflow — A native Mac app now opens common image formats, applies deterministic whole-image RGB covariance decorrelation stretch, compares the result, and exports at full resolution.
+- **Count:** 2
+- **Last shipped:** Analysis controls — Users can combine RGB or Lab, covariance or correlation, and whole-image or single-rectangle sampling while applying each transform to the full-resolution image.
+- **Previously:** Core RGB enhancement workflow — A native Mac app opens common image formats, applies deterministic whole-image RGB covariance decorrelation stretch, compares the result, and exports at full resolution.
 
 ---
 
 ## Up Next
 
-1. **Analysis controls** — Add Lab processing, correlation mode, and selectable-region sampling now that the core transform and comparison workflow are proven.
-2. **Reproducible analysis** — Expose transformation data, record settings, and support quantitative comparisons once the visual workflow proves useful.
+1. **Reproducible analysis** — Expose transformation data, record settings, and support quantitative comparisons now that the interactive analysis model is established.
 
 ---
 
@@ -23,3 +23,4 @@ This is a living document. It reflects the current best thinking on what to buil
 - Custom color spaces.
 - Saved and reusable transformation matrices.
 - Batch processing.
+- Tiled or out-of-core processing for images above 64 megapixels.

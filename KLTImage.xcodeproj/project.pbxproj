@@ -15,16 +15,21 @@
 		1FE24674AABD265EFC75EE1E /* OFL-IBM-Plex-Sans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6655F2DE37021A1390EF7A1B /* OFL-IBM-Plex-Sans.txt */; };
 		26D9ADDC65B7642C76C08528 /* DecorrelationStretch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */; };
 		2E1960B699DB1D983BEEC22E /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AB88805547BDA0337CB22 /* DesignSystem.swift */; };
+		3A8A6770D081A776C31227DB /* AnalysisControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86586C3D5940EBC2EBA0B10C /* AnalysisControlsView.swift */; };
 		410D67505D02239EBBF8400E /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
 		4441C1C77FEC22C5D371B804 /* KLTCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4821B74A687FC27A229BF30A /* IBMPlexSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6ABA994D4D6CFEA02E88EFD6 /* IBMPlexSans-SemiBold.ttf */; };
 		4E03346835B4CBCA9302F87C /* KLTImageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7BAF8148E3C49049591897 /* KLTImageApp.swift */; };
 		61FC22F558D687A7568F6FF0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
+		862C2521EAEE06FF8D03BE71 /* AnalysisTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */; };
 		A33CBC4A926D4FB9E6D6CD85 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE9320651DAD60AEBD5392 /* ContentView.swift */; };
 		BF2B1F19FD419FCE39DC0378 /* OFL-IBM-Plex-Mono.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04EFA2837EC864B8FD08CFF2 /* OFL-IBM-Plex-Mono.txt */; };
+		C4D91E24FC695DFB6ABFD890 /* AnalysisControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */; };
 		CD5DFC9548A36A5762B0806A /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */; };
 		DD695F5905932272DA68B5E6 /* WorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */; };
+		E079A9202AC8C1701446DC86 /* ComparisonCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */; };
 		E1FBA7C30217546DAB90E833 /* KLTImageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EC820EA66EC4781A49B54F /* KLTImageUITests.swift */; };
+		E43CEBA811FC7D6CD7DA1D20 /* MetadataStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674ACA4F9FEEEDAAE4DB49D /* MetadataStrip.swift */; };
 		EF024C0CF9BCAACA66896074 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AF8120313FDB64471AA9407 /* IBMPlexSans-Bold.ttf */; };
 		F8F505B6C1206DBC42771C84 /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */; };
 /* End PBXBuildFile section */
@@ -84,17 +89,22 @@
 		0A8AB88805547BDA0337CB22 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		0B7DD1300862E21653F3288B /* KLTCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorrelationStretch.swift; sourceTree = "<group>"; };
+		3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisControlsTests.swift; sourceTree = "<group>"; };
 		4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
 		64EE9320651DAD60AEBD5392 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		65D433182C2DD7D13AA7CF5C /* KLTCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KLTCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6655F2DE37021A1390EF7A1B /* OFL-IBM-Plex-Sans.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-IBM-Plex-Sans.txt"; sourceTree = "<group>"; };
 		6ABA994D4D6CFEA02E88EFD6 /* IBMPlexSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
+		716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisTypes.swift; sourceTree = "<group>"; };
 		7AF8120313FDB64471AA9407 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
+		82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCanvas.swift; sourceTree = "<group>"; };
+		86586C3D5940EBC2EBA0B10C /* AnalysisControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisControlsView.swift; sourceTree = "<group>"; };
 		88EC820EA66EC4781A49B54F /* KLTImageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTImageUITests.swift; sourceTree = "<group>"; };
 		9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>"; };
 		A03417358DC58628252EE97E /* KLTImageUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTImageUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTCoreTests.swift; sourceTree = "<group>"; };
+		C674ACA4F9FEEEDAAE4DB49D /* MetadataStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataStrip.swift; sourceTree = "<group>"; };
 		CE6334CB251C5906227075EB /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
 		DC7BAF8148E3C49049591897 /* KLTImageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTImageApp.swift; sourceTree = "<group>"; };
 		DC94B40BF767D3BFC067C3E4 /* IBMPlexMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -125,6 +135,7 @@
 		01FA2F724B1A97C9EAFE8D7C /* KLTCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */,
 				B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */,
 			);
 			path = KLTCoreTests;
@@ -158,10 +169,13 @@
 		79CB89C2DAC6EFF225ACD603 /* KLTImage */ = {
 			isa = PBXGroup;
 			children = (
+				86586C3D5940EBC2EBA0B10C /* AnalysisControlsView.swift */,
+				82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */,
 				64EE9320651DAD60AEBD5392 /* ContentView.swift */,
 				0A8AB88805547BDA0337CB22 /* DesignSystem.swift */,
 				050ECDECE3ADF3FBC3158CD5 /* KLTImage.entitlements */,
 				DC7BAF8148E3C49049591897 /* KLTImageApp.swift */,
+				C674ACA4F9FEEEDAAE4DB49D /* MetadataStrip.swift */,
 				9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */,
 				82A36FE8CE604BDCDCBB4EFD /* Resources */,
 			);
@@ -198,6 +212,7 @@
 		DDAC1222555800DDCE129C40 /* KLTCore */ = {
 			isa = PBXGroup;
 			children = (
+				716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */,
 				1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */,
 				6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */,
 				F527D7A85C856DDD813827D2 /* Matrix3x3.swift */,
@@ -342,6 +357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				862C2521EAEE06FF8D03BE71 /* AnalysisTypes.swift in Sources */,
 				26D9ADDC65B7642C76C08528 /* DecorrelationStretch.swift in Sources */,
 				CD5DFC9548A36A5762B0806A /* ImagePipeline.swift in Sources */,
 				10E819E69706543858F0FDF6 /* Matrix3x3.swift in Sources */,
@@ -352,9 +368,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A8A6770D081A776C31227DB /* AnalysisControlsView.swift in Sources */,
+				E079A9202AC8C1701446DC86 /* ComparisonCanvas.swift in Sources */,
 				A33CBC4A926D4FB9E6D6CD85 /* ContentView.swift in Sources */,
 				2E1960B699DB1D983BEEC22E /* DesignSystem.swift in Sources */,
 				4E03346835B4CBCA9302F87C /* KLTImageApp.swift in Sources */,
+				E43CEBA811FC7D6CD7DA1D20 /* MetadataStrip.swift in Sources */,
 				DD695F5905932272DA68B5E6 /* WorkspaceModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4D91E24FC695DFB6ABFD890 /* AnalysisControlsTests.swift in Sources */,
 				0DE32AA093B94632B3158E78 /* KLTCoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,7 +534,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -525,7 +545,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";
@@ -643,7 +663,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -654,7 +674,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";

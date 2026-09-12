@@ -12,11 +12,16 @@ struct ContentView: View {
             comparisonToolbar
             workspace
             if let source = model.source {
-                MetadataStrip(source: source, result: model.enhanced, showsMethod: $showsMethod)
+                MetadataStrip(
+                    source: source,
+                    model: model,
+                    showsMethod: $showsMethod
+                )
             }
         }
         .background(KLTColor.surface)
         .foregroundStyle(KLTColor.inkStrong)
+        .environment(\.colorScheme, .light)
         .overlay(alignment: .bottom) {
             if let notice = model.exportNotice {
                 ExportNotice(text: notice)
@@ -45,7 +50,7 @@ struct ContentView: View {
                         .foregroundStyle(KLTColor.inkMuted)
                         .lineLimit(1)
                 } else {
-                    Text("RGB decorrelation stretch")
+                    Text("RGB and Lab decorrelation stretch")
                         .font(.plexMono(10))
                         .foregroundStyle(KLTColor.inkMuted)
                 }
@@ -59,7 +64,7 @@ struct ContentView: View {
                         .buttonStyle(SecondaryActionButtonStyle())
                         .keyboardShortcut(.cancelAction)
                         .accessibilityIdentifier("cancel-operation-button")
-                        .accessibilityHint("Stops the current local image operation")
+                        .accessibilityHint("Stops the current local file operation")
                 }
                 Button(action: model.presentOpenPanel) {
                     Label("Open Image", systemImage: "folder")
@@ -74,6 +79,7 @@ struct ContentView: View {
                 .buttonStyle(PrimaryActionButtonStyle())
                 .disabled(!model.canExport)
                 .accessibilityIdentifier("export-result-button")
+                .accessibilityHint("Exports only the current full-resolution result without the sample overlay")
             }
             .padding(.trailing, 16)
             .padding(.leading, 78)
@@ -90,20 +96,19 @@ struct ContentView: View {
                     Circle()
                         .fill(statusColor)
                         .frame(width: 7, height: 7)
-                        .shadow(color: statusColor.opacity(0.22), radius: 0, x: 0, y: 0)
                     Text(model.statusLabel.uppercased())
                         .font(.plexMono(10, weight: .semibold))
                         .tracking(0.8)
                         .foregroundStyle(KLTColor.inkMuted)
-                    Text("RGB covariance")
+                    Text(model.methodText)
                         .font(.plexSans(12, weight: .semibold))
                         .foregroundStyle(KLTColor.ink)
+                        .lineLimit(1)
                 }
                 .accessibilityElement(children: .combine)
-                .accessibilityLabel("Status: \(model.statusLabel). Method: RGB covariance.")
+                .accessibilityLabel("Status: \(model.statusLabel). Requested method: \(model.methodText).")
 
                 Spacer()
-
                 zoomControls
             }
 
@@ -115,9 +120,6 @@ struct ContentView: View {
             .pickerStyle(.segmented)
             .tint(KLTColor.accent)
             .foregroundStyle(KLTColor.inkStrong)
-            // The workspace uses a fixed light scientific palette. Keep the
-            // native control in that appearance when macOS itself is dark so
-            // unselected segment labels do not become light-on-light.
             .environment(\.colorScheme, .light)
             .padding(1)
             .background(
@@ -143,8 +145,7 @@ struct ContentView: View {
     private var zoomControls: some View {
         HStack(spacing: 4) {
             Button(action: animatedZoomOut) {
-                Image(systemName: "minus.magnifyingglass")
-                    .frame(width: 24, height: 24)
+                Image(systemName: "minus.magnifyingglass").frame(width: 24, height: 24)
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Zoom out")
@@ -157,13 +158,12 @@ struct ContentView: View {
                     .frame(width: 48)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Reset synchronized zoom")
+            .accessibilityLabel("Fit synchronized images")
             .accessibilityIdentifier("zoom-reset-button")
             .accessibilityValue("\(Int((model.zoom * 100).rounded())) percent")
 
             Button(action: animatedZoomIn) {
-                Image(systemName: "plus.magnifyingglass")
-                    .frame(width: 24, height: 24)
+                Image(systemName: "plus.magnifyingglass").frame(width: 24, height: 24)
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Zoom in")
@@ -176,15 +176,13 @@ struct ContentView: View {
 
     @ViewBuilder
     private var workspace: some View {
-        if let source = model.source {
-            ComparisonCanvas(
-                original: source.originalImage,
-                enhanced: model.enhanced?.image,
-                mode: model.comparisonMode,
-                phase: model.phase,
-                zoom: $model.zoom,
-                pan: $model.pan
-            )
+        if model.source != nil {
+            HStack(spacing: 0) {
+                AnalysisControlsView(model: model)
+                    .frame(width: 270)
+                Rectangle().fill(KLTColor.line).frame(width: 1)
+                ComparisonCanvas(model: model)
+            }
         } else {
             EmptyWorkspace(phase: model.phase, openAction: model.presentOpenPanel)
                 .dropDestination(for: URL.self) { urls, _ in
@@ -198,8 +196,8 @@ struct ContentView: View {
     private var statusColor: Color {
         switch model.phase {
         case .ready: KLTColor.success
-        case .failed: KLTColor.warning
-        case .processing, .exporting: KLTColor.accent
+        case .awaitingRegion, .invalidRegion, .failed: KLTColor.warning
+        case .processing, .importing, .exporting: KLTColor.accent
         case .empty: KLTColor.inkMuted
         }
     }
@@ -225,24 +223,30 @@ private struct EmptyWorkspace: View {
         ZStack {
             TechnicalGrid()
             VStack(spacing: 12) {
-                Image(systemName: errorMessage == nil ? "photo.on.rectangle.angled" : "exclamationmark.triangle")
-                    .font(.system(size: 31, weight: .light))
-                    .foregroundStyle(errorMessage == nil ? KLTColor.navy : KLTColor.warning)
-                    .accessibilityHidden(true)
-                Text(errorMessage == nil ? "Open a photograph to examine its color structure" : "The image did not open")
+                if phase == .importing {
+                    ProgressView().controlSize(.small)
+                } else {
+                    Image(systemName: errorMessage == nil ? "photo.on.rectangle.angled" : "exclamationmark.triangle")
+                        .font(.system(size: 31, weight: .light))
+                        .foregroundStyle(errorMessage == nil ? KLTColor.navy : KLTColor.warning)
+                        .accessibilityHidden(true)
+                }
+                Text(title)
                     .font(.plexSans(20, weight: .bold))
                     .foregroundStyle(KLTColor.inkStrong)
-                Text(errorMessage ?? "JPEG, PNG, TIFF, and HEIC are supported. You can also drop an image here.")
+                Text(message)
                     .font(.plexSans(13))
                     .foregroundStyle(KLTColor.ink)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: 520)
-                Button(action: openAction) {
-                    Label("Open Image", systemImage: "folder")
+                if phase != .importing {
+                    Button(action: openAction) {
+                        Label("Open Image", systemImage: "folder")
+                    }
+                    .buttonStyle(PrimaryActionButtonStyle())
+                    .padding(.top, 4)
+                    .accessibilityIdentifier("empty-open-image-button")
                 }
-                .buttonStyle(PrimaryActionButtonStyle())
-                .padding(.top, 4)
-                .accessibilityIdentifier("empty-open-image-button")
                 Text("Your images stay on this Mac.")
                     .font(.plexMono(10))
                     .foregroundStyle(KLTColor.inkMuted)
@@ -256,168 +260,21 @@ private struct EmptyWorkspace: View {
         guard case let .failed(message) = phase else { return nil }
         return message
     }
-}
 
-private struct ComparisonCanvas: View {
-    let original: CGImage
-    let enhanced: CGImage?
-    let mode: ComparisonMode
-    let phase: WorkspacePhase
-    @Binding var zoom: Double
-    @Binding var pan: CGSize
-
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var panAtGestureStart: CGSize?
-    @State private var zoomAtGestureStart: Double?
-
-    var body: some View {
-        ZStack {
-            TechnicalGrid()
-            Group {
-                switch mode {
-                case .original:
-                    ImagePane(image: original, label: "Original", accent: false, zoom: zoom, pan: pan)
-                case .enhanced:
-                    ResultPane(image: enhanced, phase: phase, zoom: zoom, pan: pan)
-                case .split:
-                    HStack(spacing: 0) {
-                        ImagePane(image: original, label: "Original", accent: false, zoom: zoom, pan: pan)
-                        Rectangle().fill(KLTColor.divider).frame(width: 1)
-                        ResultPane(image: enhanced, phase: phase, zoom: zoom, pan: pan)
-                    }
-                }
-            }
-            .transition(.opacity)
-        }
-        .contentShape(Rectangle())
-        .simultaneousGesture(panGesture)
-        .simultaneousGesture(magnifyGesture)
-        .onTapGesture(count: 2) {
-            withAnimation(reduceMotion ? nil : .easeOut(duration: 0.18)) {
-                zoom = 1
-                pan = .zero
-            }
-        }
-        .animation(reduceMotion ? nil : .easeOut(duration: 0.18), value: mode)
-        .clipped()
-        .accessibilityHint("Drag to pan, pinch to zoom, or double-click to fit")
+    private var title: String {
+        if phase == .importing { return "Reading image" }
+        return errorMessage == nil
+            ? "Open a photograph to examine its color structure"
+            : "The image did not open"
     }
 
-    private var panGesture: some Gesture {
-        DragGesture(minimumDistance: 2)
-            .onChanged { value in
-                if panAtGestureStart == nil { panAtGestureStart = pan }
-                guard let start = panAtGestureStart else { return }
-                pan = CGSize(width: start.width + value.translation.width, height: start.height + value.translation.height)
-            }
-            .onEnded { _ in panAtGestureStart = nil }
-    }
-
-    private var magnifyGesture: some Gesture {
-        MagnifyGesture()
-            .onChanged { value in
-                if zoomAtGestureStart == nil { zoomAtGestureStart = zoom }
-                guard let start = zoomAtGestureStart else { return }
-                zoom = min(8, max(0.25, start * value.magnification))
-            }
-            .onEnded { _ in zoomAtGestureStart = nil }
+    private var message: String {
+        if phase == .importing { return "Preparing the unchanged source for local analysis." }
+        return errorMessage ?? "JPEG, PNG, TIFF, and HEIC are supported. You can also drop an image here."
     }
 }
 
-private struct ImagePane: View {
-    let image: CGImage
-    let label: String
-    let accent: Bool
-    let zoom: Double
-    let pan: CGSize
-
-    var body: some View {
-        GeometryReader { proxy in
-            let available = CGSize(width: max(1, proxy.size.width - 48), height: max(1, proxy.size.height - 48))
-            let imageSize = CGSize(width: image.width, height: image.height)
-            let fitScale = min(available.width / imageSize.width, available.height / imageSize.height)
-
-            ZStack(alignment: .topLeading) {
-                Image(decorative: image, scale: 1)
-                    .resizable()
-                    .interpolation(.high)
-                    .frame(width: imageSize.width * fitScale * zoom, height: imageSize.height * fitScale * zoom)
-                    .offset(pan)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .shadow(color: KLTColor.navy.opacity(0.16), radius: 12, y: 8)
-
-                PaneLabel(text: label, accent: accent)
-                    .padding(14)
-            }
-            .clipped()
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel("\(label) image pane")
-            .accessibilityValue("\(image.width) by \(image.height) pixels at \(Int((zoom * 100).rounded())) percent zoom")
-        }
-    }
-}
-
-private struct ResultPane: View {
-    let image: CGImage?
-    let phase: WorkspacePhase
-    let zoom: Double
-    let pan: CGSize
-
-    var body: some View {
-        if let image {
-            ImagePane(image: image, label: "Enhanced", accent: true, zoom: zoom, pan: pan)
-        } else {
-            ZStack(alignment: .topLeading) {
-                VStack(spacing: 10) {
-                    if case .processing = phase {
-                        ProgressView()
-                            .controlSize(.small)
-                        Text("Calculating color components")
-                            .font(.plexSans(13, weight: .semibold))
-                        Text("RGB covariance · whole image · local only")
-                            .font(.plexMono(10))
-                            .foregroundStyle(KLTColor.inkMuted)
-                    } else if case let .failed(message) = phase {
-                        Image(systemName: "exclamationmark.triangle")
-                            .foregroundStyle(KLTColor.warning)
-                            .accessibilityHidden(true)
-                        Text(message)
-                            .font(.plexSans(13, weight: .semibold))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: 420)
-                    }
-                }
-                .foregroundStyle(KLTColor.ink)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                PaneLabel(text: "Enhanced", accent: true).padding(14)
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("Enhanced image pane")
-        }
-    }
-}
-
-private struct PaneLabel: View {
-    let text: String
-    let accent: Bool
-
-    var body: some View {
-        HStack(spacing: 7) {
-            Circle().fill(accent ? KLTColor.accent : KLTColor.inkMuted).frame(width: 6, height: 6)
-            Text(text).font(.plexSans(11, weight: .bold))
-        }
-        .padding(.horizontal, 9)
-        .frame(height: 28)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 7, style: .continuous)
-                .stroke(accent ? KLTColor.accent.opacity(0.44) : KLTColor.divider.opacity(0.58), lineWidth: 1)
-        )
-        .shadow(color: KLTColor.navy.opacity(0.10), radius: 5, y: 3)
-    }
-}
-
-private struct TechnicalGrid: View {
+struct TechnicalGrid: View {
     var body: some View {
         Canvas { context, size in
             context.fill(Path(CGRect(origin: .zero, size: size)), with: .color(KLTColor.canvas))
@@ -441,135 +298,6 @@ private struct TechnicalGrid: View {
     }
 }
 
-private struct MetadataStrip: View {
-    let source: DecodedImage
-    let result: EnhancedImage?
-    @Binding var showsMethod: Bool
-
-    var body: some View {
-        HStack(spacing: 0) {
-            metadataGroup(title: "SOURCE") {
-                Text("\(source.width) × \(source.height) pixels")
-                    .font(.plexSans(12, weight: .semibold))
-                Text("\(source.sourceFormatName) · 8-bit RGB · converted to sRGB")
-                    .font(.plexSans(11))
-                    .foregroundStyle(KLTColor.inkMuted)
-            }
-            .frame(maxWidth: .infinity)
-
-            Divider().overlay(KLTColor.line)
-
-            metadataGroup(title: "METHOD") {
-                HStack(spacing: 7) {
-                    Text("Whole-image covariance")
-                        .font(.plexSans(12, weight: .semibold))
-                    Button {
-                        showsMethod.toggle()
-                    } label: {
-                        Image(systemName: "info.circle")
-                            .font(.system(size: 13, weight: .semibold))
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(KLTColor.ink)
-                    .accessibilityLabel("Show RGB covariance method details")
-                    .accessibilityIdentifier("method-details-button")
-                    .popover(isPresented: $showsMethod, arrowEdge: .bottom) {
-                        MethodPopover(result: result)
-                    }
-                }
-                Text(stabilityText)
-                    .font(.plexSans(11))
-                    .foregroundStyle(KLTColor.inkMuted)
-            }
-            .frame(maxWidth: .infinity)
-
-            Divider().overlay(KLTColor.line)
-
-            HStack(alignment: .top, spacing: 12) {
-                Image(systemName: "info.circle.fill")
-                    .foregroundStyle(KLTColor.accentPressed)
-                    .frame(width: 24, height: 24)
-                    .background(KLTColor.accentSoft, in: RoundedRectangle(cornerRadius: 7))
-                    .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Exploratory enhancement")
-                        .font(.plexSans(12, weight: .semibold))
-                    Text("Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.")
-                        .font(.plexSans(11))
-                        .foregroundStyle(KLTColor.inkMuted)
-                        .lineLimit(2)
-                }
-            }
-            .padding(.horizontal, 24)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("Exploratory enhancement. Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.")
-        }
-        .frame(height: 94)
-        .background(KLTColor.surfaceRaised)
-        .overlay(alignment: .top) { Divider().overlay(KLTColor.line) }
-    }
-
-    private func metadataGroup<Content: View>(
-        title: String,
-        @ViewBuilder content: () -> Content
-    ) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title)
-                .font(.plexMono(10, weight: .semibold))
-                .tracking(0.8)
-                .foregroundStyle(KLTColor.inkMuted)
-            content()
-        }
-        .padding(.horizontal, 24)
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private var stabilityText: String {
-        guard let result else { return "Calculating component stability" }
-        if let notice = result.notice { return notice }
-        return "\(result.analysis.stableComponentCount) stable components · deterministic result"
-    }
-}
-
-private struct MethodPopover: View {
-    let result: EnhancedImage?
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("RGB covariance stretch")
-                .font(.plexSans(18, weight: .bold))
-            Text("The image is rotated into its principal color components, stable component variances are equalized, then the colors are mapped back to RGB. The source remains unchanged.")
-                .font(.plexSans(12))
-                .foregroundStyle(KLTColor.ink)
-                .fixedSize(horizontal: false, vertical: true)
-            Divider()
-            methodRow("Sample", "Whole image")
-            methodRow("Color space", "sRGB")
-            methodRow("Matrix", "Covariance 3 × 3")
-            methodRow("Stable components", result.map { String($0.analysis.stableComponentCount) } ?? "Calculating")
-            methodRow("Processing", "Local only")
-            Text("Alpha is preserved but is not included as a color component.")
-                .font(.plexSans(11))
-                .foregroundStyle(KLTColor.inkMuted)
-                .padding(.top, 2)
-        }
-        .padding(18)
-        .frame(width: 360)
-        .background(KLTColor.surfaceRaised)
-        .accessibilityElement(children: .contain)
-    }
-
-    private func methodRow(_ name: String, _ value: String) -> some View {
-        HStack {
-            Text(name).foregroundStyle(KLTColor.inkMuted)
-            Spacer()
-            Text(value).font(.plexMono(11))
-        }
-        .font(.plexSans(11))
-    }
-}
-
 private struct ExportNotice: View {
     let text: String
 
@@ -587,22 +315,18 @@ private struct ExportNotice: View {
 
 #if DEBUG
 #Preview("Loaded comparison") {
-    ContentView(model: .previewReady())
-        .frame(width: 1_220, height: 780)
+    ContentView(model: .previewReady()).frame(width: 1_220, height: 780)
 }
 
 #Preview("Processing") {
-    ContentView(model: .previewProcessing())
-        .frame(width: 1_220, height: 780)
+    ContentView(model: .previewProcessing()).frame(width: 1_220, height: 780)
 }
 
 #Preview("Import error") {
-    ContentView(model: .previewFailure())
-        .frame(width: 1_220, height: 780)
+    ContentView(model: .previewFailure()).frame(width: 1_220, height: 780)
 }
 
 #Preview("Empty workspace") {
-    ContentView(model: WorkspaceModel())
-        .frame(width: 1_220, height: 780)
+    ContentView(model: WorkspaceModel()).frame(width: 1_220, height: 780)
 }
 #endif

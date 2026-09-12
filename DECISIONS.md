@@ -38,9 +38,9 @@
 
 **Decision:** Every newly published macOS package, including a private tailnet release, must be Developer ID-signed, Apple-notarized, stapled, and accepted by Gatekeeper when quarantined. Ad-hoc signing is limited to local development and is not a release path.
 
-**Rationale:** Download quarantine and Gatekeeper apply independently of audience size. Build 3's valid ad-hoc seal protected integrity but could not authenticate the publisher or carry a notarization ticket, causing the normal “move to Trash” rejection.
+**Rationale:** Download quarantine and Gatekeeper apply independently of audience size. Build 3 was built with Xcode signing disabled, then ad-hoc signed without a secure timestamp; release checks accepted its internal seal even though Gatekeeper rejected it. GitHub's v1.0.0 build 2 was also ad-hoc signed, unnotarized, and rejected by Gatekeeper, so there was no older trusted release to regress from—older copies likely opened without quarantine or with a local exception.
 
-**Implications:** Release automation must fail on signing identity, team, timestamp, hardened-runtime, entitlement, architecture, version, notarization, ticket, checksum, or Gatekeeper mismatches. Packaging happens only after stapling, and quarantine removal is never an acceptance workaround. This trust decision does not remove the existing QA evidence debt or approve broad public distribution.
+**Implications:** Release automation must fail on signing identity, team, timestamp, hardened-runtime, entitlement, architecture, version, notarization, ticket, checksum, or Gatekeeper mismatches. The release ZIP and checksum must keep unmistakably pending names until the independent verifier accepts them; only then may same-volume renames expose final names. A failed verifier may retain pending diagnostics but must leave no final-looking artifact. Quarantine removal is never an acceptance workaround. This trust decision does not remove the existing QA evidence debt or approve broad public distribution.
 
 ## Publish verified Build 4 on the private tailnet — 2026-09-12
 

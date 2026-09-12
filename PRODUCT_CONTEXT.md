@@ -23,7 +23,7 @@ KLT Image is a native Mac scientific-imaging tool for revealing subtle color str
 - The independently testable `KLTCore` framework owns numerical and image-processing behavior; the app target owns presentation and native file workflows.
 - There is no backend, database, account system, persistence layer, or network path.
 - Full-frame processing has a fixed 64-million-pixel ceiling; larger images require a future tiled or out-of-core pipeline.
-- Developer ID-signed, notarized, and stapled Build 4 is the advertised private-tailnet release; its exact served ZIP passed checksum, quarantine, Gatekeeper, and launch verification. The affected Build 3 package remains hosted only as an unadvertised rollback artifact. Broad public distribution remains unapproved because the existing QA evidence debt is unchanged.
+- Developer ID-signed, Apple-notarized, and stapled Build 4 is live as the only trusted, advertised private-tailnet release; its exact served ZIP passed checksum, quarantine, Gatekeeper, and launch verification. The affected Build 3 package remains hosted only as an unadvertised rollback artifact. Broad public distribution remains unapproved because the existing QA evidence debt is unchanged.
 
 ## Deferred Scope
 

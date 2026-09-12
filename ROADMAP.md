@@ -24,3 +24,4 @@ This is a living document. It reflects the current best thinking on what to buil
 - Saved and reusable transformation matrices.
 - Batch processing.
 - Tiled or out-of-core processing for images above 64 megapixels.
+- Narrow the tailnet static server's document root from the repository root to published release artifacts only.

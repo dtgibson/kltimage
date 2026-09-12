@@ -25,4 +25,5 @@
 - Build a universal Release app and embed an unambiguous marketing version and build number.
 - Sign the embedded `KLTCore.framework` before the containing app with the required Developer ID identity, hardened runtime, secure timestamps, and only `KLTImage/KLTImage.entitlements`.
 - Notarization acceptance, stapling, ticket validation, and quarantined Gatekeeper acceptance as `Notarized Developer ID` are mandatory before packaging or publication. Never remove quarantine as a workaround.
+- Keep the release ZIP and checksum under unmistakably pending names until the independent verifier succeeds. Verification failure may retain pending diagnostics but must leave no final-named artifact; promote final names only with same-volume renames after acceptance.
 - Verify the final ZIP with `scripts/verify-macos-release.sh` and a separately recorded SHA-256. Reject unexpected identity/team, architectures, versions, entitlements, or `get-task-allow`.

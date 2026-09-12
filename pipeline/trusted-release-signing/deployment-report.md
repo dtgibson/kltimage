@@ -28,6 +28,7 @@ The user explicitly confirmed the production deployment after the superseding QA
 
 - Build 4 was copied into `releases/` under its distinct versioned filename and atomically promoted from a temporary local name. Build 3 was not overwritten or removed.
 - The existing Tailscale Serve route remained tailnet-only and unchanged: `/kltimage-preview` proxies to the local static server at `127.0.0.1:8786`.
+- The releases index and project documentation now advertise only Build 4. Build 3's direct versioned object remains available solely for rollback.
 - A fresh tailnet download returned HTTP 200, `application/zip`, content length 1,582,664 bytes, and the exact expected SHA-256.
 - `scripts/verify-macos-release.sh` verified the downloaded ZIP's universal architectures, bundle versions and identifiers, strict nested and app signatures, Developer ID identity and Team ID, hardened runtime, secure timestamps, exact entitlements, and absence of `get-task-allow`.
 - The downloaded app's notarization ticket passed `stapler validate`. A clean extracted copy retained an applied quarantine attribute and Gatekeeper accepted it with `source=Notarized Developer ID`.

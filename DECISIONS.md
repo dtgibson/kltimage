@@ -31,3 +31,11 @@
 **Rationale:** Core verification and security review found no open product defect, but 22 QA criteria retain evidence gaps across UI automation, VoiceOver, platform/runtime coverage, cancellation workflows, and dynamic privacy checks.
 
 **Implications:** Public distribution requires closing the accepted evidence debt and producing a Developer ID-signed, notarized artifact without development entitlements, followed by verification of the exact package.
+
+## Require trusted signing for every downloadable build — 2026-09-12
+
+**Decision:** Every newly published macOS package, including a private tailnet release, must be Developer ID-signed, Apple-notarized, stapled, and accepted by Gatekeeper when quarantined. Ad-hoc signing is limited to local development and is not a release path.
+
+**Rationale:** Download quarantine and Gatekeeper apply independently of audience size. Build 3's valid ad-hoc seal protected integrity but could not authenticate the publisher or carry a notarization ticket, causing the normal “move to Trash” rejection.
+
+**Implications:** Release automation must fail on signing identity, team, timestamp, hardened-runtime, entitlement, architecture, version, notarization, ticket, checksum, or Gatekeeper mismatches. Packaging happens only after stapling, and quarantine removal is never an acceptance workaround. This trust decision does not remove the existing QA evidence debt or approve broad public distribution.

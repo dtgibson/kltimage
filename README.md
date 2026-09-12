@@ -11,9 +11,7 @@ KLT Image supports RGB or Lab processing, covariance or correlation analysis, an
 
 ## Download
 
-The current 1.1.0 build 3 package is available privately to members of the project's tailnet: [Download KLT Image](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-3.zip).
-
-The package is intended for private/local use. It is ad-hoc signed and sandboxed, but it is not Developer ID-signed or notarized by Apple, so macOS may ask you to confirm that you want to open it. If you do not have tailnet access, build the app from source in Xcode.
+The previously advertised 1.1.0 build 3 tailnet package is ad-hoc signed, is not notarized, and is rejected by Gatekeeper after a normal download. Do not bypass the warning or remove quarantine. A Developer ID-signed and notarized 1.1.0 build 4 replacement is being prepared; until it is explicitly approved and published, build the app from source in Xcode.
 
 ## What it does
 
@@ -64,7 +62,7 @@ Open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and
 To run the tests from a terminal:
 
 ```sh
-xcodebuild \
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild \
   -project KLTImage.xcodeproj \
   -scheme KLTImage \
   -configuration Debug \
@@ -78,7 +76,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.1.0 build 3 is available for private/local use through the project's tailnet. Broad public distribution remains unapproved until the documented verification gaps are closed and a Developer ID-signed, notarized package is produced. The next planned feature is reproducible analysis with recorded settings and exported transformation data.
+Version 1.1.0 build 4 is the pending unambiguous replacement for affected build 3. It must pass the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks before private publication. Broad public distribution remains unapproved until the documented QA evidence gaps are closed. The next planned feature is reproducible analysis with recorded settings and exported transformation data.
 
 ## License
 

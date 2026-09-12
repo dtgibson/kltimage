@@ -8,6 +8,13 @@
     "frontend": "SwiftUI",
     "componentLibrary": "Native SwiftUI controls",
     "nativeIntegration": "AppKit",
+    "testRunner": "XCTest via xcodebuild",
+    "cicd": "manual local signed release, notarization, and independent verification; no GitHub Actions workflow",
+    "environments": {
+      "dev": "local Xcode/source checkout",
+      "staging": null,
+      "prod": "tailnet-only Tailscale Serve route /kltimage-preview, proxied to 127.0.0.1:8786"
+    },
     "imageProcessing": [
       "Accelerate",
       "Core Graphics",
@@ -16,7 +23,19 @@
     "backend": null,
     "database": null
   },
-  "deployment": null,
+  "repoURL": "https://github.com/dtgibson/kltimage",
+  "repoProvider": "github",
+  "deploymentTarget": "versioned macOS ZIPs over the existing tailnet-only Tailscale Serve route",
+  "deployment": {
+    "branch": "main",
+    "visibility": "tailnet-only",
+    "baseURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview",
+    "artifactDirectory": "/Users/developer/devwork/kltimage/releases",
+    "serveRoute": "/kltimage-preview",
+    "serveProxy": "http://127.0.0.1:8786",
+    "releasePolicy": "publish each approved build at a distinct versioned path and update advertised links only after the served bytes pass independent release verification",
+    "rollback": "restore the pre-deployment source-only guidance and remove only the failed new build; preserve Build 3 unchanged but do not advertise it as trusted"
+  },
   "createdAt": "2026-09-11T02:22:22Z",
-  "updatedAt": "2026-09-11T02:22:22Z"
+  "updatedAt": "2026-09-12T17:26:18Z"
 }

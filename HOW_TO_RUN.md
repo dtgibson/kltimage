@@ -1,10 +1,8 @@
 ## Using KLT Image locally
 
-If you have access to the project's tailnet, download the private [KLT Image 1.1.0 build 3 package](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-3.zip), unzip it, and double-click **KLT Image**. The universal app runs on Apple silicon and Intel Macs without Xcode.
+The currently hosted private [KLT Image 1.1.0 build 3 package](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-3.zip) is a known-bad release artifact: it is ad-hoc signed, has no notarization ticket, and is rejected by Gatekeeper after a normal download. Do not remove quarantine or bypass the warning. Build 3 remains hosted only until its notarized Build 4 replacement is explicitly approved for publication.
 
-The package is approved for private/local use only. It is ad-hoc signed and sandboxed, but it is not Developer ID-signed or notarized. macOS may ask you to confirm that you want to open it.
-
-To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and `My Mac`, and press Command-R.
+For now, run from source: open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and `My Mac`, and press Command-R.
 
 1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Processing starts with RGB, Covariance, and Whole image selected, and stays on your Mac. Larger images are rejected before full-resolution decoding with a readable size-limit message.
 
@@ -23,3 +21,44 @@ To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the `
 8. Press Command-U in Xcode to run the numerical, image-format, analysis-control, and interface automation checks.
 
 What to look for: method and sample labels should always describe the displayed result; invalid or superseded requests must keep export disabled; both Split panes should stay aligned; the original must remain unchanged; and exported dimensions must match the source.
+
+## Preparing a trusted macOS release
+
+Build 4 uses a fail-closed release process. It requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and a validated notarytool Keychain profile. Store the profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun notarytool store-credentials "kltimage-release"
+```
+
+At the secure prompts, enter the Developer Apple ID, its app-specific password, and Team ID `8QKC3L2FKP`.
+
+Then create the candidate in a temporary directory:
+
+```sh
+./scripts/release-macos.sh --notary-profile kltimage-release
+```
+
+The same script also supports an App Store Connect Team API key without reading or printing its contents:
+
+```sh
+./scripts/release-macos.sh \
+  --notary-key /secure/path/AuthKey_KEYID.p8 \
+  --notary-key-id KEYID \
+  --notary-issuer ISSUER_UUID
+```
+
+The script builds a universal Release app, signs the nested framework before the app, validates the identity, Team ID, timestamps, hardened runtime, version, architectures, and exact entitlements, waits for Apple notarization, and staples and validates the ticket. It creates only unmistakably pending archive/checksum names while an independent verification copy is extracted, quarantined, and required to pass Gatekeeper as `source=Notarized Developer ID`. Only then are both files atomically promoted to final release names. Any failed check stops the release while preserving the staged app and pending diagnostics, with no final-named ZIP.
+
+Exercise that final boundary without building or notarizing:
+
+```sh
+./scripts/release-macos.sh --self-test-promotion
+```
+
+After copying or downloading an artifact, verify it against its separately recorded SHA-256:
+
+```sh
+./scripts/verify-macos-release.sh /path/to/KLT-Image-1.1.0-build-4.zip EXPECTED_SHA256
+```
+
+This verification never removes quarantine. Publishing remains a separate, explicitly approved deployment step, and the existing private-only QA caveats still apply.

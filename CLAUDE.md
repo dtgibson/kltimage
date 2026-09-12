@@ -21,7 +21,8 @@
 
 ## Release Packaging
 
-- Build a universal Release app and embed both marketing version and build number.
-- For an ad-hoc package, sign the embedded `KLTCore.framework` first, then sign the app with `KLTImage/KLTImage.entitlements`.
-- Before publishing a ZIP, verify archive integrity, strict deep code-signature validity, embedded sandbox entitlements, bundle version, build number, and SHA-256 checksum.
-- Treat ad-hoc, unnotarized packages as private/local only; broad public distribution requires Developer ID signing, notarization, and a final artifact without `get-task-allow`.
+- Every downloadable build, including a private tailnet build, must use `scripts/release-macos.sh`; ad-hoc signing is not a distributable release path.
+- Build a universal Release app and embed an unambiguous marketing version and build number.
+- Sign the embedded `KLTCore.framework` before the containing app with the required Developer ID identity, hardened runtime, secure timestamps, and only `KLTImage/KLTImage.entitlements`.
+- Notarization acceptance, stapling, ticket validation, and quarantined Gatekeeper acceptance as `Notarized Developer ID` are mandatory before packaging or publication. Never remove quarantine as a workaround.
+- Verify the final ZIP with `scripts/verify-macos-release.sh` and a separately recorded SHA-256. Reject unexpected identity/team, architectures, versions, entitlements, or `get-task-allow`.

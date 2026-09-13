@@ -7,6 +7,7 @@ KLT Image is a native Mac scientific-imaging tool for revealing subtle color str
 ## Current Capabilities
 
 - **Interactive decorrelation-stretch workflow:** Opens JPEG, PNG, TIFF, and HEIC images; combines RGB or CIE Lab D65 processing with covariance or correlation analysis and whole-image or single-rectangle statistical sampling; compares Original, Split, and Enhanced views; and exports full-resolution PNG, TIFF, or JPEG results.
+- **Reproducible analysis:** Keeps an immutable record for the exact current result, exposes its decoded-source fingerprint, request, sampling geometry, statistics, eigensystem, transform, and output mapping, and exports the record as deterministic versioned JSON.
 
 ## Scientific Behavior
 
@@ -23,10 +24,11 @@ KLT Image is a native Mac scientific-imaging tool for revealing subtle color str
 - The independently testable `KLTCore` framework owns numerical and image-processing behavior; the app target owns presentation and native file workflows.
 - There is no backend, database, account system, persistence layer, or network path.
 - Full-frame processing has a fixed 64-million-pixel ceiling; larger images require a future tiled or out-of-core pipeline.
-- Developer ID-signed, Apple-notarized, and stapled Build 4 is live as the only trusted, advertised private-tailnet release; its exact served ZIP passed checksum, quarantine, Gatekeeper, and launch verification. The affected Build 3 package remains hosted only as an unadvertised rollback artifact. Broad public distribution remains unapproved because the existing QA evidence debt is unchanged.
+- Developer ID-signed, Apple-notarized, and stapled KLT Image 1.2.0 build 5 is the current release through public GitHub Releases and a tailnet-only Tailscale mirror; both channels serve the same independently verified ZIP, with Build 4 retained as the trusted rollback artifact.
 
 ## Deferred Scope
 
-- Exported transform data and reproducible quantitative analysis.
+- In-app analysis history or projects, imported or reapplied transforms, and built-in multi-record comparison, charting, or aggregation.
 - Tiled or out-of-core processing for images above 64 megapixels.
 - Custom color spaces, saved transforms, and batch processing.
+- Opening a replacement image while another is loaded remains a separately tracked Fix.

@@ -57,3 +57,11 @@
 **Rationale:** Reproducible Analysis passed all 43 Debug tests, all 44 Release tests, all 17 acceptance criteria, and a zero-finding security review. Fresh downloads from both production channels matched the approved candidate byte-for-byte, passed the independent release verifier, and launched through App Translocation with quarantine retained.
 
 **Implications:** GitHub Releases is the public primary download and the existing Tailscale route remains a tailnet-only mirror without configuration changes. Rollback removes the Build 5 advertisement and hosted assets and restores Build 4; copies already downloaded cannot be recalled.
+
+## Make reproducibility a versioned, local analysis protocol — 2026-09-12
+
+**Decision:** Every accepted enhancement owns an immutable analysis record bound to the decoded, oriented source fingerprint and the exact source, request, and processing job; users can inspect that snapshot and explicitly export it as canonical version-1 JSON, while history, record import, and transform replay remain out of scope.
+
+**Rationale:** Interactive color-space, matrix, and sampling choices make visually similar results ambiguous unless the app preserves the exact numerical inputs and applied output path without reconstructing them from mutable controls.
+
+**Implications:** Future record versions must preserve result currency, deterministic protocol compatibility, finite values, explicit user-directed local export, and the exploratory-use boundary. Persistent projects, comparisons, imported records, or reusable transforms require separately designed capabilities rather than silent extensions to version 1.

@@ -43,6 +43,12 @@ Users can export the accepted snapshot as canonical version-1 JSON. Repeated exp
 - Pair every accepted enhancement and analysis record in one immutable, job-identified workspace snapshot so inspection and export cannot reconstruct scientific values from mutable controls.
 - Treat the versioned analysis JSON as a protocol contract with dedicated DTOs, sorted keys, explicit nulls, finite-value validation, and golden-byte coverage.
 
+## Release candidate
+
+- Versioned as KLT Image 1.2.0 build 5 so Reproducible Analysis cannot be confused with the currently published 1.1.0 build 4 artifact.
+- Uses the required universal Developer ID signing, Apple notarization, stapling, quarantined Gatekeeper, checksum, and independent-verification release path.
+- Production publication remains a separate, explicitly confirmed action; the existing tailnet download and advertised link are unchanged during candidate preparation.
+
 ## Trusted release signing fix
 
 ### What changed

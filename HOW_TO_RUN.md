@@ -32,7 +32,7 @@ Current source verification passes the complete Debug and Release suites: 43/43 
 
 ## Preparing a trusted macOS release
 
-Build 4 uses a fail-closed release process. It requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and a validated notarytool Keychain profile. Store the profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
+The 1.2.0 build 5 candidate uses the same fail-closed release process as the current trusted build. It requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and a validated notarytool Keychain profile. Store the profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
 
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun notarytool store-credentials "kltimage-release"
@@ -66,7 +66,7 @@ Exercise that final boundary without building or notarizing:
 After copying or downloading an artifact, verify it against its separately recorded SHA-256:
 
 ```sh
-./scripts/verify-macos-release.sh /path/to/KLT-Image-1.1.0-build-4.zip EXPECTED_SHA256
+./scripts/verify-macos-release.sh /path/to/KLT-Image-1.2.0-build-5.zip EXPECTED_SHA256
 ```
 
-This verification never removes quarantine. Publishing remains a separate, explicitly approved deployment step, and the existing private-only QA caveats still apply.
+This verification never removes quarantine. Publishing remains a separate, explicitly approved deployment step.

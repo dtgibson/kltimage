@@ -11,11 +11,11 @@ KLT Image supports RGB or Lab processing, covariance or correlation analysis, an
 
 ## Download
 
-KLT Image 1.1.0 build 4 is available privately to members of the project's tailnet: [Download KLT Image](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-4.zip).
+Download KLT Image 1.2.0 build 5 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.2.0/KLT-Image-1.2.0-build-5.zip). Members of the project's tailnet can also use the [private Tailscale mirror](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.2.0-build-5.zip).
 
-SHA-256: `4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442`
+SHA-256: `66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa`
 
-Build 4 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, and stapled. The affected ad-hoc-signed Build 3 remains hosted only as an unadvertised rollback artifact and should not be used.
+Build 5 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. Trusted Build 4 remains available as an unadvertised rollback artifact.
 
 ## What it does
 
@@ -25,6 +25,8 @@ Build 4 is a universal Apple silicon and Intel app signed with Developer ID, not
 - Supports covariance or correlation analysis
 - Uses either whole-image statistics or one rectangular source-pixel sample
 - Applies a region-derived transform to the complete image rather than cropping or masking it
+- Creates an immutable analysis record for the exact source, settings, statistics, and transform behind each current result
+- Exports deterministic, versioned analysis JSON for archiving and external comparison
 - Preserves the original image for visual comparison
 - Synchronizes zoom and pan in Split view
 - Exports full-resolution PNG, TIFF, or JPEG results
@@ -34,7 +36,7 @@ Build 4 is a universal Apple silicon and Intel app signed with Developer ID, not
 
 ## Using the app
 
-Open a photograph and processing begins with RGB, Covariance, and Whole image selected. Choose another color space or matrix mode to recalculate from the unchanged source, or choose Selected region and draw a rectangle over the source pane or enter exact source-pixel bounds. Switch among Original, Split, and Enhanced to compare the result, use the information button to inspect the active method and stability result, and choose Export Result to write the current full-resolution enhancement without changing the source file.
+Open a photograph and processing begins with RGB, Covariance, and Whole image selected. Choose another color space or matrix mode to recalculate from the unchanged source, or choose Selected region and draw a rectangle over the source pane or enter exact source-pixel bounds. Switch among Original, Split, and Enhanced to compare the result, use Analysis Record to inspect the exact source fingerprint, settings, matrices, eigensystem, transform, and output mapping, and use Export JSON to save its deterministic sidecar. Choose Export Result to write the current full-resolution enhancement without changing the source file.
 
 Higher-resolution and lossless sources usually produce cleaner results. The transform can amplify compression blocks, sensor noise, and other small variations along with the color structure you want to study.
 
@@ -80,7 +82,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.1.0 build 4 is published on the private tailnet and has passed the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, Gatekeeper, and launch checks. Broad public distribution remains unapproved until the documented QA evidence gaps are closed. The next planned feature is reproducible analysis with recorded settings and exported transformation data.
+Version 1.2.0 build 5 is published on GitHub Releases and the private tailnet mirror. Both downloads match the recorded SHA-256 and pass the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, Gatekeeper, and launch checks. Reproducible Analysis passed the complete Debug and Release suites and a zero-finding security review before deployment.
 
 ## License
 

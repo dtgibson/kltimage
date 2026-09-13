@@ -43,11 +43,11 @@ Users can export the accepted snapshot as canonical version-1 JSON. Repeated exp
 - Pair every accepted enhancement and analysis record in one immutable, job-identified workspace snapshot so inspection and export cannot reconstruct scientific values from mutable controls.
 - Treat the versioned analysis JSON as a protocol contract with dedicated DTOs, sorted keys, explicit nulls, finite-value validation, and golden-byte coverage.
 
-## Release candidate
+## Deployment
 
-- Versioned as KLT Image 1.2.0 build 5 so Reproducible Analysis cannot be confused with the currently published 1.1.0 build 4 artifact.
-- Uses the required universal Developer ID signing, Apple notarization, stapling, quarantined Gatekeeper, checksum, and independent-verification release path.
-- Production publication remains a separate, explicitly confirmed action; the existing tailnet download and advertised link are unchanged during candidate preparation.
+- KLT Image 1.2.0 build 5 is published through [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.2.0) and the existing [tailnet-only Tailscale route](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.2.0-build-5.zip).
+- Both channels serve the identical 2,032,693-byte ZIP with SHA-256 `66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa`.
+- Fresh downloads from both channels passed the independent universal-architecture, Developer ID, notarization, stapling, quarantine, Gatekeeper, and launch checks. Trusted Build 4 remains unchanged as the rollback artifact.
 
 ## Trusted release signing fix
 

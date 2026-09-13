@@ -13,7 +13,7 @@
     "environments": {
       "dev": "local Xcode/source checkout",
       "staging": null,
-      "prod": "tailnet-only Tailscale Serve route /kltimage-preview, proxied to 127.0.0.1:8786"
+      "prod": "public GitHub Release plus tailnet-only Tailscale Serve mirror /kltimage-preview, proxied to 127.0.0.1:8786"
     },
     "imageProcessing": [
       "Accelerate",
@@ -25,30 +25,33 @@
   },
   "repoURL": "https://github.com/dtgibson/kltimage",
   "repoProvider": "github",
-  "deploymentTarget": "versioned macOS ZIPs over the existing tailnet-only Tailscale Serve route",
+  "deploymentTarget": "versioned macOS ZIPs through GitHub Releases and the existing tailnet-only Tailscale Serve mirror",
   "deployment": {
     "branch": "main",
-    "visibility": "tailnet-only",
+    "visibility": "public GitHub release plus tailnet-only Tailscale mirror",
     "baseURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview",
+    "githubReleaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.2.0",
     "artifactDirectory": "/Users/developer/devwork/kltimage/releases",
     "serveRoute": "/kltimage-preview",
     "serveProxy": "http://127.0.0.1:8786",
     "currentRelease": {
-      "version": "1.1.0",
-      "build": "4",
-      "url": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-4.zip",
-      "sha256": "4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442"
+      "version": "1.2.0",
+      "build": "5",
+      "url": "https://github.com/dtgibson/kltimage/releases/download/v1.2.0/KLT-Image-1.2.0-build-5.zip",
+      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.2.0/KLT-Image-1.2.0-build-5.zip",
+      "tailscaleURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.2.0-build-5.zip",
+      "sha256": "66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa"
     },
     "rollbackArtifact": {
       "version": "1.1.0",
-      "build": "3",
-      "artifact": "releases/KLT-Image-1.1.0-build-3.zip",
-      "sha256": "011ad363f46f9b9d81a6be3aeb936de1f692ed19fcc63e2ad0ba0207c353db7a",
+      "build": "4",
+      "artifact": "releases/KLT-Image-1.1.0-build-4.zip",
+      "sha256": "4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442",
       "advertised": false
     },
-    "releasePolicy": "publish each approved build at a distinct versioned path and update advertised links only after the served bytes pass independent release verification",
-    "rollback": "restore the pre-deployment source-only guidance and remove only the failed new build; preserve Build 3 unchanged but do not advertise it as trusted"
+    "releasePolicy": "publish each approved build at distinct versioned GitHub and tailnet paths and update advertised links only after both served copies pass independent release verification",
+    "rollback": "restore trusted Build 4 as the advertised release and remove only Build 5 from GitHub Releases and the tailnet mirror; already-downloaded copies cannot be recalled"
   },
   "createdAt": "2026-09-11T02:22:22Z",
-  "updatedAt": "2026-09-12T18:09:32Z"
+  "updatedAt": "2026-09-13T03:54:25Z"
 }

@@ -49,3 +49,11 @@
 **Rationale:** The exact served Build 4 download matched the approved artifact byte-for-byte, passed the independent Developer ID, notarization, stapling, quarantine, and Gatekeeper checks, and launched normally under App Translocation.
 
 **Implications:** Build 4 is the only recommended tailnet download. If it must be rolled back, remove only its versioned file and restore source-only guidance; do not present Build 3 as a trusted release. Tailnet-only availability does not authorize broad public distribution.
+
+## Publish Reproducible Analysis through GitHub Releases and the tailnet — 2026-09-12
+
+**Decision:** Publish KLT Image 1.2.0 build 5 through GitHub Releases and the existing tailnet-only Tailscale mirror. Both channels use the identical versioned ZIP with SHA-256 `66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa`; Build 4 remains unchanged as the trusted rollback artifact.
+
+**Rationale:** Reproducible Analysis passed all 43 Debug tests, all 44 Release tests, all 17 acceptance criteria, and a zero-finding security review. Fresh downloads from both production channels matched the approved candidate byte-for-byte, passed the independent release verifier, and launched through App Translocation with quarantine retained.
+
+**Implications:** GitHub Releases is the public primary download and the existing Tailscale route remains a tailnet-only mirror without configuration changes. Rollback removes the Build 5 advertisement and hosted assets and restores Build 4; copies already downloaded cannot be recalled.

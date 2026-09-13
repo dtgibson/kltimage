@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KLT Image — Reproducible Analysis</title>
+  <style>
+    :root {
+      --ink-strong: #142a36;
+      --ink: #304854;
+      --ink-muted: #667b84;
+      --navy: #193a4a;
+      --accent: #007f92;
+      --accent-pressed: #006c7d;
+      --accent-soft: #d9f0f3;
+      --surface: #f7f9f9;
+      --surface-raised: #ffffff;
+      --surface-tint: #edf3f4;
+      --canvas: #dbe3e5;
+      --divider: #9fb1b8;
+      --line: #c9d4d8;
+      --success: #18745f;
+      --warning: #a35f15;
+      --shadow: 0 24px 64px rgba(25, 58, 74, .19), 0 5px 16px rgba(25, 58, 74, .10);
+      --popover-shadow: 0 24px 64px rgba(20, 42, 54, .27), 0 4px 14px rgba(20, 42, 54, .14);
+      --ease-out: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      padding: 22px;
+      overflow: hidden;
+      color: var(--ink-strong);
+      font-family: "IBM Plex Sans", "Avenir Next", sans-serif;
+      background:
+        radial-gradient(circle at 14% 8%, rgba(121, 187, 197, .29), transparent 34%),
+        radial-gradient(circle at 92% 91%, rgba(57, 104, 123, .18), transparent 42%),
+        linear-gradient(145deg, #dce7e9, #c7d5d9);
+    }
+
+    button { font: inherit; color: inherit; }
+    button:not(:disabled) { cursor: pointer; }
+    button:focus-visible { outline: 3px solid rgba(0, 127, 146, .30); outline-offset: 2px; }
+
+    .app-window {
+      position: relative;
+      width: min(1480px, 100%);
+      height: min(940px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: 56px 46px minmax(0, 1fr) 82px;
+      overflow: hidden;
+      border: 1px solid rgba(102, 123, 132, .62);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .titlebar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(250, 252, 252, .97);
+    }
+    .traffic { display: flex; gap: 8px; }
+    .traffic i { width: 12px; height: 12px; border: 1px solid rgba(20, 42, 54, .17); border-radius: 50%; }
+    .traffic i:nth-child(1) { background: #ee6b60; }
+    .traffic i:nth-child(2) { background: #eeb847; }
+    .traffic i:nth-child(3) { background: #62bd72; }
+    .doc-title { text-align: center; }
+    .doc-title strong { display: block; font-size: 15px; font-weight: 680; letter-spacing: -.015em; }
+    .doc-title span {
+      display: block;
+      margin-top: 2px;
+      color: var(--ink-muted);
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 10px;
+      letter-spacing: .02em;
+    }
+    .title-actions { justify-self: end; display: flex; gap: 8px; }
+
+    .button {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      background: var(--surface-raised);
+      color: var(--ink-strong);
+      font-size: 12px;
+      font-weight: 620;
+      transition: background 150ms var(--ease-out), border-color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .button:hover { border-color: #7d969f; background: var(--surface-tint); }
+    .button:active { transform: translateY(1px); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: #f6ffff; box-shadow: 0 5px 13px rgba(0, 127, 146, .20); }
+    .button.primary:hover { border-color: var(--accent-pressed); background: var(--accent-pressed); }
+    .button.compact { min-height: 28px; padding: 4px 9px; font-size: 11px; }
+    .button.ghost { border-color: transparent; background: transparent; }
+    .icon { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(275px, 1fr) auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-tint);
+    }
+    .status { display: flex; align-items: center; gap: 9px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px rgba(24, 116, 95, .11); }
+    .eyebrow {
+      color: var(--ink-muted);
+      font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+      font-size: 9px;
+      font-weight: 650;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .status-copy { color: var(--ink); font-size: 12px; font-weight: 620; }
+    .segment { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: rgba(255, 255, 255, .72); }
+    .segment button { min-width: 76px; padding: 5px 10px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); font-size: 11px; font-weight: 650; }
+    .segment button[aria-pressed="true"] { background: var(--surface-raised); color: var(--ink-strong); box-shadow: 0 1px 4px rgba(25, 58, 74, .15); }
+    .zoom { justify-self: end; display: flex; align-items: center; gap: 4px; }
+    .zoom span { width: 44px; color: var(--ink); font-family: "IBM Plex Mono", monospace; font-size: 10px; text-align: center; }
+    .icon-button { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 7px; background: transparent; }
+    .icon-button:hover { border-color: var(--line); background: var(--surface-raised); }
+
+    .workarea { min-height: 0; display: grid; grid-template-columns: 270px minmax(0, 1fr); }
+    .analysis-rail { min-height: 0; overflow: auto; border-right: 1px solid var(--line); background: var(--surface); }
+    .rail-heading { padding: 16px; border-bottom: 1px solid var(--line); }
+    .rail-heading h1 { margin: 0; font-size: 20px; line-height: 1.15; font-weight: 700; letter-spacing: -.028em; }
+    .rail-heading p { margin: 6px 0 0; color: var(--ink-muted); font-size: 11px; line-height: 1.45; }
+    .rail-section { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    .rail-section h2 { margin: 0 0 9px; color: var(--ink); font-size: 12px; font-weight: 650; }
+    .choice { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-tint); }
+    .choice button { min-height: 30px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); font-size: 11px; font-weight: 620; }
+    .choice button[aria-pressed="true"] { background: var(--surface-raised); color: var(--accent-pressed); box-shadow: 0 1px 4px rgba(25, 58, 74, .14), inset 0 -2px 0 var(--accent); }
+    .rail-note { margin: 7px 0 0; color: var(--ink-muted); font-size: 10px; line-height: 1.45; }
+    .sample-row { display: flex; gap: 8px; padding: 8px; border: 1px solid rgba(0, 127, 146, .34); border-radius: 8px; background: var(--accent-soft); }
+    .radio { flex: 0 0 auto; width: 14px; height: 14px; margin-top: 1px; border: 4px solid var(--surface-raised); border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .sample-row strong { display: block; font-size: 11px; }
+    .sample-row span { display: block; margin-top: 2px; color: var(--ink-muted); font-size: 9.5px; line-height: 1.35; }
+    .bounds { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 10px; }
+    .bound { padding: 7px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-raised); }
+    .bound span { display: block; color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
+    .bound strong { display: block; margin-top: 3px; font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 580; }
+    .active-method { padding: 12px 16px; background: linear-gradient(135deg, rgba(217, 240, 243, .66), rgba(237, 243, 244, .72)); }
+    .active-method strong { display: block; color: var(--accent-pressed); font-size: 11px; }
+    .active-method span { display: block; margin-top: 4px; color: var(--ink-muted); font-size: 9.5px; line-height: 1.4; }
+
+    .canvas {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0;
+      padding: 24px;
+      background-color: var(--canvas);
+      background-image:
+        linear-gradient(rgba(93, 121, 132, .10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(93, 121, 132, .10) 1px, transparent 1px),
+        radial-gradient(circle at 48% 10%, rgba(255, 255, 255, .56), transparent 38%);
+      background-size: 22px 22px, 22px 22px, auto;
+    }
+    .divider { background: var(--divider); }
+    .pane { position: relative; min-width: 0; min-height: 0; display: grid; place-items: center; overflow: hidden; }
+    .pane:first-child { padding-right: 18px; }
+    .pane:last-child { padding-left: 18px; }
+    .pane-label {
+      position: absolute;
+      z-index: 3;
+      top: 13px;
+      left: 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 8px;
+      border: 1px solid rgba(117, 141, 149, .54);
+      border-radius: 7px;
+      background: rgba(250, 252, 252, .91);
+      box-shadow: 0 3px 9px rgba(25, 58, 74, .10);
+      backdrop-filter: blur(7px);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      font-weight: 650;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .current-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .photo {
+      position: relative;
+      width: min(92%, 610px);
+      aspect-ratio: 1.5;
+      overflow: hidden;
+      border: 1px solid rgba(61, 83, 92, .44);
+      border-radius: 4px;
+      background: linear-gradient(150deg, #263942 0%, #7d8b86 35%, #d7c8a3 61%, #31434b 100%);
+      box-shadow: 0 12px 29px rgba(25, 58, 74, .25);
+    }
+    .photo::before {
+      content: "";
+      position: absolute;
+      inset: -12% -8%;
+      background:
+        radial-gradient(ellipse at 63% 44%, rgba(228, 239, 221, .80) 0 8%, transparent 9%),
+        radial-gradient(ellipse at 55% 49%, rgba(147, 168, 157, .78) 0 23%, transparent 24%),
+        repeating-linear-gradient(116deg, transparent 0 16px, rgba(238, 224, 186, .28) 17px 22px, transparent 23px 31px);
+      transform: rotate(-4deg);
+    }
+    .photo.enhanced { background: linear-gradient(150deg, #183b49 0%, #567d6e 31%, #dbbd71 58%, #80465b 78%, #223d49 100%); }
+    .photo.enhanced::before {
+      background:
+        radial-gradient(ellipse at 63% 44%, rgba(232, 255, 219, .90) 0 8%, transparent 9%),
+        radial-gradient(ellipse at 55% 49%, rgba(94, 171, 149, .83) 0 23%, transparent 24%),
+        repeating-linear-gradient(116deg, transparent 0 16px, rgba(250, 190, 91, .34) 17px 22px, transparent 23px 31px);
+    }
+    .sample-box {
+      position: absolute;
+      left: 37%;
+      top: 27%;
+      width: 36%;
+      height: 40%;
+      border: 2px solid var(--accent);
+      background: rgba(0, 127, 146, .08);
+      box-shadow: 0 0 0 999px rgba(20, 42, 54, .10);
+    }
+    .sample-box::after {
+      content: "SAMPLE · 3.54 MP";
+      position: absolute;
+      left: -2px;
+      top: -23px;
+      padding: 4px 6px;
+      border-radius: 4px 4px 4px 0;
+      background: var(--accent);
+      color: #f6ffff;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 8px;
+      letter-spacing: .06em;
+    }
+
+    .metadata {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      padding: 0 16px;
+      border-top: 1px solid var(--line);
+      background: rgba(249, 251, 251, .98);
+    }
+    .meta-item { min-width: 0; }
+    .meta-item strong { display: block; margin-top: 4px; color: var(--ink); font-size: 11px; font-weight: 600; }
+    .guidance { max-width: 505px; color: var(--ink-muted); font-size: 10.5px; line-height: 1.45; text-align: center; }
+    .record-trigger { justify-self: end; display: flex; align-items: center; gap: 9px; }
+    .record-available { text-align: right; }
+    .record-available strong { display: block; color: var(--success); font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .07em; }
+    .record-available span { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 9px; }
+
+    .popover {
+      position: absolute;
+      z-index: 20;
+      right: 16px;
+      bottom: 70px;
+      width: min(620px, calc(100% - 40px));
+      max-height: calc(100% - 126px);
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      overflow: hidden;
+      border: 1px solid rgba(104, 129, 138, .72);
+      border-radius: 12px;
+      background: var(--surface-raised);
+      box-shadow: var(--popover-shadow);
+      transform-origin: 88% 100%;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+    .popover[hidden] { display: none; }
+    .popover.closing { opacity: 0; transform: translateY(8px) scale(.985); pointer-events: none; }
+    .popover::after {
+      content: "";
+      position: absolute;
+      right: 78px;
+      bottom: -7px;
+      width: 13px;
+      height: 13px;
+      border-right: 1px solid rgba(104, 129, 138, .72);
+      border-bottom: 1px solid rgba(104, 129, 138, .72);
+      background: var(--surface-raised);
+      transform: rotate(45deg);
+    }
+    .popover-head { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: start; padding: 17px 18px 14px; border-bottom: 1px solid var(--line); }
+    .popover-head h2 { margin: 0; font-size: 24px; line-height: 1.1; letter-spacing: -.03em; font-weight: 700; }
+    .popover-head p { margin: 6px 0 0; color: var(--ink-muted); font-size: 11px; line-height: 1.45; }
+    .head-actions { display: flex; gap: 5px; align-items: center; }
+    .record-state { display: inline-flex; align-items: center; gap: 6px; margin-top: 9px; color: var(--success); font-family: "IBM Plex Mono", monospace; font-size: 9px; font-weight: 650; letter-spacing: .08em; }
+    .record-state i { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+
+    .tabs { display: flex; gap: 3px; padding: 8px 18px 0; border-bottom: 1px solid var(--line); background: linear-gradient(to bottom, var(--surface), rgba(247, 249, 249, .68)); }
+    .tabs button { position: relative; padding: 8px 10px 10px; border: 0; background: transparent; color: var(--ink-muted); font-size: 11px; font-weight: 650; }
+    .tabs button[aria-selected="true"] { color: var(--ink-strong); }
+    .tabs button[aria-selected="true"]::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: -1px; height: 2px; background: var(--accent); }
+
+    .tab-panel { min-height: 0; overflow: auto; padding: 0 18px 16px; }
+    .tab-panel[hidden] { display: none; }
+    .record-section { padding: 15px 0 13px; border-bottom: 1px solid var(--line); }
+    .record-section:last-child { border-bottom: 0; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+    .section-head h3 { margin: 0; color: var(--ink); font-size: 12px; font-weight: 680; }
+    .section-head span { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .05em; }
+    .kv { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 7px 14px; margin: 0; }
+    .kv dt { color: var(--ink-muted); font-size: 10px; }
+    .kv dd { margin: 0; color: var(--ink-strong); font-family: "IBM Plex Mono", monospace; font-size: 10px; line-height: 1.4; overflow-wrap: anywhere; }
+    .fingerprint { letter-spacing: .025em; }
+    .matrix-wrap { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 15px; align-items: start; margin: 12px 0; }
+    .matrix-label strong { display: block; color: var(--ink); font-size: 11px; }
+    .matrix-label span { display: block; margin-top: 4px; color: var(--ink-muted); font-size: 9px; line-height: 1.35; }
+    .matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px 10px; padding: 9px 12px; border-left: 2px solid var(--accent); background: linear-gradient(90deg, rgba(217, 240, 243, .55), rgba(247, 249, 249, .45)); font-family: "IBM Plex Mono", monospace; font-size: 10px; text-align: right; }
+    .vector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 8px 12px; border-left: 2px solid var(--divider); background: var(--surface); font-family: "IBM Plex Mono", monospace; font-size: 10px; text-align: right; }
+    .formula { padding: 11px 12px; border-left: 2px solid var(--navy); background: var(--surface-tint); color: var(--ink); font-family: "IBM Plex Mono", monospace; font-size: 10px; line-height: 1.5; }
+    .scientific-note { display: flex; gap: 9px; margin-top: 13px; padding: 10px 11px; border-radius: 8px; background: #fbf2e8; color: #71461b; font-size: 10px; line-height: 1.45; }
+    .scientific-note svg { flex: 0 0 auto; margin-top: 1px; color: var(--warning); }
+
+    .popover-foot { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 18px; border-top: 1px solid var(--line); background: var(--surface); }
+    .popover-foot p { margin: 0; color: var(--ink-muted); font-size: 9px; line-height: 1.35; }
+    .popover-foot code { font-family: "IBM Plex Mono", monospace; color: var(--ink); }
+
+    .toast { position: absolute; z-index: 30; left: 50%; bottom: 96px; padding: 9px 12px; border: 1px solid rgba(24, 116, 95, .32); border-radius: 8px; background: rgba(248, 252, 250, .96); color: var(--success); box-shadow: 0 9px 22px rgba(25, 58, 74, .16); font-size: 11px; font-weight: 620; opacity: 0; transform: translate(-50%, 8px); pointer-events: none; transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 1040px) {
+      body { padding: 10px; }
+      .app-window { border-radius: 12px; }
+      .workarea { grid-template-columns: 240px minmax(0, 1fr); }
+      .canvas { padding: 14px; }
+      .pane:first-child { padding-right: 9px; }
+      .pane:last-child { padding-left: 9px; }
+      .guidance { display: none; }
+      .metadata { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+      .popover { transform: none; }
+      .toast { transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-window" aria-label="KLT Image reproducible analysis design preview">
+    <header class="titlebar">
+      <div class="traffic" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="doc-title">
+        <strong>KLT Image</strong>
+        <span>western-gull-wing.tif · 6048 × 4024</span>
+      </div>
+      <div class="title-actions">
+        <button class="button">Open Image</button>
+        <button class="button primary">Export Result</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Comparison toolbar">
+      <div class="status"><i class="status-dot"></i><span class="eyebrow">Result ready</span><span class="status-copy">Lab · correlation · selected region</span></div>
+      <div class="segment" aria-label="Comparison mode">
+        <button aria-pressed="false">Original</button>
+        <button aria-pressed="true">Split</button>
+        <button aria-pressed="false">Enhanced</button>
+      </div>
+      <div class="zoom">
+        <button class="icon-button" aria-label="Zoom out">−</button><span>100%</span><button class="icon-button" aria-label="Zoom in">+</button>
+      </div>
+    </section>
+
+    <div class="workarea">
+      <aside class="analysis-rail">
+        <div class="rail-heading"><h1>Analysis controls</h1><p>Choose the variables, matrix, and pixels that establish the transform.</p></div>
+        <section class="rail-section"><h2>Color space</h2><div class="choice"><button aria-pressed="false">RGB</button><button aria-pressed="true">Lab</button></div><p class="rail-note">Lightness and two chromatic axes in CIE Lab D65.</p></section>
+        <section class="rail-section"><h2>Matrix mode</h2><div class="choice"><button aria-pressed="false">Covariance</button><button aria-pressed="true">Correlation</button></div><p class="rail-note">Normalizes stable variables before comparing their variation.</p></section>
+        <section class="rail-section"><h2>Statistical sample</h2><div class="sample-row"><i class="radio"></i><div><strong>Selected region</strong><span>This region supplies statistics. The full image receives the transform.</span></div></div><div class="bounds"><div class="bound"><span>X</span><strong>2187</strong></div><div class="bound"><span>Y</span><strong>1086</strong></div><div class="bound"><span>Width</span><strong>2160</strong></div><div class="bound"><span>Height</span><strong>1640</strong></div></div><p class="rail-note">Origin is the source image’s top-left · 3,542,400 pixels</p></section>
+        <div class="active-method"><strong>Lab correlation · current</strong><span>3 stable variables · 3 stable components · local only</span></div>
+      </aside>
+
+      <section class="canvas" aria-label="Image comparison">
+        <div class="pane"><div class="pane-label">Original</div><div class="photo"><div class="sample-box"></div></div></div>
+        <div class="divider"></div>
+        <div class="pane"><div class="pane-label"><i class="current-dot"></i>Enhanced · current</div><div class="photo enhanced"><div class="sample-box"></div></div></div>
+      </section>
+    </div>
+
+    <footer class="metadata">
+      <div class="meta-item"><span class="eyebrow">Source</span><strong>TIFF · 24.34 MP · alpha preserved</strong></div>
+      <p class="guidance">Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.</p>
+      <div class="record-trigger">
+        <div class="record-available"><strong>ANALYSIS RECORD · CURRENT</strong><span>Source, settings, matrices, transform</span></div>
+        <button id="recordButton" class="button" aria-haspopup="dialog" aria-expanded="true">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v5h5M8 13h8M8 17h6M8 9h3"/></svg>
+          Analysis Record
+        </button>
+      </div>
+    </footer>
+
+    <section id="recordPopover" class="popover" role="dialog" aria-modal="false" aria-labelledby="recordTitle">
+      <header class="popover-head">
+        <div><h2 id="recordTitle">Analysis record</h2><p>The exact source, settings, and numerical transform behind this result.</p><div class="record-state"><i></i>CURRENT · MATCHES DISPLAYED RESULT</div></div>
+        <div class="head-actions"><button id="closeButton" class="icon-button" aria-label="Close analysis record">×</button></div>
+      </header>
+      <nav class="tabs" role="tablist" aria-label="Analysis record sections">
+        <button role="tab" aria-selected="true" aria-controls="summaryPanel" id="summaryTab">Summary</button>
+        <button role="tab" aria-selected="false" aria-controls="matrixPanel" id="matrixTab">Matrices</button>
+        <button role="tab" aria-selected="false" aria-controls="outputPanel" id="outputTab">Applied transform</button>
+      </nav>
+
+      <div id="summaryPanel" class="tab-panel" role="tabpanel" aria-labelledby="summaryTab">
+        <section class="record-section"><div class="section-head"><h3>Source identity</h3><span>DECODED · ORIENTED</span></div><dl class="kv"><dt>Filename</dt><dd>western-gull-wing.tif</dd><dt>Dimensions</dt><dd>6048 × 4024 px</dd><dt>Analysis pixels</dt><dd>RGBA8 · premultiplied sRGB</dd><dt>Fingerprint</dt><dd class="fingerprint">sha256: 8b7c5dd201f8a4e3<br>bb594f38a6322f78<br>47d1c12af46fd91a<br>e921b08f6ddfe268</dd></dl></section>
+        <section class="record-section"><div class="section-head"><h3>Request</h3><span>STABLE VALUES</span></div><dl class="kv"><dt>Color space</dt><dd>lab · CIE 1976 · D65</dd><dt>Matrix mode</dt><dd>correlation</dd><dt>Statistics from</dt><dd>selectedRegion · 3,542,400 px</dd><dt>Pixel bounds</dt><dd>x 2187 · y 1086 · w 2160 · h 1640</dd><dt>Normalized</dt><dd>0.361607 · 0.269881 · 0.357143 · 0.407555</dd></dl></section>
+        <section class="record-section"><div class="section-head"><h3>Conventions</h3><span>SCHEMA V1</span></div><dl class="kv"><dt>Channel order</dt><dd>L* · a* · b*</dd><dt>Units</dt><dd>L-star · a-star · b-star</dd><dt>Matrices</dt><dd>3 × 3 · row-major</dd><dt>Region origin</dt><dd>top-left · half-open bounds</dd></dl><div class="scientific-note"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.7 20h18.6zM12 9v5M12 18h.01"/></svg><span>This record documents an exploratory enhancement. It does not establish a biological or scientific conclusion.</span></div></section>
+      </div>
+
+      <div id="matrixPanel" class="tab-panel" role="tabpanel" aria-labelledby="matrixTab" hidden>
+        <section class="record-section"><div class="section-head"><h3>Statistical basis</h3><span>3,542,400 SAMPLES</span></div><div class="matrix-wrap"><div class="matrix-label"><strong>Channel mean</strong><span>L*, a*, b*</span></div><div class="vector"><span>54.287194</span><span>3.918220</span><span>14.774806</span></div></div><div class="matrix-wrap"><div class="matrix-label"><strong>Covariance</strong><span>Raw Lab units</span></div><div class="matrix"><span>186.4421</span><span>−12.7846</span><span>31.2583</span><span>−12.7846</span><span>44.9217</span><span>8.1045</span><span>31.2583</span><span>8.1045</span><span>72.6608</span></div></div><div class="matrix-wrap"><div class="matrix-label"><strong>Correlation</strong><span>Analyzed matrix</span></div><div class="matrix"><span>1.000000</span><span>−0.139721</span><span>0.268735</span><span>−0.139721</span><span>1.000000</span><span>0.141862</span><span>0.268735</span><span>0.141862</span><span>1.000000</span></div></div></section>
+        <section class="record-section"><div class="section-head"><h3>Eigensystem</h3><span>DESCENDING · COLUMN VECTORS</span></div><div class="matrix-wrap"><div class="matrix-label"><strong>Eigenvalues</strong><span>Largest first</span></div><div class="vector"><span>1.302814</span><span>1.107327</span><span>0.589859</span></div></div><div class="matrix-wrap"><div class="matrix-label"><strong>Eigenvectors</strong><span>Deterministic signs</span></div><div class="matrix"><span>0.612340</span><span>−0.408128</span><span>0.676986</span><span>0.218425</span><span>0.891032</span><span>0.398571</span><span>0.760029</span><span>0.202103</span><span>−0.617933</span></div></div><dl class="kv"><dt>Stable variables</dt><dd>3 of 3</dd><dt>Stable components</dt><dd>3 of 3</dd></dl></section>
+      </div>
+
+      <div id="outputPanel" class="tab-panel" role="tabpanel" aria-labelledby="outputTab" hidden>
+        <section class="record-section"><div class="section-head"><h3>Applied transform</h3><span>ROW-MAJOR · L*, A*, B*</span></div><div class="matrix-wrap"><div class="matrix-label"><strong>Transform</strong><span>Applied to the full image</span></div><div class="matrix"><span>0.802417</span><span>0.091854</span><span>−0.128309</span><span>0.091854</span><span>1.271662</span><span>−0.063710</span><span>−0.128309</span><span>−0.063710</span><span>1.044127</span></div></div><div class="formula">transformed = mean + transform × (pixel − mean)</div></section>
+        <section class="record-section"><div class="section-head"><h3>Output mapping</h3><span>LAB D65 → SRGB</span></div><dl class="kv"><dt>Working space</dt><dd>CIE Lab D65</dd><dt>Display conversion</dt><dd>Lab → XYZ D65 → encoded sRGB</dd><dt>Finite gamut handling</dt><dd>clip each encoded sRGB channel to [0, 1]</dd><dt>Alpha</dt><dd>source byte preserved exactly</dd></dl></section>
+        <section class="record-section"><div class="section-head"><h3>Record integrity</h3><span>VERSION 1</span></div><dl class="kv"><dt>Schema</dt><dd>org.kltimage.analysis-record</dd><dt>JSON ordering</dt><dd>sorted keys · row-major matrices</dd><dt>Numeric encoding</dt><dd>finite · locale-independent · round-trippable</dd><dt>Volatile values</dt><dd>no path · timestamp · processing UUID</dd></dl></section>
+      </div>
+
+      <footer class="popover-foot"><p>Exported records are deterministic and local.<br><code>western-gull-wing-klt.klt-analysis.json</code></p><button id="exportRecord" class="button compact"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg>Export JSON</button></footer>
+    </section>
+
+    <div id="toast" class="toast" role="status">Ready to save western-gull-wing-klt.klt-analysis.json</div>
+  </main>
+
+  <script>
+    const popover = document.getElementById('recordPopover');
+    const trigger = document.getElementById('recordButton');
+    const closeButton = document.getElementById('closeButton');
+    const toast = document.getElementById('toast');
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+    function openRecord() {
+      popover.hidden = false;
+      requestAnimationFrame(() => popover.classList.remove('closing'));
+      trigger.setAttribute('aria-expanded', 'true');
+      closeButton.focus();
+    }
+
+    function closeRecord() {
+      popover.classList.add('closing');
+      trigger.setAttribute('aria-expanded', 'false');
+      setTimeout(() => { popover.hidden = true; trigger.focus(); }, 180);
+    }
+
+    function selectTab(tab) {
+      tabs.forEach(item => item.setAttribute('aria-selected', String(item === tab)));
+      panels.forEach(panel => { panel.hidden = panel.id !== tab.getAttribute('aria-controls'); });
+      tab.focus();
+    }
+
+    trigger.addEventListener('click', () => popover.hidden ? openRecord() : closeRecord());
+    closeButton.addEventListener('click', closeRecord);
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', event => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+          const delta = event.key === 'ArrowRight' ? 1 : -1;
+          selectTab(tabs[(index + delta + tabs.length) % tabs.length]);
+        }
+      });
+    });
+    document.getElementById('exportRecord').addEventListener('click', () => {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !popover.hidden) closeRecord();
+    });
+  </script>
+</body>
+</html>

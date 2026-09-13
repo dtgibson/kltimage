@@ -11,10 +11,14 @@ struct MetadataStrip: View {
     let source: DecodedImage
     @Bindable var model: WorkspaceModel
     @Binding var showsMethod: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var methodDetailsFocusRequest = 0
+    @State private var presentedRecord: AnalysisRecordPresentation?
+    @FocusState private var recordTriggerIsFocused: Bool
 
     var body: some View {
-        HStack(spacing: 0) {
+        GeometryReader { geometry in
+            HStack(spacing: 0) {
             metadataGroup(title: "SOURCE") {
                 Text("\(source.width) × \(source.height) pixels")
                     .font(.plexSans(12, weight: .semibold))
@@ -22,7 +26,7 @@ struct MetadataStrip: View {
                     .font(.plexSans(11))
                     .foregroundStyle(KLTColor.inkMuted)
             }
-            .frame(maxWidth: .infinity)
+            .frame(width: 240)
 
             Divider().overlay(KLTColor.line)
 
@@ -50,33 +54,78 @@ struct MetadataStrip: View {
                     .foregroundStyle(KLTColor.inkMuted)
                     .lineLimit(1)
             }
-            .frame(maxWidth: .infinity)
+            .frame(width: 280)
 
-            Divider().overlay(KLTColor.line)
+            if geometry.size.width >= 1_040 || model.currentAnalysisRecord == nil {
+                Divider().overlay(KLTColor.line)
 
-            HStack(alignment: .top, spacing: 12) {
-                Image(systemName: "info.circle.fill")
-                    .foregroundStyle(KLTColor.accentPressed)
-                    .frame(width: 24, height: 24)
-                    .background(KLTColor.accentSoft, in: RoundedRectangle(cornerRadius: 7))
-                    .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(ExploratoryGuidanceCopy.title)
-                        .font(.plexSans(12, weight: .semibold))
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: "info.circle.fill")
+                        .foregroundStyle(KLTColor.accentPressed)
+                        .frame(width: 24, height: 24)
+                        .background(KLTColor.accentSoft, in: RoundedRectangle(cornerRadius: 7))
                         .accessibilityHidden(true)
-                    Text(ExploratoryGuidanceCopy.detail)
-                        .font(.plexSans(11))
-                        .foregroundStyle(KLTColor.inkMuted)
-                        .lineLimit(2)
-                        .accessibilityLabel(ExploratoryGuidanceCopy.detail)
-                        .accessibilityIdentifier("exploratory-guidance-detail")
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(ExploratoryGuidanceCopy.title)
+                            .font(.plexSans(12, weight: .semibold))
+                            .accessibilityHidden(true)
+                        Text(ExploratoryGuidanceCopy.detail)
+                            .font(.plexSans(11))
+                            .foregroundStyle(KLTColor.inkMuted)
+                            .lineLimit(2)
+                            .accessibilityLabel(ExploratoryGuidanceCopy.detail)
+                            .accessibilityIdentifier("exploratory-guidance-detail")
+                    }
                 }
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityElement(children: .contain)
+                .accessibilityLabel(ExploratoryGuidanceCopy.title)
+                .accessibilityIdentifier("exploratory-guidance")
             }
-            .padding(.horizontal, 20)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .accessibilityElement(children: .contain)
-            .accessibilityLabel(ExploratoryGuidanceCopy.title)
-            .accessibilityIdentifier("exploratory-guidance")
+
+            if let record = model.currentAnalysisRecord {
+                Divider().overlay(KLTColor.line)
+
+                HStack(spacing: 10) {
+                    VStack(alignment: .trailing, spacing: 3) {
+                        Text("ANALYSIS RECORD · CURRENT")
+                            .font(.plexMono(9, weight: .semibold))
+                            .tracking(0.55)
+                            .foregroundStyle(KLTColor.success)
+                            .lineLimit(1)
+                        Text("Source, settings, matrices, transform")
+                            .font(.plexSans(9))
+                            .foregroundStyle(KLTColor.inkMuted)
+                            .lineLimit(1)
+                    }
+                    Button {
+                        presentedRecord = presentedRecord == nil ? record : nil
+                    } label: {
+                        Label("Analysis Record", systemImage: "doc.text.magnifyingglass")
+                    }
+                    .buttonStyle(SecondaryActionButtonStyle())
+                    .focused($recordTriggerIsFocused)
+                    .accessibilityIdentifier("analysis-record-button")
+                    .accessibilityHint("Shows the source, settings, matrices, transform, and JSON export for the current result")
+                }
+                .padding(.horizontal, 16)
+                .fixedSize(horizontal: true, vertical: false)
+                .popover(
+                    item: $presentedRecord,
+                    attachmentAnchor: .point(.topLeading),
+                    arrowEdge: .bottom
+                ) { snapshot in
+                    AnalysisRecordView(
+                        snapshot: snapshot,
+                        closeAction: { presentedRecord = nil },
+                        exportAction: model.presentAnalysisRecordExportPanel
+                    )
+                }
+                .accessibilityElement(children: .contain)
+                .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .trailing)))
+            }
+            }
         }
         .frame(height: 94)
         .background(KLTColor.surfaceRaised)
@@ -85,6 +134,18 @@ struct MetadataStrip: View {
             guard wasPresented, !isPresented else { return }
             methodDetailsFocusRequest &+= 1
         }
+        .onChange(of: model.currentAnalysisRecord?.id) { _, currentID in
+            guard let presentedRecord, presentedRecord.id != currentID else { return }
+            self.presentedRecord = nil
+        }
+        .onChange(of: presentedRecord?.id) { previousID, currentID in
+            guard previousID != nil, currentID == nil else { return }
+            recordTriggerIsFocused = true
+        }
+        .animation(
+            reduceMotion ? nil : .easeOut(duration: 0.15),
+            value: model.currentAnalysisRecord?.id
+        )
     }
 
     private func metadataGroup<Content: View>(

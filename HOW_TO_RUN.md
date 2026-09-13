@@ -1,28 +1,34 @@
-## Using KLT Image locally
+## Seeing Reproducible Analysis locally
 
-If you have access to the project's tailnet, download the private [KLT Image 1.1.0 build 4 package](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.1.0-build-4.zip). Its SHA-256 is `4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442`.
+The current tailnet download is the previously released KLT Image 1.1.0 build 4 and does not include this source-only feature yet. To see Reproducible Analysis now:
 
-Unzip it and double-click **KLT Image**. The universal app runs on Apple silicon and Intel Macs without Xcode. It is Developer ID-signed, notarized by Apple, and stapled, so a normally downloaded copy passes Gatekeeper without removing quarantine or using a security bypass. The affected Build 3 package remains hosted only as an unadvertised rollback artifact and should not be used.
+1. Open Finder and go to the `kltimage` project folder.
 
-To run from source instead, open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and `My Mac`, and press Command-R.
+2. Double-click `KLTImage.xcodeproj`. Xcode 26 or later will open the project.
 
-1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Processing starts with RGB, Covariance, and Whole image selected, and stays on your Mac. Larger images are rejected before full-resolution decoding with a readable size-limit message.
+3. At the top of Xcode, select the **KLTImage** scheme and **My Mac**, then press Command-R. Wait for the KLT Image window to appear.
 
-2. Use **Color space** to compare RGB with CIE Lab D65, and **Matrix mode** to compare covariance with correlation. Each committed choice recalculates the full-resolution result from the unchanged source.
+4. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. The image stays on your Mac. Wait until the status says **Result ready**.
 
-3. Under **Statistical sample**, keep **Whole image** or choose **Selected region**. Draw a rectangle over the source pane, then drag inside it to move it or drag a corner to resize it. You can also enter exact top-left source-pixel X, Y, Width, and Height values and click **Apply bounds**.
+5. At the lower right, find **ANALYSIS RECORD · CURRENT** and click **Analysis Record**. The popover opens without replacing the Original, Split, or Enhanced comparison.
 
-4. In region mode, the rectangle supplies the statistics used to derive the transform; the complete image is still enhanced. Invalid bounds remain editable for correction, do not fall back to another sample, and keep export unavailable until a matching result is ready.
+6. Start on **Summary**. Check the decoded filename and dimensions, full SHA-256 fingerprint, active color space and matrix mode, statistics source, channel order, units, and exploratory-use notice.
 
-5. Use **Original**, **Split**, and **Enhanced** to compare results. Drag the image background to pan, pinch to zoom, use the zoom buttons, or double-click to fit. Split panes share navigation and display the same active region.
+7. Open **Matrices** to inspect the channel mean, covariance, analyzed covariance-or-correlation matrix, descending eigenvalues, deterministic column eigenvectors, and stable counts. Open **Applied transform** to inspect the exact row-major transform, formula, output mapping, and version-1 record-integrity rules.
 
-6. Click the information button beside the active method to review its variables, matrix basis, statistical sample, stable-component count, and exploratory-use cautions.
+8. Click **Export JSON**. The Mac save panel suggests `<source-name>-klt.klt-analysis.json`; choose a location and save. The record is written only where you choose and contains no file-system path, timestamp, or processing UUID.
 
-7. Click **Export Result**, choose PNG, TIFF, or JPEG in the Mac save panel, and save the current full-resolution enhancement. The selection outline is not exported. PNG and TIFF preserve transparency; JPEG places transparent areas on white.
+9. Change Color space, Matrix mode, Statistical sample, or committed region bounds. The current record action and both export paths become unavailable immediately, then return after the newly matching result completes.
 
-8. Press Command-U in Xcode to run the numerical, image-format, analysis-control, and interface automation checks.
+10. For a region record, choose **Selected region**, draw a rectangle or enter exact X, Y, Width, and Height values, and click **Apply bounds**. Reopen the record after processing and confirm Summary shows both normalized geometry and exact top-left, half-open source-pixel bounds.
 
-What to look for: method and sample labels should always describe the displayed result; invalid or superseded requests must keep export disabled; both Split panes should stay aligned; the original must remain unchanged; and exported dimensions must match the source.
+11. Dismiss the popover and continue using Original, Split, and Enhanced, synchronized zoom and pan, region editing, and **Export Result** as before. PNG and TIFF preserve transparency; JPEG places transparent areas on white.
+
+12. To run the automated verification, press Command-U in Xcode. The suite checks fingerprints, record contents, finite numerical values, eigensystem conventions, the canonical JSON schema and golden bytes, deterministic atomic writes, stale-result behavior, existing image processing, and the interface.
+
+What to look for: the record must always describe the exact displayed result, the fingerprint must be a complete lowercase SHA-256, matrices must stay labeled with their order and units, repeated exports of one record must be byte-identical, and no record may remain available while a replacement request is unfinished or invalid.
+
+Current source verification passes the complete Debug and Release suites: 43/43 Debug tests and 44/44 Release tests, with every acceptance criterion covered. Every 24-megapixel analysis combination remains under five seconds and record generation adds 1.687% median overhead. Full Keyboard Access was disabled during automation, so keyboard coverage combines UI XCTest with live accessibility-tree verification.
 
 ## Preparing a trusted macOS release
 

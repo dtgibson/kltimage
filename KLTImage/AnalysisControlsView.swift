@@ -1,3 +1,4 @@
+import AppKit
 import KLTCore
 import SwiftUI
 
@@ -129,6 +130,7 @@ struct AnalysisControlsView: View {
         .padding(.vertical, 12)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Active method: \(model.methodText). \(summaryDetail)")
+        .accessibilityIdentifier("active-method-summary")
     }
 
     private var colorSpaceBinding: Binding<AnalysisColorSpace> {
@@ -239,14 +241,17 @@ private struct RegionEditorView: View {
                     .font(.plexSans(11, weight: .semibold))
                     .foregroundStyle(KLTColor.ink)
                 Spacer()
-                Button("Clear region", action: model.clearRegion)
-                    .buttonStyle(.plain)
-                    .font(.plexSans(10))
-                    .foregroundStyle(KLTColor.inkMuted)
-                    .accessibilityIdentifier("clear-region-button")
+                Button("Apply", action: commitAndApplyRegionDraft)
+                    .buttonStyle(SecondaryActionButtonStyle())
+                    .controlSize(.small)
+                    .accessibilityLabel("Apply bounds")
+                    .accessibilityIdentifier("apply-region-button")
             }
 
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 4),
+                spacing: 6
+            ) {
                 regionField("X", range: xRange, field: .x, text: draftBinding(.x))
                 regionField("Y", range: yRange, field: .y, text: draftBinding(.y))
                 regionField("Width", range: widthRange, field: .width, text: draftBinding(.width))
@@ -262,15 +267,16 @@ private struct RegionEditorView: View {
                     .font(.plexMono(9))
                     .foregroundStyle(KLTColor.inkMuted)
                 Spacer()
-                Button("Apply bounds", action: model.applyRegionDraft)
-                    .buttonStyle(SecondaryActionButtonStyle())
-                    .controlSize(.small)
-                    .accessibilityIdentifier("apply-region-button")
+                Button("Clear region", action: model.clearRegion)
+                    .buttonStyle(.plain)
+                    .font(.plexSans(10))
+                    .foregroundStyle(KLTColor.inkMuted)
+                    .accessibilityIdentifier("clear-region-button")
             }
 
             RegionFeedback(issue: currentIssue, hasCommittedRegion: model.regionEditor.committed != nil)
         }
-        .onSubmit(model.applyRegionDraft)
+        .onSubmit(commitAndApplyRegionDraft)
     }
 
     private func regionField(
@@ -280,13 +286,9 @@ private struct RegionEditorView: View {
         text: Binding<String>
     ) -> some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack {
-                Text(label)
-                Spacer()
-                Text(range)
-            }
-            .font(.plexMono(9))
-            .foregroundStyle(KLTColor.inkMuted)
+            Text(label)
+                .font(.plexMono(9))
+                .foregroundStyle(KLTColor.ink)
 
             TextField(label, text: text)
                 .textFieldStyle(.plain)
@@ -303,6 +305,12 @@ private struct RegionEditorView: View {
                 .accessibilityValue(text.wrappedValue.isEmpty ? "Empty" : text.wrappedValue)
                 .accessibilityHint("Valid range \(range). Origin is the source image's top-left. Press Return to apply all bounds.")
                 .accessibilityIdentifier("region-\(label.lowercased())-field")
+
+            Text(range)
+                .font(.plexMono(8))
+                .foregroundStyle(KLTColor.inkMuted)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
         }
     }
 
@@ -318,6 +326,15 @@ private struct RegionEditorView: View {
             },
             set: { model.updateRegionDraft(field, value: $0) }
         )
+    }
+
+    private func commitAndApplyRegionDraft() {
+        // A native macOS text field can still own an uncommitted editor when a
+        // SwiftUI button receives its click. End editing first so both pointer
+        // submission and Return apply the values that are visibly in the fields.
+        focusedField = nil
+        NSApp.keyWindow?.makeFirstResponder(nil)
+        model.applyRegionDraft()
     }
 
     private var currentIssue: RegionValidationIssue? {

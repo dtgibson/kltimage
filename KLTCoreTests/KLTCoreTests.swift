@@ -3,7 +3,7 @@ import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 import XCTest
-import KLTCore
+@testable import KLTCore
 
 final class Matrix3x3Tests: XCTestCase {
     func testSymmetricEigenDecompositionReconstructsMatrix() {
@@ -182,6 +182,7 @@ final class ImagePipelineTests: XCTestCase {
         let fixture = try fixtureData(width: width, height: height, type: .tiff)
         let decoded = try ImagePipeline.decode(fixture)
         let region = SourcePixelRegion(x: 1_500, y: 1_000, width: 3_000, height: 2_000)
+        var caseTimings = [(label: String, enhancement: Double, record: Double)]()
 
         for colorSpace in AnalysisColorSpace.allCases {
             for matrixMode in AnalysisMatrixMode.allCases {
@@ -194,18 +195,71 @@ final class ImagePipelineTests: XCTestCase {
                     let start = CFAbsoluteTimeGetCurrent()
                     let result = try ImagePipeline.enhance(decoded, input: input)
                     let elapsed = CFAbsoluteTimeGetCurrent() - start
-                    let timing = "24 MP \(colorSpace.displayName) \(matrixMode.displayName) \(sampleSource.displayName) took \(elapsed) seconds"
+                    let label = "\(colorSpace.displayName) \(matrixMode.displayName) \(sampleSource.displayName)"
+                    let timing = "24 MP \(label) took \(elapsed) seconds"
                     print(timing)
 
                     XCTAssertEqual(result.image.width, width)
                     XCTAssertEqual(result.image.height, height)
-                    XCTAssertLessThan(
-                        elapsed,
-                        5,
-                        timing
-                    )
+
+                    var recordTimings = [Double]()
+                    for _ in 0..<21 {
+                        let recordStart = CFAbsoluteTimeGetCurrent()
+                        let record = try AnalysisRecord(
+                            decodedSource: decoded,
+                            displayFilename: "performance-fixture.tif",
+                            enhancement: result
+                        )
+                        recordTimings.append(CFAbsoluteTimeGetCurrent() - recordStart)
+                        XCTAssertEqual(record.input.method, input.method)
+                        XCTAssertEqual(record.mathematics.samplePixelCount, result.descriptor.samplePixelCount)
+                    }
+                    caseTimings.append((label, elapsed, median(recordTimings)))
                 }
             }
+        }
+
+        // Measure feature overhead separately from the existing eight-case
+        // enhancement matrix. Five hash samples and many record samples make
+        // the medians resistant to one-off scheduler and clock noise, while
+        // using the exact production constructors on this same decoded image.
+        var fingerprintTimings = [Double]()
+        for _ in 0..<5 {
+            let start = CFAbsoluteTimeGetCurrent()
+            let fingerprint = try AnalysisSourceFingerprint.sha256(
+                width: width,
+                height: height,
+                rgba8Premultiplied: decoded.rgba8Premultiplied
+            )
+            fingerprintTimings.append(CFAbsoluteTimeGetCurrent() - start)
+            XCTAssertEqual(fingerprint, decoded.analysisSourceFingerprint)
+        }
+
+        let baselineMedian = median(caseTimings.map(\.enhancement))
+        let fingerprintMedian = median(fingerprintTimings)
+        let recordMedian = median(caseTimings.map(\.record))
+        let completeTimings = caseTimings.map { $0.enhancement + fingerprintMedian + $0.record }
+        let completeMedian = median(completeTimings)
+        let overhead = (completeMedian - baselineMedian) / baselineMedian
+        let summary = "24 MP median baseline \(baselineMedian) s; fingerprint \(fingerprintMedian) s; record \(recordMedian) s; complete \(completeMedian) s; overhead \(overhead * 100)%"
+        print(summary)
+        XCTAssertLessThan(completeMedian, 5, summary)
+        XCTAssertLessThan(overhead, 0.10, summary)
+
+        for timing in caseTimings {
+            let complete = timing.enhancement + fingerprintMedian + timing.record
+            let caseSummary = "24 MP \(timing.label): enhancement \(timing.enhancement) s; fingerprint \(fingerprintMedian) s; record \(timing.record) s; complete \(complete) s"
+            print(caseSummary)
+            XCTAssertLessThan(
+                timing.enhancement,
+                5,
+                "The existing 24 MP enhancement benchmark regressed. \(caseSummary)"
+            )
+            XCTAssertLessThan(
+                complete,
+                5,
+                "A 24 MP recorded enhancement exceeded five seconds after its measured record overhead. \(caseSummary)"
+            )
         }
     }
 #endif
@@ -339,6 +393,15 @@ final class ImagePipelineTests: XCTestCase {
         )
         XCTAssertTrue(CGImageDestinationFinalize(destination))
         return output as Data
+    }
+
+    private func median(_ values: [Double]) -> Double {
+        precondition(!values.isEmpty)
+        let sorted = values.sorted()
+        if sorted.count.isMultiple(of: 2) {
+            return (sorted[(sorted.count / 2) - 1] + sorted[sorted.count / 2]) / 2
+        }
+        return sorted[sorted.count / 2]
     }
 
     private func oversizedBilevelTIFF(width: UInt32, height: UInt32) -> Data {

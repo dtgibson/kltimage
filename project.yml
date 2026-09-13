@@ -24,6 +24,7 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         DEFINES_MODULE: YES
         SKIP_INSTALL: YES
+        CODE_SIGN_IDENTITY: "-"
 
   KLTImage:
     type: application
@@ -51,6 +52,13 @@ targets:
         CODE_SIGN_ENTITLEMENTS: KLTImage/KLTImage.entitlements
         ENABLE_APP_SANDBOX: YES
         ENABLE_HARDENED_RUNTIME: YES
+      configs:
+        Release:
+          # Local Release UI tests use ad-hoc signatures for both the app and
+          # KLTCore. Hardened library validation rejects that unsigned-team
+          # pairing before XCTest can launch. The release script still signs
+          # both bundles with Developer ID and --options runtime.
+          ENABLE_HARDENED_RUNTIME: NO
 
   KLTCoreTests:
     type: bundle.unit-test

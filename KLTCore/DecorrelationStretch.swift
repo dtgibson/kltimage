@@ -24,10 +24,18 @@ public struct StretchAnalysis: Sendable {
     public let analysisMatrix: Matrix3x3
     public let eigenvalues: SIMD3<Double>
     public let eigenvectors: Matrix3x3
+    public let transform: Matrix3x3
     public let stableVariableCount: Int
     public let stableComponentCount: Int
     public let outputScale: Double
+    public let outputMapping: StretchOutputMapping
     public let isDegenerate: Bool
+}
+
+public enum StretchOutputMapping: Equatable, Sendable {
+    case rgbGlobalRange(minimum: Double, maximum: Double, scale: Double)
+    case labD65ToSRGB
+    case limitedVariationIdentity
 }
 
 public struct StretchResult: Sendable {
@@ -122,7 +130,7 @@ public enum DecorrelationStretch {
 
         let plan = try makePlan(accumulator: accumulator)
         if plan.isDegenerate {
-            let analysis = makeAnalysis(plan: plan, outputScale: 1)
+            let analysis = makeAnalysis(plan: plan, outputMapping: .limitedVariationIdentity)
             return StretchResult(
                 pixels: pixels,
                 analysis: analysis,
@@ -163,7 +171,14 @@ public enum DecorrelationStretch {
 
         return StretchResult(
             pixels: outputPixels,
-            analysis: makeAnalysis(plan: plan, outputScale: outputScale),
+            analysis: makeAnalysis(
+                plan: plan,
+                outputMapping: .rgbGlobalRange(
+                    minimum: minimum,
+                    maximum: maximum,
+                    scale: outputScale
+                )
+            ),
             notice: nil
         )
     }
@@ -365,16 +380,26 @@ public enum DecorrelationStretch {
         )
     }
 
-    private static func makeAnalysis(plan: StretchPlan, outputScale: Double) -> StretchAnalysis {
-        StretchAnalysis(
+    private static func makeAnalysis(
+        plan: StretchPlan,
+        outputMapping: StretchOutputMapping
+    ) -> StretchAnalysis {
+        let outputScale: Double
+        switch outputMapping {
+        case let .rgbGlobalRange(_, _, scale): outputScale = scale
+        case .labD65ToSRGB, .limitedVariationIdentity: outputScale = 1
+        }
+        return StretchAnalysis(
             mean: plan.mean,
             covariance: plan.covariance,
             analysisMatrix: plan.analysisMatrix,
             eigenvalues: plan.eigenvalues,
             eigenvectors: plan.eigenvectors,
+            transform: plan.transform,
             stableVariableCount: plan.stableVariableCount,
             stableComponentCount: plan.stableComponentCount,
             outputScale: outputScale,
+            outputMapping: outputMapping,
             isDegenerate: plan.isDegenerate
         )
     }

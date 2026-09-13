@@ -24,7 +24,7 @@ struct ContentView: View {
         .environment(\.colorScheme, .light)
         .overlay(alignment: .bottom) {
             if let notice = model.exportNotice {
-                ExportNotice(text: notice)
+                ExportNotice(text: notice, isError: model.exportNoticeIsError)
                     .padding(.bottom, model.source == nil ? 20 : 114)
                     .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
             }
@@ -107,6 +107,7 @@ struct ContentView: View {
                 }
                 .accessibilityElement(children: .combine)
                 .accessibilityLabel("Status: \(model.statusLabel). Requested method: \(model.methodText).")
+                .accessibilityIdentifier("analysis-status")
 
                 Spacer()
                 zoomControls
@@ -300,14 +301,18 @@ struct TechnicalGrid: View {
 
 private struct ExportNotice: View {
     let text: String
+    let isError: Bool
 
     var body: some View {
-        Label(text, systemImage: "checkmark")
+        Label(text, systemImage: isError ? "exclamationmark.triangle" : "checkmark")
             .font(.plexSans(12, weight: .semibold))
             .foregroundStyle(Color.white)
             .padding(.horizontal, 13)
             .frame(height: 38)
-            .background(KLTColor.navy, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            .background(
+                isError ? KLTColor.warning : KLTColor.navy,
+                in: RoundedRectangle(cornerRadius: 9, style: .continuous)
+            )
             .shadow(color: KLTColor.navy.opacity(0.22), radius: 12, y: 6)
             .accessibilityAddTraits(.isStaticText)
     }

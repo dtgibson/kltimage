@@ -1,47 +1,47 @@
-## Analysis controls
+## Reproducible Analysis
 
 ### What this does
 
-KLT Image now lets an analyst choose RGB or CIE Lab D65 variables, covariance or correlation analysis, and whole-image or selected-region statistics. All eight combinations enhance the complete source image at full resolution while keeping RGB covariance with whole-image sampling as the pixel-identical default.
+KLT Image now creates an immutable analysis record with every successfully completed enhancement. The record binds the displayed result to its decoded oriented source fingerprint, exact request and sample geometry, statistical inputs, eigensystem, applied transform, and output mapping, then exposes those values in a trigger-anchored scientific inspector.
 
-A single rectangular sample can be drawn, moved, or resized directly over the image, or entered as exact top-left source-pixel X, Y, width, and height values. The same source-coordinate region remains aligned through fit, zoom, pan, and Split view. Invalid drafts remain available for correction, stop recalculation, disable export, and never fall back to whole-image statistics or an older committed region.
-
-Method changes automatically supersede older work, and only the newest result matching the visible method and sample can be exported. The unchanged source and any prior enhancement remain available for comparison while a request is processing or needs correction, with clear not-current status.
-
-The full-frame pipeline now validates a documented 64-megapixel ceiling from image metadata before requesting full-resolution decoding, then rechecks the decoder output before allocating its RGBA buffer. Oversized images fail with a specific import message instead of entering an unbounded memory-pressure path.
+Users can export the accepted snapshot as canonical version-1 JSON. Repeated exports are byte-identical, use sorted stable keys and finite round-trippable numbers, write atomically, and omit paths, timestamps, and processing UUIDs.
 
 ### How to test
 
 1. Open `KLTImage.xcodeproj` in Xcode 26 or later, select the `KLTImage` scheme and `My Mac`, then press Command-R.
-2. Open an oriented JPEG, PNG, TIFF, or HEIC image. Confirm RGB, Covariance, and Whole image are selected by default and an enhanced result appears.
-3. Switch independently between RGB and Lab, and between Covariance and Correlation. Confirm each change recalculates from the unchanged source and the active method updates in the metadata strip.
-4. Choose Selected region. Confirm export becomes unavailable and the app asks for a sample instead of using whole-image statistics.
-5. Drag on the source pane to create a rectangle. Move it from its interior and resize it from a corner; in Split view, confirm both panes show the same source-pixel bounds.
-6. Enter exact X, Y, Width, and Height values and click Apply bounds. Enter an invalid or smaller-than-four-pixel region and confirm the attempted values remain editable, the problem is explained, and export stays unavailable. Correct the values and apply again.
-7. Switch back to Whole image, then return to Selected region. Confirm the valid region is retained and reused. Clear it and confirm the app returns to the awaiting-region state.
-8. Open the method details and confirm it explains the active variables, matrix basis, statistical sample, full-image application, stable components, and exploratory limits.
-9. Export a current result as PNG, TIFF, or JPEG. Confirm its dimensions match the source and no region outline is included; PNG and TIFF should retain transparency.
-10. Open a second image. Confirm its sample resets to Whole image and navigation resets, while the current RGB/Lab and Covariance/Correlation choices remain selected.
-11. Open an image whose declared dimensions exceed 64 megapixels and confirm it is rejected with the documented limit before processing begins.
-12. Press Command-U to run the numerical, image-pipeline, and interface automation checks.
+2. Open a JPEG, PNG, TIFF, or HEIC image and wait for **Result ready**.
+3. In the metadata strip, confirm **ANALYSIS RECORD · CURRENT** appears and click **Analysis Record**.
+4. Inspect **Summary**, **Matrices**, and **Applied transform**. Confirm the filename and dimensions match the source, the request matches the visible controls, a full SHA-256 appears, and every vector, matrix, channel convention, output mapping, and integrity rule is labeled.
+5. Choose **Selected region**, define valid source-pixel bounds, and reopen the record after processing. Confirm both normalized geometry and exact half-open integer bounds are present.
+6. Change any color-space, matrix, sampling, or region setting. Confirm the record action and image export become unavailable immediately and return only after the matching result completes.
+7. Click **Export JSON**, save the suggested `<source>-klt.klt-analysis.json` file twice, and confirm the two files have identical SHA-256 checksums. Confirm whole-image JSON contains `"region": null` and no timestamp, absolute path, or job UUID.
+8. Dismiss the record and confirm Original, Split, and Enhanced comparison, zoom, pan, region editing, and full-resolution image export still work unchanged.
+9. Press Command-U in Xcode to run the Debug tests. Run the Release configuration as well; the 24-megapixel matrix must remain below five seconds for every supported analysis combination.
 
 ### Notes for reviewer
 
-- Lab processing converts sRGB values through CIE 1976 L*a*b* with a D65 reference white, transforms all source pixels, converts back to sRGB, and clips finite out-of-gamut channels while preserving alpha.
-- Correlation normalizes numerically stable variables to unit variance. Flat or nearly flat variables are excluded from normalization and reported as limited variation rather than silently switching methods.
-- A selected region supplies statistics only. Its half-open integer source-pixel bounds do not crop, mask, or localize the full-image enhancement.
-- Region sampling supports one axis-aligned rectangle with at least four source pixels. Multiple regions, freehand selection, saved presets, and exported transform data remain out of scope.
-- The shipped RGB covariance whole-image path remains byte-identical, including transparent and degenerate inputs.
-- The Release performance suite exercises all eight analysis combinations on a 24-megapixel fixture and enforces the five-second target on Apple silicon.
-- Full-frame processing is intentionally capped at 64 megapixels. Larger-image support belongs in a future tiled or out-of-core path rather than a hardware-dependent allocation attempt.
-- IBM Plex Sans and IBM Plex Mono remain bundled under the SIL Open Font License.
+- SHA-256 covers the documented domain separator, big-endian oriented dimensions, the `rgba8-premultiplied-srgb` format identifier, and the complete decoded RGBA byte buffer. The display filename is descriptive and does not affect source identity.
+- `StretchAnalysis` now retains the exact final transform and the real rendered output path: RGB global minimum/maximum/scale, Lab D65-to-sRGB finite gamut clipping, or limited-variation identity.
+- The workspace builds image and record together off the main actor, accepts them through the same request/job gate, and exposes one shared current-result predicate to image export, record inspection, and JSON export.
+- The version-1 wire contract is implemented with dedicated export DTOs rather than broad `Codable` conformance. A golden-byte test pins the exact sorted-key JSON shape and explicit whole-image null region.
+- The record stays in memory only. There is no history, imported transform, implicit sidecar, metadata embedding, database, account, analytics, or network path.
+- JSON save failures preserve the current image and record and use an atomic write so no partial final-named file remains.
+- The separately reported crash when opening a replacement image was intentionally not addressed in this feature; it remains captured as its own Fix item.
+
+### Reproducible Analysis verification
+
+- The complete Debug suite passed 43/43 tests and the complete Release suite passed 44/44 tests.
+- All 17 acceptance criteria passed, including the selected-region workflow, Analysis Record accessibility assertions, deterministic JSON export, stale-record invalidation, and comparison-state restoration.
+- Every supported 24-megapixel analysis combination remained below five seconds, and record generation added 1.687% median overhead.
+- The repeated and near-equal eigensystem determinism regression passed.
+- The real app was inspected at approximately 1200 points wide. Summary, Matrices, Applied Transform, footer controls, JSON export, stale-record invalidation, and restoration after matching region analysis all behaved as designed; the trigger-anchored popover remained fully visible.
+- Full Keyboard Access was disabled during automation, so keyboard coverage combines UI XCTest with live accessibility-tree verification.
+- XcodeGen completed successfully, the Swift UI design lint reported no findings across all eight app source files, and `git diff --check` passed.
 
 ## Convention Flags
 
-- Keep scientific transforms in the independently testable `KLTCore` framework and keep file-panel and presentation state in the main-actor workspace model.
-- Normalize imported images to oriented 8-bit sRGB premultiplied RGBA before analysis, and preserve the original decoded buffer unchanged.
-- Keep analysis keys and request identity explicit so canceled or superseded work can never become current or exportable.
-- Keep all image processing local, cancellable, deterministic, and off the main thread.
+- Pair every accepted enhancement and analysis record in one immutable, job-identified workspace snapshot so inspection and export cannot reconstruct scientific values from mutable controls.
+- Treat the versioned analysis JSON as a protocol contract with dedicated DTOs, sorted keys, explicit nulls, finite-value validation, and golden-byte coverage.
 
 ## Trusted release signing fix
 

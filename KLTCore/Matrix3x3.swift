@@ -23,6 +23,8 @@ public struct Matrix3x3: Equatable, Sendable {
         set { storage[(row * 3) + column] = newValue }
     }
 
+    public var rowMajorValues: [Double] { storage }
+
     public var transposed: Matrix3x3 {
         var result = Matrix3x3()
         for row in 0..<3 {
@@ -81,7 +83,7 @@ public struct Matrix3x3: Equatable, Sendable {
         return result
     }
 
-    var isFinite: Bool {
+    public var isFinite: Bool {
         storage.allSatisfy(\.isFinite)
     }
 }

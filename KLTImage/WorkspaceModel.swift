@@ -46,7 +46,15 @@ struct AnalysisJobIdentity: Equatable, Sendable {
 
 struct CompletedEnhancement: @unchecked Sendable {
     let key: AnalysisRequestKey
+    let jobID: UUID
     let value: EnhancedImage
+    let record: AnalysisRecord
+}
+
+struct AnalysisRecordPresentation: Identifiable, Sendable {
+    let id: UUID
+    let value: AnalysisRecord
+    let suggestedFilename: String
 }
 
 struct RegionEditorState: Equatable {
@@ -111,11 +119,17 @@ private final class ExportFormatAccessoryController: NSObject {
 @MainActor
 @Observable
 final class WorkspaceModel {
+    private enum ExportKind {
+        case image
+        case analysisRecord
+    }
+
     private(set) var source: DecodedImage?
     private(set) var completedEnhancement: CompletedEnhancement?
     private(set) var phase: WorkspacePhase = .empty
     private(set) var sourceName = ""
     private(set) var exportNotice: String?
+    private(set) var exportNoticeIsError = false
     private(set) var colorSpace: AnalysisColorSpace = .rgb
     private(set) var matrixMode: AnalysisMatrixMode = .covariance
     private(set) var sampleSource: AnalysisSampleSource = .wholeImage
@@ -143,6 +157,7 @@ final class WorkspaceModel {
     private var activeOperation: Task<Void, Never>?
     private var noticeTask: Task<Void, Never>?
     private var operationID = UUID()
+    private var exportKind: ExportKind?
 
     var enhanced: EnhancedImage? { completedEnhancement?.value }
 
@@ -159,11 +174,16 @@ final class WorkspaceModel {
     }
 
     var canExport: Bool {
-        guard phase == .ready,
-              let completedEnhancement,
-              let currentRequestKey
-        else { return false }
-        return completedEnhancement.key == currentRequestKey
+        currentCompletedEnhancement != nil
+    }
+
+    var currentAnalysisRecord: AnalysisRecordPresentation? {
+        guard let result = currentCompletedEnhancement else { return nil }
+        return AnalysisRecordPresentation(
+            id: result.jobID,
+            value: result.record,
+            suggestedFilename: suggestedAnalysisRecordFilename
+        )
     }
 
     var canChangePresentation: Bool { source != nil }
@@ -191,7 +211,8 @@ final class WorkspaceModel {
         case .invalidRegion: "Region needs attention"
         case .processing: enhanced == nil ? "Calculating result" : "Updating result"
         case .ready: enhanced?.descriptor.hasLimitedVariation == true ? "Limited variation" : "Result ready"
-        case .exporting: "Exporting full resolution"
+        case .exporting:
+            exportKind == .analysisRecord ? "Exporting record" : "Exporting full resolution"
         case .failed: "Needs attention"
         }
     }
@@ -214,6 +235,8 @@ final class WorkspaceModel {
         invalidateActiveOperation()
         noticeTask?.cancel()
         exportNotice = nil
+        exportNoticeIsError = false
+        exportKind = nil
         source = nil
         sourceIdentity = nil
         completedEnhancement = nil
@@ -332,7 +355,7 @@ final class WorkspaceModel {
     }
 
     func presentExportPanel() {
-        guard canExport, let completedEnhancement else { return }
+        guard let completedEnhancement = currentCompletedEnhancement else { return }
 
         let panel = NSSavePanel()
         panel.title = "Export enhanced image"
@@ -349,8 +372,38 @@ final class WorkspaceModel {
         export(completedEnhancement, to: url, format: format)
     }
 
+    func presentAnalysisRecordExportPanel(_ snapshot: AnalysisRecordPresentation) {
+        guard analysisRecordIsCurrent(snapshot) else {
+            showExportNotice(
+                "The analysis record is no longer current. Wait for the matching result, then export again.",
+                isError: true
+            )
+            return
+        }
+
+        let panel = NSSavePanel()
+        panel.title = "Export analysis record"
+        panel.prompt = "Export JSON"
+        panel.canCreateDirectories = true
+        panel.isExtensionHidden = false
+        panel.allowedContentTypes = [.json]
+        panel.nameFieldStringValue = snapshot.suggestedFilename
+
+        guard panel.runModal() == .OK, var url = panel.url else { return }
+        guard analysisRecordIsCurrent(snapshot) else {
+            showExportNotice(
+                "The analysis record changed before it could be saved. Wait for the current result, then export again.",
+                isError: true
+            )
+            return
+        }
+        if url.pathExtension.isEmpty { url.appendPathExtension("klt-analysis.json") }
+        exportAnalysisRecord(snapshot, to: url)
+    }
+
     func cancelCurrentOperation() {
         let priorPhase = phase
+        let priorExportKind = exportKind
         invalidateActiveOperation()
         switch priorPhase {
         case .importing:
@@ -363,7 +416,10 @@ final class WorkspaceModel {
             statusAnnouncement = "Image import canceled."
         case .exporting:
             phase = .ready
-            statusAnnouncement = "Image export canceled."
+            statusAnnouncement = priorExportKind == .analysisRecord
+                ? "Analysis record export canceled."
+                : "Image export canceled."
+            exportKind = nil
         default:
             break
         }
@@ -383,6 +439,7 @@ final class WorkspaceModel {
         activeAnalysisJob = nil
 
         let input = analysisInput
+        let displayFilename = sourceName
         let key = AnalysisRequestKey(source: sourceIdentity, input: input)
         currentRequestKey = key
 
@@ -423,8 +480,13 @@ final class WorkspaceModel {
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
             do {
                 let result = try ImagePipeline.enhance(source, input: input)
+                let record = try AnalysisRecord(
+                    decodedSource: source,
+                    displayFilename: displayFilename,
+                    enhancement: result
+                )
                 try Task.checkCancellation()
-                await self?.acceptEnhancedImage(result, job: job)
+                await self?.acceptEnhancedImage(result, record: record, job: job)
             } catch is CancellationError {
                 await self?.acceptAnalysisCancellation(job: job)
             } catch {
@@ -461,7 +523,9 @@ final class WorkspaceModel {
     ) {
         activeOperation?.cancel()
         phase = .exporting
+        exportKind = .image
         exportNotice = nil
+        exportNoticeIsError = false
         statusAnnouncement = "Exporting the current full-resolution enhanced image."
         let newOperationID = UUID()
         operationID = newOperationID
@@ -489,6 +553,40 @@ final class WorkspaceModel {
         }
     }
 
+    private func exportAnalysisRecord(
+        _ snapshot: AnalysisRecordPresentation,
+        to url: URL
+    ) {
+        activeOperation?.cancel()
+        phase = .exporting
+        exportKind = .analysisRecord
+        exportNotice = nil
+        exportNoticeIsError = false
+        statusAnnouncement = "Exporting the current analysis record locally."
+        let newOperationID = UUID()
+        operationID = newOperationID
+        let accessedSecurityScope = url.startAccessingSecurityScopedResource()
+        activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
+            defer {
+                if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
+            }
+            do {
+                try Task.checkCancellation()
+                try AnalysisRecordJSONEncoder.write(snapshot.value, to: url)
+                try Task.checkCancellation()
+                await self?.acceptAnalysisRecordExport(
+                    url: url,
+                    snapshotID: snapshot.id,
+                    operationID: newOperationID
+                )
+            } catch is CancellationError {
+                await self?.acceptExportCancellation(operationID: newOperationID)
+            } catch {
+                await self?.acceptAnalysisRecordExportFailure(operationID: newOperationID)
+            }
+        }
+    }
+
     private func acceptDecodedImage(_ decoded: DecodedImage, operationID: UUID) {
         guard operationID == self.operationID, phase == .importing else { return }
         activeOperation = nil
@@ -497,14 +595,23 @@ final class WorkspaceModel {
         requestAnalysis()
     }
 
-    private func acceptEnhancedImage(_ result: EnhancedImage, job: AnalysisJobIdentity) {
+    private func acceptEnhancedImage(
+        _ result: EnhancedImage,
+        record: AnalysisRecord,
+        job: AnalysisJobIdentity
+    ) {
         guard RequestAcceptanceGate.accepts(
             completedJobID: job.id,
             completedKey: job.key,
             activeJobID: activeAnalysisJob?.id,
             currentKey: currentRequestKey
         ) else { return }
-        completedEnhancement = CompletedEnhancement(key: job.key, value: result)
+        completedEnhancement = CompletedEnhancement(
+            key: job.key,
+            jobID: job.id,
+            value: result,
+            record: record
+        )
         phase = .ready
         activeOperation = nil
         activeAnalysisJob = nil
@@ -574,7 +681,9 @@ final class WorkspaceModel {
         else { return }
         phase = .ready
         activeOperation = nil
+        exportKind = nil
         exportNotice = "Exported \(format.displayName) at full resolution"
+        exportNoticeIsError = false
         statusAnnouncement = "Enhanced image exported to \(url.lastPathComponent)."
         noticeTask?.cancel()
         noticeTask = Task { [weak self] in
@@ -588,6 +697,7 @@ final class WorkspaceModel {
         guard operationID == self.operationID, phase == .exporting else { return }
         activeOperation = nil
         phase = .ready
+        exportKind = nil
     }
 
     private func acceptExportFailure(_ error: Error, operationID: UUID) {
@@ -596,14 +706,70 @@ final class WorkspaceModel {
         phase = .ready
         let message = (error as? LocalizedError)?.errorDescription
             ?? "The image operation could not be completed."
-        exportNotice = message
+        exportKind = nil
+        showExportNotice(message, isError: true)
+    }
+
+    private func acceptAnalysisRecordExport(
+        url: URL,
+        snapshotID: UUID,
+        operationID: UUID
+    ) {
+        guard operationID == self.operationID,
+              completedEnhancement?.jobID == snapshotID
+        else { return }
+        phase = .ready
+        activeOperation = nil
+        exportKind = nil
+        showExportNotice("Exported \(url.lastPathComponent)", isError: false)
+        statusAnnouncement = "Analysis record exported to \(url.lastPathComponent)."
+    }
+
+    private func acceptAnalysisRecordExportFailure(operationID: UUID) {
+        guard operationID == self.operationID, phase == .exporting else { return }
+        activeOperation = nil
+        phase = .ready
+        exportKind = nil
+        let message = "The analysis record could not be saved at that location. Choose another destination; your image and record are unchanged."
+        showExportNotice(message, isError: true)
         statusAnnouncement = message
+    }
+
+    private var currentCompletedEnhancement: CompletedEnhancement? {
+        guard phase == .ready,
+              let completedEnhancement,
+              let currentRequestKey,
+              completedEnhancement.key == currentRequestKey
+        else { return nil }
+        return completedEnhancement
+    }
+
+    private var suggestedAnalysisRecordFilename: String {
+        let stem = (sourceName as NSString).deletingPathExtension
+        return "\(stem)-klt.klt-analysis.json"
+    }
+
+    private func analysisRecordIsCurrent(_ snapshot: AnalysisRecordPresentation) -> Bool {
+        currentCompletedEnhancement?.jobID == snapshot.id
+    }
+
+    private func showExportNotice(_ message: String, isError: Bool) {
+        exportNotice = message
+        exportNoticeIsError = isError
+        noticeTask?.cancel()
+        noticeTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(2.2))
+            guard !Task.isCancelled else { return }
+            self?.exportNotice = nil
+            self?.exportNoticeIsError = false
+        }
     }
 
     private func invalidateActiveOperation() {
         activeOperation?.cancel()
         activeOperation = nil
         activeAnalysisJob = nil
+        exportKind = nil
         operationID = UUID()
     }
 }
@@ -618,10 +784,20 @@ extension WorkspaceModel {
         else { return model }
         let sourceIdentity = SourceIdentity(generation: UUID())
         let key = AnalysisRequestKey(source: sourceIdentity, input: .baseline)
+        guard let record = try? AnalysisRecord(
+            decodedSource: source,
+            displayFilename: "starling-feather.png",
+            enhancement: enhanced
+        ) else { return model }
         model.source = source
         model.sourceIdentity = sourceIdentity
         model.currentRequestKey = key
-        model.completedEnhancement = CompletedEnhancement(key: key, value: enhanced)
+        model.completedEnhancement = CompletedEnhancement(
+            key: key,
+            jobID: UUID(),
+            value: enhanced,
+            record: record
+        )
         model.sourceName = "starling-feather.png"
         model.phase = .ready
         model.statusAnnouncement = "Enhancement complete."

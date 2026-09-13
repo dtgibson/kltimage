@@ -64,11 +64,40 @@ final class KLTImageUITests: XCTestCase {
             "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement."
         )
 
+        let analysisRecordButton = app.buttons["analysis-record-button"]
+        XCTAssertTrue(analysisRecordButton.waitForExistence(timeout: 3))
+        XCTAssertTrue(analysisRecordButton.isEnabled)
+        analysisRecordButton.click()
+        let closeAnalysisRecordButton = app.buttons["close-analysis-record-button"]
+        XCTAssertTrue(closeAnalysisRecordButton.waitForExistence(timeout: 2))
+        XCTAssertTrue(app.buttons["analysis-record-tab-0"].exists)
+        XCTAssertTrue(app.buttons["analysis-record-tab-1"].exists)
+        XCTAssertTrue(app.buttons["analysis-record-tab-2"].exists)
+        XCTAssertTrue(app.buttons["export-analysis-record-button"].exists)
+        XCTAssertTrue(app.staticTexts["analysis-record-exploratory-notice"].exists)
+        let colorSpaceExplanation = accessibleElement(
+            in: app,
+            identifier: "analysis-record-color-space-explanation"
+        )
+        XCTAssertTrue(colorSpaceExplanation.exists)
+        XCTAssertTrue(colorSpaceExplanation.label.contains("RGB analyzes encoded display channels"))
+        let matrixModeExplanation = accessibleElement(
+            in: app,
+            identifier: "analysis-record-matrix-mode-explanation"
+        )
+        XCTAssertTrue(matrixModeExplanation.exists)
+        XCTAssertTrue(matrixModeExplanation.label.contains("Covariance keeps each channel's scale of variation"))
+        app.buttons["analysis-record-tab-1"].click()
+        app.buttons["analysis-record-tab-2"].click()
+        closeAnalysisRecordButton.click()
+        XCTAssertTrue(closeAnalysisRecordButton.waitForNonExistence(timeout: 2))
+
         verifyMethodDetailsFocusRoundTrip(in: app)
 
         app.buttons["selected-region-sample-button"].click()
         XCTAssertTrue(app.staticTexts["analysis-status-banner"].waitForExistence(timeout: 2))
         XCTAssertFalse(exportButton.isEnabled)
+        XCTAssertTrue(analysisRecordButton.waitForNonExistence(timeout: 2))
         let xField = app.textFields["region-x-field"]
         let yField = app.textFields["region-y-field"]
         let widthField = app.textFields["region-width-field"]
@@ -91,12 +120,16 @@ final class KLTImageUITests: XCTestCase {
         XCTAssertEqual(widthField.value as? String, "48")
         XCTAssertEqual(heightField.value as? String, "32")
         app.buttons["apply-region-button"].click()
+        waitForReadyResult(in: app, method: "RGB · covariance · selected region")
         XCTAssertEqual(
             app.staticTexts["region-feedback"].value as? String,
-            "Region is valid. Its pixels establish the transform; the full image receives it. "
-                + "Active method: RGB · covariance · selected region. 3 stable components · local processing"
+            "Region is valid. Its pixels establish the transform; the full image receives it."
         )
-        waitForReadyResult(in: app, method: "RGB · covariance · selected region")
+        assertActiveMethodSummary(
+            in: app,
+            equals: "Active method: RGB · covariance · selected region. 3 stable components · local processing"
+        )
+        XCTAssertTrue(analysisRecordButton.waitForExistence(timeout: 2))
 
         widthField.click()
         app.typeKey("a", modifierFlags: .command)
@@ -105,10 +138,14 @@ final class KLTImageUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["analysis-status-banner"].waitForExistence(timeout: 2))
         XCTAssertEqual(
             app.staticTexts["region-feedback"].value as? String,
-            "Width and height must both be positive. Values are kept for correction. "
-                + "Active method: RGB · covariance · selected region. Region needs correction · no fallback"
+            "Width and height must both be positive. Values are kept for correction."
+        )
+        assertActiveMethodSummary(
+            in: app,
+            equals: "Active method: RGB · covariance · selected region. Region needs correction · no fallback"
         )
         XCTAssertFalse(exportButton.isEnabled)
+        XCTAssertTrue(analysisRecordButton.waitForNonExistence(timeout: 2))
 
         widthField.click()
         app.typeKey("a", modifierFlags: .command)
@@ -118,12 +155,16 @@ final class KLTImageUITests: XCTestCase {
         XCTAssertFalse(exportButton.isEnabled)
 
         app.buttons["apply-region-button"].click()
+        waitForReadyResult(in: app, method: "RGB · correlation · selected region")
         XCTAssertEqual(
             app.staticTexts["region-feedback"].value as? String,
-            "Region is valid. Its pixels establish the transform; the full image receives it. "
-                + "Active method: RGB · correlation · selected region. 3 stable components · local processing"
+            "Region is valid. Its pixels establish the transform; the full image receives it."
         )
-        waitForReadyResult(in: app, method: "RGB · correlation · selected region")
+        assertActiveMethodSummary(
+            in: app,
+            equals: "Active method: RGB · correlation · selected region. 3 stable components · local processing"
+        )
+        XCTAssertTrue(analysisRecordButton.waitForExistence(timeout: 2))
     }
 
     private func accessibleElement(in app: XCUIApplication, identifier: String) -> XCUIElement {
@@ -132,17 +173,23 @@ final class KLTImageUITests: XCTestCase {
 
     private func waitForReadyResult(in app: XCUIApplication, method: String) {
         let expectedStatus = "Status: Result ready. Requested method: \(method)."
-        let readyStatus = app.descendants(matching: .any)
-            .matching(NSPredicate(format: "label == %@", expectedStatus))
-            .firstMatch
+        let readyStatus = accessibleElement(in: app, identifier: "analysis-status")
         XCTAssertTrue(readyStatus.waitForExistence(timeout: 8))
-        XCTAssertEqual(readyStatus.label, expectedStatus)
+        expectation(for: NSPredicate(format: "value == %@", expectedStatus), evaluatedWith: readyStatus)
+        waitForExpectations(timeout: 8)
+        XCTAssertEqual(readyStatus.value as? String, expectedStatus)
         XCTAssertFalse(app.staticTexts["analysis-status-banner"].exists)
 
         let currentExportButton = app.buttons.matching(identifier: "export-result-button").firstMatch
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: currentExportButton)
         waitForExpectations(timeout: 2)
         XCTAssertTrue(currentExportButton.isEnabled)
+    }
+
+    private func assertActiveMethodSummary(in app: XCUIApplication, equals expectedValue: String) {
+        let summary = accessibleElement(in: app, identifier: "active-method-summary")
+        XCTAssertTrue(summary.exists)
+        XCTAssertEqual(summary.value as? String, expectedValue)
     }
 
     private func verifyMethodDetailsFocusRoundTrip(in app: XCUIApplication) {

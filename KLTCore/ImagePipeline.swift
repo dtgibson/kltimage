@@ -9,6 +9,7 @@ public struct DecodedImage: @unchecked Sendable {
     public let sourceTypeIdentifier: String?
     public let hasAlpha: Bool
     public let originalImage: CGImage
+    public let analysisSourceFingerprint: AnalysisSourceFingerprint
 
     let rgba8Premultiplied: Data
 
@@ -220,6 +221,11 @@ public enum ImagePipeline {
             }
             return false
         }
+        let fingerprint = try AnalysisSourceFingerprint.sha256(
+            width: width,
+            height: height,
+            rgba8Premultiplied: rgba
+        )
 
         return DecodedImage(
             width: width,
@@ -227,6 +233,7 @@ public enum ImagePipeline {
             sourceTypeIdentifier: CGImageSourceGetType(source) as String?,
             hasAlpha: hasAlpha,
             originalImage: originalImage,
+            analysisSourceFingerprint: fingerprint,
             rgba8Premultiplied: rgba
         )
     }
@@ -251,7 +258,7 @@ public enum ImagePipeline {
         if plan.isDegenerate {
             return EnhancedImage(
                 image: source.originalImage,
-                analysis: analysis(for: plan, outputScale: 1),
+                analysis: analysis(for: plan, outputMapping: .limitedVariationIdentity),
                 descriptor: descriptor(
                     input: .baseline,
                     samplePixelCount: source.pixelCount,
@@ -323,7 +330,14 @@ public enum ImagePipeline {
 
         return EnhancedImage(
             image: image,
-            analysis: analysis(for: plan, outputScale: outputScale),
+            analysis: analysis(
+                for: plan,
+                outputMapping: .rgbGlobalRange(
+                    minimum: minimum,
+                    maximum: maximum,
+                    scale: outputScale
+                )
+            ),
             descriptor: descriptor(
                 input: .baseline,
                 samplePixelCount: source.pixelCount,
@@ -394,7 +408,7 @@ public enum ImagePipeline {
             }
             return EnhancedImage(
                 image: source.originalImage,
-                analysis: analysis(for: plan, outputScale: 1),
+                analysis: analysis(for: plan, outputMapping: .limitedVariationIdentity),
                 descriptor: descriptor(
                     input: input,
                     samplePixelCount: source.pixelCount,
@@ -406,15 +420,19 @@ public enum ImagePipeline {
         }
 
         let output: Data
-        let outputScale: Double
+        let outputMapping: StretchOutputMapping
         switch input.method.colorSpace {
         case .rgb:
             let rendered = try renderRGB(source: source, plan: plan)
             output = rendered.data
-            outputScale = rendered.scale
+            outputMapping = .rgbGlobalRange(
+                minimum: rendered.minimum,
+                maximum: rendered.maximum,
+                scale: rendered.scale
+            )
         case .lab:
             output = try renderLab(source: source, plan: plan)
-            outputScale = 1
+            outputMapping = .labD65ToSRGB
         }
 
         try Task.checkCancellation()
@@ -432,7 +450,7 @@ public enum ImagePipeline {
             : nil
         return EnhancedImage(
             image: image,
-            analysis: analysis(for: plan, outputScale: outputScale),
+            analysis: analysis(for: plan, outputMapping: outputMapping),
             descriptor: resultDescriptor,
             notice: notice,
             rgba8Premultiplied: output
@@ -477,16 +495,26 @@ public enum ImagePipeline {
         return output as Data
     }
 
-    private static func analysis(for plan: StretchPlan, outputScale: Double) -> StretchAnalysis {
-        StretchAnalysis(
+    private static func analysis(
+        for plan: StretchPlan,
+        outputMapping: StretchOutputMapping
+    ) -> StretchAnalysis {
+        let outputScale: Double
+        switch outputMapping {
+        case let .rgbGlobalRange(_, _, scale): outputScale = scale
+        case .labD65ToSRGB, .limitedVariationIdentity: outputScale = 1
+        }
+        return StretchAnalysis(
             mean: plan.mean,
             covariance: plan.covariance,
             analysisMatrix: plan.analysisMatrix,
             eigenvalues: plan.eigenvalues,
             eigenvectors: plan.eigenvectors,
+            transform: plan.transform,
             stableVariableCount: plan.stableVariableCount,
             stableComponentCount: plan.stableComponentCount,
             outputScale: outputScale,
+            outputMapping: outputMapping,
             isDegenerate: plan.isDegenerate
         )
     }
@@ -505,7 +533,10 @@ public enum ImagePipeline {
         )
     }
 
-    private static func renderRGB(source: DecodedImage, plan: StretchPlan) throws -> (data: Data, scale: Double) {
+    private static func renderRGB(
+        source: DecodedImage,
+        plan: StretchPlan
+    ) throws -> (data: Data, minimum: Double, maximum: Double, scale: Double) {
         var minimum = Double.infinity
         var maximum = -Double.infinity
         try source.rgba8Premultiplied.withUnsafeBytes { rawBuffer in
@@ -528,7 +559,7 @@ public enum ImagePipeline {
         guard range.isFinite else { throw DecorrelationStretchError.nonFiniteInput }
         let outputScale = range > DecorrelationStretch.absoluteVarianceFloor ? 1 / range : 1
         guard range > DecorrelationStretch.absoluteVarianceFloor else {
-            return (source.rgba8Premultiplied, outputScale)
+            return (source.rgba8Premultiplied, minimum, maximum, outputScale)
         }
 
         var output = Data(count: source.pixelCount * 4)
@@ -559,7 +590,7 @@ public enum ImagePipeline {
                 }
             }
         }
-        return (output, outputScale)
+        return (output, minimum, maximum, outputScale)
     }
 
     private static func renderLab(source: DecodedImage, plan: StretchPlan) throws -> Data {

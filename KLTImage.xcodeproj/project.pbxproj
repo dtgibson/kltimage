@@ -23,9 +23,12 @@
 		61FC22F558D687A7568F6FF0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
 		862C2521EAEE06FF8D03BE71 /* AnalysisTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */; };
 		A33CBC4A926D4FB9E6D6CD85 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE9320651DAD60AEBD5392 /* ContentView.swift */; };
+		A3C8110E61FB79B95DE02141 /* AnalysisRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2946AD867FA688B35BC629D1 /* AnalysisRecordTests.swift */; };
 		BF2B1F19FD419FCE39DC0378 /* OFL-IBM-Plex-Mono.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04EFA2837EC864B8FD08CFF2 /* OFL-IBM-Plex-Mono.txt */; };
 		C4D91E24FC695DFB6ABFD890 /* AnalysisControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */; };
 		CD5DFC9548A36A5762B0806A /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */; };
+		CEB4769CF2151B9C00DA100B /* AnalysisRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E32EBF2EF7AA4BCF3DB762 /* AnalysisRecordView.swift */; };
+		D609079D47F863670AB98AA4 /* AnalysisRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23475334AC619E94A301CF7 /* AnalysisRecord.swift */; };
 		DD695F5905932272DA68B5E6 /* WorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */; };
 		E079A9202AC8C1701446DC86 /* ComparisonCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */; };
 		E1FBA7C30217546DAB90E833 /* KLTImageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EC820EA66EC4781A49B54F /* KLTImageUITests.swift */; };
@@ -89,7 +92,9 @@
 		0A8AB88805547BDA0337CB22 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		0B7DD1300862E21653F3288B /* KLTCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorrelationStretch.swift; sourceTree = "<group>"; };
+		2946AD867FA688B35BC629D1 /* AnalysisRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecordTests.swift; sourceTree = "<group>"; };
 		3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisControlsTests.swift; sourceTree = "<group>"; };
+		45E32EBF2EF7AA4BCF3DB762 /* AnalysisRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecordView.swift; sourceTree = "<group>"; };
 		4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
 		64EE9320651DAD60AEBD5392 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		65D433182C2DD7D13AA7CF5C /* KLTCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KLTCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +108,7 @@
 		88EC820EA66EC4781A49B54F /* KLTImageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTImageUITests.swift; sourceTree = "<group>"; };
 		9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>"; };
 		A03417358DC58628252EE97E /* KLTImageUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTImageUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A23475334AC619E94A301CF7 /* AnalysisRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecord.swift; sourceTree = "<group>"; };
 		B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTCoreTests.swift; sourceTree = "<group>"; };
 		C674ACA4F9FEEEDAAE4DB49D /* MetadataStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataStrip.swift; sourceTree = "<group>"; };
 		CE6334CB251C5906227075EB /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
@@ -136,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */,
+				2946AD867FA688B35BC629D1 /* AnalysisRecordTests.swift */,
 				B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */,
 			);
 			path = KLTCoreTests;
@@ -170,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				86586C3D5940EBC2EBA0B10C /* AnalysisControlsView.swift */,
+				45E32EBF2EF7AA4BCF3DB762 /* AnalysisRecordView.swift */,
 				82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */,
 				64EE9320651DAD60AEBD5392 /* ContentView.swift */,
 				0A8AB88805547BDA0337CB22 /* DesignSystem.swift */,
@@ -212,6 +220,7 @@
 		DDAC1222555800DDCE129C40 /* KLTCore */ = {
 			isa = PBXGroup;
 			children = (
+				A23475334AC619E94A301CF7 /* AnalysisRecord.swift */,
 				716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */,
 				1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */,
 				6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */,
@@ -357,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D609079D47F863670AB98AA4 /* AnalysisRecord.swift in Sources */,
 				862C2521EAEE06FF8D03BE71 /* AnalysisTypes.swift in Sources */,
 				26D9ADDC65B7642C76C08528 /* DecorrelationStretch.swift in Sources */,
 				CD5DFC9548A36A5762B0806A /* ImagePipeline.swift in Sources */,
@@ -369,6 +379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A8A6770D081A776C31227DB /* AnalysisControlsView.swift in Sources */,
+				CEB4769CF2151B9C00DA100B /* AnalysisRecordView.swift in Sources */,
 				E079A9202AC8C1701446DC86 /* ComparisonCanvas.swift in Sources */,
 				A33CBC4A926D4FB9E6D6CD85 /* ContentView.swift in Sources */,
 				2E1960B699DB1D983BEEC22E /* DesignSystem.swift in Sources */,
@@ -383,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4D91E24FC695DFB6ABFD890 /* AnalysisControlsTests.swift in Sources */,
+				A3C8110E61FB79B95DE02141 /* AnalysisRecordTests.swift in Sources */,
 				0DE32AA093B94632B3158E78 /* KLTCoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,7 +487,7 @@
 		3D147BEBE6B58098138D249C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -536,7 +548,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "KLT Image";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
@@ -620,7 +632,7 @@
 		A4E284B84DB7E735842B60F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

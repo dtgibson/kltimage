@@ -18,6 +18,7 @@ xcuserdata/
 
 # Packaged releases are published separately from source control
 *.zip
+/releases/*.zip.sha256
 
 # Feature-specific Xcode build products
 .build-*/

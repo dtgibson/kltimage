@@ -39,7 +39,7 @@ Final verification passes 78/78 arm64 Debug core/app tests, 80/80 optimized `Rel
 
 ## Preparing a trusted macOS release
 
-The 1.3.0 build 6 candidate uses the same fail-closed process as trusted 1.2.0 build 5 and stays within the existing GitHub plus tailnet-only Tailscale setup. It requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
+The 1.3.1 build 7 candidate uses the same fail-closed process as trusted 1.3.0 build 6 and stays within the existing GitHub plus tailnet-only Tailscale setup. It requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
 
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun notarytool store-credentials "kltimage-release"
@@ -73,7 +73,7 @@ Exercise that final boundary without building or notarizing:
 After copying or downloading an artifact, verify it against its separately recorded SHA-256:
 
 ```sh
-./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.0-build-6.zip EXPECTED_SHA256
+./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.1-build-7.zip EXPECTED_SHA256
 ```
 
 This verification never removes quarantine. Build 6 was published only after explicit production approval; fresh GitHub and tailnet downloads matched byte-for-byte and independently passed this verifier. Trusted 1.2.0 build 5 remains the rollback release.

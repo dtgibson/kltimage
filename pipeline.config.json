@@ -30,28 +30,28 @@
     "branch": "main",
     "visibility": "public GitHub release plus tailnet-only Tailscale mirror",
     "baseURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview",
-    "githubReleaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.2.0",
+    "githubReleaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.3.0",
     "artifactDirectory": "/Users/developer/devwork/kltimage/releases",
     "serveRoute": "/kltimage-preview",
     "serveProxy": "http://127.0.0.1:8786",
     "currentRelease": {
-      "version": "1.2.0",
-      "build": "5",
-      "url": "https://github.com/dtgibson/kltimage/releases/download/v1.2.0/KLT-Image-1.2.0-build-5.zip",
-      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.2.0/KLT-Image-1.2.0-build-5.zip",
-      "tailscaleURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.2.0-build-5.zip",
-      "sha256": "66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa"
+      "version": "1.3.0",
+      "build": "6",
+      "url": "https://github.com/dtgibson/kltimage/releases/download/v1.3.0/KLT-Image-1.3.0-build-6.zip",
+      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.3.0/KLT-Image-1.3.0-build-6.zip",
+      "tailscaleURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.3.0-build-6.zip",
+      "sha256": "dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3"
     },
     "rollbackArtifact": {
-      "version": "1.1.0",
-      "build": "4",
-      "artifact": "releases/KLT-Image-1.1.0-build-4.zip",
-      "sha256": "4e884df54b06c393dbbb48c77bc96477b915dc4ba79cf26c6a29c7f59f672442",
+      "version": "1.2.0",
+      "build": "5",
+      "artifact": "releases/KLT-Image-1.2.0-build-5.zip",
+      "sha256": "66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa",
       "advertised": false
     },
     "releasePolicy": "publish each approved build at distinct versioned GitHub and tailnet paths and update advertised links only after both served copies pass independent release verification",
-    "rollback": "restore trusted Build 4 as the advertised release and remove only Build 5 from GitHub Releases and the tailnet mirror; already-downloaded copies cannot be recalled"
+    "rollback": "restore trusted Build 5 as the advertised release and remove only Build 6 from GitHub Releases and the tailnet mirror; already-downloaded copies cannot be recalled"
   },
   "createdAt": "2026-09-11T02:22:22Z",
-  "updatedAt": "2026-09-13T03:54:25Z"
+  "updatedAt": "2026-09-14T05:22:14Z"
 }

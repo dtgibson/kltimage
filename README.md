@@ -2,7 +2,7 @@
 
 KLT Image is a focused, native Mac app for revealing subtle color structure in photographs with a Karhunen-Loeve decorrelation stretch. It keeps the unchanged photograph available throughout the workflow so the enhanced result can be interpreted beside its source.
 
-KLT Image supports RGB or Lab processing, covariance or correlation analysis, and statistics from either the whole image or one rectangular sample. Every method enhances the complete image and keeps the unchanged source available in Original, Split, and Enhanced views.
+KLT Image supports standard RGB and Lab processing plus documented curated and user-defined reversible three-channel working spaces. It can calculate a transform from whole-image or selected-region statistics, or replay a saved transform without refitting it to the target image. Every method enhances the complete image and keeps the unchanged source available in Original, Side-by-Side, Slider, and Processed views.
 
 ## Requirements
 
@@ -11,24 +11,26 @@ KLT Image supports RGB or Lab processing, covariance or correlation analysis, an
 
 ## Download
 
-Download KLT Image 1.2.0 build 5 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.2.0/KLT-Image-1.2.0-build-5.zip). Members of the project's tailnet can also use the [private Tailscale mirror](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.2.0-build-5.zip).
+Download KLT Image 1.3.0 build 6 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.3.0/KLT-Image-1.3.0-build-6.zip). Members of the project's tailnet can also use the [private Tailscale mirror](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.3.0-build-6.zip).
 
-SHA-256: `66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa`
+SHA-256: `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`
 
-Build 5 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. Trusted Build 4 remains available as an unadvertised rollback artifact.
+Build 6 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. Trusted Build 5 remains available as an unadvertised rollback release.
 
 ## What it does
 
 - Opens JPEG, PNG, TIFF, and HEIC images
 - Converts the oriented source to an 8-bit sRGB working image
-- Applies deterministic decorrelation stretch in RGB or CIE Lab D65
+- Applies deterministic decorrelation stretch in standard RGB, CIE Lab D65, or curated and user-defined reversible three-channel working spaces
 - Supports covariance or correlation analysis
 - Uses either whole-image statistics or one rectangular source-pixel sample
 - Applies a region-derived transform to the complete image rather than cropping or masking it
-- Creates an immutable analysis record for the exact source, settings, statistics, and transform behind each current result
+- Maintains a local method library whose working spaces and saved transforms can be inspected, renamed, duplicated, deleted, exported, and strictly imported as inert JSON
+- Saves an accepted calculation as an immutable transform that can be replayed without refitting target statistics
+- Creates a versioned analysis record that distinguishes calculated from replayed results and captures the exact source, settings, and transform provenance
 - Exports deterministic, versioned analysis JSON for archiving and external comparison
 - Preserves the original image for visual comparison
-- Synchronizes zoom and pan in Split view
+- Synchronizes zoom and pan in Side-by-Side and Slider views
 - Exports full-resolution PNG, TIFF, or JPEG results
 - Preserves transparency in PNG and TIFF exports
 - Processes images locally without accounts, uploads, or network services
@@ -36,13 +38,13 @@ Build 5 is a universal Apple silicon and Intel app signed with Developer ID, not
 
 ## Using the app
 
-Open a photograph and processing begins with RGB, Covariance, and Whole image selected. Choose another color space or matrix mode to recalculate from the unchanged source, or choose Selected region and draw a rectangle over the source pane or enter exact source-pixel bounds. Switch among Original, Split, and Enhanced to compare the result, use Analysis Record to inspect the exact source fingerprint, settings, matrices, eigensystem, transform, and output mapping, and use Export JSON to save its deterministic sidecar. Choose Export Result to write the current full-resolution enhancement without changing the source file.
+Open a photograph and processing begins with RGB, Covariance, and Whole image selected. Choose another working space or matrix mode to recalculate from the unchanged source, or choose Selected region and draw a rectangle over the source pane or enter exact source-pixel bounds. Open Methods to inspect the built-in spaces, create a user-defined space, or save and replay an accepted transform. Switch among Original, Side-by-Side, Slider, and Processed to compare the result. Analysis Record shows whether the result was calculated or replayed and exposes its exact source fingerprint, settings, matrices, transform, and output mapping. Export JSON saves the deterministic analysis sidecar; Export Result writes the current full-resolution enhancement without changing the source file.
 
 Higher-resolution and lossless sources usually produce cleaner results. The transform can amplify compression blocks, sensor noise, and other small variations along with the color structure you want to study.
 
 ## Method
 
-KLT Image calculates a mean and covariance from either every pixel or one rectangular sample in RGB or CIE Lab D65. Covariance preserves the original variable scale, while correlation normalizes numerically stable variables to unit variance. It diagonalizes the resulting symmetric matrix with a deterministic orthonormal eigendecomposition, applies bounded component gains to the full image, and returns the result to displayable sRGB while preserving alpha.
+KLT Image calculates a mean and covariance from either every pixel or one rectangular sample in RGB, CIE Lab D65, or a validated reversible affine working space. Covariance preserves the original variable scale, while correlation normalizes numerically stable variables to unit variance. It diagonalizes the resulting symmetric matrix with a deterministic orthonormal eigendecomposition, applies bounded component gains to the full image, and returns the result to displayable sRGB while preserving alpha. A saved transform freezes the accepted working-space revision, center, transform, and output mapping, so replay applies those values unchanged without accumulating target statistics or solving a new transform.
 
 The unchanged decoded source buffer is kept separately from the result. Processing is cancellable and runs away from the main user-interface thread.
 
@@ -82,7 +84,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.2.0 build 5 is published on GitHub Releases and the private tailnet mirror. Both downloads match the recorded SHA-256 and pass the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, Gatekeeper, and launch checks. Reproducible Analysis passed the complete Debug and Release suites and a zero-finding security review before deployment.
+Version 1.3.0 build 6 is published on GitHub Releases and the private tailnet mirror. Fresh downloads from both channels match the recorded SHA-256 byte-for-byte and pass the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks. Custom Color Spaces and Reusable Transforms passed QA with 37 Pass, 1 Partial solely for unavailable native Intel hardware, and 0 Fail; the security review found zero issues.
 
 ## License
 

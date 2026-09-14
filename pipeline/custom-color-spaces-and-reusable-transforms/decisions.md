@@ -1,8 +1,10 @@
-# Deployment Readiness — Custom Color Spaces and Reusable Transforms
+# Production Deployment — Custom Color Spaces and Reusable Transforms
 
 **Prepared:** 2026-09-13
 
-**Status:** READY FOR THE DESTRUCTIVE PRODUCTION GATE — nothing published
+**Deployed:** 2026-09-14T05:20:11Z
+
+**Status:** DEPLOYED AND VERIFIED
 
 **Release:** KLT Image 1.3.0 build 6
 
@@ -22,11 +24,11 @@ The repository's mandatory `scripts/release-macos.sh` path built the candidate f
 
 ## Pre-Deploy Reconciliation
 
-- `origin/main` was fetched repeatedly and remained `2d18804d69ec00fcd7ca7c367ec975eb7e35eaf7`, with no remote-only commit or conflict. The prepared local line is ahead only by the scoped feature, release-preparation, and readiness-record commits.
+- Immediately before publication, `origin/main` was fetched repeatedly and remained `2d18804d69ec00fcd7ca7c367ec975eb7e35eaf7`, with no remote-only commit or conflict. The prepared local line was ahead only by the scoped feature, release-preparation, and readiness-record commits.
 - The previously dirty tracked and untracked source matched the active feature recorded in `pipeline/session-state.json` and the approved strategic brief/PRD. No unrelated user edit was found or overwritten.
 - `.derived-data/`, `.build-*`, `.qa-*`, XCTest result bundles, notarization transport files, and ignored QA/security working reports were excluded from the commits. `.derived-data/` is now explicitly ignored to keep generated test evidence out of source history.
 - There is no staging environment and no GitHub Actions workflow. The configured CI/CD equivalent is the manual signed/notarized release path plus independent verification.
-- The existing tailnet-only Tailscale Serve route is unchanged: `/kltimage-preview` still proxies to `127.0.0.1:8786`. The public GitHub and tailnet Build 5 objects remain the current advertised production release.
+- The existing tailnet-only Tailscale Serve route was unchanged: `/kltimage-preview` still proxied to `127.0.0.1:8786`. Immediately before publication, the public GitHub and tailnet Build 5 objects remained the advertised production release.
 
 ## Verification Evidence
 
@@ -39,16 +41,25 @@ The repository's mandatory `scripts/release-macos.sh` path built the candidate f
 - `scripts/release-macos.sh` verified exactly arm64+x86_64 app/framework binaries; 1.3.0/6 bundle versions; pinned Developer ID identity and Team ID; secure timestamps; hardened runtime; framework-first signing; exactly sandbox plus user-selected read/write app entitlements; no framework entitlement and no `get-task-allow`; Apple acceptance; stapling; checksum; quarantine; and Gatekeeper `source=Notarized Developer ID`.
 - `scripts/verify-macos-release.sh` independently accepted the pending archive inside the release script and accepted the final archive again in a separate invocation.
 
-## Production Gate Scope
+## Authorized Production Gate
 
-Explicit production confirmation authorizes all and only these publication actions:
+Explicit production confirmation authorized all and only these publication actions:
 
 1. Push the prepared feature, release, and readiness commits on `main`; create and push annotated tag `v1.3.0` at candidate commit `b4389bbbe6abfd61cbbeae1c20ef2f62137d6724`.
 2. Create the public GitHub Release `v1.3.0` targeting that tag, using the 1.3.0 release notes in `PR_DESCRIPTION.md`, and upload the exact verified ZIP plus its matching checksum file.
 3. Copy the same two verified files through pending names into the existing tailnet-only mirror under `/kltimage-preview/releases/`, atomically promote them to `KLT-Image-1.3.0-build-6.zip` and `.zip.sha256`, and do not alter the Tailscale route.
 4. Fresh-download both served ZIPs, require SHA-256 `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`, and independently verify both. Only after both channels pass, update `README.md`, `HOW_TO_RUN.md`, `PR_DESCRIPTION.md`, `releases/index.html`, `pipeline.config.json`, and the deployment record to advertise 1.3.0 build 6; commit and push that deployment metadata.
 
-No local tag, push, GitHub Release, hosted Build 6 file, advertised URL, or Tailscale configuration change is authorized before that confirmation.
+Before confirmation, no local tag, push, GitHub Release, hosted Build 6 file, advertised URL, or Tailscale configuration change was authorized. Confirmation was received before any publication action.
+
+## Production Deployment Result
+
+- The three prepared commits were pushed to `main`. Annotated tag `v1.3.0` was created and pushed at the pinned candidate commit `b4389bbbe6abfd61cbbeae1c20ef2f62137d6724`, not the later readiness record.
+- Public, non-draft, non-prerelease GitHub Release [KLT Image 1.3.0](https://github.com/dtgibson/kltimage/releases/tag/v1.3.0) was published with the prepared release notes. Its ZIP asset is 3,716,584 bytes and GitHub records digest `sha256:dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`; the matching 94-byte checksum asset was uploaded beside it.
+- The identical ZIP and checksum were copied into `releases/` through explicit pending names and promoted with same-volume atomic renames to `KLT-Image-1.3.0-build-6.zip` and `KLT-Image-1.3.0-build-6.zip.sha256`.
+- Fresh GitHub and tailnet downloads of both assets matched the signed candidate and each other byte-for-byte. Both ZIPs independently matched SHA-256 `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3` and passed `scripts/verify-macos-release.sh`, including exact universal architectures, pinned Developer ID and Team ID, hardened runtime, entitlements, notarization ticket, stapling, quarantine, and Gatekeeper `source=Notarized Developer ID`.
+- The Tailscale Serve route was not changed and remains `/kltimage-preview` → `http://127.0.0.1:8786`. Trusted 1.2.0 build 5 remains available on both channels as the rollback release.
+- Only after both production channels passed the release gate were the advertised links and current-release metadata updated to 1.3.0 build 6.
 
 ## Exact Rollback
 

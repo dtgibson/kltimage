@@ -1,6 +1,6 @@
 ## Using Custom Color Spaces and Reusable Transforms
 
-The feature candidate is currently run from source. Open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R. The existing trusted 1.2.0 build 5 remains available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.2.0) and the project's tailnet-only Tailscale mirror until this candidate completes the release pipeline.
+KLT Image 1.3.0 build 6 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.0) and the project's [tailnet-only Tailscale mirror](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.3.0-build-6.zip). Its SHA-256 is `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
 
 1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Wait for **Result ready**. Images, methods, filenames, and fingerprints remain local to the Mac.
 
@@ -76,4 +76,4 @@ After copying or downloading an artifact, verify it against its separately recor
 ./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.0-build-6.zip EXPECTED_SHA256
 ```
 
-This verification never removes quarantine. Publishing remains a separate, explicitly approved deployment step.
+This verification never removes quarantine. Build 6 was published only after explicit production approval; fresh GitHub and tailnet downloads matched byte-for-byte and independently passed this verifier. Trusted 1.2.0 build 5 remains the rollback release.

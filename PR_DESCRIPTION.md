@@ -49,9 +49,9 @@ The comparison toolbar now exposes all four display-only views requested by the 
 
 ## Deployment
 
-- KLT Image 1.3.0 build 6 is the next monotonic feature candidate. QA passed with 37 Pass, 1 Partial solely for unavailable native Intel hardware, and 0 Fail; security passed with zero findings.
-- Release preparation reuses the existing fail-closed universal Developer ID signing, notarization, stapling, quarantined Gatekeeper, checksum, and independent-verification path. Publication remains a separate explicitly confirmed action.
-- No production artifact or advertised link has changed. Trusted KLT Image 1.2.0 build 5 remains the exact rollback release while this candidate awaits the production gate.
+- KLT Image 1.3.0 build 6 is published as the current release at [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.0) and the existing tailnet-only Tailscale mirror. The annotated `v1.3.0` tag resolves to candidate commit `b4389bbbe6abfd61cbbeae1c20ef2f62137d6724`.
+- Both served ZIPs are 3,716,584 bytes, match SHA-256 `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3` byte-for-byte, and independently pass the fail-closed universal Developer ID signing, notarization, stapling, quarantined Gatekeeper, checksum, and verification path. The Tailscale Serve route remains unchanged.
+- QA passed with 37 Pass, 1 Partial solely for unavailable native Intel hardware, and 0 Fail; security passed with zero findings. Trusted KLT Image 1.2.0 build 5 remains the exact rollback release.
 
 ### Release notes
 

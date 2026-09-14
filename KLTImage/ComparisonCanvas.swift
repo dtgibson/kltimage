@@ -5,9 +5,8 @@ import SwiftUI
 struct ComparisonCanvas: View {
     @Bindable var model: WorkspaceModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var panAtGestureStart: CGSize?
+    @State private var gestureState = ComparisonCanvasGestureState()
     @State private var zoomAtGestureStart: Double?
-    @State private var regionEditInProgress = false
 
     var body: some View {
         ZStack {
@@ -92,7 +91,9 @@ struct ComparisonCanvas: View {
                         Rectangle().frame(width: proxy.size.width * (1 - model.comparisonReveal))
                     }
                 ComparisonRevealHandle(
-                    fraction: $model.comparisonReveal
+                    fraction: $model.comparisonReveal,
+                    dragChanged: handleRevealDrag,
+                    dragEnded: { gestureState.endRevealDrag() }
                 )
             }
         }
@@ -122,24 +123,32 @@ struct ComparisonCanvas: View {
     private var panGesture: some Gesture {
         DragGesture(minimumDistance: 2)
             .onChanged { value in
-                guard !regionEditInProgress else { return }
-                if panAtGestureStart == nil { panAtGestureStart = model.pan }
-                guard let start = panAtGestureStart else { return }
-                model.pan = CGSize(
-                    width: start.width + value.translation.width,
-                    height: start.height + value.translation.height
-                )
+                guard let updatedPan = gestureState.updatedPan(
+                    translation: value.translation,
+                    currentPan: model.pan
+                ) else { return }
+                model.pan = updatedPan
             }
-            .onEnded { _ in panAtGestureStart = nil }
+            .onEnded { _ in gestureState.endPan() }
     }
 
     private func handleRegionEditState(_ isActive: Bool) {
-        guard isActive != regionEditInProgress else { return }
-        if isActive, let start = panAtGestureStart {
-            model.pan = start
-            panAtGestureStart = nil
+        if let restoredPan = gestureState.setPanSuppression(
+            .regionEdit,
+            isActive: isActive
+        ) {
+            model.pan = restoredPan
         }
-        regionEditInProgress = isActive
+    }
+
+    private func handleRevealDrag(_ proposedFraction: Double) {
+        let update = gestureState.updateRevealDrag(
+            proposedFraction: proposedFraction
+        )
+        if let restoredPan = update.restoredPan {
+            model.pan = restoredPan
+        }
+        model.comparisonReveal = update.fraction
     }
 
     private var magnifyGesture: some Gesture {
@@ -151,6 +160,59 @@ struct ComparisonCanvas: View {
             }
             .onEnded { _ in zoomAtGestureStart = nil }
     }
+}
+
+enum ComparisonCanvasPanSuppression: Hashable {
+    case regionEdit
+    case revealHandle
+}
+
+struct ComparisonCanvasGestureState {
+    private var panAtGestureStart: CGSize?
+    private var panSuppressions: Set<ComparisonCanvasPanSuppression> = []
+
+    mutating func updatedPan(translation: CGSize, currentPan: CGSize) -> CGSize? {
+        guard panSuppressions.isEmpty else { return nil }
+        if panAtGestureStart == nil { panAtGestureStart = currentPan }
+        guard let start = panAtGestureStart else { return nil }
+        return CGSize(
+            width: start.width + translation.width,
+            height: start.height + translation.height
+        )
+    }
+
+    mutating func endPan() {
+        panAtGestureStart = nil
+    }
+
+    mutating func setPanSuppression(
+        _ suppression: ComparisonCanvasPanSuppression,
+        isActive: Bool
+    ) -> CGSize? {
+        if isActive {
+            guard panSuppressions.insert(suppression).inserted else { return nil }
+            defer { panAtGestureStart = nil }
+            return panAtGestureStart
+        }
+        panSuppressions.remove(suppression)
+        return nil
+    }
+
+    mutating func updateRevealDrag(proposedFraction: Double) -> (fraction: Double, restoredPan: CGSize?) {
+        let restoredPan = setPanSuppression(
+            .revealHandle,
+            isActive: true
+        )
+        return (clampedComparisonReveal(proposedFraction), restoredPan)
+    }
+
+    mutating func endRevealDrag() {
+        panSuppressions.remove(.revealHandle)
+    }
+}
+
+func clampedComparisonReveal(_ value: Double) -> Double {
+    min(1, max(0, value))
 }
 
 private struct ResultPane: View {
@@ -233,6 +295,8 @@ private struct ResultPane: View {
 
 private struct ComparisonRevealHandle: View {
     @Binding var fraction: Double
+    let dragChanged: (Double) -> Void
+    let dragEnded: () -> Void
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
@@ -250,8 +314,9 @@ private struct ComparisonRevealHandle: View {
                 .highPriorityGesture(
                     DragGesture(minimumDistance: 0, coordinateSpace: .named("comparison-reveal"))
                         .onChanged { value in
-                            setFraction(Double(value.location.x / max(1, proxy.size.width)), animated: false)
+                            dragChanged(Double(value.location.x / max(1, proxy.size.width)))
                         }
+                        .onEnded { _ in dragEnded() }
                 )
                 .focusable()
                 .onKeyPress(
@@ -288,7 +353,7 @@ private struct ComparisonRevealHandle: View {
     }
 
     private func setFraction(_ value: Double, animated: Bool) {
-        let update = { fraction = min(1, max(0, value)) }
+        let update = { fraction = clampedComparisonReveal(value) }
         if animated, !reduceMotion {
             withAnimation(.easeOut(duration: 0.15), update)
         } else {

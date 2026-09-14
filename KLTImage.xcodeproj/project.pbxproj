@@ -26,6 +26,7 @@
 		4E03346835B4CBCA9302F87C /* KLTImageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7BAF8148E3C49049591897 /* KLTImageApp.swift */; };
 		5840BA86E98887BD098370F0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
 		61FC22F558D687A7568F6FF0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
+		649C3F261BEFE732EBDD14F4 /* ComparisonCanvasInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DB9B7A0867C7FCFD30A603 /* ComparisonCanvasInteractionTests.swift */; };
 		7E33F58A45A4CEE83E592FA4 /* MethodLibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A911F3B31AA58649486F467 /* MethodLibraryStore.swift */; };
 		804933EC0CD463586079F027 /* ExtendedAnalysisRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544CA3C07629C36D73BDB46 /* ExtendedAnalysisRecord.swift */; };
 		8299AC7734309A132FDE39F0 /* WorkingSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE215DECB5D7F641AA742F7 /* WorkingSpace.swift */; };
@@ -127,6 +128,7 @@
 /* Begin PBXFileReference section */
 		04EFA2837EC864B8FD08CFF2 /* OFL-IBM-Plex-Mono.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-IBM-Plex-Mono.txt"; sourceTree = "<group>"; };
 		050ECDECE3ADF3FBC3158CD5 /* KLTImage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KLTImage.entitlements; sourceTree = "<group>"; };
+		07DB9B7A0867C7FCFD30A603 /* ComparisonCanvasInteractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCanvasInteractionTests.swift; sourceTree = "<group>"; };
 		0A8AB88805547BDA0337CB22 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		0ACAFE81F630FB4331FE6548 /* MethodImportAndWorkspaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodImportAndWorkspaceTests.swift; sourceTree = "<group>"; };
 		0B7DD1300862E21653F3288B /* KLTCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -285,6 +287,7 @@
 		C63AEB2BA528262B22F83546 /* KLTImageTests */ = {
 			isa = PBXGroup;
 			children = (
+				07DB9B7A0867C7FCFD30A603 /* ComparisonCanvasInteractionTests.swift */,
 				0ACAFE81F630FB4331FE6548 /* MethodImportAndWorkspaceTests.swift */,
 				FE88CB44704F4E57178D390B /* MethodLibraryStoreTests.swift */,
 			);
@@ -520,6 +523,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				649C3F261BEFE732EBDD14F4 /* ComparisonCanvasInteractionTests.swift in Sources */,
 				007F4A1283EF5730D3343362 /* MethodImportAndWorkspaceTests.swift in Sources */,
 				B5CF9BFCB331F4EEB6EA17F8 /* MethodLibraryStoreTests.swift in Sources */,
 			);

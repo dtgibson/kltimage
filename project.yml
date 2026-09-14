@@ -69,6 +69,9 @@ targets:
           # pairing before XCTest can launch. The release script still signs
           # both bundles with Developer ID and --options runtime.
           ENABLE_HARDENED_RUNTIME: NO
+          # Keep UI-test environment overrides available in this optimized
+          # test-only build without including them in the shipping Release.
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) DEBUG"
 
   KLTCoreTests:
     type: bundle.unit-test

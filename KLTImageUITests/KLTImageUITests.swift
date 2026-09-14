@@ -1,7 +1,4 @@
-import CoreGraphics
 import Foundation
-import ImageIO
-import UniformTypeIdentifiers
 import XCTest
 
 @MainActor
@@ -88,10 +85,14 @@ final class KLTImageUITests: XCTestCase {
         let app = isolatedApplication()
         app.launchEnvironment["KLT_UI_TEST_METHOD_LIBRARY_PATH"] = libraryToken
         launchIsolatedApplication(app)
-        app.typeKey(.F7, modifierFlags: [.control, .function])
-        addTeardownBlock {
-            guard app.state == .runningForeground else { return }
+
+        let enabledFullKeyboardAccess = isFullKeyboardAccessEnabled
+        if !enabledFullKeyboardAccess {
             app.typeKey(.F7, modifierFlags: [.control, .function])
+            addTeardownBlock {
+                guard app.state == .runningForeground else { return }
+                app.typeKey(.F7, modifierFlags: [.control, .function])
+            }
         }
 
         openMethodLibraryWithKeyboard(in: app)
@@ -160,7 +161,10 @@ final class KLTImageUITests: XCTestCase {
         continueAfterFailure = false
         let app = isolatedApplication()
         launchIsolatedApplication(app)
-        let imageURL = try makeFixtureImage()
+        let imageURL = URL(
+            fileURLWithPath: "/System/Library/CoreServices/StageManagerOnboarding.app/Contents/Resources/StageManager_LT.ca/assets/wallpaper.jpg"
+        )
+        XCTAssertTrue(FileManager.default.isReadableFile(atPath: imageURL.path))
         app.buttons["empty-open-image-button"].click()
 
         XCTAssertTrue(app.dialogs.firstMatch.waitForExistence(timeout: 3))
@@ -169,7 +173,16 @@ final class KLTImageUITests: XCTestCase {
         XCTAssertTrue(locationField.waitForExistence(timeout: 3))
         locationField.typeText(imageURL.path)
         app.typeKey(.return, modifierFlags: [])
-        app.typeKey(.return, modifierFlags: [])
+        XCTAssertTrue(
+            locationField.waitForNonExistence(timeout: 3),
+            "The Go to Folder sheet should finish selecting the file before it is opened"
+        )
+        let openButton = app.dialogs.firstMatch.buttons["Open Image"]
+        XCTAssertTrue(openButton.waitForExistence(timeout: 3))
+        expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: openButton)
+        waitForExpectations(timeout: 3)
+        openButton.click()
+        XCTAssertTrue(app.dialogs.firstMatch.waitForNonExistence(timeout: 3))
 
         XCTAssertTrue(app.buttons["export-result-button"].waitForExistence(timeout: 8))
         let exportButton = app.buttons["export-result-button"]
@@ -323,6 +336,12 @@ final class KLTImageUITests: XCTestCase {
         ]
         app.launchEnvironment["KLT_UI_TEST_STATE_ID"] = UUID().uuidString
         return app
+    }
+
+    private var isFullKeyboardAccessEnabled: Bool {
+        let mode = UserDefaults.standard
+            .persistentDomain(forName: UserDefaults.globalDomain)?["AppleKeyboardUIMode"] as? NSNumber
+        return mode.map { $0.intValue & 2 != 0 } ?? false
     }
 
     private func launchIsolatedApplication(
@@ -502,56 +521,6 @@ final class KLTImageUITests: XCTestCase {
         XCTAssertTrue(close.waitForNonExistence(timeout: 2))
     }
 
-    private func makeFixtureImage() throws -> URL {
-        let width = 96
-        let height = 64
-        var pixels = Data(count: width * height * 4)
-        pixels.withUnsafeMutableBytes { rawBuffer in
-            let bytes = rawBuffer.bindMemory(to: UInt8.self)
-            for index in 0..<(width * height) {
-                let offset = index * 4
-                bytes[offset] = UInt8((index * 31 + 19) % 256)
-                bytes[offset + 1] = UInt8((index * 47 + 37) % 256)
-                bytes[offset + 2] = UInt8((index * 67 + 71) % 256)
-                bytes[offset + 3] = 255
-            }
-        }
-
-        let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
-        let bitmapInfo = CGBitmapInfo.byteOrder32Big.union(
-            CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
-        )
-        let image = CGImage(
-            width: width,
-            height: height,
-            bitsPerComponent: 8,
-            bitsPerPixel: 32,
-            bytesPerRow: width * 4,
-            space: colorSpace,
-            bitmapInfo: bitmapInfo,
-            provider: CGDataProvider(data: pixels as CFData)!,
-            decode: nil,
-            shouldInterpolate: false,
-            intent: .relativeColorimetric
-        )!
-
-        let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("klt-ui-fixture-\(UUID().uuidString)")
-            .appendingPathExtension("png")
-        let output = NSMutableData()
-        let destination = CGImageDestinationCreateWithData(
-            output,
-            UTType.png.identifier as CFString,
-            1,
-            nil
-        )!
-        CGImageDestinationAddImage(destination, image, nil)
-        guard CGImageDestinationFinalize(destination) else {
-            throw CocoaError(.fileWriteUnknown)
-        }
-        try (output as Data).write(to: url, options: .atomic)
-        return url
-    }
 }
 
 private extension XCUIElement {

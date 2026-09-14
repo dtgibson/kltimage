@@ -53,7 +53,7 @@ All neutrals are blue-green tinted. Avoid pure black, dead gray, and accent-colo
 
 ### Comparison Workspace
 
-Two synchronized image panes share one canvas. Labels sit directly over each pane, and view mode changes presentation without recalculation. Native controls on the fixed light toolbar explicitly use the matching light appearance, strong ink for unselected labels, and a visible cool-gray boundary so system dark mode cannot erase their resting state.
+Original, Side-by-Side, Slider, and Processed are presentation-only views over the same immutable source and current result; switching among them never recalculates or changes exported pixels. Side-by-Side panes and Slider layers share registered zoom, pan, and source coordinates, while labels name both the visible content and calculated/replayed state. Native controls on the fixed light toolbar explicitly use the matching light appearance, strong ink for unselected labels, and a visible cool-gray boundary so system dark mode cannot erase their resting state.
 
 ### Primary Action
 

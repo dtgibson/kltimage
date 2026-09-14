@@ -1,5 +1,6 @@
 # Weft: per-run files + run records (durable docs still commit)
 session-state.json
+handoff.md
 .qa-attempts
 .continuation-owed
 */handoff.md

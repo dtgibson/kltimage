@@ -6,8 +6,12 @@ KLT Image is a native Mac scientific-imaging tool for revealing subtle color str
 
 ## Current Capabilities
 
-- **Interactive decorrelation-stretch workflow:** Opens JPEG, PNG, TIFF, and HEIC images; combines RGB or CIE Lab D65 processing with covariance or correlation analysis and whole-image or single-rectangle statistical sampling; compares Original, Split, and Enhanced views; and exports full-resolution PNG, TIFF, or JPEG results.
-- **Reproducible analysis:** Keeps an immutable record for the exact current result, exposes its decoded-source fingerprint, request, sampling geometry, statistics, eigensystem, transform, and output mapping, and exports the record as deterministic versioned JSON.
+- **Interactive analysis:** Opens JPEG, PNG, TIFF, and HEIC images and combines covariance or correlation analysis with whole-image or single-rectangle statistical sampling.
+- **Transparent working spaces:** Calculates in standard RGB and CIE Lab D65 or documented curated and user-defined reversible three-channel spaces over either base.
+- **Local method library:** Keeps user working spaces and saved transforms in a narrowly scoped sandboxed library with explicit inspect, rename, duplicate, edit where applicable, delete, export, and strict import workflows.
+- **Frozen transform replay:** Saves the complete accepted transform recipe and applies its captured mathematics unchanged without refitting statistics or output mapping to the target image.
+- **Calculated/replayed provenance:** Keeps one immutable current record that identifies how the result was produced, preserves its exact source and method snapshot, and exports deterministic versioned JSON.
+- **Comparison and export:** Presents Original, Side-by-Side, Slider, and Processed views and exports the current full-resolution result as PNG, TIFF, or JPEG.
 
 ## Scientific Behavior
 
@@ -22,13 +26,13 @@ KLT Image is a native Mac scientific-imaging tool for revealing subtle color str
 - macOS 14 or later, Swift 6, SwiftUI, and AppKit.
 - Core Graphics and ImageIO handle local image conversion and export.
 - The independently testable `KLTCore` framework owns numerical and image-processing behavior; the app target owns presentation and native file workflows.
-- There is no backend, database, account system, persistence layer, or network path.
+- There is no backend, database, account system, or product network path; persistence is limited to a narrowly scoped method-library file in sandboxed Application Support.
 - Full-frame processing has a fixed 64-million-pixel ceiling; larger images require a future tiled or out-of-core pipeline.
-- Developer ID-signed, Apple-notarized, and stapled KLT Image 1.2.0 build 5 is the current release through public GitHub Releases and a tailnet-only Tailscale mirror; both channels serve the same independently verified ZIP, with Build 4 retained as the trusted rollback artifact.
+- Developer ID-signed, Apple-notarized, and stapled KLT Image 1.3.0 build 6 is the current public GitHub and tailnet-only Tailscale release; both channels serve the same independently verified ZIP, with Build 5 retained as the trusted rollback artifact.
 
 ## Deferred Scope
 
-- In-app analysis history or projects, imported or reapplied transforms, and built-in multi-record comparison, charting, or aggregation.
+- In-app analysis history or projects and built-in multi-record comparison, charting, or aggregation.
 - Tiled or out-of-core processing for images above 64 megapixels.
-- Custom color spaces, saved transforms, and batch processing.
+- Batch processing, queues, and watched folders.
 - Opening a replacement image while another is loaded remains a separately tracked Fix.

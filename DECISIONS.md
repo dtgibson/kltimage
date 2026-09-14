@@ -65,3 +65,27 @@
 **Rationale:** Interactive color-space, matrix, and sampling choices make visually similar results ambiguous unless the app preserves the exact numerical inputs and applied output path without reconstructing them from mutable controls.
 
 **Implications:** Future record versions must preserve result currency, deterministic protocol compatibility, finite values, explicit user-directed local export, and the exploratory-use boundary. Persistent projects, comparisons, imported records, or reusable transforms require separately designed capabilities rather than silent extensions to version 1.
+
+## Separate transparent working spaces from frozen transform recipes — 2026-09-13
+
+**Decision:** Working spaces are inspectable, reversible three-channel definitions over encoded sRGB or CIE Lab D65 that calculate a new image-specific transform; saved transforms are complete immutable recipes that replay captured mathematics without fitting anything to the target image. Curated spaces use the same transparent definition model as user-created spaces and carry no scientific rank.
+
+**Rationale:** A coordinate system and a prior calculation answer different questions. Keeping them distinct lets users explore new variables or reuse one controlled method without presenting fixed replay as target-derived analysis.
+
+**Implications:** Product language, library organization, processing requests, provenance, and future method features must preserve the calculated/replayed distinction. Later edits or deletion of a working space cannot change a recipe that captured an earlier definition, and adaptive reuse requires a separately named method.
+
+## Keep local method documents strict and type-separated — 2026-09-13
+
+**Decision:** KLT Image persists only user working spaces and saved transform recipes in its sandboxed method library and exchanges them through separate versioned document types. Analysis records remain documentary and are never accepted as executable methods.
+
+**Rationale:** Explicit type boundaries make portable methods understandable and prevent historical provenance from becoming code-like input by implication, while narrowly scoped persistence supports reuse without creating an image project or history database.
+
+**Implications:** Future method formats must remain local, deterministic, bounded, fail-closed, and independently versioned. The library must not accumulate source pixels, results, analysis history, regions, bookmarks, or ordinary workspace state.
+
+## Publish Build 6 identically through GitHub and the tailnet — 2026-09-13
+
+**Decision:** KLT Image 1.3.0 build 6 is the current public GitHub and tailnet-only Tailscale release. Both channels serve the identical ZIP with SHA-256 `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`; KLT Image 1.2.0 build 5 remains unchanged as the trusted rollback release.
+
+**Rationale:** The served Build 6 copies matched the approved candidate and each other byte-for-byte after publication and passed the independent release verifier.
+
+**Implications:** Rollback restores Build 5 as the advertised release and removes only Build 6 release assets and references while leaving the existing Tailscale route and Build 5 bytes unchanged. Already-downloaded Build 6 copies cannot be recalled.

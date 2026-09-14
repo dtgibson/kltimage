@@ -4,8 +4,8 @@ set -euo pipefail
 
 readonly EXPECTED_IDENTITY="Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)"
 readonly EXPECTED_TEAM="8QKC3L2FKP"
-readonly EXPECTED_VERSION="1.2.0"
-readonly EXPECTED_BUILD="5"
+readonly EXPECTED_VERSION="1.3.0"
+readonly EXPECTED_BUILD="6"
 readonly EXPECTED_APP_IDENTIFIER="com.kltimage.mac"
 readonly EXPECTED_FRAMEWORK_IDENTIFIER="com.kltimage.core"
 
@@ -15,7 +15,7 @@ fail() {
 }
 
 usage() {
-    printf 'Usage: %s /path/to/KLT-Image-1.2.0-build-5.zip EXPECTED_SHA256\n' "$(basename "$0")" >&2
+    printf 'Usage: %s /path/to/KLT-Image-1.3.0-build-6.zip EXPECTED_SHA256\n' "$(basename "$0")" >&2
 }
 
 [[ $# -eq 2 ]] || {

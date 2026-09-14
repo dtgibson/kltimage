@@ -1,5 +1,6 @@
 # Xcode and Swift build products
 .build/
+.derived-data/
 .qa-build/
 .qa-release/
 .qa-analyze/

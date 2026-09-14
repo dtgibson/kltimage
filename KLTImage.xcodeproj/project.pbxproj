@@ -856,6 +856,7 @@
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = ReleaseTests;

@@ -22,4 +22,3 @@ No item is currently committed.
 
 - Batch processing.
 - Tiled or out-of-core processing for images above 64 megapixels.
-- Narrow the tailnet static server's document root from the repository root to published release artifacts only.

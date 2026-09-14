@@ -86,6 +86,32 @@
 
 **Decision:** KLT Image 1.3.0 build 6 is the current public GitHub and tailnet-only Tailscale release. Both channels serve the identical ZIP with SHA-256 `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`; KLT Image 1.2.0 build 5 remains unchanged as the trusted rollback release.
 
+**Status:** Superseded on 2026-09-14 by the Build 7 GitHub-only release decision below.
+
 **Rationale:** The served Build 6 copies matched the approved candidate and each other byte-for-byte after publication and passed the independent release verifier.
 
 **Implications:** Rollback restores Build 5 as the advertised release and removes only Build 6 release assets and references while leaving the existing Tailscale route and Build 5 bytes unchanged. Already-downloaded Build 6 copies cannot be recalled.
+
+## Coordinate competing canvas gestures through shared ownership — 2026-09-14
+
+**Decision:** Slider-handle dragging owns its pointer sequence and suppresses or restores simultaneous canvas pan, while background pan, reveal clamping, keyboard and accessibility controls, and selected-region suppression retain their existing behavior.
+
+**Rationale:** The handle's high-priority drag and the canvas's simultaneous pan both updated state because they had no shared suppression, so dragging the reveal divider also moved the registered images.
+
+**Implications:** Future nested canvas gestures must coordinate pan ownership at their shared boundary and cover gesture-delivery ordering in regression tests.
+
+## Treat image replacement as an atomic workspace transaction — 2026-09-14
+
+**Decision:** Keep the prior accepted workspace current while a replacement decodes; cancel or failure preserves it, and only the current successful import atomically installs a new source. Import, analysis, and export work must retain explicit operation ownership, and rendering must use a safely captured source rather than force-unwrapping mutable state.
+
+**Rationale:** A split parent/child source invariant allowed the canvas to observe nil after an earlier presence check, while ownership gaps allowed stale work or export callbacks to interfere with an active import.
+
+**Implications:** Async workspace changes must publish only from the current source generation, request, job, and operation; delayed exports must revalidate their snapshots and cannot take ownership during import.
+
+## Make GitHub the canonical release channel — 2026-09-14
+
+**Decision:** KLT Image 1.3.1 build 7 is the current GitHub-only production release at `https://github.com/dtgibson/kltimage/releases/tag/v1.3.1`; its ZIP is `https://github.com/dtgibson/kltimage/releases/download/v1.3.1/KLT-Image-1.3.1-build-7.zip`, SHA-256 is `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`, and Apple notarization submission is `ba15760f-2058-457b-a21f-5f3fc748bfbf`. Build 6 is the trusted rollback release.
+
+**Rationale:** The served GitHub artifact matched the approved candidate and independently passed the complete verifier; the user explicitly selected GitHub as the final canonical step and removed Tailscale from the required production path.
+
+**Implications:** Releases remain manual signed, notarized, GitHub-published, and independently verified with no GitHub Actions workflow. Historical tailnet artifacts may remain, but Build 7 has no tailnet acceptance claim and future releases do not require that mirror.

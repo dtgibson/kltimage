@@ -22,7 +22,8 @@
 - `project.yml` is the source of truth for the generated Xcode project; regenerate `KLTImage.xcodeproj` with XcodeGen after project-setting changes.
 - Run both Debug and Release XCTest bundles. The 24-megapixel benchmark, including source-fingerprint and analysis-record overhead, is Release-only and must remain below five seconds on supported Apple silicon.
 - Treat supported-format import, orientation, alpha preservation, deterministic output, numerical stability, and export dimensions as regression requirements.
-- Keep test path and environment overrides inside `#if DEBUG`, verify their identifying strings are absent from the shipping executable, and keep optimized `ReleaseTests` isolated from the universal hardened non-testable `Release` configuration.
+- Keep test path and environment overrides inside `#if DEBUG`. Define `DEBUG` for the optimized `ReleaseTests` configuration so XCTest can exercise those hooks, verify their identifying strings are absent from the shipping executable, and never add that condition to the universal hardened non-testable `Release` configuration.
+- Treat only signed complete XCTest runs as UI-verification evidence: `CODE_SIGNING_ALLOWED=NO` can invalidate test bundles before app tests begin. Preserve machine-wide accessibility settings, including an already-enabled Full Keyboard Access mode, rather than toggling them blindly.
 
 ## Release Packaging
 
@@ -32,4 +33,4 @@
 - Notarization acceptance, stapling, ticket validation, and quarantined Gatekeeper acceptance as `Notarized Developer ID` are mandatory before packaging or publication. Never remove quarantine as a workaround.
 - Keep the release ZIP and checksum under unmistakably pending names until the independent verifier succeeds. Verification failure may retain pending diagnostics but must leave no final-named artifact; promote final names only with same-volume renames after acceptance.
 - Verify the final ZIP with `scripts/verify-macos-release.sh` and a separately recorded SHA-256. Reject unexpected identity/team, architectures, versions, entitlements, or `get-task-allow`.
-- After explicit production approval, publish the same versioned, independently verified ZIP and checksum through GitHub Releases and the tailnet-only Tailscale mirror; re-download and independently verify both served copies before advertising them.
+- After explicit production approval, publish the same versioned, independently verified ZIP and checksum through GitHub Releases as the canonical production channel; re-download and independently verify the served copy before advertising it. Historical mirrors are not a release gate.

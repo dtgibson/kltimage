@@ -11,7 +11,7 @@ KLT Image is a native Mac scientific-imaging tool for revealing subtle color str
 - **Local method library:** Keeps user working spaces and saved transforms in a narrowly scoped sandboxed library with explicit inspect, rename, duplicate, edit where applicable, delete, export, and strict import workflows.
 - **Frozen transform replay:** Saves the complete accepted transform recipe and applies its captured mathematics unchanged without refitting statistics or output mapping to the target image.
 - **Calculated/replayed provenance:** Keeps one immutable current record that identifies how the result was produced, preserves its exact source and method snapshot, and exports deterministic versioned JSON.
-- **Comparison and export:** Presents Original, Side-by-Side, Slider, and Processed views and exports the current full-resolution result as PNG, TIFF, or JPEG.
+- **Comparison, replacement, and export:** Presents Original, Side-by-Side, Slider, and Processed views, keeps slider reveal dragging independent from registered-image panning, preserves the accepted workspace while a replacement decodes or rolls back, atomically installs successful replacements, and exports the current full-resolution result as PNG, TIFF, or JPEG.
 
 ## Scientific Behavior
 
@@ -28,11 +28,10 @@ KLT Image is a native Mac scientific-imaging tool for revealing subtle color str
 - The independently testable `KLTCore` framework owns numerical and image-processing behavior; the app target owns presentation and native file workflows.
 - There is no backend, database, account system, or product network path; persistence is limited to a narrowly scoped method-library file in sandboxed Application Support.
 - Full-frame processing has a fixed 64-million-pixel ceiling; larger images require a future tiled or out-of-core pipeline.
-- Developer ID-signed, Apple-notarized, and stapled KLT Image 1.3.0 build 6 is the current public GitHub and tailnet-only Tailscale release; both channels serve the same independently verified ZIP, with Build 5 retained as the trusted rollback artifact.
+- Developer ID-signed, Apple-notarized, stapled, and independently verified KLT Image 1.3.1 build 7 is live on GitHub, the canonical and sole current production channel; Build 6 is the trusted rollback release.
 
 ## Deferred Scope
 
 - In-app analysis history or projects and built-in multi-record comparison, charting, or aggregation.
 - Tiled or out-of-core processing for images above 64 megapixels.
 - Batch processing, queues, and watched folders.
-- Opening a replacement image while another is loaded remains a separately tracked Fix.

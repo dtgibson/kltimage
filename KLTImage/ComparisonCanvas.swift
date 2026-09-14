@@ -4,6 +4,7 @@ import SwiftUI
 
 struct ComparisonCanvas: View {
     @Bindable var model: WorkspaceModel
+    let source: DecodedImage
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var gestureState = ComparisonCanvasGestureState()
     @State private var zoomAtGestureStart: Double?
@@ -53,7 +54,7 @@ struct ComparisonCanvas: View {
 
     private var originalPane: some View {
         ImagePane(
-            image: model.source!.originalImage,
+            image: source.originalImage,
             label: "Original",
             stateLabel: "SOURCE",
             accent: false,

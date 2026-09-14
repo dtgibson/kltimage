@@ -52,10 +52,16 @@ struct CompletedEnhancement: @unchecked Sendable {
     let record: AnalysisRecordSnapshot
 }
 
+struct ImageExportPresentation: @unchecked Sendable {
+    fileprivate let result: CompletedEnhancement
+    fileprivate let operationID: UUID
+}
+
 struct AnalysisRecordPresentation: Identifiable, Sendable {
     let id: UUID
     let value: AnalysisRecordSnapshot
     let suggestedFilename: String
+    fileprivate let operationID: UUID
 }
 
 enum WorkspaceMethodSelection: Equatable, Sendable {
@@ -133,7 +139,7 @@ private final class ExportFormatAccessoryController: NSObject {
 @MainActor
 @Observable
 final class WorkspaceModel {
-    private enum ExportKind {
+    private enum ExportKind: Equatable {
         case image
         case analysisRecord
     }
@@ -185,6 +191,11 @@ final class WorkspaceModel {
     private var exportKind: ExportKind?
     private var imageImportRollbackPhase: WorkspacePhase?
     private let decodeImage: @Sendable (Data) throws -> DecodedImage
+    private let calculateImage: @Sendable (
+        DecodedImage,
+        CalculatedAnalysisRequest,
+        String
+    ) throws -> EnhancedImage
     private var lastCalculatedControls = LastCalculatedControls(
         workingSpace: WorkingSpaceCatalog.standardRGB.revision,
         name: WorkingSpaceCatalog.standardRGB.libraryName,
@@ -195,10 +206,22 @@ final class WorkspaceModel {
 
     init(
         methodLibrary: MethodLibraryModel = MethodLibraryModel(),
-        decodeImage: @escaping @Sendable (Data) throws -> DecodedImage = ImagePipeline.decode
+        decodeImage: @escaping @Sendable (Data) throws -> DecodedImage = ImagePipeline.decode,
+        calculateImage: @escaping @Sendable (
+            DecodedImage,
+            CalculatedAnalysisRequest,
+            String
+        ) throws -> EnhancedImage = { source, request, methodName in
+            try ImagePipeline.enhance(
+                source,
+                request: request,
+                workingSpaceName: methodName
+            )
+        }
     ) {
         self.methodLibrary = methodLibrary
         self.decodeImage = decodeImage
+        self.calculateImage = calculateImage
     }
 
     var enhanced: EnhancedImage? { completedEnhancement?.value }
@@ -276,7 +299,12 @@ final class WorkspaceModel {
     var replayDiagnostics: ReplayDiagnostics? { currentCompletedEnhancement?.value.replayDiagnostics }
 
     var canExport: Bool {
-        currentCompletedEnhancement != nil
+        currentImageExport != nil
+    }
+
+    var currentImageExport: ImageExportPresentation? {
+        guard let result = currentCompletedEnhancement else { return nil }
+        return ImageExportPresentation(result: result, operationID: operationID)
     }
 
     var currentAnalysisRecord: AnalysisRecordPresentation? {
@@ -284,7 +312,8 @@ final class WorkspaceModel {
         return AnalysisRecordPresentation(
             id: result.jobID,
             value: result.record,
-            suggestedFilename: suggestedAnalysisRecordFilename
+            suggestedFilename: suggestedAnalysisRecordFilename,
+            operationID: operationID
         )
     }
 
@@ -515,7 +544,8 @@ final class WorkspaceModel {
     }
 
     func presentExportPanel() {
-        guard let completedEnhancement = currentCompletedEnhancement else { return }
+        guard exportMayBegin(.image) else { return }
+        guard let snapshot = currentImageExport else { return }
 
         let panel = NSSavePanel()
         panel.title = "Export enhanced image"
@@ -529,10 +559,11 @@ final class WorkspaceModel {
         guard panel.runModal() == .OK, var url = panel.url else { return }
         let format = accessory.format
         if url.pathExtension.isEmpty { url.appendPathExtension(format.filenameExtension) }
-        export(completedEnhancement, to: url, format: format)
+        exportCapturedImage(snapshot, to: url, format: format)
     }
 
     func presentAnalysisRecordExportPanel(_ snapshot: AnalysisRecordPresentation) {
+        guard exportMayBegin(.analysisRecord) else { return }
         guard analysisRecordIsCurrent(snapshot) else {
             showExportNotice(
                 "The analysis record is no longer current. Wait for the matching result, then export again.",
@@ -550,15 +581,43 @@ final class WorkspaceModel {
         panel.nameFieldStringValue = snapshot.suggestedFilename
 
         guard panel.runModal() == .OK, var url = panel.url else { return }
+        if url.pathExtension.isEmpty { url.appendPathExtension("klt-analysis.json") }
+        exportCapturedAnalysisRecord(snapshot, to: url)
+    }
+
+    @discardableResult
+    func exportCapturedImage(
+        _ snapshot: ImageExportPresentation,
+        to url: URL,
+        format: ImageExportFormat
+    ) -> Bool {
+        guard exportMayBegin(.image) else { return false }
+        guard imageExportIsCurrent(snapshot) else {
+            showExportNotice(
+                "The enhanced image changed before it could be saved. Wait for the current result, then export again.",
+                isError: true
+            )
+            return false
+        }
+        export(snapshot.result, to: url, format: format)
+        return true
+    }
+
+    @discardableResult
+    func exportCapturedAnalysisRecord(
+        _ snapshot: AnalysisRecordPresentation,
+        to url: URL
+    ) -> Bool {
+        guard exportMayBegin(.analysisRecord) else { return false }
         guard analysisRecordIsCurrent(snapshot) else {
             showExportNotice(
                 "The analysis record changed before it could be saved. Wait for the current result, then export again.",
                 isError: true
             )
-            return
+            return false
         }
-        if url.pathExtension.isEmpty { url.appendPathExtension("klt-analysis.json") }
         exportAnalysisRecord(snapshot, to: url)
+        return true
     }
 
     func cancelCurrentOperation() {
@@ -667,12 +726,13 @@ final class WorkspaceModel {
             ? "Replaying \(activeMethodName) unchanged on the target. No target statistics are calculated."
             : "Calculating \(methodText) locally from the unchanged source."
         let methodName = activeMethodName
+        let calculateImage = self.calculateImage
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
             do {
                 let result: EnhancedImage
                 switch execution {
                 case let .calculated(request):
-                    result = try ImagePipeline.enhance(source, request: request, workingSpaceName: methodName)
+                    result = try calculateImage(source, request, methodName)
                 case let .replayed(recipe):
                     result = try ImagePipeline.replay(source, recipe: recipe, recipeName: methodName)
                 }
@@ -750,10 +810,14 @@ final class WorkspaceModel {
                     url: url,
                     format: format,
                     requestKey: result.key,
+                    jobID: result.jobID,
                     operationID: newOperationID
                 )
             } catch is CancellationError {
-                await self?.acceptExportCancellation(operationID: newOperationID)
+                await self?.acceptExportCancellation(
+                    operationID: newOperationID,
+                    kind: .image
+                )
             } catch {
                 await self?.acceptExportFailure(error, operationID: newOperationID)
             }
@@ -787,7 +851,10 @@ final class WorkspaceModel {
                     operationID: newOperationID
                 )
             } catch is CancellationError {
-                await self?.acceptExportCancellation(operationID: newOperationID)
+                await self?.acceptExportCancellation(
+                    operationID: newOperationID,
+                    kind: .analysisRecord
+                )
             } catch {
                 await self?.acceptAnalysisRecordExportFailure(operationID: newOperationID)
             }
@@ -817,9 +884,11 @@ final class WorkspaceModel {
                 name: lastCalculatedControls.name
             )
             colorSpace = lastCalculatedControls.workingSpace.base == .encodedSRGB ? .rgb : .lab
-            sampleSource = .wholeImage
         }
+        sampleSource = .wholeImage
         regionEditor = RegionEditorState()
+        lastCalculatedControls.sampleSource = .wholeImage
+        lastCalculatedControls.region = nil
         comparisonMode = .sideBySide
         comparisonReveal = 0.5
         zoom = 1
@@ -899,7 +968,7 @@ final class WorkspaceModel {
         let message = (error as? LocalizedError)?.errorDescription
             ?? "The image operation could not be completed."
         if source != nil {
-            phase = restorablePhaseAfterImageImport
+            restoreWorkspaceAfterImageImport()
             let preservedMessage = "The replacement image could not be opened. The prior image and result are unchanged. \(message)"
             showExportNotice(preservedMessage, isError: true)
             statusAnnouncement = preservedMessage
@@ -914,12 +983,19 @@ final class WorkspaceModel {
         url: URL,
         format: ImageExportFormat,
         requestKey: AnalysisRequestKey,
+        jobID: UUID,
         operationID: UUID
     ) {
-        guard operationID == self.operationID,
-              currentRequestKey == requestKey,
-              completedEnhancement?.key == requestKey
-        else { return }
+        guard ownsExport(operationID, kind: .image) else { return }
+        guard currentRequestKey == requestKey,
+              completedEnhancement?.key == requestKey,
+              completedEnhancement?.jobID == jobID
+        else {
+            finishOwnedStaleExport(
+                "The enhanced image changed before the export finished. Export the current result again."
+            )
+            return
+        }
         phase = .ready
         activeOperation = nil
         exportKind = nil
@@ -934,15 +1010,15 @@ final class WorkspaceModel {
         }
     }
 
-    private func acceptExportCancellation(operationID: UUID) {
-        guard operationID == self.operationID, phase == .exporting else { return }
+    private func acceptExportCancellation(operationID: UUID, kind: ExportKind) {
+        guard ownsExport(operationID, kind: kind) else { return }
         activeOperation = nil
         phase = .ready
         exportKind = nil
     }
 
     private func acceptExportFailure(_ error: Error, operationID: UUID) {
-        guard operationID == self.operationID, phase == .exporting else { return }
+        guard ownsExport(operationID, kind: .image) else { return }
         activeOperation = nil
         phase = .ready
         let message = (error as? LocalizedError)?.errorDescription
@@ -956,9 +1032,13 @@ final class WorkspaceModel {
         snapshotID: UUID,
         operationID: UUID
     ) {
-        guard operationID == self.operationID,
-              completedEnhancement?.jobID == snapshotID
-        else { return }
+        guard ownsExport(operationID, kind: .analysisRecord) else { return }
+        guard completedEnhancement?.jobID == snapshotID else {
+            finishOwnedStaleExport(
+                "The analysis record changed before the export finished. Export the current record again."
+            )
+            return
+        }
         phase = .ready
         activeOperation = nil
         exportKind = nil
@@ -967,7 +1047,7 @@ final class WorkspaceModel {
     }
 
     private func acceptAnalysisRecordExportFailure(operationID: UUID) {
-        guard operationID == self.operationID, phase == .exporting else { return }
+        guard ownsExport(operationID, kind: .analysisRecord) else { return }
         activeOperation = nil
         phase = .ready
         exportKind = nil
@@ -991,7 +1071,43 @@ final class WorkspaceModel {
     }
 
     private func analysisRecordIsCurrent(_ snapshot: AnalysisRecordPresentation) -> Bool {
-        currentCompletedEnhancement?.jobID == snapshot.id
+        snapshot.operationID == operationID
+            && currentCompletedEnhancement?.jobID == snapshot.id
+    }
+
+    private func imageExportIsCurrent(_ snapshot: ImageExportPresentation) -> Bool {
+        snapshot.operationID == operationID
+            && currentCompletedEnhancement?.jobID == snapshot.result.jobID
+            && currentCompletedEnhancement?.key == snapshot.result.key
+    }
+
+    private func exportMayBegin(_ kind: ExportKind) -> Bool {
+        guard phase == .importing else { return true }
+        let subject = kind == .analysisRecord ? "an analysis record" : "a result"
+        let message = "Wait for the replacement image to finish loading before exporting \(subject). The import is still running."
+        showExportNotice(message, isError: true)
+        statusAnnouncement = message
+        return false
+    }
+
+    private func ownsExport(_ operationID: UUID, kind: ExportKind) -> Bool {
+        operationID == self.operationID
+            && phase == .exporting
+            && exportKind == kind
+    }
+
+    private func finishOwnedStaleExport(_ message: String) {
+        activeOperation = nil
+        exportKind = nil
+        if let completedEnhancement, completedEnhancement.key == currentRequestKey {
+            phase = .ready
+        } else {
+            phase = source == nil
+                ? .empty
+                : .failed("No current result is available. Change a control to calculate again.")
+        }
+        showExportNotice(message, isError: true)
+        statusAnnouncement = message
     }
 
     private func showExportNotice(_ message: String, isError: Bool) {
@@ -1023,11 +1139,20 @@ final class WorkspaceModel {
     }
 
     private func restoreAfterImageImportCancellation() {
-        phase = restorablePhaseAfterImageImport
-        imageImportRollbackPhase = nil
+        restoreWorkspaceAfterImageImport()
         statusAnnouncement = source == nil
             ? "Image import canceled."
             : "Image import canceled. The prior image and result are unchanged."
+    }
+
+    private func restoreWorkspaceAfterImageImport() {
+        let rollbackPhase = restorablePhaseAfterImageImport
+        imageImportRollbackPhase = nil
+        if rollbackPhase == .processing, source != nil {
+            requestAnalysis()
+        } else {
+            phase = rollbackPhase
+        }
     }
 }
 

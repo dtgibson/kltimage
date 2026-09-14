@@ -191,12 +191,12 @@ struct ContentView: View {
 
     @ViewBuilder
     private var workspace: some View {
-        if model.source != nil {
+        if let source = model.source {
             HStack(spacing: 0) {
                 AnalysisControlsView(model: model)
                     .frame(width: 270)
                 Rectangle().fill(KLTColor.line).frame(width: 1)
-                ComparisonCanvas(model: model)
+                ComparisonCanvas(model: model, source: source)
             }
         } else {
             EmptyWorkspace(phase: model.phase, openAction: model.presentOpenPanel)

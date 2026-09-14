@@ -115,3 +115,27 @@
 **Rationale:** The served GitHub artifact matched the approved candidate and independently passed the complete verifier; the user explicitly selected GitHub as the final canonical step and removed Tailscale from the required production path.
 
 **Implications:** Releases remain manual signed, notarized, GitHub-published, and independently verified with no GitHub Actions workflow. Historical tailnet artifacts may remain, but Build 7 has no tailnet acceptance claim and future releases do not require that mirror.
+
+## Adopt the Registered color app icon — 2026-09-14
+
+**Decision:** Use the user-approved original navy-and-teal comparison mark as KLT Image's macOS application icon, extending the existing scientific palette without changing application behavior, document icons, or website branding.
+
+**Rationale:** The shared diagonal and comparison seam give the app a recognizable image-analysis identity at small sizes without lettering or scientific-certainty claims.
+
+**Implications:** Future icon changes must retain an editable master and reproducible native exports, with artwork approval before regeneration. This icon-only improvement does not authorize broader branding or interface changes.
+
+## Accept icon-focused verification for Build 8 — 2026-09-14
+
+**Decision:** The user explicitly approved stopping unrelated regression reruns for this icon-only release, a per-build exception to the full-suite requirement. Actual results remain Debug 95/96, with the keyboard workflow exceeding an imposed 120-second allowance, and optimized core/app 92/92; no complete regression-suite pass is claimed.
+
+**Rationale:** Approved asset fidelity, icon compilation and inspection directly cover the resource change; the incomplete UI evidence does not justify an unrelated application-code change.
+
+**Implications:** The default full-suite convention remains in force for future work. Universal architecture, bundle identity, signatures, notarization, stapling, checksum, quarantine and Gatekeeper acceptance remain mandatory for this release and all later downloadable builds.
+
+## Publish verified Build 8 and retain Build 7 for rollback — 2026-09-14
+
+**Decision:** Following explicit publication approval, KLT Image 1.3.2 build 8 is the current GitHub production release at `https://github.com/dtgibson/kltimage/releases/tag/v1.3.2`, with SHA-256 `3730547ba9ca115544a83f90ffe1a7342a8624af25054d434f74967393a37f1e`; unchanged 1.3.1 build 7 is the trusted rollback release. This supersedes the version and rollback designation in the earlier GitHub-channel decision, while retaining that channel policy.
+
+**Rationale:** The fresh GitHub download matched the approved archive byte-for-byte and passed the full independent release trust verifier with quarantine retained.
+
+**Implications:** Advertised release references use Build 8; rollback restores Build 7. Development and design review continue through verified HTTPS Tailscale links, independently of GitHub production publication.

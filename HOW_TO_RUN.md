@@ -1,6 +1,6 @@
 ## Seeing the professional app icon
 
-Open the [approved icon preview](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-icon/design.html). It shows the navy-and-teal comparison mark on light and dark backgrounds, plus the actual small pixel sizes. The new icon is integrated in source; the published 1.3.1 build 7 predates this change.
+Open the [approved icon preview](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-icon/design.html). It shows the navy-and-teal comparison mark on light and dark backgrounds, plus the actual small pixel sizes. The new icon is included in the published 1.3.2 build 8.
 
 For maintainers on the development Mac, regenerate production assets with `python3 scripts/export-app-icon.py`, or verify them without changes with `python3 scripts/export-app-icon.py --check`. The exporter requires `rsvg-convert` (`brew install librsvg`). Its editable source is `pipeline/professional-app-icon/icon-master.svg`. Regenerate review images and the self-contained preview with `python3 pipeline/professional-app-icon/render-previews.py` (also requires Pillow).
 
@@ -8,7 +8,7 @@ After asset or project changes, run `xcodegen generate`, open the generated proj
 
 ## Using Custom Color Spaces and Reusable Transforms
 
-KLT Image 1.3.1 build 7 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.1). Its SHA-256 is `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
+KLT Image 1.3.2 build 8 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.2). Its SHA-256 is `3730547ba9ca115544a83f90ffe1a7342a8624af25054d434f74967393a37f1e`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
 
 1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Wait for **Result ready**. Images, methods, filenames, and fingerprints remain local to the Mac.
 
@@ -43,11 +43,11 @@ xcodebuild test -project KLTImage.xcodeproj -scheme KLTImage \
 
 What to look for: calculated and replayed modes must never be ambiguous; saved recipes must replay byte-identically on their origin source; no edit may retroactively alter a saved recipe; comparison mode changes must never alter the scientific result; and rejected imports must make no persistent change.
 
-Final release verification passes 96/96 Debug tests and 98/98 optimized `ReleaseTests`, including all macOS UI workflows and the 24-megapixel optimized performance checks. The keyboard-only workflow preserves an already-enabled Full Keyboard Access setting, creates complete encoded-sRGB and CIE Lab D65 spaces, and finds both rows after process termination and relaunch. The slider-drag and replacement-image regression suites pass, and both security reviews report zero findings.
+Historical Build 7 verification passed 96/96 Debug tests and 98/98 optimized `ReleaseTests`, including all macOS UI workflows and the 24-megapixel optimized performance checks. The keyboard-only workflow preserved an already-enabled Full Keyboard Access setting, created complete encoded-sRGB and CIE Lab D65 spaces, and found both rows after process termination and relaunch. The slider-drag and replacement-image regression suites passed, and both security reviews reported zero findings. Build 8 uses the user-approved icon-focused verification scope: approved assets, compiled icon and full release trust checks pass, with no complete Build 8 regression-suite pass claimed.
 
 ## Preparing a trusted macOS release
 
-The published 1.3.1 build 7 release uses the same fail-closed process as trusted 1.3.0 build 6. GitHub Releases is the sole production publication target; the previous tailnet mirror is no longer a required final release step. The process requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
+The published 1.3.2 build 8 release uses the same fail-closed process as trusted 1.3.1 build 7. GitHub Releases is the sole production publication target; the previous tailnet mirror is no longer a required final release step. The process requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
 
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun notarytool store-credentials "kltimage-release"
@@ -81,7 +81,7 @@ Exercise that final boundary without building or notarizing:
 After copying or downloading an artifact, verify it against its separately recorded SHA-256:
 
 ```sh
-./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.1-build-7.zip EXPECTED_SHA256
+./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.2-build-8.zip EXPECTED_SHA256
 ```
 
-This verification never removes quarantine. A fresh GitHub download of Build 7 matched the approved artifact byte-for-byte and independently passed this verifier. Trusted 1.3.0 build 6 remains the rollback release. Its prior GitHub and tailnet publication and verification remain historical facts; the existing tailnet route and old artifacts are unchanged but are not part of the Build 7 production release.
+This verification never removes quarantine. A fresh GitHub download of Build 8 matched the approved artifact byte-for-byte and independently passed this verifier. Trusted 1.3.1 build 7 remains the rollback release. Prior Build 6 GitHub and tailnet publication and verification remain historical facts; the existing historical tailnet route and old artifacts are unchanged and are not production release gates.

@@ -18,6 +18,7 @@
 - Follow `pipeline/design-system.md`: a quiet, fixed light scientific palette, IBM Plex typography, restrained teal actions, and content-first layouts.
 - Native controls placed on the fixed light palette must explicitly use a matching light appearance so macOS dark mode cannot reduce contrast.
 - Preserve VoiceOver labels, keyboard access, status announcements, and reduced-motion behavior when changing controls.
+- Keep approved app-icon artwork in its editable SVG master and committed native PNG catalog; after artwork changes, use `scripts/export-app-icon.py --check` to detect divergence and regenerate only from the approved design.
 
 ## Project and Verification
 

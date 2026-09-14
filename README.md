@@ -11,11 +11,11 @@ KLT Image supports standard RGB and Lab processing plus documented curated and u
 
 ## Download
 
-Download KLT Image 1.3.1 build 7 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.3.1/KLT-Image-1.3.1-build-7.zip).
+Download KLT Image 1.3.2 build 8 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.3.2/KLT-Image-1.3.2-build-8.zip).
 
-SHA-256: `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`
+SHA-256: `3730547ba9ca115544a83f90ffe1a7342a8624af25054d434f74967393a37f1e`
 
-Build 7 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. GitHub is the canonical release channel. Trusted Build 6 remains available as the rollback release.
+Build 8 adds the approved navy-and-teal macOS app icon. It is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. GitHub is the canonical release channel. Trusted Build 7 remains available as the rollback release.
 
 ## What it does
 
@@ -84,7 +84,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.3.1 build 7 is published on GitHub Releases. A fresh GitHub download matches the approved artifact byte-for-byte and passes the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks. The complete Debug suite passed 96/96 and the optimized ReleaseTests suite passed 98/98; both shipped fixes passed security review with no findings. GitHub is the sole current production channel, and trusted version 1.3.0 build 6 is the rollback release.
+Version 1.3.2 build 8 is published on GitHub Releases. A fresh GitHub download matches the approved artifact byte-for-byte and passes the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks. This icon-only release passed asset fidelity, compiled icon, and security review under the user-approved icon-focused verification scope; no complete regression-suite pass is claimed for Build 8. GitHub is the sole current production channel, and trusted version 1.3.1 build 7 is the rollback release.
 
 ## License
 

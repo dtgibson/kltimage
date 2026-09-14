@@ -1,32 +1,18 @@
-## Safer image replacement and reliable slider dragging
+## Professional App Icon
 
-### What changed
+### What this does
 
-- Dragging the comparison slider handle now changes only the reveal boundary. The registered image remains fixed, while dragging elsewhere on the canvas continues to pan normally.
-- Opening a replacement image keeps the current source and result visible until the new decode succeeds. Cancelled, corrupt, overlapping, or stale replacement work cannot discard the current image or publish over a newer operation.
-- The comparison canvas no longer force-unwraps the source across SwiftUI update boundaries.
-- macOS UI verification now preserves an already-enabled Full Keyboard Access setting, selects its image through the native file panel without timing-dependent Return presses, and keeps optimized test state isolated from the real method library.
+KLT Image previously had no custom application icon. It now compiles the approved original navy-and-teal image-comparison artwork into a native macOS AppIcon asset catalog, covering all ten 16–512-point slots at 1× and 2×. The editable SVG, reproducible exporter, and small-size review proofs remain in the repository; application behavior is unchanged.
 
 ### How to test
 
-1. Open an image, choose Slider, and drag the teal divider. The reveal changes without moving the image.
-2. Drag the image away from the divider. Both registered views pan together.
-3. Open a second image repeatedly, cancel the file panel, and try an invalid image. The current image remains visible and usable until a valid replacement succeeds.
-4. Run the complete Debug and optimized ReleaseTests configurations, including all macOS UI workflows.
+1. Review the [approved icon preview](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-icon/design.html).
+2. Run `python3 scripts/export-app-icon.py --check` to verify production assets match the SVG.
+3. Run `xcodegen generate`, then build the KLTImage scheme. Confirm the built app contains `Contents/Resources/AppIcon.icns` and its Info.plist identifies `AppIcon`.
+4. Verify the universal release's bundled icon, Developer ID signatures, notarization, stapling, and quarantined Gatekeeper acceptance. The user approved icon-focused verification for this resource-only change; do not rerun unrelated application suites.
 
-### Verification
+### Notes for reviewer
 
-- Debug: 96 passed, 0 failed.
-- ReleaseTests: 98 passed, 0 failed, including the 24-megapixel optimized performance checks.
-- Both focused fixes passed their regression suites and security reviews with no unresolved findings.
-- The distributable remains a universal, sandboxed, hardened macOS app with no new network, persistence, or entitlement surface.
+The SVG artwork matches the direction approved by the user on September 14, 2026. Production export requires librsvg (`rsvg-convert`); review-sheet export additionally uses Pillow and the already-bundled fonts. Generated PNGs are committed, so normal Xcode builds need neither dependency. Motion, controls, data handling, entitlements, and document icons are outside this resource-only change.
 
-## Deployment
-
-KLT Image 1.3.1 build 7 is published through [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.1) as the sole production channel. The release ZIP has SHA-256 `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`; Apple accepted notarization submission `ba15760f-2058-457b-a21f-5f3fc748bfbf`. A fresh GitHub download matched the approved artifact byte-for-byte and independently passed signing, notarization, stapling, quarantine, and Gatekeeper verification. The user explicitly retired the Tailscale mirror as a required final release step, so Build 7 is not advertised there and the existing route and historical artifacts remain unchanged. KLT Image 1.3.0 build 6 is the trusted rollback release.
-
-### Release notes
-
-KLT Image 1.3.1 fixes two image-comparison workflows. Dragging the Slider divider no longer pans the underlying image, and replacing an open image no longer risks a crash or losing the current image when selection is cancelled, decoding fails, or newer work supersedes an earlier request.
-
-The release also strengthens the signed macOS UI-test path used to verify these behaviors. No new account, upload, analytics, networking, or data-retention capability is added. KLT Image continues to require macOS 14 or later.
+The implementation Debug build and deterministic asset checks are recorded in `pipeline/professional-app-icon/implementation-record.md`. QA records the accepted icon-focused scope, the actual 95/96 Debug result (one imposed timeout), and 92/92 optimized core/app tests; no full-suite pass is claimed. The next planned release is 1.3.2 build 8; 1.3.1 build 7 remains the published release until a fresh signed, notarized, independently verified package is approved and published.

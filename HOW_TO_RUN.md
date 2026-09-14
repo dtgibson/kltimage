@@ -1,3 +1,11 @@
+## Seeing the professional app icon
+
+Open the [approved icon preview](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-icon/design.html). It shows the navy-and-teal comparison mark on light and dark backgrounds, plus the actual small pixel sizes. The new icon is integrated in source; the published 1.3.1 build 7 predates this change.
+
+For maintainers on the development Mac, regenerate production assets with `python3 scripts/export-app-icon.py`, or verify them without changes with `python3 scripts/export-app-icon.py --check`. The exporter requires `rsvg-convert` (`brew install librsvg`). Its editable source is `pipeline/professional-app-icon/icon-master.svg`. Regenerate review images and the self-contained preview with `python3 pipeline/professional-app-icon/render-previews.py` (also requires Pillow).
+
+After asset or project changes, run `xcodegen generate`, open the generated project in Xcode, and run the KLTImage scheme on My Mac. The app should show the approved icon in Finder, the Dock, and Command-Tab. Downloadable candidates must still go through the trusted release process below; source build instructions are for maintainers, while the HTTPS preview is available remotely.
+
 ## Using Custom Color Spaces and Reusable Transforms
 
 KLT Image 1.3.1 build 7 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.1). Its SHA-256 is `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.

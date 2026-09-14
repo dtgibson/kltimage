@@ -48,6 +48,7 @@
 		E37E36DB54B2044E51405475 /* MethodDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447BC0D15F924277856CCFF /* MethodDocuments.swift */; };
 		E43CEBA811FC7D6CD7DA1D20 /* MetadataStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C674ACA4F9FEEEDAAE4DB49D /* MetadataStrip.swift */; };
 		EF024C0CF9BCAACA66896074 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AF8120313FDB64471AA9407 /* IBMPlexSans-Bold.ttf */; };
+		EF1FD9B148C1942586807A63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA1394DCE931A77332C36FA /* Assets.xcassets */; };
 		F8F505B6C1206DBC42771C84 /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */; };
 /* End PBXBuildFile section */
 
@@ -139,6 +140,7 @@
 		2FF637F1D3700677689EEF76 /* MethodLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodLibraryView.swift; sourceTree = "<group>"; };
 		3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisControlsTests.swift; sourceTree = "<group>"; };
 		45E32EBF2EF7AA4BCF3DB762 /* AnalysisRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecordView.swift; sourceTree = "<group>"; };
+		4AA1394DCE931A77332C36FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
 		57A8F12F78191A75E2FF1F0D /* MethodLibraryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodLibraryModel.swift; sourceTree = "<group>"; };
 		64EE9320651DAD60AEBD5392 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 		82A36FE8CE604BDCDCBB4EFD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4AA1394DCE931A77332C36FA /* Assets.xcassets */,
 				562EAB41A7F8BF059C2BBCA1 /* Fonts */,
 			);
 			path = Resources;
@@ -452,6 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF1FD9B148C1942586807A63 /* Assets.xcassets in Resources */,
 				0C98063DC3B58233B2D70CC7 /* IBMPlexMono-Regular.ttf in Resources */,
 				18D2775399763E4FDB96975F /* IBMPlexMono-SemiBold.ttf in Resources */,
 				EF024C0CF9BCAACA66896074 /* IBMPlexSans-Bold.ttf in Resources */,
@@ -711,7 +715,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -722,7 +726,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";
@@ -840,7 +844,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -851,7 +855,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";
@@ -924,7 +928,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -935,7 +939,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";

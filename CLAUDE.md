@@ -13,6 +13,8 @@
 
 ## Interface
 
+- Development previews and design reviews must be reachable through HTTPS Tailscale links. The user generally cannot access the development Mac locally; localhost, file URLs, and filesystem links are not usable preview handoffs. Verify the tailnet URL before sharing. This does not change GitHub as the production release channel.
+
 - Follow `pipeline/design-system.md`: a quiet, fixed light scientific palette, IBM Plex typography, restrained teal actions, and content-first layouts.
 - Native controls placed on the fixed light palette must explicitly use a matching light appearance so macOS dark mode cannot reduce contrast.
 - Preserve VoiceOver labels, keyboard access, status announcements, and reduced-motion behavior when changing controls.

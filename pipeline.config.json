@@ -13,7 +13,7 @@
     "environments": {
       "dev": "local Xcode/source checkout",
       "staging": null,
-      "prod": "public GitHub Release plus tailnet-only Tailscale Serve mirror /kltimage-preview, proxied to 127.0.0.1:8786"
+      "prod": "public GitHub Release"
     },
     "imageProcessing": [
       "Accelerate",
@@ -25,33 +25,40 @@
   },
   "repoURL": "https://github.com/dtgibson/kltimage",
   "repoProvider": "github",
-  "deploymentTarget": "versioned macOS ZIPs through GitHub Releases and the existing tailnet-only Tailscale Serve mirror",
+  "deploymentTarget": "versioned macOS ZIPs through GitHub Releases",
   "deployment": {
     "branch": "main",
-    "visibility": "public GitHub release plus tailnet-only Tailscale mirror",
-    "baseURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview",
-    "githubReleaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.3.0",
+    "visibility": "public GitHub release",
+    "githubReleaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.3.1",
     "artifactDirectory": "/Users/developer/devwork/kltimage/releases",
-    "serveRoute": "/kltimage-preview",
-    "serveProxy": "http://127.0.0.1:8786",
     "currentRelease": {
-      "version": "1.3.0",
-      "build": "6",
-      "url": "https://github.com/dtgibson/kltimage/releases/download/v1.3.0/KLT-Image-1.3.0-build-6.zip",
-      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.3.0/KLT-Image-1.3.0-build-6.zip",
-      "tailscaleURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.3.0-build-6.zip",
-      "sha256": "dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3"
+      "version": "1.3.1",
+      "build": "7",
+      "url": "https://github.com/dtgibson/kltimage/releases/download/v1.3.1/KLT-Image-1.3.1-build-7.zip",
+      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.3.1/KLT-Image-1.3.1-build-7.zip",
+      "sha256": "620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1",
+      "notarySubmission": "ba15760f-2058-457b-a21f-5f3fc748bfbf",
+      "publishedAt": "2026-09-14T16:19:21Z"
     },
     "rollbackArtifact": {
-      "version": "1.2.0",
-      "build": "5",
-      "artifact": "releases/KLT-Image-1.2.0-build-5.zip",
-      "sha256": "66883ef34f22043bbf74b51e76648ad62527ac47be6fb9c28f33fee2e89ae3aa",
+      "version": "1.3.0",
+      "build": "6",
+      "artifact": "releases/KLT-Image-1.3.0-build-6.zip",
+      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.3.0/KLT-Image-1.3.0-build-6.zip",
+      "historicalTailscaleURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.3.0-build-6.zip",
+      "sha256": "dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3",
       "advertised": false
     },
-    "releasePolicy": "publish each approved build at distinct versioned GitHub and tailnet paths and update advertised links only after both served copies pass independent release verification",
-    "rollback": "restore trusted Build 5 as the advertised release and remove only Build 6 from GitHub Releases and the tailnet mirror; already-downloaded copies cannot be recalled"
+    "legacyTailnetMirror": {
+      "status": "retired from current-release publication",
+      "baseURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview",
+      "serveRoute": "/kltimage-preview",
+      "serveProxy": "http://127.0.0.1:8786",
+      "lastMirroredRelease": "1.3.0 build 6"
+    },
+    "releasePolicy": "publish each approved build as a distinct GitHub Release and update advertised links only after a fresh download passes independent release verification",
+    "rollback": "restore trusted Build 6 as the advertised GitHub release; the existing tailnet route and historical artifacts are outside the current release flow"
   },
   "createdAt": "2026-09-11T02:22:22Z",
-  "updatedAt": "2026-09-14T05:22:14Z"
+  "updatedAt": "2026-09-14T16:30:22Z"
 }

@@ -23,7 +23,7 @@
 
 ## Deployment
 
-KLT Image 1.3.1 build 7 is the approved patch-release candidate. It will use the existing fail-closed Developer ID signing, Apple notarization, stapling, independent quarantine verification, GitHub Release, and tailnet-only Tailscale mirror flow. KLT Image 1.3.0 build 6 remains the trusted rollback release.
+KLT Image 1.3.1 build 7 is published through [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.1) as the sole production channel. The release ZIP has SHA-256 `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`; Apple accepted notarization submission `ba15760f-2058-457b-a21f-5f3fc748bfbf`. A fresh GitHub download matched the approved artifact byte-for-byte and independently passed signing, notarization, stapling, quarantine, and Gatekeeper verification. The user explicitly retired the Tailscale mirror as a required final release step, so Build 7 is not advertised there and the existing route and historical artifacts remain unchanged. KLT Image 1.3.0 build 6 is the trusted rollback release.
 
 ### Release notes
 

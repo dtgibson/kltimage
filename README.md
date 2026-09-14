@@ -11,11 +11,11 @@ KLT Image supports standard RGB and Lab processing plus documented curated and u
 
 ## Download
 
-Download KLT Image 1.3.0 build 6 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.3.0/KLT-Image-1.3.0-build-6.zip). Members of the project's tailnet can also use the [private Tailscale mirror](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.3.0-build-6.zip).
+Download KLT Image 1.3.1 build 7 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.3.1/KLT-Image-1.3.1-build-7.zip).
 
-SHA-256: `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`
+SHA-256: `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`
 
-Build 6 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. Trusted Build 5 remains available as an unadvertised rollback release.
+Build 7 is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. GitHub is the canonical release channel. Trusted Build 6 remains available as the rollback release.
 
 ## What it does
 
@@ -84,7 +84,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.3.0 build 6 is published on GitHub Releases and the private tailnet mirror. Fresh downloads from both channels match the recorded SHA-256 byte-for-byte and pass the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks. Custom Color Spaces and Reusable Transforms passed QA with 37 Pass, 1 Partial solely for unavailable native Intel hardware, and 0 Fail; the security review found zero issues.
+Version 1.3.1 build 7 is published on GitHub Releases. A fresh GitHub download matches the approved artifact byte-for-byte and passes the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks. The complete Debug suite passed 96/96 and the optimized ReleaseTests suite passed 98/98; both shipped fixes passed security review with no findings. GitHub is the sole current production channel, and trusted version 1.3.0 build 6 is the rollback release.
 
 ## License
 

@@ -1,6 +1,6 @@
 ## Using Custom Color Spaces and Reusable Transforms
 
-KLT Image 1.3.0 build 6 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.0) and the project's [tailnet-only Tailscale mirror](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-preview/releases/KLT-Image-1.3.0-build-6.zip). Its SHA-256 is `dbac952c70e1d05f38ec10af099577c4e082f089653eb6d37c33e05c4299c4f3`. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
+KLT Image 1.3.1 build 7 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.1). Its SHA-256 is `620044cc2191ee15c229d0abbdb0839eae703852081b1a179782e7942f10a0a1`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
 
 1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Wait for **Result ready**. Images, methods, filenames, and fingerprints remain local to the Mac.
 
@@ -35,11 +35,11 @@ xcodebuild test -project KLTImage.xcodeproj -scheme KLTImage \
 
 What to look for: calculated and replayed modes must never be ambiguous; saved recipes must replay byte-identically on their origin source; no edit may retroactively alter a saved recipe; comparison mode changes must never alter the scientific result; and rejected imports must make no persistent change.
 
-Final verification passes 78/78 arm64 Debug core/app tests, 80/80 optimized `ReleaseTests`, and 6/6 Debug UI tests. The keyboard-only workflow creates complete encoded-sRGB and CIE Lab D65 spaces through native traversal and Return submission, then finds both rows after a true termination and relaunch. Invalid final-field Return remains validation-gated. A universal Release build, static analysis, design lint, diagnostics, performance, 64-megapixel memory, and Rosetta/x86_64 compatibility checks also pass. QA records 37 Pass, 1 Partial solely because native Intel hardware was unavailable, and 0 Fail; security records zero findings.
+Final release verification passes 96/96 Debug tests and 98/98 optimized `ReleaseTests`, including all macOS UI workflows and the 24-megapixel optimized performance checks. The keyboard-only workflow preserves an already-enabled Full Keyboard Access setting, creates complete encoded-sRGB and CIE Lab D65 spaces, and finds both rows after process termination and relaunch. The slider-drag and replacement-image regression suites pass, and both security reviews report zero findings.
 
 ## Preparing a trusted macOS release
 
-The 1.3.1 build 7 candidate uses the same fail-closed process as trusted 1.3.0 build 6 and stays within the existing GitHub plus tailnet-only Tailscale setup. It requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
+The published 1.3.1 build 7 release uses the same fail-closed process as trusted 1.3.0 build 6. GitHub Releases is the sole production publication target; the previous tailnet mirror is no longer a required final release step. The process requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
 
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun notarytool store-credentials "kltimage-release"
@@ -76,4 +76,4 @@ After copying or downloading an artifact, verify it against its separately recor
 ./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.1-build-7.zip EXPECTED_SHA256
 ```
 
-This verification never removes quarantine. Build 6 was published only after explicit production approval; fresh GitHub and tailnet downloads matched byte-for-byte and independently passed this verifier. Trusted 1.2.0 build 5 remains the rollback release.
+This verification never removes quarantine. A fresh GitHub download of Build 7 matched the approved artifact byte-for-byte and independently passed this verifier. Trusted 1.3.0 build 6 remains the rollback release. Its prior GitHub and tailnet publication and verification remain historical facts; the existing tailnet route and old artifacts are unchanged but are not part of the Build 7 production release.

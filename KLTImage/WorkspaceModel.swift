@@ -6,8 +6,9 @@ import UniformTypeIdentifiers
 
 enum ComparisonMode: String, CaseIterable, Identifiable {
     case original = "Original"
-    case split = "Split"
-    case enhanced = "Enhanced"
+    case sideBySide = "Side-by-Side"
+    case slider = "Slider"
+    case processed = "Processed"
 
     var id: Self { self }
 }
@@ -36,7 +37,7 @@ struct SourceIdentity: Equatable, Hashable, Sendable {
 
 struct AnalysisRequestKey: Equatable, Hashable, Sendable {
     let source: SourceIdentity
-    let input: AnalysisInput
+    let execution: EnhancementExecutionRequest
 }
 
 struct AnalysisJobIdentity: Equatable, Sendable {
@@ -48,13 +49,26 @@ struct CompletedEnhancement: @unchecked Sendable {
     let key: AnalysisRequestKey
     let jobID: UUID
     let value: EnhancedImage
-    let record: AnalysisRecord
+    let record: AnalysisRecordSnapshot
 }
 
 struct AnalysisRecordPresentation: Identifiable, Sendable {
     let id: UUID
-    let value: AnalysisRecord
+    let value: AnalysisRecordSnapshot
     let suggestedFilename: String
+}
+
+enum WorkspaceMethodSelection: Equatable, Sendable {
+    case calculated(WorkingSpaceRevision, name: String)
+    case replayed(TransformRecipeSnapshot, name: String)
+}
+
+struct LastCalculatedControls: Equatable, Sendable {
+    var workingSpace: WorkingSpaceRevision
+    var name: String
+    var matrixMode: AnalysisMatrixMode
+    var sampleSource: AnalysisSampleSource
+    var region: SourcePixelRegion?
 }
 
 struct RegionEditorState: Equatable {
@@ -131,6 +145,10 @@ final class WorkspaceModel {
     private(set) var exportNotice: String?
     private(set) var exportNoticeIsError = false
     private(set) var colorSpace: AnalysisColorSpace = .rgb
+    private(set) var methodSelection: WorkspaceMethodSelection = .calculated(
+        WorkingSpaceCatalog.standardRGB.revision,
+        name: WorkingSpaceCatalog.standardRGB.libraryName
+    )
     private(set) var matrixMode: AnalysisMatrixMode = .covariance
     private(set) var sampleSource: AnalysisSampleSource = .wholeImage
     private(set) var regionEditor = RegionEditorState()
@@ -149,7 +167,14 @@ final class WorkspaceModel {
         }
     }
 
-    var comparisonMode: ComparisonMode = .split
+    let methodLibrary: MethodLibraryModel
+    var comparisonMode: ComparisonMode = .sideBySide {
+        didSet {
+            guard oldValue != comparisonMode else { return }
+            statusAnnouncement = "\(comparisonMode.rawValue) view selected. Scientific result unchanged."
+        }
+    }
+    var comparisonReveal = 0.5
     var zoom = 1.0
     var pan = CGSize.zero
 
@@ -158,6 +183,23 @@ final class WorkspaceModel {
     private var noticeTask: Task<Void, Never>?
     private var operationID = UUID()
     private var exportKind: ExportKind?
+    private var imageImportRollbackPhase: WorkspacePhase?
+    private let decodeImage: @Sendable (Data) throws -> DecodedImage
+    private var lastCalculatedControls = LastCalculatedControls(
+        workingSpace: WorkingSpaceCatalog.standardRGB.revision,
+        name: WorkingSpaceCatalog.standardRGB.libraryName,
+        matrixMode: .covariance,
+        sampleSource: .wholeImage,
+        region: nil
+    )
+
+    init(
+        methodLibrary: MethodLibraryModel = MethodLibraryModel(),
+        decodeImage: @escaping @Sendable (Data) throws -> DecodedImage = ImagePipeline.decode
+    ) {
+        self.methodLibrary = methodLibrary
+        self.decodeImage = decodeImage
+    }
 
     var enhanced: EnhancedImage? { completedEnhancement?.value }
 
@@ -169,9 +211,69 @@ final class WorkspaceModel {
         )
     }
 
-    var methodText: String {
-        "\(colorSpace.displayName) · \(matrixMode.displayName.lowercased()) · \(sampleSource.displayName.lowercased())"
+    var calculatedRequest: CalculatedAnalysisRequest {
+        let revision: WorkingSpaceRevision
+        if case let .calculated(selected, _) = methodSelection {
+            revision = selected
+        } else {
+            revision = lastCalculatedControls.workingSpace
+        }
+        let selection: WorkingSpaceSelection
+        switch revision.identity.identifier {
+        case WorkingSpaceCatalog.standardRGB.revision.identity.identifier: selection = .standardRGB
+        case WorkingSpaceCatalog.standardLabD65.revision.identity.identifier: selection = .standardLabD65
+        default: selection = .affine(revision)
+        }
+        return CalculatedAnalysisRequest(
+            workingSpace: selection,
+            matrixMode: matrixMode,
+            sampleSource: sampleSource,
+            region: sampleSource == .selectedRegion ? regionEditor.committed : nil
+        )
     }
+
+    var executionRequest: EnhancementExecutionRequest {
+        switch methodSelection {
+        case .calculated: .calculated(calculatedRequest)
+        case let .replayed(recipe, _): .replayed(recipe)
+        }
+    }
+
+    var isReplayed: Bool {
+        if case .replayed = methodSelection { return true }
+        return false
+    }
+
+    var executionModeText: String { isReplayed ? "REPLAYED" : "CALCULATED" }
+
+    var activeWorkingSpace: WorkingSpaceRevision {
+        switch methodSelection {
+        case let .calculated(revision, _): revision
+        case let .replayed(recipe, _): recipe.workingSpace
+        }
+    }
+
+    var activeMethodName: String {
+        switch methodSelection {
+        case let .calculated(_, name), let .replayed(_, name): name
+        }
+    }
+
+    var methodText: String {
+        switch methodSelection {
+        case let .calculated(_, name):
+            "\(name) · \(matrixMode.displayName.lowercased()) · \(sampleSource.displayName.lowercased())"
+        case let .replayed(_, name):
+            "\(name) · replayed unchanged"
+        }
+    }
+
+    var canSaveTransform: Bool {
+        guard !isReplayed, let result = currentCompletedEnhancement else { return false }
+        return !result.value.descriptor.hasLimitedVariation && !result.value.analysis.isDegenerate
+    }
+
+    var replayDiagnostics: ReplayDiagnostics? { currentCompletedEnhancement?.value.replayDiagnostics }
 
     var canExport: Bool {
         currentCompletedEnhancement != nil
@@ -189,7 +291,7 @@ final class WorkspaceModel {
     var canChangePresentation: Bool { source != nil }
 
     var analysisControlsEnabled: Bool {
-        source != nil && phase != .importing && phase != .exporting
+        source != nil && !isReplayed && phase != .importing && phase != .exporting
     }
 
     var isBusy: Bool { phase == .importing || phase == .exporting }
@@ -200,7 +302,9 @@ final class WorkspaceModel {
         guard let currentRequestKey, completedEnhancement.key == currentRequestKey else {
             return .previousNotCurrent
         }
-        return phase == .ready || phase == .exporting ? .current : .previousNotCurrent
+        return phase == .ready || phase == .importing || phase == .exporting
+            ? .current
+            : .previousNotCurrent
     }
 
     var statusLabel: String {
@@ -229,31 +333,22 @@ final class WorkspaceModel {
         openImage(at: url)
     }
 
-    func openImage(at url: URL) {
-        guard phase != .importing, phase != .exporting else { return }
+    func openImage(at url: URL, applying recipeItem: SavedTransformItem? = nil) {
+        guard phase != .exporting else { return }
 
+        if phase != .importing { imageImportRollbackPhase = phase }
         invalidateActiveOperation()
         noticeTask?.cancel()
         exportNotice = nil
         exportNoticeIsError = false
         exportKind = nil
-        source = nil
-        sourceIdentity = nil
-        completedEnhancement = nil
-        currentRequestKey = nil
-        activeAnalysisJob = nil
-        sourceName = url.lastPathComponent
-        sampleSource = .wholeImage
-        regionEditor = RegionEditorState()
-        comparisonMode = .split
-        zoom = 1
-        pan = .zero
         phase = .importing
-        statusAnnouncement = "Reading \(sourceName) locally."
+        statusAnnouncement = "Reading \(url.lastPathComponent) locally. The current image and result remain available until the replacement is ready."
 
         let newOperationID = UUID()
         operationID = newOperationID
         let accessedSecurityScope = url.startAccessingSecurityScopedResource()
+        let decodeImage = self.decodeImage
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
             defer {
                 if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
@@ -261,9 +356,14 @@ final class WorkspaceModel {
             do {
                 let data = try Data(contentsOf: url, options: [.mappedIfSafe])
                 try Task.checkCancellation()
-                let decoded = try ImagePipeline.decode(data)
+                let decoded = try decodeImage(data)
                 try Task.checkCancellation()
-                await self?.acceptDecodedImage(decoded, operationID: newOperationID)
+                await self?.acceptDecodedImage(
+                    decoded,
+                    applying: recipeItem,
+                    sourceName: url.lastPathComponent,
+                    operationID: newOperationID
+                )
             } catch is CancellationError {
                 await self?.acceptImportCancellation(operationID: newOperationID)
             } catch {
@@ -273,15 +373,71 @@ final class WorkspaceModel {
     }
 
     func selectColorSpace(_ selection: AnalysisColorSpace) {
-        guard analysisControlsEnabled, selection != colorSpace else { return }
+        guard analysisControlsEnabled, selection != colorSpace || activeWorkingSpace.identity.kind != .standard else { return }
         colorSpace = selection
+        let descriptor = selection == .rgb
+            ? WorkingSpaceCatalog.standardRGB
+            : WorkingSpaceCatalog.standardLabD65
+        methodSelection = .calculated(descriptor.revision, name: descriptor.libraryName)
+        rememberCalculatedControls()
         clearMethodDependentValidation()
+        requestAnalysis()
+    }
+
+    func useWorkingSpace(_ revision: WorkingSpaceRevision, name: String) {
+        guard !isBusy else { return }
+        do {
+            _ = try WorkingSpaceValidator.validate(revision, libraryName: name)
+        } catch {
+            phase = .failed((error as? LocalizedError)?.errorDescription ?? "The working space is invalid.")
+            return
+        }
+        methodSelection = .calculated(revision, name: name)
+        colorSpace = revision.base == .encodedSRGB ? .rgb : .lab
+        rememberCalculatedControls()
+        clearMethodDependentValidation()
+        requestAnalysis()
+    }
+
+    func useUpdatedWorkingSpaceIfActive(_ item: UserWorkingSpaceItem) {
+        guard case let .calculated(current, _) = methodSelection,
+              current.identity == item.revision.identity else { return }
+        useWorkingSpace(item.revision, name: item.libraryName)
+    }
+
+    func applyRecipe(_ item: SavedTransformItem) {
+        guard !isBusy else { return }
+        methodSelection = .replayed(item.recipe, name: item.libraryName)
+        requestAnalysis()
+    }
+
+    func applyRecipeToAnotherImage(_ item: SavedTransformItem) {
+        let panel = NSOpenPanel()
+        panel.title = "Apply \(item.libraryName) to another image"
+        panel.prompt = "Open and Apply"
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.allowedContentTypes = [.jpeg, .png, .tiff, .heic]
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        openImage(at: url, applying: item)
+    }
+
+    func calculateForThisImage() {
+        guard !isBusy else { return }
+        let controls = lastCalculatedControls
+        methodSelection = .calculated(controls.workingSpace, name: controls.name)
+        colorSpace = controls.workingSpace.base == .encodedSRGB ? .rgb : .lab
+        matrixMode = controls.matrixMode
+        sampleSource = controls.sampleSource
+        regionEditor.committed = controls.region
+        if let region = controls.region { regionEditor.setDrafts(from: region) }
         requestAnalysis()
     }
 
     func selectMatrixMode(_ selection: AnalysisMatrixMode) {
         guard analysisControlsEnabled, selection != matrixMode else { return }
         matrixMode = selection
+        rememberCalculatedControls()
         clearMethodDependentValidation()
         requestAnalysis()
     }
@@ -289,6 +445,7 @@ final class WorkspaceModel {
     func selectSampleSource(_ selection: AnalysisSampleSource) {
         guard analysisControlsEnabled, selection != sampleSource else { return }
         sampleSource = selection
+        rememberCalculatedControls()
         requestAnalysis()
     }
 
@@ -320,6 +477,7 @@ final class WorkspaceModel {
                 sourceHeight: source.height
             )
             regionEditor.committed = region
+            rememberCalculatedControls()
             regionEditor.validationIssue = nil
             if sampleSource == .selectedRegion { requestAnalysis() }
         } catch let issue as RegionValidationIssue {
@@ -339,6 +497,7 @@ final class WorkspaceModel {
                 sourceHeight: source.height
             )
             regionEditor.committed = region
+            rememberCalculatedControls()
             regionEditor.validationIssue = nil
             requestAnalysis()
         } catch let issue as RegionValidationIssue {
@@ -350,6 +509,7 @@ final class WorkspaceModel {
 
     func clearRegion() {
         regionEditor = RegionEditorState()
+        rememberCalculatedControls()
         guard sampleSource == .selectedRegion else { return }
         requestAnalysis()
     }
@@ -407,13 +567,7 @@ final class WorkspaceModel {
         invalidateActiveOperation()
         switch priorPhase {
         case .importing:
-            source = nil
-            sourceIdentity = nil
-            completedEnhancement = nil
-            currentRequestKey = nil
-            sourceName = ""
-            phase = .empty
-            statusAnnouncement = "Image import canceled."
+            restoreAfterImageImportCancellation()
         case .exporting:
             phase = .ready
             statusAnnouncement = priorExportKind == .analysisRecord
@@ -432,19 +586,52 @@ final class WorkspaceModel {
         pan = .zero
     }
 
+    func capturedTransformSeed() -> TransformRecipeSnapshot? {
+        guard canSaveTransform, let source, let result = currentCompletedEnhancement else { return nil }
+        return try? TransformRecipeFactory.capture(
+            decodedSource: source,
+            displayFilename: sourceName,
+            enhancement: result.value
+        )
+    }
+
+    func saveTransform(_ seed: TransformRecipeSnapshot, name: String) async throws {
+        _ = try await methodLibrary.saveRecipe(seed, name: name)
+        statusAnnouncement = "Saved transform \(name). The displayed result is unchanged."
+    }
+
+    func deleteWorkingSpace(_ item: UserWorkingSpaceItem) async throws {
+        let wasActive: Bool
+        if case let .calculated(revision, _) = methodSelection {
+            wasActive = revision.identity == item.revision.identity
+        } else {
+            wasActive = false
+        }
+        try await methodLibrary.deleteSpace(item)
+        if wasActive {
+            methodSelection = .calculated(
+                WorkingSpaceCatalog.standardRGB.revision,
+                name: WorkingSpaceCatalog.standardRGB.libraryName
+            )
+            colorSpace = .rgb
+            rememberCalculatedControls()
+            requestAnalysis()
+        }
+    }
+
     private func requestAnalysis() {
         guard let source, let sourceIdentity else { return }
         activeOperation?.cancel()
         activeOperation = nil
         activeAnalysisJob = nil
 
-        let input = analysisInput
+        let execution = executionRequest
         let displayFilename = sourceName
-        let key = AnalysisRequestKey(source: sourceIdentity, input: input)
+        let key = AnalysisRequestKey(source: sourceIdentity, execution: execution)
         currentRequestKey = key
 
-        if input.sampleSource == .selectedRegion {
-            if input.region == nil {
+        if case let .calculated(request) = execution, request.sampleSource == .selectedRegion {
+            if request.region == nil {
                 phase = .awaitingRegion(.missing)
                 regionEditor.validationIssue = .missing
                 statusAnnouncement = "A selected region is required. No whole-image fallback will be used."
@@ -460,7 +647,7 @@ final class WorkspaceModel {
             }
             do {
                 _ = try SourcePixelRegionValidator.validate(
-                    input.region,
+                    request.region,
                     sourceWidth: source.width,
                     sourceHeight: source.height
                 )
@@ -476,11 +663,20 @@ final class WorkspaceModel {
         let job = AnalysisJobIdentity(id: UUID(), key: key)
         activeAnalysisJob = job
         phase = .processing
-        statusAnnouncement = "Calculating \(methodText) locally from the unchanged source."
+        statusAnnouncement = isReplayed
+            ? "Replaying \(activeMethodName) unchanged on the target. No target statistics are calculated."
+            : "Calculating \(methodText) locally from the unchanged source."
+        let methodName = activeMethodName
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
             do {
-                let result = try ImagePipeline.enhance(source, input: input)
-                let record = try AnalysisRecord(
+                let result: EnhancedImage
+                switch execution {
+                case let .calculated(request):
+                    result = try ImagePipeline.enhance(source, request: request, workingSpaceName: methodName)
+                case let .replayed(recipe):
+                    result = try ImagePipeline.replay(source, recipe: recipe, recipeName: methodName)
+                }
+                let record = try AnalysisRecordRouter.make(
                     decodedSource: source,
                     displayFilename: displayFilename,
                     enhancement: result
@@ -499,6 +695,17 @@ final class WorkspaceModel {
         if case .insufficientVariation = regionEditor.validationIssue {
             regionEditor.validationIssue = nil
         }
+    }
+
+    private func rememberCalculatedControls() {
+        guard case let .calculated(revision, name) = methodSelection else { return }
+        lastCalculatedControls = LastCalculatedControls(
+            workingSpace: revision,
+            name: name,
+            matrixMode: matrixMode,
+            sampleSource: sampleSource,
+            region: regionEditor.committed
+        )
     }
 
     private func rejectRegion(_ issue: RegionValidationIssue) {
@@ -572,7 +779,7 @@ final class WorkspaceModel {
             }
             do {
                 try Task.checkCancellation()
-                try AnalysisRecordJSONEncoder.write(snapshot.value, to: url)
+                try AnalysisRecordSnapshotJSONEncoder.write(snapshot.value, to: url)
                 try Task.checkCancellation()
                 await self?.acceptAnalysisRecordExport(
                     url: url,
@@ -587,17 +794,42 @@ final class WorkspaceModel {
         }
     }
 
-    private func acceptDecodedImage(_ decoded: DecodedImage, operationID: UUID) {
+    private func acceptDecodedImage(
+        _ decoded: DecodedImage,
+        applying recipeItem: SavedTransformItem?,
+        sourceName: String,
+        operationID: UUID
+    ) {
         guard operationID == self.operationID, phase == .importing else { return }
         activeOperation = nil
+        imageImportRollbackPhase = nil
         source = decoded
         sourceIdentity = SourceIdentity(generation: UUID())
+        completedEnhancement = nil
+        currentRequestKey = nil
+        activeAnalysisJob = nil
+        self.sourceName = sourceName
+        if let recipeItem {
+            methodSelection = .replayed(recipeItem.recipe, name: recipeItem.libraryName)
+        } else {
+            methodSelection = .calculated(
+                lastCalculatedControls.workingSpace,
+                name: lastCalculatedControls.name
+            )
+            colorSpace = lastCalculatedControls.workingSpace.base == .encodedSRGB ? .rgb : .lab
+            sampleSource = .wholeImage
+        }
+        regionEditor = RegionEditorState()
+        comparisonMode = .sideBySide
+        comparisonReveal = 0.5
+        zoom = 1
+        pan = .zero
         requestAnalysis()
     }
 
     private func acceptEnhancedImage(
         _ result: EnhancedImage,
-        record: AnalysisRecord,
+        record: AnalysisRecordSnapshot,
         job: AnalysisJobIdentity
     ) {
         guard RequestAcceptanceGate.accepts(
@@ -617,7 +849,9 @@ final class WorkspaceModel {
         activeAnalysisJob = nil
         regionEditor.validationIssue = nil
         statusAnnouncement = result.notice
-            ?? "Enhancement complete using \(methodText). Original and enhanced images are ready to compare."
+            ?? (isReplayed
+                ? "Replay complete using \(methodText). The output is unchanged from the frozen recipe."
+                : "Enhancement complete using \(methodText). Original and processed images are ready to compare.")
     }
 
     private func acceptAnalysisCancellation(job: AnalysisJobIdentity) {
@@ -656,8 +890,7 @@ final class WorkspaceModel {
     private func acceptImportCancellation(operationID: UUID) {
         guard operationID == self.operationID, phase == .importing else { return }
         activeOperation = nil
-        sourceName = ""
-        phase = .empty
+        restoreAfterImageImportCancellation()
     }
 
     private func acceptImportFailure(_ error: Error, operationID: UUID) {
@@ -665,8 +898,16 @@ final class WorkspaceModel {
         activeOperation = nil
         let message = (error as? LocalizedError)?.errorDescription
             ?? "The image operation could not be completed."
-        phase = .failed(message)
-        statusAnnouncement = message
+        if source != nil {
+            phase = restorablePhaseAfterImageImport
+            let preservedMessage = "The replacement image could not be opened. The prior image and result are unchanged. \(message)"
+            showExportNotice(preservedMessage, isError: true)
+            statusAnnouncement = preservedMessage
+        } else {
+            phase = .failed(message)
+            statusAnnouncement = message
+        }
+        imageImportRollbackPhase = nil
     }
 
     private func acceptExport(
@@ -736,7 +977,7 @@ final class WorkspaceModel {
     }
 
     private var currentCompletedEnhancement: CompletedEnhancement? {
-        guard phase == .ready,
+        guard phase == .ready || phase == .importing,
               let completedEnhancement,
               let currentRequestKey,
               completedEnhancement.key == currentRequestKey
@@ -772,6 +1013,22 @@ final class WorkspaceModel {
         exportKind = nil
         operationID = UUID()
     }
+
+    private var restorablePhaseAfterImageImport: WorkspacePhase {
+        if let completedEnhancement, let currentRequestKey,
+           completedEnhancement.key == currentRequestKey {
+            return .ready
+        }
+        return imageImportRollbackPhase ?? (source == nil ? .empty : .failed("No current result is available."))
+    }
+
+    private func restoreAfterImageImportCancellation() {
+        phase = restorablePhaseAfterImageImport
+        imageImportRollbackPhase = nil
+        statusAnnouncement = source == nil
+            ? "Image import canceled."
+            : "Image import canceled. The prior image and result are unchanged."
+    }
 }
 
 #if DEBUG
@@ -783,8 +1040,8 @@ extension WorkspaceModel {
               let enhanced = try? ImagePipeline.enhance(source)
         else { return model }
         let sourceIdentity = SourceIdentity(generation: UUID())
-        let key = AnalysisRequestKey(source: sourceIdentity, input: .baseline)
-        guard let record = try? AnalysisRecord(
+        let key = AnalysisRequestKey(source: sourceIdentity, execution: .calculated(CalculatedAnalysisRequest(.baseline)))
+        guard let record = try? AnalysisRecordRouter.make(
             decodedSource: source,
             displayFilename: "starling-feather.png",
             enhancement: enhanced

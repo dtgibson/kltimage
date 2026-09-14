@@ -13,6 +13,9 @@ struct KLTImageApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(model: workspace)
+#if DEBUG
+                .modifier(UITestAccessibilityEnvironment())
+#endif
         }
         .windowStyle(.hiddenTitleBar)
         .defaultSize(width: 1_220, height: 780)
@@ -36,3 +39,18 @@ struct KLTImageApp: App {
         }
     }
 }
+
+#if DEBUG
+private struct UITestAccessibilityEnvironment: ViewModifier {
+    private let environment = ProcessInfo.processInfo.environment
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if environment["KLT_UI_TEST_LARGER_TEXT"] == "1" {
+            content.environment(\.dynamicTypeSize, .accessibility2)
+        } else {
+            content
+        }
+    }
+}
+#endif

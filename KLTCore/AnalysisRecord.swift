@@ -67,7 +67,7 @@ public struct AnalysisSourceFingerprint: Equatable, Hashable, Sendable {
     }
 }
 
-public struct AnalysisSourceDescriptor: Equatable, Sendable {
+public struct AnalysisSourceDescriptor: Equatable, Hashable, Sendable {
     public static let pixelFormat = "rgba8-premultiplied-srgb"
 
     public let displayFilename: String
@@ -98,7 +98,7 @@ public struct AnalysisSourceDescriptor: Equatable, Sendable {
     }
 }
 
-public struct NormalizedAnalysisRegion: Equatable, Sendable {
+public struct NormalizedAnalysisRegion: Equatable, Hashable, Sendable {
     public let x: Double
     public let y: Double
     public let width: Double
@@ -123,7 +123,7 @@ public struct NormalizedAnalysisRegion: Equatable, Sendable {
     }
 }
 
-public struct AnalysisRegionRecord: Equatable, Sendable {
+public struct AnalysisRegionRecord: Equatable, Hashable, Sendable {
     public let normalized: NormalizedAnalysisRegion
     public let sourcePixels: SourcePixelRegion
 

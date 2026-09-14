@@ -1,10 +1,18 @@
 import Foundation
 
-public struct Matrix3x3: Equatable, Sendable {
+public struct Matrix3x3: Equatable, Hashable, Sendable {
     private var storage: [Double]
 
     public init(_ values: [Double]) {
         precondition(values.count == 9)
+        storage = values
+    }
+
+    public init(checked values: [Double]) throws {
+        guard values.count == 9 else {
+            throw Matrix3x3Error.invalidValueCount(actual: values.count)
+        }
+        guard values.allSatisfy(\.isFinite) else { throw Matrix3x3Error.nonFiniteValue }
         storage = values
     }
 
@@ -85,6 +93,68 @@ public struct Matrix3x3: Equatable, Sendable {
 
     public var isFinite: Bool {
         storage.allSatisfy(\.isFinite)
+    }
+
+    public var determinant: Double {
+        let a = self[0, 0], b = self[0, 1], c = self[0, 2]
+        let d = self[1, 0], e = self[1, 1], f = self[1, 2]
+        let g = self[2, 0], h = self[2, 1], i = self[2, 2]
+        return (a * ((e * i) - (f * h)))
+            - (b * ((d * i) - (f * g)))
+            + (c * ((d * h) - (e * g)))
+    }
+
+    public var maximumAbsoluteElement: Double {
+        storage.reduce(0) { max($0, abs($1)) }
+    }
+
+    public var infinityNorm: Double {
+        (0..<3).reduce(0) { result, row in
+            max(result, abs(self[row, 0]) + abs(self[row, 1]) + abs(self[row, 2]))
+        }
+    }
+
+    public func scaled(by divisor: Double) -> Matrix3x3 {
+        Matrix3x3(storage.map { $0 / divisor })
+    }
+
+    public func inverted() throws -> Matrix3x3 {
+        let det = determinant
+        guard det.isFinite, det != 0 else { throw Matrix3x3Error.singular }
+        let a = self[0, 0], b = self[0, 1], c = self[0, 2]
+        let d = self[1, 0], e = self[1, 1], f = self[1, 2]
+        let g = self[2, 0], h = self[2, 1], i = self[2, 2]
+        let inverse = Matrix3x3([
+            ((e * i) - (f * h)) / det,
+            ((c * h) - (b * i)) / det,
+            ((b * f) - (c * e)) / det,
+            ((f * g) - (d * i)) / det,
+            ((a * i) - (c * g)) / det,
+            ((c * d) - (a * f)) / det,
+            ((d * h) - (e * g)) / det,
+            ((b * g) - (a * h)) / det,
+            ((a * e) - (b * d)) / det
+        ])
+        guard inverse.isFinite else { throw Matrix3x3Error.nonFiniteValue }
+        return inverse
+    }
+
+    public func maximumAbsoluteDifference(from other: Matrix3x3) -> Double {
+        zip(storage, other.storage).reduce(0) { max($0, abs($1.0 - $1.1)) }
+    }
+}
+
+public enum Matrix3x3Error: Error, Equatable, LocalizedError, Sendable {
+    case invalidValueCount(actual: Int)
+    case nonFiniteValue
+    case singular
+
+    public var errorDescription: String? {
+        switch self {
+        case let .invalidValueCount(actual): "A 3 by 3 matrix requires exactly 9 values; received \(actual)."
+        case .nonFiniteValue: "Every matrix value must be finite."
+        case .singular: "The matrix is singular."
+        }
     }
 }
 

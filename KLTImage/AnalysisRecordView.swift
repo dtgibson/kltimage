@@ -22,11 +22,35 @@ struct AnalysisRecordView: View {
     let closeAction: () -> Void
     let exportAction: (AnalysisRecordPresentation) -> Void
 
+    var body: some View {
+        switch snapshot.value {
+        case let .legacyV1(record):
+            LegacyAnalysisRecordView(
+                snapshot: snapshot,
+                record: record,
+                closeAction: closeAction,
+                exportAction: exportAction
+            )
+        case let .extendedV2(record):
+            ExtendedAnalysisRecordView(
+                snapshot: snapshot,
+                record: record,
+                closeAction: closeAction,
+                exportAction: exportAction
+            )
+        }
+    }
+}
+
+private struct LegacyAnalysisRecordView: View {
+    let snapshot: AnalysisRecordPresentation
+    let record: AnalysisRecord
+    let closeAction: () -> Void
+    let exportAction: (AnalysisRecordPresentation) -> Void
+
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedTab = AnalysisRecordTab.summary
     @FocusState private var closeIsFocused: Bool
-
-    private var record: AnalysisRecord { snapshot.value }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -590,4 +614,246 @@ private struct RecordMatrix: View {
 
 private func formatNumber(_ value: Double) -> String {
     String(format: "%.12g", locale: Locale(identifier: "en_US_POSIX"), value)
+}
+
+private struct ExtendedAnalysisRecordView: View {
+    let snapshot: AnalysisRecordPresentation
+    let record: ExtendedAnalysisRecord
+    let closeAction: () -> Void
+    let exportAction: (AnalysisRecordPresentation) -> Void
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Analysis record")
+                        .font(.plexSans(24, weight: .bold))
+                    Text(record.executionMode == "replayed" ? "Replayed unchanged" : "Calculated from this image")
+                        .font(.plexMono(10, weight: .semibold))
+                        .foregroundStyle(KLTColor.success)
+                }
+                Spacer()
+                Button(action: closeAction) { Image(systemName: "xmark").frame(width: 26, height: 26) }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Close analysis record")
+            }
+            .padding(18)
+            Divider()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    recordSection("Target source") {
+                        value("Filename", record.targetSource.displayFilename)
+                        value("Dimensions", "\(record.targetSource.width) × \(record.targetSource.height)")
+                        value("Fingerprint", record.targetSource.fingerprint.value)
+                    }
+                    recordSection("Execution") {
+                        value("Mode", record.executionMode.capitalized)
+                        value("Working space", record.workingSpaceNameAtExecution)
+                        value("Stable identity", record.workingSpace.identity.identifier)
+                        value("Definition version", String(record.workingSpace.definitionVersion))
+                        value("Base", record.workingSpace.base.displayName)
+                    }
+                    recordSection("Working-space definition") {
+                        Text("working = A × base + b")
+                            .font(.plexMono(11, weight: .semibold))
+                        value("Base channel order", record.workingSpace.baseChannelOrder.joined(separator: ", "))
+                        value("Base channel units", record.workingSpace.baseChannelUnits.joined(separator: ", "))
+                        value("Working channel order", record.workingSpace.workingChannelNames.joined(separator: ", "))
+                        compactMatrix("Forward · row-major", record.workingSpace.forward.rowMajorValues)
+                        compactMatrix("Derived inverse · row-major", record.workingSpace.inverse.rowMajorValues)
+                        value("Offset", record.workingSpace.offset.values.map(formatNumber).joined(separator: ", "))
+                        value("Output behavior", record.workingSpace.outputBehavior.rawValue)
+                    }
+                    if let calculation = record.calculation {
+                        recordSection("Calculated from target") {
+                            value("Matrix", calculation.matrixMode.displayName)
+                            value("Sample", calculation.samplingMode.displayName)
+                            originatingRegion(calculation.region)
+                            value("Sample pixels", calculation.mathematics.samplePixelCount.formatted())
+                            value(
+                                "Working mean",
+                                calculation.mathematics.mean.values.map(formatNumber).joined(separator: ", ")
+                            )
+                            compactMatrix("Covariance · row-major", calculation.mathematics.covariance.values)
+                            compactMatrix(
+                                "Analysis matrix · row-major",
+                                calculation.mathematics.analysisMatrix.values
+                            )
+                            value(
+                                "Eigenvalues · descending",
+                                calculation.mathematics.eigenvalues.values.map(formatNumber).joined(separator: ", ")
+                            )
+                            compactMatrix(
+                                "Eigenvectors · column vectors · row-major",
+                                calculation.mathematics.eigenvectors.values
+                            )
+                            value(
+                                "Stable variables",
+                                "\(calculation.mathematics.stableVariableCount) of 3"
+                            )
+                            value(
+                                "Stable components",
+                                "\(calculation.mathematics.stableComponentCount) of 3"
+                            )
+                            compactMatrix("Applied transform", calculation.mathematics.transform.values)
+                            calculationOutputMapping(calculation.mathematics.outputMapping)
+                        }
+                    }
+                    if let replay = record.replay {
+                        recordSection("Frozen recipe") {
+                            value("Recipe", replay.recipeNameAtExecution)
+                            value("Recipe identity", replay.recipe.identifier.uuidString.lowercased())
+                            value("Recipe format", "Version \(replay.recipe.recipeFormatVersion)")
+                            value("Algorithm", "\(replay.recipe.algorithm.identifier) · v\(replay.recipe.algorithm.version)")
+                            value("Origin", replay.recipe.originSource.displayFilename)
+                            value("Origin dimensions", "\(replay.recipe.originSource.width) × \(replay.recipe.originSource.height)")
+                            value("Origin analysis pixels", replay.recipe.originSource.analysisPixelFormat)
+                            value("Origin fingerprint", replay.recipe.originSource.fingerprint.value)
+                            value("Origin matrix", replay.recipe.originatingAnalysis.matrixMode.displayName)
+                            value("Origin sample", replay.recipe.originatingAnalysis.samplingMode.displayName)
+                            value("Origin sample pixels", replay.recipe.originatingAnalysis.samplePixelCount.formatted())
+                            originatingRegion(replay.recipe.originatingAnalysis.region)
+                            value("Frozen center", replay.recipe.workingCenter.values.map(formatNumber).joined(separator: ", "))
+                            compactMatrix("Applied transform", replay.recipe.transform.rowMajorValues)
+                            frozenOutputMapping(replay.recipe.outputMapping)
+                            value("Matrix storage", "Row-major")
+                            value("Alpha policy", "Preserve source alpha byte")
+                            value("Byte quantization", "Clamp unit range · premultiply · round nearest")
+                            value("Region convention", "Top-left origin · half-open bounds")
+                            Text("The target supplied no statistics, center, eigensystem, range fit, or gamut fit.")
+                                .font(.plexSans(10))
+                                .foregroundStyle(KLTColor.inkMuted)
+                        }
+                        recordSection("Target-only diagnostics") {
+                            value("Same as origin", replay.diagnostics.sameAsOrigin ? "Yes" : "No · different source")
+                            value("Clipped pixels", "\(replay.diagnostics.clippedColorPixelCount) of \(replay.diagnostics.evaluatedPixelCount)")
+                            value("Clipped fraction", replay.diagnostics.clippedFraction.formatted(.percent.precision(.fractionLength(2))))
+                            if let range = replay.diagnostics.mappedRange { value("Mapped range", formatNumber(range)) }
+                        }
+                    }
+                    Label(TransformRecipeValidator.exploratoryUseNotice, systemImage: "exclamationmark.triangle")
+                        .font(.plexSans(10))
+                        .foregroundStyle(Color(hex: 0x71430F))
+                        .padding(10)
+                        .background(Color(hex: 0xFBF2E8))
+                }
+                .padding(18)
+            }
+            Divider()
+            HStack {
+                Text("org.kltimage.analysis-record · VERSION 2")
+                    .font(.plexMono(9))
+                    .foregroundStyle(KLTColor.inkMuted)
+                Spacer()
+                Button("Export JSON") { exportAction(snapshot) }
+                    .buttonStyle(SecondaryActionButtonStyle())
+                    .accessibilityIdentifier("export-analysis-record-button")
+            }
+            .padding(14)
+        }
+        .frame(minWidth: 480, idealWidth: 620, maxWidth: 720, minHeight: 420, idealHeight: 610, maxHeight: 760)
+        .background(KLTColor.surfaceRaised)
+        .environment(\.colorScheme, .light)
+        .onExitCommand(perform: closeAction)
+    }
+
+    private func recordSection<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title).font(.plexSans(13, weight: .bold))
+            content()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func value(_ label: String, _ value: String) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(label).foregroundStyle(KLTColor.inkMuted)
+            Spacer()
+            Text(value).font(.plexMono(10)).textSelection(.enabled).multilineTextAlignment(.trailing)
+        }
+        .font(.plexSans(10))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(label): \(value)")
+    }
+
+    @ViewBuilder
+    private func originatingRegion(_ region: AnalysisRegionRecord?) -> some View {
+        if let region {
+            value(
+                "Origin region · source pixels",
+                "x \(region.sourcePixels.x), y \(region.sourcePixels.y), w \(region.sourcePixels.width), h \(region.sourcePixels.height)"
+            )
+            value(
+                "Origin region · normalized",
+                [region.normalized.x, region.normalized.y, region.normalized.width, region.normalized.height]
+                    .map(formatNumber).joined(separator: ", ")
+            )
+        } else {
+            value("Origin region", "Whole image · no region")
+        }
+    }
+
+    @ViewBuilder
+    private func calculationOutputMapping(_ mapping: AnalysisOutputMappingRecord) -> some View {
+        switch mapping {
+        case let .rgbGlobalRange(minimum, maximum, scale):
+            value("Output mapping", WorkingSpaceOutputBehavior.encodedSRGBGlobalRangeV1.rawValue)
+            value("Output range", "minimum \(formatNumber(minimum)) · maximum \(formatNumber(maximum))")
+            value("Output scale", formatNumber(scale))
+            value("Clipping policy", "Clip each encoded sRGB channel to the unit range")
+        case let .labD65ToSRGB(clips):
+            value("Output mapping", WorkingSpaceOutputBehavior.cieLabD65ToClippedSRGBV1.rawValue)
+            value("Reference white", "0.95047, 1, 1.08883")
+            value(
+                "Clipping policy",
+                clips ? "Clip finite out-of-gamut sRGB values" : "No finite gamut clipping"
+            )
+        case .limitedVariationIdentity:
+            value("Output mapping", "limited-variation-identity")
+            value("Output behavior", "Identity; source values remain unchanged")
+            value("Clipping policy", "No additional clipping")
+        }
+        value("Alpha policy", "Preserve source alpha byte")
+    }
+
+    @ViewBuilder
+    private func frozenOutputMapping(_ mapping: FrozenOutputMapping) -> some View {
+        switch mapping {
+        case let .encodedSRGBGlobalRangeV1(minimum, maximum, scale, clips):
+            value("Output mapping", WorkingSpaceOutputBehavior.encodedSRGBGlobalRangeV1.rawValue)
+            value("Frozen output range", "minimum \(formatNumber(minimum)) · maximum \(formatNumber(maximum))")
+            value("Frozen output scale", formatNumber(scale))
+            value("Clipping policy", clips ? "Clip mapped values to unit range" : "No unit-range clipping")
+        case let .cieLabD65ToClippedSRGBV1(referenceWhite, clips):
+            value("Output mapping", WorkingSpaceOutputBehavior.cieLabD65ToClippedSRGBV1.rawValue)
+            value("Reference white", referenceWhite.values.map(formatNumber).joined(separator: ", "))
+            value("Clipping policy", clips ? "Clip finite out-of-gamut sRGB values" : "No finite gamut clipping")
+        }
+    }
+
+    private func compactMatrix(_ label: String, _ values: [Double]) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(label).font(.plexSans(10, weight: .semibold))
+            ForEach(0..<3, id: \.self) { row in
+                let text = matrixRow(values, row: row, separator: "   ")
+                Text(text)
+                    .font(.plexMono(10))
+                    .textSelection(.enabled)
+                    .accessibilityLabel("Row \(row + 1): \(matrixRow(values, row: row, separator: ", "))")
+            }
+        }
+        .padding(9)
+        .background(KLTColor.surfaceTint)
+    }
+
+    private func matrixRow(_ values: [Double], row: Int, separator: String) -> String {
+        let start = row * 3
+        return [values[start], values[start + 1], values[start + 2]]
+            .map { formatNumber($0) }
+            .joined(separator: separator)
+    }
+}
+
+private extension SIMD3 where Scalar == Double {
+    var values: [Double] { [x, y, z] }
 }

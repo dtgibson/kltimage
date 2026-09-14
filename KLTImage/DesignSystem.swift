@@ -41,13 +41,14 @@ extension Font {
         } else {
             name = "IBMPlexSans-Regular"
         }
-        return .custom(name, fixedSize: size)
+        return .custom(name, size: size, relativeTo: size >= 18 ? .title3 : (size >= 12 ? .body : .caption))
     }
 
     static func plexMono(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
         .custom(
             weight == .semibold ? "IBMPlexMono-SemiBold" : "IBMPlexMono-Regular",
-            fixedSize: size
+            size: size,
+            relativeTo: size >= 12 ? .body : .caption
         )
     }
 }

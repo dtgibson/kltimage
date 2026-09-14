@@ -4,7 +4,7 @@ import SwiftUI
 
 private enum ExploratoryGuidanceCopy {
     static let title = "Exploratory enhancement"
-    static let detail = "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement."
+    static let detail = "Color differences are amplified for inspection. Coordinate choice, color management, and target mismatch during fixed reuse can amplify noise, compression, lighting differences, clipping, low contrast, or gamut loss. The result is not, by itself, a scientific measurement."
 }
 
 struct MetadataStrip: View {
@@ -89,7 +89,7 @@ struct MetadataStrip: View {
 
                 HStack(spacing: 10) {
                     VStack(alignment: .trailing, spacing: 3) {
-                        Text("ANALYSIS RECORD · CURRENT")
+                        Text("\(model.executionModeText) RECORD · CURRENT")
                             .font(.plexMono(9, weight: .semibold))
                             .tracking(0.55)
                             .foregroundStyle(KLTColor.success)
@@ -164,6 +164,12 @@ struct MetadataStrip: View {
     }
 
     private var stabilityText: String {
+        if model.isReplayed {
+            guard let diagnostics = model.replayDiagnostics else { return "Frozen recipe · no target statistics" }
+            return diagnostics.sameAsOrigin
+                ? "Replayed unchanged · same as origin"
+                : "Replayed unchanged · different source · \(diagnostics.clippedFraction.formatted(.percent.precision(.fractionLength(1)))) clipped"
+        }
         switch model.phase {
         case .processing:
             return model.enhanced == nil
@@ -190,7 +196,7 @@ private struct MethodPopover: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
-                Text("\(model.colorSpace.displayName) \(model.matrixMode.displayName.lowercased())")
+                Text(model.methodText)
                     .font(.plexSans(18, weight: .bold))
                 Spacer()
                 FocusableIconButton(
@@ -215,7 +221,7 @@ private struct MethodPopover: View {
             methodRow("Stable components", stableComponents)
             methodRow("Processing", "Local only")
 
-            Text("Methods are alternative exploratory views, not ranks of accuracy. Lab conversion, correlation normalization, output-gamut clipping, noise, compression, lighting, and region choice can affect what you see.")
+            Text("Methods are alternative exploratory views, not ranks of accuracy. Color management, Lab conversion, correlation normalization, output-gamut clipping, noise, compression, lighting, region choice, and target mismatch during fixed reuse can affect what you see.")
                 .font(.plexSans(10))
                 .foregroundStyle(Color(hex: 0x71430F))
                 .fixedSize(horizontal: false, vertical: true)
@@ -233,6 +239,12 @@ private struct MethodPopover: View {
     }
 
     private var methodExplanation: String {
+        if case let .replayed(recipe, _) = model.methodSelection {
+            return "This saved transform applies an earlier calculation unchanged. The target supplies no covariance, correlation, center, eigensystem, range fit, or gamut fit. Origin: \(recipe.originSource.displayFilename)."
+        }
+        if model.activeWorkingSpace.identity.kind != .standard {
+            return "\(model.activeMethodName) maps \(model.activeWorkingSpace.base.displayName) through the inspectable reversible equation working = A × base + b before calculating a new transform."
+        }
         let color = model.colorSpace == .rgb
             ? "RGB works from display-oriented red, green, and blue variables."
             : "CIE 1976 Lab D65 separates lightness from two chromatic axes."
@@ -243,6 +255,9 @@ private struct MethodPopover: View {
     }
 
     private var statisticsSource: String {
+        if case let .replayed(recipe, _) = model.methodSelection {
+            return "Frozen from \(recipe.originSource.displayFilename) · target inactive"
+        }
         if model.sampleSource == .wholeImage {
             return "Whole image · \(model.source?.pixelCount.formatted() ?? "0") px"
         }
@@ -257,6 +272,9 @@ private struct MethodPopover: View {
     }
 
     private var stableComponents: String {
+        if model.isReplayed {
+            return "No target statistics"
+        }
         guard model.resultCurrency == .current, let result = model.enhanced else {
             return model.phase == .processing ? "Calculating" : "Not current"
         }

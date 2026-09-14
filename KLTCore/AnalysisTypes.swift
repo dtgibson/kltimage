@@ -275,7 +275,7 @@ public enum CIELabD65 {
         return lab
     }
 
-    public static func toClippedSRGB(_ lab: SIMD3<Double>) throws -> SIMD3<Double> {
+    public static func toSRGB(_ lab: SIMD3<Double>) throws -> SIMD3<Double> {
         guard lab.x.isFinite, lab.y.isFinite, lab.z.isFinite else {
             throw ColorConversionError.nonFiniteColor
         }
@@ -300,6 +300,11 @@ public enum CIELabD65 {
         guard rgb.x.isFinite, rgb.y.isFinite, rgb.z.isFinite else {
             throw ColorConversionError.nonFiniteColor
         }
+        return rgb
+    }
+
+    public static func toClippedSRGB(_ lab: SIMD3<Double>) throws -> SIMD3<Double> {
+        let rgb = try toSRGB(lab)
         return SIMD3(rgb.x.clampedToUnit, rgb.y.clampedToUnit, rgb.z.clampedToUnit)
     }
 
@@ -315,7 +320,7 @@ public enum CIELabD65 {
 
     @inline(__always)
     private static func labForward(_ value: Double) -> Double {
-        value > deltaCubed ? pow(value, 1 / 3) : (linearSlope * value) + (4 / 29)
+        value > deltaCubed ? cbrt(value) : (linearSlope * value) + (4 / 29)
     }
 
     @inline(__always)

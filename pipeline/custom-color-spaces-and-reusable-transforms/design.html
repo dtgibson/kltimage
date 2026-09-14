@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KLT Image — Method Library</title>
+  <style>
+    :root {
+      --ink-strong: #142a36;
+      --ink: #304854;
+      --ink-muted: #667b84;
+      --navy: #193a4a;
+      --accent: #007f92;
+      --accent-pressed: #006c7d;
+      --accent-soft: #d9f0f3;
+      --surface: #f7f9f9;
+      --surface-raised: #ffffff;
+      --surface-tint: #edf3f4;
+      --canvas: #dbe3e5;
+      --divider: #9fb1b8;
+      --line: #c9d4d8;
+      --success: #18745f;
+      --warning: #a35f15;
+      --warning-soft: #fbf2e8;
+      --danger: #a35f15;
+      --danger-soft: #fbf2e8;
+      --window-shadow: 0 28px 72px rgba(25, 58, 74, .20), 0 6px 18px rgba(25, 58, 74, .11);
+      --panel-shadow: 0 24px 64px rgba(20, 42, 54, .25), 0 5px 16px rgba(20, 42, 54, .14);
+      --ease-out: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      padding: 20px;
+      overflow: hidden;
+      color: var(--ink-strong);
+      font-family: "IBM Plex Sans", "Avenir Next", sans-serif;
+      background:
+        radial-gradient(circle at 13% 8%, rgba(129, 194, 202, .28), transparent 33%),
+        radial-gradient(circle at 91% 89%, rgba(67, 114, 129, .17), transparent 39%),
+        linear-gradient(145deg, #dfe9eb, #c9d7da);
+    }
+
+    button, input, select { font: inherit; color: inherit; }
+    button:not(:disabled), select:not(:disabled) { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(0, 127, 146, .27);
+      outline-offset: 2px;
+    }
+    button:disabled { cursor: not-allowed; opacity: .48; }
+    [hidden] { display: none !important; }
+
+    .app-window {
+      position: relative;
+      width: min(1510px, 100%);
+      height: min(950px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: 55px 45px minmax(0, 1fr) 76px;
+      overflow: hidden;
+      border: 1px solid rgba(102, 123, 132, .64);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--window-shadow);
+    }
+
+    .titlebar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 0 15px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(250, 252, 252, .97);
+    }
+    .traffic { display: flex; gap: 8px; }
+    .traffic i { width: 12px; height: 12px; border: 1px solid rgba(20, 42, 54, .17); border-radius: 50%; }
+    .traffic i:nth-child(1) { background: #ee6b60; }
+    .traffic i:nth-child(2) { background: #eeb847; }
+    .traffic i:nth-child(3) { background: #62bd72; }
+    .doc-title { min-width: 260px; text-align: center; }
+    .doc-title strong { display: block; font-size: 15px; font-weight: 680; letter-spacing: -.015em; }
+    .doc-title span { display: block; margin-top: 2px; color: var(--ink-muted); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 9.5px; }
+    .title-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
+
+    .button {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      background: var(--surface-raised);
+      color: var(--ink-strong);
+      font-size: 11.5px;
+      font-weight: 640;
+      transition: background 150ms var(--ease-out), border-color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .button:hover:not(:disabled) { border-color: #78919a; background: var(--surface-tint); }
+    .button:active:not(:disabled) { transform: translateY(1px); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: #f4feff; box-shadow: 0 5px 13px rgba(0, 127, 146, .20); }
+    .button.primary:hover:not(:disabled) { border-color: var(--accent-pressed); background: var(--accent-pressed); }
+    .button.ghost { border-color: transparent; background: transparent; }
+    .button.compact { min-height: 28px; padding: 4px 9px; font-size: 10.5px; }
+    .button.danger { border-color: rgba(164, 67, 53, .42); color: var(--danger); }
+    .icon { width: 15px; height: 15px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-button { width: 29px; height: 29px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 7px; background: transparent; font-size: 17px; }
+    .icon-button:hover { border-color: var(--line); background: var(--surface-raised); }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(330px, 1fr) auto 1fr;
+      align-items: center;
+      gap: 15px;
+      padding: 0 15px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-tint);
+    }
+    .status { min-width: 0; display: flex; align-items: center; gap: 8px; }
+    .status-dot { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px rgba(24, 116, 95, .11); }
+    .eyebrow { color: var(--ink-muted); font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 8.5px; font-weight: 680; letter-spacing: .09em; text-transform: uppercase; }
+    .status-copy { min-width: 0; overflow: hidden; color: var(--ink); font-size: 11.5px; font-weight: 620; text-overflow: ellipsis; white-space: nowrap; }
+    .mode-badge { padding: 3px 6px; border: 1px solid rgba(0, 127, 146, .27); border-radius: 5px; background: var(--accent-soft); color: var(--accent-pressed); font-family: "IBM Plex Mono", monospace; font-size: 8px; font-weight: 680; letter-spacing: .07em; text-transform: uppercase; }
+    .mode-badge.replayed { border-color: rgba(163, 95, 21, .30); background: var(--warning-soft); color: #7a480f; }
+    .segment { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: rgba(255, 255, 255, .72); }
+    .segment button { min-width: 75px; padding: 5px 10px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); font-size: 10.5px; font-weight: 650; }
+    .segment button[aria-pressed="true"] { background: var(--surface-raised); color: var(--ink-strong); box-shadow: 0 1px 4px rgba(25, 58, 74, .15); }
+    .zoom { justify-self: end; display: flex; align-items: center; gap: 3px; }
+    .zoom span { width: 42px; color: var(--ink); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; text-align: center; }
+
+    .workarea { min-height: 0; display: grid; grid-template-columns: 286px minmax(0, 1fr); }
+    .analysis-rail { min-height: 0; overflow: auto; border-right: 1px solid var(--line); background: var(--surface); }
+    .rail-heading { padding: 15px 16px 14px; border-bottom: 1px solid var(--line); }
+    .rail-heading h1 { margin: 0; font-size: 19px; line-height: 1.15; font-weight: 700; letter-spacing: -.025em; }
+    .rail-heading p { margin: 6px 0 0; color: var(--ink-muted); font-size: 10.5px; line-height: 1.45; }
+    .rail-section { padding: 13px 16px; border-bottom: 1px solid var(--line); }
+    .rail-label { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .rail-label h2 { margin: 0; color: var(--ink); font-size: 11.5px; font-weight: 680; }
+    .method-button { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px; align-items: center; padding: 9px 10px; border: 1px solid rgba(0, 127, 146, .38); border-radius: 8px; background: var(--accent-soft); text-align: left; }
+    .method-button strong { display: block; overflow: hidden; color: var(--accent-pressed); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .method-button span { display: block; margin-top: 2px; color: var(--ink-muted); font-size: 9px; }
+    .method-button svg { color: var(--accent-pressed); }
+    .choice { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-tint); }
+    .choice button { min-height: 29px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); font-size: 10px; font-weight: 630; }
+    .choice button[aria-pressed="true"] { background: var(--surface-raised); color: var(--accent-pressed); box-shadow: 0 1px 4px rgba(25, 58, 74, .13), inset 0 -2px 0 var(--accent); }
+    .rail-note { margin: 7px 0 0; color: var(--ink-muted); font-size: 9.5px; line-height: 1.45; }
+    .save-row { display: grid; gap: 7px; }
+    .save-row .button { width: 100%; }
+    .frozen-block { display: grid; gap: 8px; }
+    .frozen-name { padding: 10px; border-left: 2px solid var(--warning); background: var(--warning-soft); }
+    .frozen-name strong { display: block; font-size: 11px; }
+    .frozen-name span { display: block; margin-top: 3px; color: #71461b; font-size: 9.5px; line-height: 1.4; }
+    .disabled-control { opacity: .57; }
+    .disabled-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-tint); }
+    .disabled-choice span { padding: 7px; color: var(--ink-muted); font-size: 9.5px; text-align: center; }
+    .disabled-choice span:first-child { background: rgba(255, 255, 255, .68); border-radius: 6px; }
+    .return-action { width: 100%; color: var(--accent-pressed); }
+    .active-method { padding: 11px 16px 13px; background: linear-gradient(135deg, rgba(217, 240, 243, .65), rgba(237, 243, 244, .72)); }
+    .active-method strong { display: block; color: var(--accent-pressed); font-size: 10.5px; }
+    .active-method span { display: block; margin-top: 4px; color: var(--ink-muted); font-size: 9px; line-height: 1.4; }
+
+    .canvas {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 39px 28px 26px;
+      background-color: var(--canvas);
+      background-image:
+        linear-gradient(rgba(93, 121, 132, .095) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(93, 121, 132, .095) 1px, transparent 1px),
+        radial-gradient(circle at 47% 8%, rgba(255, 255, 255, .56), transparent 41%);
+      background-size: 22px 22px, 22px 22px, auto;
+    }
+    .photo-frame {
+      position: relative;
+      width: min(100%, 960px);
+      aspect-ratio: 1.56;
+      overflow: hidden;
+      border: 1px solid rgba(61, 83, 92, .55);
+      border-radius: 4px;
+      background: #afc2c3;
+      box-shadow: 0 15px 34px rgba(25, 58, 74, .24);
+    }
+    .side-by-side-view {
+      width: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+      align-items: center;
+      gap: 18px;
+    }
+    .side-by-side-view.original-only,
+    .side-by-side-view.processed-only {
+      width: min(100%, 960px);
+      grid-template-columns: minmax(0, 1fr);
+      justify-content: center;
+    }
+    .comparison-pane { min-width: 0; display: grid; place-items: center; }
+    .comparison-pane.enhanced-pane, .side-by-side-divider { transition: opacity 150ms var(--ease-out); }
+    .side-by-side-view.original-only .enhanced-pane,
+    .side-by-side-view.original-only .side-by-side-divider,
+    .side-by-side-view.processed-only .original-pane,
+    .side-by-side-view.processed-only .side-by-side-divider { display: none; }
+    .side-photo { width: 100%; }
+    .side-by-side-divider { align-self: stretch; width: 1px; background: var(--divider); }
+    .art-host { position: absolute; inset: 0; overflow: hidden; }
+    .view-behavior {
+      position: absolute;
+      z-index: 5;
+      top: 10px;
+      left: 50%;
+      padding: 5px 8px;
+      transform: translateX(-50%);
+      border: 1px solid rgba(117, 141, 149, .54);
+      border-radius: 6px;
+      background: rgba(247, 249, 249, .93);
+      color: var(--ink-muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 8px;
+      font-weight: 650;
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .slider-view { width: min(100%, 960px); }
+    .bird-art { position: absolute; inset: 0; width: 100%; height: 100%; transform: scale(var(--image-scale, 1)); transform-origin: center; transition: transform 150ms var(--ease-out); }
+    .enhanced-wrap { position: absolute; inset: 0; clip-path: inset(0 0 0 50%); }
+    .enhanced-art { width: 100%; height: 100%; }
+    .sky { fill: #afc5c6; }
+    .bokeh-a { fill: #dbe4d6; opacity: .72; }
+    .bokeh-b { fill: #758f88; opacity: .58; }
+    .branch { fill: none; stroke: #685c47; stroke-width: 27; stroke-linecap: round; }
+    .tail { fill: #8b8c82; }
+    .body { fill: #ddd5be; }
+    .wing { fill: #8e928c; }
+    .wing-light { fill: #c8c4b5; }
+    .head { fill: #ece6d4; }
+    .beak { fill: #d2a649; }
+    .eye { fill: #20343d; }
+    .feather { fill: none; stroke: #5e6f70; stroke-width: 5; stroke-linecap: round; opacity: .68; }
+    .enhanced-art .sky { fill: #709397; }
+    .enhanced-art .bokeh-a { fill: #d6dfa2; }
+    .enhanced-art .bokeh-b { fill: #356f69; }
+    .enhanced-art .branch { stroke: #744e4f; }
+    .enhanced-art .tail { fill: #537d70; }
+    .enhanced-art .body { fill: #e2d27e; }
+    .enhanced-art .wing { fill: #3f817a; }
+    .enhanced-art .wing-light { fill: #91ba91; }
+    .enhanced-art .head { fill: #efeab9; }
+    .enhanced-art .beak { fill: #e18d4e; }
+    .enhanced-art .feather { stroke: #234f56; }
+    .app-window[data-mode="replayed"] .enhanced-art .sky { fill: #637f86; }
+    .app-window[data-mode="replayed"] .enhanced-art .bokeh-a { fill: #d7c67c; }
+    .app-window[data-mode="replayed"] .enhanced-art .bokeh-b { fill: #37675b; }
+    .app-window[data-mode="replayed"] .enhanced-art .body { fill: #edcd63; }
+    .app-window[data-mode="replayed"] .enhanced-art .wing { fill: #317e73; }
+    .app-window[data-mode="replayed"] .enhanced-art .wing-light { fill: #b06b6f; }
+    .app-window[data-mode="replayed"] .enhanced-art .head { fill: #f4e9a4; }
+    .split-line { position: absolute; z-index: 4; top: 0; bottom: 0; left: 50%; width: 1px; cursor: ew-resize; touch-action: none; background: rgba(247, 249, 249, .95); box-shadow: 0 0 0 1px rgba(20, 42, 54, .43); }
+    .split-line:focus-visible { outline: 3px solid rgba(0, 127, 146, .34); outline-offset: 3px; }
+    .split-grip { position: absolute; top: 50%; left: 50%; width: 25px; height: 43px; display: grid; place-items: center; transform: translate(-50%, -50%); border: 1px solid rgba(20, 42, 54, .34); border-radius: 7px; background: rgba(247, 249, 249, .93); color: var(--ink); box-shadow: 0 4px 12px rgba(20, 42, 54, .17); font-family: "IBM Plex Mono", monospace; font-size: 9px; }
+    .pane-label { position: absolute; z-index: 3; top: 13px; display: flex; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid rgba(117, 141, 149, .54); border-radius: 7px; background: rgba(250, 252, 252, .91); box-shadow: 0 3px 9px rgba(25, 58, 74, .10); color: var(--ink-strong); font-family: "IBM Plex Mono", monospace; font-size: 8px; font-weight: 680; letter-spacing: .07em; text-transform: uppercase; }
+    .pane-label.original { left: 13px; }
+    .pane-label.enhanced { right: 13px; }
+    .current-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .replay-warning { position: absolute; z-index: 4; left: 50%; bottom: 14px; width: min(620px, calc(100% - 36px)); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px 11px; transform: translateX(-50%); border: 1px solid rgba(163, 95, 21, .42); border-radius: 8px; background: rgba(251, 242, 232, .95); box-shadow: 0 6px 18px rgba(25, 58, 74, .14); backdrop-filter: blur(7px); }
+    .replay-warning svg { color: var(--warning); }
+    .replay-warning strong { display: block; color: #71461b; font-size: 10.5px; }
+    .replay-warning span { display: block; margin-top: 2px; color: #7a542d; font-size: 9px; line-height: 1.35; }
+    .replay-warning .button { background: rgba(255, 255, 255, .7); }
+
+    .metadata {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(220px, .9fr) minmax(300px, 1.2fr) minmax(310px, 1fr);
+      align-items: center;
+      gap: 18px;
+      padding: 0 15px;
+      border-top: 1px solid var(--line);
+      background: rgba(249, 251, 251, .98);
+    }
+    .meta-item { min-width: 0; }
+    .meta-item strong { display: block; margin-top: 4px; overflow: hidden; color: var(--ink); font-size: 10.5px; font-weight: 620; text-overflow: ellipsis; white-space: nowrap; }
+    .guidance { margin: 0; color: var(--ink-muted); font-size: 9.5px; line-height: 1.42; text-align: center; }
+    .provenance-trigger { justify-self: end; display: flex; align-items: center; gap: 9px; }
+    .provenance-copy { min-width: 0; text-align: right; }
+    .provenance-copy strong { display: block; color: var(--success); font-family: "IBM Plex Mono", monospace; font-size: 8.5px; letter-spacing: .07em; text-transform: uppercase; }
+    .provenance-copy span { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 9px; }
+    .app-window[data-mode="replayed"] .provenance-copy strong { color: #7a480f; }
+
+    .backdrop { position: absolute; z-index: 20; inset: 0; background: rgba(20, 42, 54, .24); backdrop-filter: blur(1.5px); opacity: 1; transition: opacity 180ms var(--ease-out); }
+    .sheet {
+      position: absolute;
+      z-index: 21;
+      top: 68px;
+      left: 50%;
+      width: min(1010px, calc(100% - 48px));
+      height: min(720px, calc(100% - 104px));
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
+      transform: translateX(-50%);
+      border: 1px solid rgba(104, 129, 138, .78);
+      border-radius: 12px;
+      background: var(--surface-raised);
+      box-shadow: var(--panel-shadow);
+      opacity: 1;
+      transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+    .sheet-head { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 18px; padding: 16px 18px 14px; border-bottom: 1px solid var(--line); }
+    .sheet-head h2 { margin: 0; font-size: 22px; line-height: 1.12; font-weight: 710; letter-spacing: -.03em; }
+    .sheet-head p { margin: 5px 0 0; color: var(--ink-muted); font-size: 10.5px; line-height: 1.4; }
+    .head-actions { display: flex; gap: 7px; }
+    .library-body { min-height: 0; display: grid; grid-template-columns: 286px minmax(0, 1fr); }
+    .library-nav { min-height: 0; overflow: auto; border-right: 1px solid var(--line); background: var(--surface); }
+    .library-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 10px; border-bottom: 1px solid var(--line); }
+    .library-tabs button { padding: 8px; border: 0; border-radius: 7px; background: transparent; color: var(--ink-muted); font-size: 10px; font-weight: 670; }
+    .library-tabs button[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-pressed); }
+    .list-group { padding: 12px 10px 6px; }
+    .list-group-head { display: flex; align-items: center; justify-content: space-between; padding: 0 6px 6px; }
+    .list-group-head span { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 8px; font-weight: 680; letter-spacing: .08em; text-transform: uppercase; }
+    .item-list { display: grid; gap: 3px; }
+    .method-item { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 8px; border: 1px solid transparent; border-radius: 7px; background: transparent; text-align: left; }
+    .method-item:hover { background: var(--surface-tint); }
+    .method-item[aria-selected="true"] { border-color: rgba(0, 127, 146, .31); background: var(--accent-soft); }
+    .method-item strong { display: block; overflow: hidden; font-size: 10.5px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+    .method-item span { display: block; margin-top: 2px; color: var(--ink-muted); font-size: 8.5px; }
+    .item-kind { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 7.5px; letter-spacing: .06em; text-transform: uppercase; }
+    .nav-foot { margin: 8px 10px 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+    .nav-foot .button { width: 100%; }
+
+    .library-detail { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; background: var(--surface-raised); }
+    .detail-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 18px; padding: 17px 20px 14px; border-bottom: 1px solid var(--line); }
+    .detail-head h3 { margin: 0; font-size: 18px; line-height: 1.2; letter-spacing: -.02em; }
+    .detail-head p { max-width: 620px; margin: 5px 0 0; color: var(--ink-muted); font-size: 10.5px; line-height: 1.45; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+    .tag { padding: 3px 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 7.8px; font-weight: 660; letter-spacing: .05em; text-transform: uppercase; }
+    .tag.active { border-color: rgba(24, 116, 95, .31); background: #e2f2ec; color: var(--success); }
+    .detail-menu { display: flex; gap: 5px; }
+    .detail-scroll { min-height: 0; overflow: auto; padding: 0 20px 16px; }
+    .detail-section { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .detail-section:last-child { border-bottom: 0; }
+    .section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+    .section-title h4 { margin: 0; color: var(--ink); font-size: 11.5px; font-weight: 680; }
+    .section-title span { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .05em; text-transform: uppercase; }
+    .definition-grid { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 10px 18px; }
+    .definition-grid dt { color: var(--ink-muted); font-size: 9.5px; }
+    .definition-grid dd { margin: 0; color: var(--ink-strong); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; line-height: 1.45; overflow-wrap: anywhere; }
+    .matrix-row { display: grid; grid-template-columns: 138px minmax(0, 1fr); align-items: start; gap: 16px; margin: 10px 0; }
+    .matrix-label strong { display: block; color: var(--ink); font-size: 10px; }
+    .matrix-label span { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 8.5px; line-height: 1.4; }
+    .matrix { display: grid; grid-template-columns: repeat(3, minmax(64px, 1fr)); gap: 5px 10px; padding: 10px 12px; border-left: 2px solid var(--accent); background: linear-gradient(90deg, rgba(217, 240, 243, .55), rgba(247, 249, 249, .38)); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; text-align: right; }
+    .formula { padding: 9px 11px; border-left: 2px solid var(--navy); background: var(--surface-tint); color: var(--ink); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; line-height: 1.5; }
+    .note { display: flex; gap: 9px; padding: 9px 10px; border-radius: 8px; background: var(--accent-soft); color: var(--ink); font-size: 9.5px; line-height: 1.45; }
+    .note.warning { background: var(--warning-soft); color: #71461b; }
+    .note svg { margin-top: 1px; flex: 0 0 auto; color: var(--accent-pressed); }
+    .note.warning svg { color: var(--warning); }
+    .detail-foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 11px 20px; border-top: 1px solid var(--line); background: var(--surface); }
+    .detail-foot p { margin: 0; color: var(--ink-muted); font-size: 9px; line-height: 1.35; }
+    .foot-actions { display: flex; gap: 7px; }
+
+    .editor { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+    .editor-head { display: flex; align-items: center; gap: 10px; padding: 15px 20px 13px; border-bottom: 1px solid var(--line); }
+    .editor-head h3 { margin: 0; font-size: 18px; letter-spacing: -.02em; }
+    .editor-scroll { min-height: 0; overflow: auto; padding: 15px 20px; }
+    .field-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 13px; margin-bottom: 16px; }
+    .field { display: grid; gap: 5px; }
+    .field label { color: var(--ink); font-size: 9.5px; font-weight: 650; }
+    .field input, .field select { min-height: 32px; width: 100%; padding: 6px 8px; border: 1px solid var(--divider); border-radius: 7px; background: var(--surface-raised); font-size: 10.5px; }
+    .equation-editor { display: grid; grid-template-columns: 94px repeat(3, minmax(62px, 1fr)) minmax(62px, .75fr); gap: 6px; align-items: center; }
+    .equation-editor .column-head { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 7.8px; text-align: center; text-transform: uppercase; }
+    .channel-input, .number-input { width: 100%; min-width: 0; height: 31px; padding: 5px 7px; border: 1px solid var(--divider); border-radius: 6px; background: var(--surface-raised); font-size: 9.5px; }
+    .number-input { font-family: "IBM Plex Mono", monospace; text-align: right; }
+    .operator { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 8px; }
+    .validation { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 9px; align-items: center; margin-top: 14px; padding: 10px; border-left: 2px solid var(--success); background: #e2f2ec; }
+    .validation.invalid { border-left-color: var(--danger); background: var(--danger-soft); }
+    .validation i { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+    .validation.invalid i { background: var(--danger); }
+    .validation strong { display: block; color: var(--success); font-size: 10px; }
+    .validation.invalid strong { color: var(--danger); }
+    .validation span { display: block; margin-top: 2px; color: var(--ink-muted); font-size: 8.8px; line-height: 1.35; }
+    .validation code { color: var(--ink); font-family: "IBM Plex Mono", monospace; font-size: 8.5px; }
+    .editor-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 20px; border-top: 1px solid var(--line); background: var(--surface); }
+    .editor-foot p { margin: 0; color: var(--ink-muted); font-size: 8.8px; }
+
+    .modal {
+      position: absolute;
+      z-index: 42;
+      top: 50%;
+      left: 50%;
+      width: min(510px, calc(100% - 48px));
+      max-height: calc(100% - 72px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      overflow: hidden;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(104, 129, 138, .78);
+      border-radius: 12px;
+      background: var(--surface-raised);
+      box-shadow: var(--panel-shadow);
+    }
+    .modal.wide { width: min(650px, calc(100% - 48px)); }
+    .modal-head { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: start; padding: 16px 17px 13px; border-bottom: 1px solid var(--line); }
+    .modal-head h2 { margin: 0; font-size: 19px; letter-spacing: -.025em; }
+    .modal-head p { margin: 5px 0 0; color: var(--ink-muted); font-size: 10px; line-height: 1.4; }
+    .modal-body { min-height: 0; overflow: auto; padding: 16px 17px; }
+    .modal-foot { display: flex; align-items: center; justify-content: flex-end; gap: 7px; padding: 11px 17px; border-top: 1px solid var(--line); background: var(--surface); }
+    .save-summary { display: grid; grid-template-columns: 132px 1fr; gap: 7px 13px; margin-top: 15px; padding-top: 13px; border-top: 1px solid var(--line); }
+    .save-summary dt { color: var(--ink-muted); font-size: 9px; }
+    .save-summary dd { margin: 0; font-family: "IBM Plex Mono", monospace; font-size: 9px; }
+    .import-demo-tabs { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-tint); }
+    .import-demo-tabs button { padding: 6px 9px; border: 0; border-radius: 6px; background: transparent; color: var(--ink-muted); font-size: 9.5px; font-weight: 650; }
+    .import-demo-tabs button[aria-pressed="true"] { background: var(--surface-raised); color: var(--ink-strong); box-shadow: 0 1px 4px rgba(25, 58, 74, .13); }
+    .file-preview { margin-top: 13px; border-top: 1px solid var(--line); }
+    .file-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .file-icon { width: 34px; height: 40px; display: grid; place-items: center; border: 1px solid var(--divider); border-radius: 6px; background: var(--surface-tint); color: var(--accent-pressed); font-family: "IBM Plex Mono", monospace; font-size: 7px; font-weight: 680; }
+    .file-row strong { display: block; overflow: hidden; font-size: 10.5px; text-overflow: ellipsis; white-space: nowrap; }
+    .file-row span { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 8.8px; }
+    .valid-mark { color: var(--success); font-family: "IBM Plex Mono", monospace; font-size: 8px; font-weight: 670; text-transform: uppercase; }
+    .error-mark { color: var(--danger); font-family: "IBM Plex Mono", monospace; font-size: 8px; font-weight: 670; text-transform: uppercase; }
+    .check-list { display: grid; gap: 7px; margin: 13px 0 0; padding: 0; list-style: none; }
+    .check-list li { display: grid; grid-template-columns: 10px 1fr auto; gap: 8px; align-items: center; color: var(--ink); font-size: 9.5px; }
+    .check-list i { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+    .check-list code { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 8px; }
+    .error-detail { margin-top: 13px; padding: 10px; border-left: 2px solid var(--danger); background: var(--danger-soft); color: #76372e; font-size: 9.5px; line-height: 1.45; }
+
+    .popover {
+      position: absolute;
+      z-index: 15;
+      right: 15px;
+      bottom: 65px;
+      width: min(520px, calc(100% - 40px));
+      max-height: calc(100% - 126px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
+      border: 1px solid rgba(104, 129, 138, .75);
+      border-radius: 12px;
+      background: var(--surface-raised);
+      box-shadow: var(--panel-shadow);
+      transform-origin: 89% 100%;
+      transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+    .popover-head { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 15px 16px 12px; border-bottom: 1px solid var(--line); }
+    .popover-head h2 { margin: 0; font-size: 18px; letter-spacing: -.02em; }
+    .popover-head p { margin: 5px 0 0; color: var(--ink-muted); font-size: 9.5px; }
+    .popover-body { min-height: 0; overflow: auto; padding: 0 16px 15px; }
+    .provenance-state { display: flex; align-items: center; gap: 7px; margin-top: 9px; color: var(--success); font-family: "IBM Plex Mono", monospace; font-size: 8px; font-weight: 670; letter-spacing: .07em; text-transform: uppercase; }
+    .provenance-state i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .provenance-state.replayed { color: #7a480f; }
+    .provenance-section { padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .provenance-section:last-child { border-bottom: 0; }
+
+    .toast { position: absolute; z-index: 60; left: 50%; bottom: 91px; max-width: calc(100% - 40px); padding: 9px 12px; transform: translate(-50%, 8px); border: 1px solid rgba(24, 116, 95, .34); border-radius: 8px; background: rgba(248, 252, 250, .97); color: var(--success); box-shadow: 0 9px 22px rgba(25, 58, 74, .16); font-size: 10.5px; font-weight: 620; opacity: 0; pointer-events: none; transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out); }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    @media (max-width: 1080px) {
+      body { padding: 9px; }
+      .app-window { border-radius: 12px; }
+      .workarea { grid-template-columns: 248px minmax(0, 1fr); }
+      .canvas { padding: 38px 17px 17px; }
+      .side-by-side-view { gap: 10px; }
+      .guidance { display: none; }
+      .metadata { grid-template-columns: 1fr 1fr; }
+      .library-body { grid-template-columns: 250px minmax(0, 1fr); }
+      .definition-grid { grid-template-columns: 125px minmax(0, 1fr); }
+    }
+
+    @media (max-height: 720px) {
+      body { padding: 7px; }
+      .app-window { grid-template-rows: 51px 43px minmax(0, 1fr) 67px; }
+      .rail-heading { padding-top: 11px; padding-bottom: 10px; }
+      .rail-section { padding-top: 9px; padding-bottom: 9px; }
+      .sheet { top: 38px; height: calc(100% - 72px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+      .sheet { transform: translateX(-50%); }
+      .modal { transform: translate(-50%, -50%); }
+      .toast { transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <main id="app" class="app-window" data-mode="calculated" aria-label="KLT Image method library design preview">
+    <header class="titlebar">
+      <div class="traffic" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="doc-title"><strong>KLT Image</strong><span>western-gull-wing-02.tif · 6048 × 4024</span></div>
+      <div class="title-actions">
+        <button id="libraryButton" class="button" aria-haspopup="dialog" aria-expanded="false">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6v14H4zM14 5h6v6h-6zM14 15h6v4h-6z"/></svg>
+          Methods
+        </button>
+        <button class="button primary">Export Result</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Comparison toolbar">
+      <div class="status">
+        <i class="status-dot"></i>
+        <span class="eyebrow">Result ready</span>
+        <span id="modeBadge" class="mode-badge">Calculated</span>
+        <span id="statusMethod" class="status-copy">Luma + Chroma v1 · correlation · selected region</span>
+      </div>
+      <div class="segment" aria-label="Comparison mode">
+        <button class="view-button" data-view="original" aria-pressed="false">Original</button>
+        <button class="view-button" data-view="side-by-side" aria-pressed="true">Side-by-Side</button>
+        <button class="view-button" data-view="slider" aria-pressed="false">Slider</button>
+        <button class="view-button" data-view="processed" aria-pressed="false">Processed</button>
+      </div>
+      <div class="zoom"><button id="zoomOut" class="icon-button" aria-label="Zoom out">−</button><span id="zoomLabel">100%</span><button id="zoomIn" class="icon-button" aria-label="Zoom in">+</button></div>
+    </section>
+
+    <div class="workarea">
+      <aside class="analysis-rail" aria-label="Analysis controls">
+        <div class="rail-heading"><h1>Analysis controls</h1><p id="railIntro">Choose the coordinates and pixels that calculate a new transform.</p></div>
+
+        <div id="calculatedControls">
+          <section class="rail-section">
+            <div class="rail-label"><h2>Working space</h2><span class="eyebrow">Calculates</span></div>
+            <button id="spacePicker" class="method-button" aria-haspopup="dialog">
+              <span><strong id="spacePickerName">Luma + Chroma</strong><span id="spacePickerMeta">Curated · encoded sRGB · v1</span></span>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+            </button>
+            <p class="rail-note">The working space changes the three variables used to calculate this image’s transform.</p>
+          </section>
+          <section class="rail-section">
+            <div class="rail-label"><h2>Matrix mode</h2></div>
+            <div class="choice"><button class="matrix-choice" aria-pressed="false">Covariance</button><button class="matrix-choice" aria-pressed="true">Correlation</button></div>
+            <p class="rail-note">Correlation normalizes stable variables before comparing their variation.</p>
+          </section>
+          <section class="rail-section">
+            <div class="rail-label"><h2>Statistical sample</h2></div>
+            <div class="choice"><button class="sample-choice" aria-pressed="false">Whole image</button><button class="sample-choice" aria-pressed="true">Selected region</button></div>
+            <p class="rail-note">Region x 2187 · y 1086 · w 2160 · h 1640. The full image receives the transform.</p>
+          </section>
+          <section class="rail-section save-row">
+            <button id="saveTransformButton" class="button">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 16h8"/></svg>
+              Save Calculated Transform
+            </button>
+            <p class="rail-note">Captures the accepted matrix, center, working space, output mapping, and origin.</p>
+          </section>
+        </div>
+
+        <div id="replayedControls" hidden>
+          <section class="rail-section frozen-block">
+            <div class="rail-label"><h2>Saved transform</h2><span class="eyebrow">Frozen</span></div>
+            <div class="frozen-name"><strong>Gull wing · Luma study</strong><span>Saved from western-gull-wing-01.tif. No values are recalculated from this target.</span></div>
+            <button id="chooseRecipeButton" class="button compact">Choose Another Recipe</button>
+          </section>
+          <section class="rail-section disabled-control">
+            <div class="rail-label"><h2>Originating analysis</h2><span class="eyebrow">Inactive</span></div>
+            <div class="disabled-choice" aria-label="Frozen matrix mode"><span>Covariance</span><span>Correlation</span></div>
+            <p class="rail-note">Correlation and selected-region values are provenance only during replay.</p>
+          </section>
+          <section class="rail-section">
+            <button id="returnCalculatedRail" class="button return-action">Calculate for This Image</button>
+            <p class="rail-note">Restores your last calculation controls. The saved recipe is not changed.</p>
+          </section>
+        </div>
+
+        <div class="active-method"><strong id="activeMethodTitle">Luma + Chroma · calculated here</strong><span id="activeMethodMeta">3 stable variables · current result · local only</span></div>
+      </aside>
+
+      <section class="canvas" aria-label="Original and processed image comparison">
+        <div id="viewBehavior" class="view-behavior" role="status">Synchronized panes · display only · no recalculation</div>
+
+        <div id="sideBySideView" class="side-by-side-view" aria-label="Synchronized side-by-side comparison">
+          <div class="comparison-pane original-pane">
+            <figure class="photo-frame side-photo" aria-label="Original western gull photograph">
+              <div id="sideOriginalHost" class="art-host"></div>
+              <span class="pane-label original">Original</span>
+            </figure>
+          </div>
+          <div class="side-by-side-divider" aria-hidden="true"></div>
+          <div class="comparison-pane enhanced-pane">
+            <figure class="photo-frame side-photo" aria-label="Processed western gull photograph">
+              <div id="sideEnhancedHost" class="art-host"></div>
+              <span class="pane-label enhanced"><i class="current-dot"></i><span class="enhanced-mode-label">Processed · calculated</span></span>
+            </figure>
+          </div>
+        </div>
+
+        <figure id="sliderView" class="photo-frame slider-view" aria-label="Draggable reveal comparison of a western gull wing photograph" hidden>
+          <svg class="bird-art original-art" viewBox="0 0 1000 640" role="img" aria-label="Original western gull photograph">
+            <rect class="sky" width="1000" height="640"/>
+            <circle class="bokeh-a" cx="128" cy="122" r="88"/><circle class="bokeh-b" cx="842" cy="104" r="120"/><circle class="bokeh-a" cx="728" cy="456" r="145"/><circle class="bokeh-b" cx="221" cy="509" r="105"/>
+            <path class="branch" d="M-70 590 C210 498 491 548 1080 448"/>
+            <g transform="translate(220 72)">
+              <path class="tail" d="M241 416 164 548 279 455 330 538 341 413z"/>
+              <ellipse class="body" cx="357" cy="328" rx="224" ry="163" transform="rotate(-6 357 328)"/>
+              <path class="wing" d="M217 274 C332 204 541 237 565 352 C490 439 305 454 208 365 C183 338 185 302 217 274z"/>
+              <path class="wing-light" d="M231 280 C330 248 436 250 526 303 C433 295 327 318 226 364 C205 340 204 307 231 280z"/>
+              <circle class="head" cx="559" cy="203" r="91"/>
+              <path class="beak" d="M632 198 741 224 634 244z"/>
+              <circle class="eye" cx="588" cy="181" r="9"/>
+              <path class="feather" d="M236 329c103-32 202-36 292-12M245 355c97-25 186-25 266-4M272 388c76-17 146-15 209 4M314 414c53-11 102-7 149 8"/>
+              <path class="feather" d="M307 269c-4 48 5 94 28 138M359 260c-1 48 11 97 37 146M411 265c4 43 17 85 42 125M463 281c7 32 19 63 37 91"/>
+            </g>
+          </svg>
+          <div id="enhancedWrap" class="enhanced-wrap">
+            <svg class="bird-art enhanced-art" viewBox="0 0 1000 640" role="img" aria-label="Processed western gull photograph">
+              <rect class="sky" width="1000" height="640"/>
+              <circle class="bokeh-a" cx="128" cy="122" r="88"/><circle class="bokeh-b" cx="842" cy="104" r="120"/><circle class="bokeh-a" cx="728" cy="456" r="145"/><circle class="bokeh-b" cx="221" cy="509" r="105"/>
+              <path class="branch" d="M-70 590 C210 498 491 548 1080 448"/>
+              <g transform="translate(220 72)">
+                <path class="tail" d="M241 416 164 548 279 455 330 538 341 413z"/>
+                <ellipse class="body" cx="357" cy="328" rx="224" ry="163" transform="rotate(-6 357 328)"/>
+                <path class="wing" d="M217 274 C332 204 541 237 565 352 C490 439 305 454 208 365 C183 338 185 302 217 274z"/>
+                <path class="wing-light" d="M231 280 C330 248 436 250 526 303 C433 295 327 318 226 364 C205 340 204 307 231 280z"/>
+                <circle class="head" cx="559" cy="203" r="91"/>
+                <path class="beak" d="M632 198 741 224 634 244z"/>
+                <circle class="eye" cx="588" cy="181" r="9"/>
+                <path class="feather" d="M236 329c103-32 202-36 292-12M245 355c97-25 186-25 266-4M272 388c76-17 146-15 209 4M314 414c53-11 102-7 149 8"/>
+                <path class="feather" d="M307 269c-4 48 5 94 28 138M359 260c-1 48 11 97 37 146M411 265c4 43 17 85 42 125M463 281c7 32 19 63 37 91"/>
+              </g>
+            </svg>
+          </div>
+          <div id="splitLine" class="split-line" role="slider" tabindex="0" aria-label="Comparison reveal position" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50% original, 50% processed"><span class="split-grip" aria-hidden="true">◀│▶</span></div>
+          <span id="originalLabel" class="pane-label original">Original</span>
+          <span id="enhancedLabel" class="pane-label enhanced"><i class="current-dot"></i><span id="enhancedLabelText" class="enhanced-mode-label">Processed · calculated</span></span>
+        </figure>
+        <div id="replayWarning" class="replay-warning" hidden>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.7 20h18.6zM12 9v5M12 18h.01"/></svg>
+          <div><strong>12.8% of target pixels clip under this frozen recipe.</strong><span>The output is unchanged and may overemphasize lighting differences.</span></div>
+          <button id="returnCalculatedWarning" class="button compact">Calculate Instead</button>
+        </div>
+      </section>
+    </div>
+
+    <footer class="metadata">
+      <div class="meta-item"><span class="eyebrow">Source</span><strong>TIFF · 24.34 MP · alpha preserved</strong></div>
+      <p class="guidance">Working-space choice and fixed reuse can amplify noise, compression, lighting, or gamut loss. This remains exploratory visualization.</p>
+      <div class="provenance-trigger">
+        <div class="provenance-copy"><strong id="provenanceStatus">Calculated · current source</strong><span id="provenanceSummary">Space definition, statistics, transform</span></div>
+        <button id="provenanceButton" class="button" aria-haspopup="dialog" aria-expanded="false">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>
+          Provenance
+        </button>
+      </div>
+    </footer>
+
+    <section id="provenancePopover" class="popover" role="dialog" aria-labelledby="provenanceTitle" hidden>
+      <header class="popover-head"><div><h2 id="provenanceTitle">Result provenance</h2><p>What produced the pixels currently on display.</p><div id="provenanceState" class="provenance-state"><i></i>Calculated from this image</div></div><button id="provenanceClose" class="icon-button" aria-label="Close provenance">×</button></header>
+      <div class="popover-body">
+        <div id="calculatedProvenance">
+          <section class="provenance-section"><div class="section-title"><h4>Calculation</h4><span>Target-derived</span></div><dl class="definition-grid"><dt>Target</dt><dd>western-gull-wing-02.tif · 6048 × 4024</dd><dt>Working space</dt><dd id="provenanceSpace">Luma + Chroma · curated v1</dd><dt>Analysis</dt><dd>correlation · selected region · 3,542,400 px</dd><dt>Result</dt><dd>new center + eigensystem + transform</dd></dl></section>
+          <section class="provenance-section"><div class="note"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><span>This transform was calculated from the current image. Saving it freezes the exact accepted values for later replay.</span></div></section>
+        </div>
+        <div id="replayedProvenance" hidden>
+          <section class="provenance-section"><div class="section-title"><h4>Frozen application</h4><span>No target statistics</span></div><dl class="definition-grid"><dt>Recipe</dt><dd>Gull wing · Luma study · format v1</dd><dt>Target</dt><dd>western-gull-wing-02.tif · different source</dd><dt>Origin</dt><dd>western-gull-wing-01.tif · 6048 × 4024</dd><dt>Frozen method</dt><dd>Luma + Chroma v1 · correlation · selected region</dd><dt>Target outcome</dt><dd>12.8% clipped-color pixels</dd></dl></section>
+          <section class="provenance-section"><div class="note warning"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.7 20h18.6zM12 9v5M12 18h.01"/></svg><span>The target did not contribute a covariance matrix, eigensystem, center, or output range. Clipping is reported, never fitted away.</span></div></section>
+        </div>
+      </div>
+    </section>
+
+    <div id="libraryBackdrop" class="backdrop" hidden></div>
+    <section id="librarySheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="libraryTitle" hidden>
+      <header class="sheet-head">
+        <div><h2 id="libraryTitle">Method library</h2><p>Working spaces calculate a new transform. Saved transforms replay one accepted calculation unchanged.</p></div>
+        <div class="head-actions"><button id="importButton" class="button compact">Import…</button><button id="libraryClose" class="icon-button" aria-label="Close method library">×</button></div>
+      </header>
+      <div class="library-body">
+        <nav class="library-nav" aria-label="Method library sections">
+          <div class="library-tabs" role="tablist">
+            <button id="spacesTab" role="tab" aria-selected="true">Working Spaces</button>
+            <button id="recipesTab" role="tab" aria-selected="false">Saved Transforms</button>
+          </div>
+          <div id="spaceLists">
+            <div class="list-group"><div class="list-group-head"><span>Standard</span></div><div class="item-list">
+              <button class="method-item space-item" data-space="RGB" aria-selected="false"><span><strong>RGB</strong><span>Encoded sRGB · v1</span></span><b class="item-kind">Standard</b></button>
+              <button class="method-item space-item" data-space="CIE Lab D65" aria-selected="false"><span><strong>CIE Lab D65</strong><span>Lightness + chroma · v1</span></span><b class="item-kind">Standard</b></button>
+            </div></div>
+            <div class="list-group"><div class="list-group-head"><span>Curated</span></div><div class="item-list">
+              <button class="method-item space-item" data-space="Luma + Chroma" aria-selected="true"><span><strong>Luma + Chroma</strong><span>Luma + two differences · v1</span></span><b class="item-kind">Curated</b></button>
+              <button class="method-item space-item" data-space="Red + Complement" aria-selected="false"><span><strong>Red + Complement</strong><span>Red / complement distinction · v1</span></span><b class="item-kind">Curated</b></button>
+              <button class="method-item space-item" data-space="Lab Blue–Yellow" aria-selected="false"><span><strong>Lab Blue–Yellow</strong><span>Weighted Lab b* axis · v1</span></span><b class="item-kind">Curated</b></button>
+            </div></div>
+            <div class="list-group"><div class="list-group-head"><span>My Spaces</span><span>1</span></div><div class="item-list">
+              <button class="method-item space-item" data-space="Feather separation" aria-selected="false"><span><strong>Feather separation</strong><span>Encoded sRGB · v3</span></span><b class="item-kind">Custom</b></button>
+            </div></div>
+            <div class="nav-foot"><button id="newSpaceButton" class="button compact">+ New Working Space</button></div>
+          </div>
+          <div id="recipeLists" hidden>
+            <div class="list-group"><div class="list-group-head"><span>Saved Transforms</span><span id="recipeCount">2</span></div><div id="recipeItemList" class="item-list">
+              <button class="method-item recipe-item" data-recipe="Gull wing · Luma study" aria-selected="true"><span><strong>Gull wing · Luma study</strong><span>Luma + Chroma · Sep 12</span></span><b class="item-kind">Recipe</b></button>
+              <button class="method-item recipe-item" data-recipe="Sparrow mantle · Red axis" aria-selected="false"><span><strong>Sparrow mantle · Red axis</strong><span>Red + Complement · Sep 11</span></span><b class="item-kind">Recipe</b></button>
+            </div></div>
+          </div>
+        </nav>
+
+        <section id="spaceDetail" class="library-detail" aria-label="Working space detail">
+          <header class="detail-head"><div><h3 id="detailSpaceName">Luma + Chroma</h3><p id="detailSpacePurpose">Separates overall encoded-sRGB luma from blue/luma and red/luma differences for exploratory comparison.</p><div class="tag-row"><span id="detailSpaceKind" class="tag">Curated</span><span id="detailSpaceBase" class="tag">Encoded sRGB</span><span class="tag">Definition v1</span><span id="activeSpaceTag" class="tag active">Active</span></div></div><div class="detail-menu"><button class="button compact">Duplicate</button><button class="icon-button" aria-label="More working space actions">•••</button></div></header>
+          <div class="detail-scroll">
+            <section class="detail-section"><div class="section-title"><h4>Coordinate definition</h4><span>Forward affine · row-major</span></div><div class="formula">working = A × encoded-sRGB + b</div><div class="matrix-row"><div class="matrix-label"><strong>Forward A</strong><span>Rows are luma, blue−luma, red−luma.</span></div><div id="forwardMatrix" class="matrix"><span>0.2126</span><span>0.7152</span><span>0.0722</span><span>−0.2126</span><span>−0.7152</span><span>0.9278</span><span>0.7874</span><span>−0.7152</span><span>−0.0722</span></div></div><div class="matrix-row"><div class="matrix-label"><strong>Offset b</strong><span>Finite affine convention.</span></div><div class="matrix"><span>0</span><span>0</span><span>0</span></div></div></section>
+            <section class="detail-section"><div class="section-title"><h4>Derived inverse</h4><span>Condition κ∞ 3.7112</span></div><div class="matrix-row"><div class="matrix-label"><strong>A⁻¹</strong><span>Validated from the forward matrix.</span></div><div class="matrix"><span>1.000000</span><span>0</span><span>1.000000</span><span>1.000000</span><span>−0.100951</span><span>−0.297260</span><span>1.000000</span><span>1.000000</span><span>0</span></div></div></section>
+            <section class="detail-section"><div class="note"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><span>This working space changes the variables used to calculate a transform. It does not rank, detect, or prove a biological feature.</span></div></section>
+          </div>
+          <footer class="detail-foot"><p>Output returns through encoded sRGB global range mapping.</p><div class="foot-actions"><button class="button compact">Export Definition</button><button id="useSpaceButton" class="button primary compact">Use for Calculation</button></div></footer>
+        </section>
+
+        <section id="recipeDetail" class="library-detail" aria-label="Saved transform detail" hidden>
+          <header class="detail-head"><div><h3 id="detailRecipeName">Gull wing · Luma study</h3><p>A frozen calculation saved from western-gull-wing-01.tif. Applying it does not refit values to the target.</p><div class="tag-row"><span class="tag">Saved Transform</span><span class="tag">Format v1</span><span class="tag">Luma + Chroma v1</span></div></div><div class="detail-menu"><button class="button compact">Duplicate</button><button class="icon-button" aria-label="More saved transform actions">•••</button></div></header>
+          <div class="detail-scroll">
+            <section class="detail-section"><div class="section-title"><h4>Origin</h4><span>Accepted result snapshot</span></div><dl class="definition-grid"><dt>Source</dt><dd>western-gull-wing-01.tif · 6048 × 4024</dd><dt>Fingerprint</dt><dd>sha256 · 8b7c5dd201f8…e921b08f6ddfe268</dd><dt>Working space</dt><dd>Luma + Chroma · curated definition v1</dd><dt>Originating analysis</dt><dd>correlation · selected region · 3,542,400 px</dd></dl></section>
+            <section class="detail-section"><div class="section-title"><h4>Frozen application</h4><span>Exact replay values</span></div><div class="matrix-row"><div class="matrix-label"><strong>Transform</strong><span>Working coordinates · row-major.</span></div><div class="matrix"><span>0.826411</span><span>0.091854</span><span>−0.118309</span><span>0.091854</span><span>1.241662</span><span>−0.063710</span><span>−0.118309</span><span>−0.063710</span><span>1.071127</span></div></div><dl class="definition-grid"><dt>Working center</dt><dd>0.481277 · 0.028104 · 0.091326</dd><dt>Output mapping</dt><dd>encoded-srgb-global-range-v1 · frozen</dd><dt>Alpha</dt><dd>preserve source byte</dd></dl></section>
+            <section class="detail-section"><div class="note warning"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.7 20h18.6zM12 9v5M12 18h.01"/></svg><span>Fixed reuse can amplify noise, compression, lighting mismatch, or clipping. The same recipe stays unchanged even when the target is a poor match.</span></div></section>
+          </div>
+          <footer class="detail-foot"><p>Target statistics, range, and gamut are never recalculated.</p><div class="foot-actions"><button class="button compact">Export Recipe</button><button id="applyRecipeButton" class="button primary compact">Apply to Current Image</button></div></footer>
+        </section>
+
+        <section id="spaceEditor" class="editor" aria-label="New working space editor" hidden>
+          <header class="editor-head"><button id="editorBack" class="icon-button" aria-label="Back to working spaces">‹</button><h3>New working space</h3></header>
+          <div class="editor-scroll">
+            <div class="field-grid"><div class="field"><label for="spaceNameInput">Library name</label><input id="spaceNameInput" value="Coastal feather axes" maxlength="80"></div><div class="field"><label for="baseSelect">Base coordinates</label><select id="baseSelect"><option>Encoded sRGB</option><option>CIE Lab D65</option></select></div></div>
+            <div class="section-title"><h4>Three affine channel equations</h4><span>working = A × base + b</span></div>
+            <div class="equation-editor" aria-label="Three by three affine coefficient editor">
+              <span class="column-head">Channel</span><span class="column-head">Red</span><span class="column-head">Green</span><span class="column-head">Blue</span><span class="column-head">Offset</span>
+              <input class="channel-input" aria-label="Channel one name" value="luma"><input class="number-input coefficient" aria-label="Channel one red coefficient" value="0.2126"><input class="number-input coefficient" aria-label="Channel one green coefficient" value="0.7152"><input class="number-input coefficient" aria-label="Channel one blue coefficient" value="0.0722"><input class="number-input offset" aria-label="Channel one offset" value="0">
+              <input class="channel-input" aria-label="Channel two name" value="blue detail"><input class="number-input coefficient" aria-label="Channel two red coefficient" value="-0.2126"><input class="number-input coefficient" aria-label="Channel two green coefficient" value="-0.7152"><input class="number-input coefficient" aria-label="Channel two blue coefficient" value="0.9278"><input class="number-input offset" aria-label="Channel two offset" value="0">
+              <input class="channel-input" aria-label="Channel three name" value="red detail"><input class="number-input coefficient" aria-label="Channel three red coefficient" value="0.7874"><input class="number-input coefficient" aria-label="Channel three green coefficient" value="-0.7152"><input class="number-input coefficient" aria-label="Channel three blue coefficient" value="-0.0722"><input class="number-input offset" aria-label="Channel three offset" value="0">
+            </div>
+            <div id="validationStatus" class="validation" role="status"><i></i><div><strong>Definition is reversible</strong><span>9 finite coefficients · determinant accepted · inverse derived · condition within limit</span></div><code id="conditionValue">κ∞ 3.7112</code></div>
+            <p class="rail-note">Only decimal coefficients are accepted. Each |coefficient| ≤ 100, each |offset| ≤ 10,000, inverse terms ≤ 1,000, and κ∞ ≤ 1,000. No expressions or code.</p>
+          </div>
+          <footer class="editor-foot"><p>Saving creates immutable definition version 1.</p><div class="foot-actions"><button id="singularExampleButton" class="button ghost compact">Show singular error</button><button id="saveSpaceButton" class="button primary compact">Save Working Space</button></div></footer>
+        </section>
+      </div>
+    </section>
+
+    <div id="modalBackdrop" class="backdrop" style="z-index: 40" hidden></div>
+    <section id="saveModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="saveTitle" hidden>
+      <header class="modal-head"><div><h2 id="saveTitle">Save calculated transform</h2><p>Freeze the exact accepted calculation for deterministic replay.</p></div><button class="icon-button modal-close" aria-label="Close save dialog">×</button></header>
+      <div class="modal-body"><div class="field"><label for="recipeNameInput">Recipe name</label><input id="recipeNameInput" value="Gull wing · Luma study 02" maxlength="80"></div><dl class="save-summary"><dt>Working space</dt><dd id="saveSpaceSummary">Luma + Chroma · definition v1</dd><dt>Source</dt><dd>western-gull-wing-02.tif</dd><dt>Calculated with</dt><dd>correlation · selected region</dd><dt>Captured values</dt><dd>center · transform · inverse · output mapping</dd></dl></div>
+      <footer class="modal-foot"><button class="button modal-close">Cancel</button><button id="confirmSaveTransform" class="button primary">Save Transform</button></footer>
+    </section>
+
+    <section id="importModal" class="modal wide" role="dialog" aria-modal="true" aria-labelledby="importTitle" hidden>
+      <header class="modal-head"><div><h2 id="importTitle">Validate method file</h2><p>The complete local file is checked as inert data before the library can change.</p></div><button class="icon-button modal-close" aria-label="Close import dialog">×</button></header>
+      <div class="modal-body">
+        <div class="import-demo-tabs" aria-label="Prototype import states"><button id="validImportTab" aria-pressed="true">Validated example</button><button id="invalidImportTab" aria-pressed="false">Rejected example</button></div>
+        <input id="filePicker" type="file" accept=".json,application/json" hidden>
+        <button id="chooseFileButton" class="button compact" style="float:right">Choose Local JSON…</button>
+        <div id="validImportPreview" class="file-preview">
+          <div class="file-row"><span class="file-icon">JSON</span><span><strong id="importFilename">coastal-feather-axes.klt-space.json</strong><span>Working space · 2.4 KiB · no source data</span></span><b class="valid-mark">Validated</b></div>
+          <ul class="check-list"><li><i></i><span>Schema and version</span><code>working-space · v1</code></li><li><i></i><span>Bounded affine definition</span><code>9 + 3 finite values</code></li><li><i></i><span>Derived inverse agrees</span><code>residual ≤ 1e−10</code></li><li><i></i><span>Condition number</span><code>κ∞ 4.218</code></li></ul>
+          <div class="note" style="margin-top:13px"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><span><strong>Coastal feather axes</strong> will be added as a user working space. Your current source, result, and controls remain unchanged.</span></div>
+        </div>
+        <div id="invalidImportPreview" class="file-preview" hidden>
+          <div class="file-row"><span class="file-icon">JSON</span><span><strong>shared-gull-transform.klt-transform.json</strong><span>Saved transform · 3.1 KiB</span></span><b class="error-mark">Rejected</b></div>
+          <div class="error-detail"><strong>Inverse matrix is inconsistent with the forward definition.</strong><br>Maximum identity residual is 0.024; accepted residual is at most 1e−10. Nothing was imported, replaced, or applied.</div>
+          <p class="rail-note">KLT Image does not repair, normalize, execute, or silently substitute invalid method data.</p>
+        </div>
+      </div>
+      <footer class="modal-foot"><button class="button modal-close">Cancel</button><button id="confirmImport" class="button primary">Import Working Space</button></footer>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const app = document.getElementById('app');
+    const librarySheet = document.getElementById('librarySheet');
+    const libraryBackdrop = document.getElementById('libraryBackdrop');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const saveModal = document.getElementById('saveModal');
+    const importModal = document.getElementById('importModal');
+    const provenancePopover = document.getElementById('provenancePopover');
+    const toast = document.getElementById('toast');
+    const sideBySideView = document.getElementById('sideBySideView');
+    const sliderView = document.getElementById('sliderView');
+    const splitLine = document.getElementById('splitLine');
+    const motionReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let selectedSpace = 'Luma + Chroma';
+    let comparisonView = 'side-by-side';
+    let revealPosition = 50;
+    let draggingReveal = false;
+    let zoom = 100;
+    let toastTimer;
+
+    const originalArtForSide = sliderView.querySelector('.original-art').cloneNode(true);
+    const enhancedArtForSide = sliderView.querySelector('.enhanced-art').cloneNode(true);
+    originalArtForSide.setAttribute('aria-hidden', 'true');
+    enhancedArtForSide.setAttribute('aria-hidden', 'true');
+    document.getElementById('sideOriginalHost').appendChild(originalArtForSide);
+    document.getElementById('sideEnhancedHost').appendChild(enhancedArtForSide);
+
+    const spaces = {
+      'RGB': { kind: 'Standard', base: 'Encoded sRGB', purpose: 'Uses the existing encoded red, green, and blue display channels.', meta: 'Standard · encoded sRGB · v1', matrix: ['1','0','0','0','1','0','0','0','1'] },
+      'CIE Lab D65': { kind: 'Standard', base: 'CIE Lab D65', purpose: 'Separates lightness from the a* and b* chromatic axes under D65.', meta: 'Standard · CIE Lab D65 · v1', matrix: ['1','0','0','0','1','0','0','0','1'] },
+      'Luma + Chroma': { kind: 'Curated', base: 'Encoded sRGB', purpose: 'Separates overall encoded-sRGB luma from blue/luma and red/luma differences for exploratory comparison.', meta: 'Curated · encoded sRGB · v1', matrix: ['0.2126','0.7152','0.0722','−0.2126','−0.7152','0.9278','0.7874','−0.7152','−0.0722'] },
+      'Red + Complement': { kind: 'Curated', base: 'Encoded sRGB', purpose: 'Gives red versus the green/blue average its own coordinate while retaining luma and the remaining chroma axis.', meta: 'Curated · encoded sRGB · v1', matrix: ['0.2126','0.7152','0.0722','1.0000','−0.5000','−0.5000','0','1.0000','−1.0000'] },
+      'Lab Blue–Yellow': { kind: 'Curated', base: 'CIE Lab D65', purpose: 'Weights the Lab b* yellow/blue axis relative to a* while preserving an inspectable reversible basis.', meta: 'Curated · CIE Lab D65 · v1', matrix: ['1','0','0','0','0.5000','0','0','0','2.0000'] },
+      'Feather separation': { kind: 'Custom', base: 'Encoded sRGB', purpose: 'A user-defined reversible space for separating warm covert feathers from cool flight feathers.', meta: 'Custom · encoded sRGB · v3', matrix: ['0.2600','0.6700','0.0700','0.9200','−0.4200','−0.5000','0.0800','0.8600','−0.9400'] }
+    };
+
+    function showToast(message) {
+      clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => toast.classList.remove('show'), motionReduced ? 1300 : 2200);
+    }
+
+    function updateEnhancedLabels(mode) {
+      document.querySelectorAll('.enhanced-mode-label').forEach(label => {
+        label.textContent = `Processed · ${mode}`;
+      });
+    }
+
+    function updateReplayWarning() {
+      document.getElementById('replayWarning').hidden = app.dataset.mode !== 'replayed' || comparisonView === 'original';
+    }
+
+    function setRevealPosition(value) {
+      revealPosition = Math.max(0, Math.min(100, Math.round(value)));
+      document.getElementById('enhancedWrap').style.clipPath = `inset(0 0 0 ${revealPosition}%)`;
+      splitLine.style.left = `${revealPosition}%`;
+      splitLine.setAttribute('aria-valuenow', String(revealPosition));
+      splitLine.setAttribute('aria-valuetext', `${revealPosition}% original, ${100 - revealPosition}% processed`);
+    }
+
+    function setComparisonView(view, announce = true) {
+      comparisonView = view;
+      document.querySelectorAll('.view-button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
+      const sliderActive = view === 'slider';
+      sliderView.hidden = !sliderActive;
+      sideBySideView.hidden = sliderActive;
+      sideBySideView.classList.toggle('original-only', view === 'original');
+      sideBySideView.classList.toggle('processed-only', view === 'processed');
+      const descriptions = {
+        'original': 'Original only · display change · result unchanged',
+        'side-by-side': 'Synchronized panes · display only · no recalculation',
+        'slider': 'Drag divider or use arrow keys · display only · no recalculation',
+        'processed': 'Processed image only · display change · result unchanged'
+      };
+      document.getElementById('viewBehavior').textContent = descriptions[view];
+      updateReplayWarning();
+      if (announce) {
+        const label = view === 'side-by-side' ? 'Side-by-Side' : view.charAt(0).toUpperCase() + view.slice(1);
+        showToast(`${label} view selected · scientific result unchanged`);
+      }
+    }
+
+    function updateRevealFromPointer(event) {
+      const bounds = sliderView.getBoundingClientRect();
+      setRevealPosition(((event.clientX - bounds.left) / bounds.width) * 100);
+    }
+
+    function openLibrary(section = 'spaces') {
+      provenancePopover.hidden = true;
+      libraryBackdrop.hidden = false;
+      librarySheet.hidden = false;
+      document.getElementById('libraryButton').setAttribute('aria-expanded', 'true');
+      setLibrarySection(section);
+      document.getElementById('libraryClose').focus();
+    }
+
+    function closeLibrary() {
+      librarySheet.hidden = true;
+      libraryBackdrop.hidden = true;
+      document.getElementById('libraryButton').setAttribute('aria-expanded', 'false');
+      document.getElementById('libraryButton').focus();
+    }
+
+    function setLibrarySection(section) {
+      const spacesActive = section === 'spaces';
+      document.getElementById('spacesTab').setAttribute('aria-selected', String(spacesActive));
+      document.getElementById('recipesTab').setAttribute('aria-selected', String(!spacesActive));
+      document.getElementById('spaceLists').hidden = !spacesActive;
+      document.getElementById('recipeLists').hidden = spacesActive;
+      document.getElementById('spaceDetail').hidden = !spacesActive;
+      document.getElementById('recipeDetail').hidden = spacesActive;
+      document.getElementById('spaceEditor').hidden = true;
+    }
+
+    function selectSpace(name) {
+      selectedSpace = name;
+      const detail = spaces[name];
+      document.querySelectorAll('.space-item').forEach(item => item.setAttribute('aria-selected', String(item.dataset.space === name)));
+      document.getElementById('detailSpaceName').textContent = name;
+      document.getElementById('detailSpacePurpose').textContent = detail.purpose;
+      document.getElementById('detailSpaceKind').textContent = detail.kind;
+      document.getElementById('detailSpaceBase').textContent = detail.base;
+      document.getElementById('forwardMatrix').innerHTML = detail.matrix.map(value => `<span>${value}</span>`).join('');
+      document.getElementById('activeSpaceTag').hidden = document.getElementById('spacePickerName').textContent !== name || app.dataset.mode !== 'calculated';
+    }
+
+    function useSelectedSpace() {
+      const detail = spaces[selectedSpace];
+      setCalculatedMode();
+      document.getElementById('spacePickerName').textContent = selectedSpace;
+      document.getElementById('spacePickerMeta').textContent = detail.meta;
+      document.getElementById('statusMethod').textContent = `${selectedSpace} v1 · correlation · selected region`;
+      document.getElementById('activeMethodTitle').textContent = `${selectedSpace} · calculated here`;
+      document.getElementById('provenanceSpace').textContent = `${selectedSpace} · ${detail.kind.toLowerCase()} v1`;
+      document.getElementById('saveSpaceSummary').textContent = `${selectedSpace} · definition v1`;
+      closeLibrary();
+      showToast(`${selectedSpace} selected · result recalculated from this image`);
+    }
+
+    function setReplayedMode() {
+      app.dataset.mode = 'replayed';
+      document.getElementById('calculatedControls').hidden = true;
+      document.getElementById('replayedControls').hidden = false;
+      document.getElementById('railIntro').textContent = 'Inspect the frozen method or return to image-specific calculation.';
+      const badge = document.getElementById('modeBadge');
+      badge.textContent = 'Replayed';
+      badge.classList.add('replayed');
+      document.getElementById('statusMethod').textContent = 'Gull wing · Luma study · frozen recipe · different source';
+      document.getElementById('activeMethodTitle').textContent = 'Gull wing · Luma study · replayed unchanged';
+      document.getElementById('activeMethodMeta').textContent = 'No target statistics · 12.8% clipped · local only';
+      updateEnhancedLabels('replayed');
+      updateReplayWarning();
+      document.getElementById('provenanceStatus').textContent = 'Replayed · frozen recipe';
+      document.getElementById('provenanceSummary').textContent = 'Target, origin, frozen values, clipping';
+      document.getElementById('provenanceState').innerHTML = '<i></i>Replayed unchanged · different source';
+      document.getElementById('provenanceState').classList.add('replayed');
+      document.getElementById('calculatedProvenance').hidden = true;
+      document.getElementById('replayedProvenance').hidden = false;
+    }
+
+    function setCalculatedMode() {
+      app.dataset.mode = 'calculated';
+      document.getElementById('calculatedControls').hidden = false;
+      document.getElementById('replayedControls').hidden = true;
+      document.getElementById('railIntro').textContent = 'Choose the coordinates and pixels that calculate a new transform.';
+      const badge = document.getElementById('modeBadge');
+      badge.textContent = 'Calculated';
+      badge.classList.remove('replayed');
+      document.getElementById('statusMethod').textContent = `${document.getElementById('spacePickerName').textContent} v1 · correlation · selected region`;
+      document.getElementById('activeMethodTitle').textContent = `${document.getElementById('spacePickerName').textContent} · calculated here`;
+      document.getElementById('activeMethodMeta').textContent = '3 stable variables · current result · local only';
+      updateEnhancedLabels('calculated');
+      updateReplayWarning();
+      document.getElementById('provenanceStatus').textContent = 'Calculated · current source';
+      document.getElementById('provenanceSummary').textContent = 'Space definition, statistics, transform';
+      document.getElementById('provenanceState').innerHTML = '<i></i>Calculated from this image';
+      document.getElementById('provenanceState').classList.remove('replayed');
+      document.getElementById('calculatedProvenance').hidden = false;
+      document.getElementById('replayedProvenance').hidden = true;
+    }
+
+    function openModal(modal) {
+      modalBackdrop.hidden = false;
+      modal.hidden = false;
+      const focusTarget = modal.querySelector('input:not([type="file"]), button');
+      if (focusTarget) focusTarget.focus();
+    }
+
+    function closeModals() {
+      saveModal.hidden = true;
+      importModal.hidden = true;
+      modalBackdrop.hidden = true;
+    }
+
+    function validateEditor() {
+      const values = Array.from(document.querySelectorAll('.coefficient')).map(input => Number(input.value));
+      const offsets = Array.from(document.querySelectorAll('.offset')).map(input => Number(input.value));
+      const channelsValid = Array.from(document.querySelectorAll('.channel-input')).every(input => input.value.trim().length > 0);
+      const numeric = values.length === 9 && values.every(Number.isFinite) && offsets.every(Number.isFinite);
+      const bounded = values.every(value => Math.abs(value) <= 100) && offsets.every(value => Math.abs(value) <= 10000);
+      const determinant = numeric ? values[0] * (values[4] * values[8] - values[5] * values[7]) - values[1] * (values[3] * values[8] - values[5] * values[6]) + values[2] * (values[3] * values[7] - values[4] * values[6]) : 0;
+      const valid = channelsValid && numeric && bounded && Math.abs(determinant) >= 1e-8;
+      const status = document.getElementById('validationStatus');
+      status.classList.toggle('invalid', !valid);
+      document.getElementById('saveSpaceButton').disabled = !valid;
+      if (valid) {
+        status.querySelector('strong').textContent = 'Definition is reversible';
+        status.querySelector('span').textContent = '9 finite coefficients · determinant accepted · inverse derived · condition within limit';
+        document.getElementById('conditionValue').textContent = 'κ∞ 3.7112';
+      } else {
+        status.querySelector('strong').textContent = Math.abs(determinant) < 1e-8 ? 'Forward matrix is singular' : 'Definition needs correction';
+        status.querySelector('span').textContent = 'The three channel rows do not define a reversible basis. No processing can start.';
+        document.getElementById('conditionValue').textContent = 'inverse unavailable';
+      }
+    }
+
+    function setImportPreview(valid) {
+      document.getElementById('validImportTab').setAttribute('aria-pressed', String(valid));
+      document.getElementById('invalidImportTab').setAttribute('aria-pressed', String(!valid));
+      document.getElementById('validImportPreview').hidden = !valid;
+      document.getElementById('invalidImportPreview').hidden = valid;
+      document.getElementById('confirmImport').disabled = !valid;
+    }
+
+    document.getElementById('libraryButton').addEventListener('click', () => openLibrary('spaces'));
+    document.getElementById('spacePicker').addEventListener('click', () => openLibrary('spaces'));
+    document.getElementById('chooseRecipeButton').addEventListener('click', () => openLibrary('recipes'));
+    document.getElementById('libraryClose').addEventListener('click', closeLibrary);
+    libraryBackdrop.addEventListener('click', closeLibrary);
+    document.getElementById('spacesTab').addEventListener('click', () => setLibrarySection('spaces'));
+    document.getElementById('recipesTab').addEventListener('click', () => setLibrarySection('recipes'));
+    document.querySelectorAll('.space-item').forEach(item => item.addEventListener('click', () => selectSpace(item.dataset.space)));
+    document.querySelectorAll('.recipe-item').forEach(item => item.addEventListener('click', () => {
+      document.querySelectorAll('.recipe-item').forEach(recipe => recipe.setAttribute('aria-selected', String(recipe === item)));
+      document.getElementById('detailRecipeName').textContent = item.dataset.recipe;
+    }));
+    document.getElementById('useSpaceButton').addEventListener('click', useSelectedSpace);
+    document.getElementById('applyRecipeButton').addEventListener('click', () => {
+      closeLibrary();
+      setReplayedMode();
+      showToast('Frozen recipe applied unchanged · target clipping measured at 12.8%');
+    });
+
+    document.getElementById('newSpaceButton').addEventListener('click', () => {
+      document.getElementById('spaceDetail').hidden = true;
+      document.getElementById('spaceEditor').hidden = false;
+      document.getElementById('spaceNameInput').focus();
+    });
+    document.getElementById('editorBack').addEventListener('click', () => {
+      document.getElementById('spaceEditor').hidden = true;
+      document.getElementById('spaceDetail').hidden = false;
+    });
+    document.querySelectorAll('.coefficient, .offset, .channel-input').forEach(input => input.addEventListener('input', validateEditor));
+    document.getElementById('singularExampleButton').addEventListener('click', () => {
+      const coefficients = document.querySelectorAll('.coefficient');
+      coefficients[6].value = coefficients[3].value;
+      coefficients[7].value = coefficients[4].value;
+      coefficients[8].value = coefficients[5].value;
+      validateEditor();
+    });
+    document.getElementById('saveSpaceButton').addEventListener('click', () => {
+      selectedSpace = document.getElementById('spaceNameInput').value.trim() || 'Untitled working space';
+      spaces[selectedSpace] = { kind: 'Custom', base: document.getElementById('baseSelect').value, purpose: 'User-defined reversible affine working space.', meta: `Custom · ${document.getElementById('baseSelect').value} · v1`, matrix: Array.from(document.querySelectorAll('.coefficient')).map(input => input.value) };
+      if (!Array.from(document.querySelectorAll('.space-item')).some(item => item.dataset.space === selectedSpace)) {
+        const item = document.createElement('button');
+        item.className = 'method-item space-item';
+        item.dataset.space = selectedSpace;
+        item.setAttribute('aria-selected', 'false');
+        item.innerHTML = `<span><strong>${selectedSpace.replace(/[<>]/g, '')}</strong><span>${document.getElementById('baseSelect').value} · v1</span></span><b class="item-kind">Custom</b>`;
+        item.addEventListener('click', () => selectSpace(item.dataset.space));
+        document.querySelector('#spaceLists .list-group:nth-of-type(3) .item-list').appendChild(item);
+      }
+      document.getElementById('spaceEditor').hidden = true;
+      document.getElementById('spaceDetail').hidden = false;
+      selectSpace(selectedSpace);
+      showToast(`${selectedSpace} saved to My Spaces`);
+    });
+
+    document.getElementById('saveTransformButton').addEventListener('click', () => openModal(saveModal));
+    document.getElementById('confirmSaveTransform').addEventListener('click', () => {
+      const name = document.getElementById('recipeNameInput').value.trim();
+      if (!name) { document.getElementById('recipeNameInput').focus(); return; }
+      const button = document.createElement('button');
+      button.className = 'method-item recipe-item';
+      button.dataset.recipe = name;
+      button.setAttribute('aria-selected', 'false');
+      button.innerHTML = `<span><strong>${name.replace(/[<>]/g, '')}</strong><span>${document.getElementById('spacePickerName').textContent} · just now</span></span><b class="item-kind">Recipe</b>`;
+      button.addEventListener('click', () => document.getElementById('detailRecipeName').textContent = name);
+      document.getElementById('recipeItemList').appendChild(button);
+      document.getElementById('recipeCount').textContent = String(document.querySelectorAll('.recipe-item').length);
+      closeModals();
+      showToast(`${name} saved as a frozen transform`);
+    });
+
+    document.getElementById('importButton').addEventListener('click', () => { setImportPreview(true); openModal(importModal); });
+    document.getElementById('validImportTab').addEventListener('click', () => setImportPreview(true));
+    document.getElementById('invalidImportTab').addEventListener('click', () => setImportPreview(false));
+    document.getElementById('chooseFileButton').addEventListener('click', () => document.getElementById('filePicker').click());
+    document.getElementById('filePicker').addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      document.getElementById('importFilename').textContent = file.name;
+      setImportPreview(file.size <= 262144 && file.name.endsWith('.json'));
+    });
+    document.getElementById('confirmImport').addEventListener('click', () => { closeModals(); showToast('Coastal feather axes imported · current result unchanged'); });
+    document.querySelectorAll('.modal-close').forEach(button => button.addEventListener('click', closeModals));
+    modalBackdrop.addEventListener('click', closeModals);
+
+    document.getElementById('returnCalculatedRail').addEventListener('click', () => { setCalculatedMode(); showToast('Returned to calculated analysis · recipe unchanged'); });
+    document.getElementById('returnCalculatedWarning').addEventListener('click', () => { setCalculatedMode(); showToast('Calculated anew from western-gull-wing-02.tif'); });
+
+    document.getElementById('provenanceButton').addEventListener('click', () => {
+      const open = provenancePopover.hidden;
+      provenancePopover.hidden = !open;
+      document.getElementById('provenanceButton').setAttribute('aria-expanded', String(open));
+      if (open) document.getElementById('provenanceClose').focus();
+    });
+    document.getElementById('provenanceClose').addEventListener('click', () => {
+      provenancePopover.hidden = true;
+      document.getElementById('provenanceButton').setAttribute('aria-expanded', 'false');
+      document.getElementById('provenanceButton').focus();
+    });
+
+    document.querySelectorAll('.view-button').forEach(button => button.addEventListener('click', () => setComparisonView(button.dataset.view)));
+    splitLine.addEventListener('pointerdown', event => {
+      draggingReveal = true;
+      splitLine.setPointerCapture(event.pointerId);
+      updateRevealFromPointer(event);
+      event.preventDefault();
+    });
+    splitLine.addEventListener('pointermove', event => {
+      if (draggingReveal) updateRevealFromPointer(event);
+    });
+    splitLine.addEventListener('pointerup', event => {
+      draggingReveal = false;
+      if (splitLine.hasPointerCapture(event.pointerId)) splitLine.releasePointerCapture(event.pointerId);
+    });
+    splitLine.addEventListener('pointercancel', () => { draggingReveal = false; });
+    splitLine.addEventListener('keydown', event => {
+      let nextValue = revealPosition;
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') nextValue -= event.shiftKey ? 10 : 2;
+      else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') nextValue += event.shiftKey ? 10 : 2;
+      else if (event.key === 'Home') nextValue = 0;
+      else if (event.key === 'End') nextValue = 100;
+      else return;
+      setRevealPosition(nextValue);
+      event.preventDefault();
+    });
+    document.querySelectorAll('.matrix-choice, .sample-choice').forEach(button => button.addEventListener('click', () => {
+      const group = button.parentElement.querySelectorAll('button');
+      group.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      showToast('Analysis controls updated · result recalculated');
+    }));
+    function setZoom(value) {
+      zoom = Math.max(50, Math.min(200, value));
+      document.getElementById('zoomLabel').textContent = `${zoom}%`;
+      app.style.setProperty('--image-scale', String(zoom / 100));
+    }
+    document.getElementById('zoomIn').addEventListener('click', () => setZoom(zoom + 25));
+    document.getElementById('zoomOut').addEventListener('click', () => setZoom(zoom - 25));
+
+    setRevealPosition(50);
+    setComparisonView('side-by-side', false);
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      if (!saveModal.hidden || !importModal.hidden) closeModals();
+      else if (!librarySheet.hidden) closeLibrary();
+      else if (!provenancePopover.hidden) {
+        provenancePopover.hidden = true;
+        document.getElementById('provenanceButton').setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+</body>
+</html>

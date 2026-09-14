@@ -16,14 +16,16 @@ struct ComparisonCanvas: View {
                 switch model.comparisonMode {
                 case .original:
                     originalPane
-                case .enhanced:
+                case .processed:
                     resultPane
-                case .split:
+                case .sideBySide:
                     HStack(spacing: 0) {
                         originalPane
                         Rectangle().fill(KLTColor.divider).frame(width: 1)
                         resultPane
                     }
+                case .slider:
+                    sliderPane
                 }
             }
             .transition(.opacity)
@@ -59,8 +61,8 @@ struct ComparisonCanvas: View {
             zoom: model.zoom,
             pan: model.pan,
             region: model.regionEditor.committed,
-            sampleIsActive: model.sampleSource == .selectedRegion,
-            isEditable: model.sampleSource == .selectedRegion,
+            sampleIsActive: !model.isReplayed && model.sampleSource == .selectedRegion,
+            isEditable: !model.isReplayed && model.sampleSource == .selectedRegion,
             commitRegion: model.commitPointerRegion,
             setRegionEditInProgress: handleRegionEditState
         )
@@ -72,22 +74,49 @@ struct ComparisonCanvas: View {
             phase: model.phase,
             currency: model.resultCurrency,
             methodText: model.methodText,
+            executionMode: model.isReplayed ? "REPLAYED" : "CALCULATED",
             zoom: model.zoom,
             pan: model.pan,
             region: model.regionEditor.committed,
-            sampleIsActive: model.sampleSource == .selectedRegion,
+            sampleIsActive: !model.isReplayed && model.sampleSource == .selectedRegion,
             setRegionEditInProgress: handleRegionEditState
         )
+    }
+
+    private var sliderPane: some View {
+        GeometryReader { proxy in
+            ZStack {
+                originalPane
+                resultPane
+                    .mask(alignment: .trailing) {
+                        Rectangle().frame(width: proxy.size.width * (1 - model.comparisonReveal))
+                    }
+                ComparisonRevealHandle(
+                    fraction: $model.comparisonReveal
+                )
+            }
+        }
     }
 
     private var bannerMessage: String? {
         switch model.phase {
         case .awaitingRegion:
-            "Select a region on the image or enter source-pixel bounds. KLT Image will not substitute whole-image statistics."
-        case let .invalidRegion(issue): issue.message()
-        case let .failed(message): message
-        default: nil
+            return "Select a region on the image or enter source-pixel bounds. KLT Image will not substitute whole-image statistics."
+        case let .invalidRegion(issue): return issue.message()
+        case let .failed(message): return message
+        default: break
         }
+        guard model.comparisonMode != .original, let diagnostics = model.replayDiagnostics else { return nil }
+        var notices: [String] = []
+        if diagnostics.hasSubstantialClipping {
+            notices.append(String(format: "%.1f%% of target pixels clip under this frozen recipe.", diagnostics.clippedFraction * 100))
+        } else if diagnostics.clippedColorPixelCount > 0 {
+            notices.append("Some target colors clip under this frozen recipe.")
+        }
+        if diagnostics.hasLowContrast {
+            notices.append("This frozen recipe also produces low contrast on the target.")
+        }
+        return notices.isEmpty ? nil : notices.joined(separator: " ") + " The output is unchanged."
     }
 
     private var panGesture: some Gesture {
@@ -129,6 +158,7 @@ private struct ResultPane: View {
     let phase: WorkspacePhase
     let currency: ResultCurrency
     let methodText: String
+    let executionMode: String
     let zoom: Double
     let pan: CGSize
     let region: SourcePixelRegion?
@@ -140,8 +170,8 @@ private struct ResultPane: View {
             if let image {
                 ImagePane(
                     image: image,
-                    label: "Enhanced",
-                    stateLabel: currencyText,
+                    label: "Processed",
+                    stateLabel: currency == .current ? executionMode : currencyText,
                     accent: currency == .current,
                     zoom: zoom,
                     pan: pan,
@@ -181,11 +211,11 @@ private struct ResultPane: View {
                     }
                     .foregroundStyle(KLTColor.ink)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    PaneLabel(text: "Enhanced", state: currencyText, accent: false)
+                    PaneLabel(text: "Processed", state: currencyText, accent: false)
                         .padding(14)
                 }
                 .accessibilityElement(children: .combine)
-                .accessibilityLabel("Enhanced image pane. \(currencyText).")
+                .accessibilityLabel("Processed image pane. \(currencyText).")
             }
         }
         .clipped()
@@ -197,6 +227,72 @@ private struct ResultPane: View {
         case .current: "CURRENT"
         case .previousUpdating: "PREVIOUS · UPDATING"
         case .previousNotCurrent: "PREVIOUS · NOT CURRENT"
+        }
+    }
+}
+
+private struct ComparisonRevealHandle: View {
+    @Binding var fraction: Double
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        GeometryReader { proxy in
+            Rectangle()
+                .fill(KLTColor.surfaceRaised)
+                .frame(width: 3, height: proxy.size.height)
+                .overlay(Circle().fill(KLTColor.accent).frame(width: 24, height: 24))
+                .shadow(color: KLTColor.navy.opacity(0.25), radius: 5)
+                .contentShape(Rectangle().inset(by: -12))
+                .position(
+                    x: proxy.size.width * fraction,
+                    y: proxy.size.height / 2
+                )
+                .highPriorityGesture(
+                    DragGesture(minimumDistance: 0, coordinateSpace: .named("comparison-reveal"))
+                        .onChanged { value in
+                            setFraction(Double(value.location.x / max(1, proxy.size.width)), animated: false)
+                        }
+                )
+                .focusable()
+                .onKeyPress(
+                    keys: [.leftArrow, .rightArrow, .upArrow, .downArrow, .home, .end]
+                ) { press in
+                    let step = press.modifiers.contains(.shift) ? 0.10 : 0.02
+                    switch press.key {
+                    case .leftArrow, .downArrow:
+                        setFraction(fraction - step, animated: true)
+                    case .rightArrow, .upArrow:
+                        setFraction(fraction + step, animated: true)
+                    case .home:
+                        setFraction(0, animated: true)
+                    case .end:
+                        setFraction(1, animated: true)
+                    default:
+                        return .ignored
+                    }
+                    return .handled
+                }
+                .accessibilityElement()
+                .accessibilityLabel("Comparison reveal position")
+                .accessibilityValue("\(Int((fraction * 100).rounded()))% original, \(Int(((1 - fraction) * 100).rounded()))% processed")
+                .accessibilityAdjustableAction { direction in
+                    switch direction {
+                    case .increment: setFraction(fraction + 0.02, animated: true)
+                    case .decrement: setFraction(fraction - 0.02, animated: true)
+                    @unknown default: break
+                    }
+                }
+                .accessibilityIdentifier("comparison-reveal-slider")
+        }
+        .coordinateSpace(name: "comparison-reveal")
+    }
+
+    private func setFraction(_ value: Double, animated: Bool) {
+        let update = { fraction = min(1, max(0, value)) }
+        if animated, !reduceMotion {
+            withAnimation(.easeOut(duration: 0.15), update)
+        } else {
+            update()
         }
     }
 }

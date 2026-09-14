@@ -32,8 +32,28 @@ public struct EnhancedImage: @unchecked Sendable {
     public let analysis: StretchAnalysis
     public let descriptor: AnalysisDescriptor
     public let notice: String?
+    public let appliedMethod: AppliedMethodSnapshot?
+    public let replayDiagnostics: ReplayDiagnostics?
 
     let rgba8Premultiplied: Data
+
+    init(
+        image: CGImage,
+        analysis: StretchAnalysis,
+        descriptor: AnalysisDescriptor,
+        notice: String?,
+        appliedMethod: AppliedMethodSnapshot? = nil,
+        replayDiagnostics: ReplayDiagnostics? = nil,
+        rgba8Premultiplied: Data
+    ) {
+        self.image = image
+        self.analysis = analysis
+        self.descriptor = descriptor
+        self.notice = notice
+        self.appliedMethod = appliedMethod
+        self.replayDiagnostics = replayDiagnostics
+        self.rgba8Premultiplied = rgba8Premultiplied
+    }
 }
 
 /// The supported boundary for the app's full-frame, in-memory image pipeline.
@@ -265,6 +285,10 @@ public enum ImagePipeline {
                     plan: plan
                 ),
                 notice: "Not enough color variation to enhance this image.",
+                appliedMethod: .calculated(
+                    workingSpace: WorkingSpaceCatalog.standardRGB.revision,
+                    workingSpaceName: WorkingSpaceCatalog.standardRGB.libraryName
+                ),
                 rgba8Premultiplied: source.rgba8Premultiplied
             )
         }
@@ -344,6 +368,10 @@ public enum ImagePipeline {
                 plan: plan
             ),
             notice: nil,
+            appliedMethod: .calculated(
+                workingSpace: WorkingSpaceCatalog.standardRGB.revision,
+                workingSpaceName: WorkingSpaceCatalog.standardRGB.libraryName
+            ),
             rgba8Premultiplied: output
         )
     }
@@ -415,6 +443,12 @@ public enum ImagePipeline {
                     plan: plan
                 ),
                 notice: "Not enough color variation to enhance this image.",
+                appliedMethod: .calculated(
+                    workingSpace: input.method.colorSpace == .rgb
+                        ? WorkingSpaceCatalog.standardRGB.revision
+                        : WorkingSpaceCatalog.standardLabD65.revision,
+                    workingSpaceName: input.method.colorSpace.displayName
+                ),
                 rgba8Premultiplied: source.rgba8Premultiplied
             )
         }
@@ -453,7 +487,251 @@ public enum ImagePipeline {
             analysis: analysis(for: plan, outputMapping: outputMapping),
             descriptor: resultDescriptor,
             notice: notice,
+            appliedMethod: .calculated(
+                workingSpace: input.method.colorSpace == .rgb
+                    ? WorkingSpaceCatalog.standardRGB.revision
+                    : WorkingSpaceCatalog.standardLabD65.revision,
+                workingSpaceName: input.method.colorSpace.displayName
+            ),
             rgba8Premultiplied: output
+        )
+    }
+
+    /// Applies a tagged calculation request. Standard RGB and Lab requests are
+    /// routed through their shipped arithmetic paths; affine spaces use the
+    /// validated generic coordinate path.
+    public static func enhance(
+        _ source: DecodedImage,
+        request: CalculatedAnalysisRequest,
+        workingSpaceName: String? = nil
+    ) throws -> EnhancedImage {
+        if let input = request.compatibilityInput {
+            return try enhance(source, input: input)
+        }
+
+        guard case let .affine(revision) = request.workingSpace else {
+            throw WorkingSpaceValidationIssue.invalidIdentity
+        }
+        _ = try WorkingSpaceValidator.validate(revision)
+        try Task.checkCancellation()
+
+        let validatedRegion = try validatedRegion(
+            source: source,
+            sampleSource: request.sampleSource,
+            region: request.region
+        )
+        var accumulator = RunningCovariance3()
+        try source.rgba8Premultiplied.withUnsafeBytes { rawBuffer in
+            let bytes = rawBuffer.bindMemory(to: UInt8.self)
+            let minimumX = validatedRegion?.bounds.x ?? 0
+            let maximumX = minimumX + (validatedRegion?.bounds.width ?? source.width)
+            let minimumY = validatedRegion?.bounds.y ?? 0
+            let maximumY = minimumY + (validatedRegion?.bounds.height ?? source.height)
+            var sampled = 0
+            for y in minimumY..<maximumY {
+                for x in minimumX..<maximumX {
+                    if sampled.isMultiple(of: cancellationStride) { try Task.checkCancellation() }
+                    let offset = ((y * source.width) + x) * 4
+                    let base = try baseValue(revision.base, bytes: bytes, offset: offset)
+                    let working = revision.forwardMap(base)
+                    guard working.x.isFinite, working.y.isFinite, working.z.isFinite else {
+                        throw DecorrelationStretchError.nonFiniteInput
+                    }
+                    try accumulator.add(working)
+                    sampled += 1
+                }
+            }
+        }
+
+        let plan = try DecorrelationStretch.makePlan(
+            accumulator: accumulator,
+            matrixMode: request.matrixMode
+        )
+        let compatibilityInput = AnalysisInput(
+            method: AnalysisMethod(
+                colorSpace: revision.base == .encodedSRGB ? .rgb : .lab,
+                matrixMode: request.matrixMode
+            ),
+            sampleSource: request.sampleSource,
+            region: request.region
+        )
+        if plan.isDegenerate {
+            if request.sampleSource == .selectedRegion {
+                throw RegionValidationIssue.insufficientVariation(
+                    stableComponentCount: plan.stableComponentCount
+                )
+            }
+            return EnhancedImage(
+                image: source.originalImage,
+                analysis: analysis(for: plan, outputMapping: .limitedVariationIdentity),
+                descriptor: descriptor(
+                    input: compatibilityInput,
+                    samplePixelCount: source.pixelCount,
+                    plan: plan
+                ),
+                notice: "Not enough color variation to enhance this image.",
+                appliedMethod: .calculated(
+                    workingSpace: revision,
+                    workingSpaceName: workingSpaceName ?? revision.identity.identifier
+                ),
+                rgba8Premultiplied: source.rgba8Premultiplied
+            )
+        }
+
+        let frozen: FrozenOutputMapping
+        let output: Data
+        switch revision.outputBehavior {
+        case .encodedSRGBGlobalRangeV1:
+            let extrema = try affineExtrema(source: source, revision: revision, plan: plan)
+            let range = extrema.maximum - extrema.minimum
+            guard range.isFinite, range > DecorrelationStretch.absoluteVarianceFloor else {
+                throw DecorrelationStretchError.nonFiniteInput
+            }
+            let scale = 1 / range
+            frozen = .encodedSRGBGlobalRangeV1(
+                minimum: extrema.minimum,
+                maximum: extrema.maximum,
+                scale: scale,
+                clipsToUnitRange: true
+            )
+            output = try renderFrozen(
+                source: source,
+                revision: revision,
+                center: plan.mean,
+                transform: plan.transform,
+                outputMapping: frozen
+            ).data
+        case .cieLabD65ToClippedSRGBV1:
+            frozen = .cieLabD65ToClippedSRGBV1(
+                referenceWhite: TransformRecipeValidator.d65ReferenceWhite,
+                clipsFiniteOutOfGamutValues: true
+            )
+            output = try renderFrozen(
+                source: source,
+                revision: revision,
+                center: plan.mean,
+                transform: plan.transform,
+                outputMapping: frozen
+            ).data
+        }
+        guard let image = makeImage(width: source.width, height: source.height, rgba: output) else {
+            throw ImagePipelineError.cannotCreateWorkingImage
+        }
+        let resultDescriptor = descriptor(
+            input: compatibilityInput,
+            samplePixelCount: validatedRegion?.pixelCount ?? source.pixelCount,
+            plan: plan
+        )
+        let outputMapping: StretchOutputMapping
+        switch frozen {
+        case let .encodedSRGBGlobalRangeV1(minimum, maximum, scale, _):
+            outputMapping = .rgbGlobalRange(minimum: minimum, maximum: maximum, scale: scale)
+        case .cieLabD65ToClippedSRGBV1:
+            outputMapping = .labD65ToSRGB
+        }
+        return EnhancedImage(
+            image: image,
+            analysis: analysis(for: plan, outputMapping: outputMapping),
+            descriptor: resultDescriptor,
+            notice: resultDescriptor.hasLimitedVariation
+                ? "Limited variation: \(plan.stableComponentCount) of 3 components are stable."
+                : nil,
+            appliedMethod: .calculated(
+                workingSpace: revision,
+                workingSpaceName: workingSpaceName ?? revision.identity.identifier
+            ),
+            rgba8Premultiplied: output
+        )
+    }
+
+    /// Applies only the recipe's frozen values. No target covariance,
+    /// eigensystem, center, extrema, range, or gamut fit is calculated.
+    public static func replay(
+        _ source: DecodedImage,
+        recipe: TransformRecipeSnapshot,
+        recipeName: String = "Saved Transform"
+    ) throws -> EnhancedImage {
+        try TransformRecipeValidator.validate(recipe)
+        try Task.checkCancellation()
+        let rendered = try renderFrozen(
+            source: source,
+            revision: recipe.workingSpace,
+            center: recipe.workingCenter,
+            transform: recipe.transform,
+            outputMapping: recipe.outputMapping
+        )
+        guard let image = makeImage(width: source.width, height: source.height, rgba: rendered.data) else {
+            throw ImagePipelineError.cannotCreateWorkingImage
+        }
+        let sameAsOrigin = source.width == recipe.originSource.width
+            && source.height == recipe.originSource.height
+            && source.analysisSourceFingerprint == recipe.originSource.fingerprint
+        let diagnostics = ReplayDiagnostics(
+            sameAsOrigin: sameAsOrigin,
+            evaluatedPixelCount: rendered.evaluatedPixelCount,
+            clippedColorPixelCount: rendered.clippedColorPixelCount,
+            clippedFraction: rendered.evaluatedPixelCount == 0
+                ? 0
+                : Double(rendered.clippedColorPixelCount) / Double(rendered.evaluatedPixelCount),
+            minimumMappedComponent: rendered.minimumMappedComponent,
+            maximumMappedComponent: rendered.maximumMappedComponent,
+            mappedRange: rendered.minimumMappedComponent.flatMap { minimum in
+                rendered.maximumMappedComponent.map { $0 - minimum }
+            }
+        )
+        let input = AnalysisInput(
+            method: AnalysisMethod(
+                colorSpace: recipe.workingSpace.base == .encodedSRGB ? .rgb : .lab,
+                matrixMode: recipe.originatingAnalysis.matrixMode
+            ),
+            sampleSource: recipe.originatingAnalysis.samplingMode,
+            region: recipe.originatingAnalysis.region?.sourcePixels
+        )
+        let mapping: StretchOutputMapping
+        switch recipe.outputMapping {
+        case let .encodedSRGBGlobalRangeV1(minimum, maximum, scale, _):
+            mapping = .rgbGlobalRange(minimum: minimum, maximum: maximum, scale: scale)
+        case .cieLabD65ToClippedSRGBV1:
+            mapping = .labD65ToSRGB
+        }
+        let replayAnalysis = StretchAnalysis(
+            mean: recipe.workingCenter,
+            covariance: Matrix3x3(),
+            analysisMatrix: Matrix3x3(),
+            eigenvalues: .zero,
+            eigenvectors: .identity,
+            transform: recipe.transform,
+            stableVariableCount: 0,
+            stableComponentCount: 0,
+            outputScale: {
+                if case let .encodedSRGBGlobalRangeV1(_, _, scale, _) = recipe.outputMapping { return scale }
+                return 1
+            }(),
+            outputMapping: mapping,
+            isDegenerate: false
+        )
+        let descriptor = AnalysisDescriptor(
+            input: input,
+            samplePixelCount: recipe.originatingAnalysis.samplePixelCount,
+            stableVariableCount: 0,
+            stableComponentCount: 0,
+            hasLimitedVariation: false
+        )
+        var notices = [String]()
+        if diagnostics.hasSubstantialClipping {
+            notices.append(String(format: "%.1f%% of target pixels clip under this frozen recipe.", diagnostics.clippedFraction * 100))
+        } else if diagnostics.clippedColorPixelCount > 0 {
+            notices.append("Some target colors clip under this frozen recipe.")
+        }
+        if diagnostics.hasLowContrast { notices.append("The frozen recipe produces low contrast on this target.") }
+        return EnhancedImage(
+            image: image,
+            analysis: replayAnalysis,
+            descriptor: descriptor,
+            notice: notices.isEmpty ? nil : notices.joined(separator: " "),
+            appliedMethod: .replayed(recipe: recipe, recipeName: recipeName, diagnostics: diagnostics),
+            replayDiagnostics: diagnostics,
+            rgba8Premultiplied: rendered.data
         )
     }
 
@@ -530,6 +808,148 @@ public enum ImagePipeline {
             stableVariableCount: plan.stableVariableCount,
             stableComponentCount: plan.stableComponentCount,
             hasLimitedVariation: plan.stableVariableCount < 3 || plan.stableComponentCount < 3
+        )
+    }
+
+    private static func validatedRegion(
+        source: DecodedImage,
+        sampleSource: AnalysisSampleSource,
+        region: SourcePixelRegion?
+    ) throws -> ValidatedSourcePixelRegion? {
+        switch sampleSource {
+        case .wholeImage: return nil
+        case .selectedRegion:
+            return try SourcePixelRegionValidator.validate(
+                region,
+                sourceWidth: source.width,
+                sourceHeight: source.height
+            )
+        }
+    }
+
+    @inline(__always)
+    private static func baseValue(
+        _ base: WorkingSpaceBase,
+        bytes: UnsafeBufferPointer<UInt8>,
+        offset: Int
+    ) throws -> SIMD3<Double> {
+        switch base {
+        case .encodedSRGB: unpremultipliedRGB(bytes: bytes, offset: offset)
+        case .cieLabD65: try CIELabD65.fromPremultipliedSRGB(bytes: bytes, offset: offset)
+        }
+    }
+
+    @inline(__always)
+    private static func applyFrozen(
+        base: SIMD3<Double>,
+        revision: WorkingSpaceRevision,
+        center: SIMD3<Double>,
+        transform: Matrix3x3
+    ) throws -> SIMD3<Double> {
+        let working = revision.forwardMap(base)
+        let transformed = center + (transform * (working - center))
+        let recovered = revision.inverseMap(transformed)
+        guard recovered.x.isFinite, recovered.y.isFinite, recovered.z.isFinite else {
+            throw DecorrelationStretchError.nonFiniteInput
+        }
+        return recovered
+    }
+
+    private static func affineExtrema(
+        source: DecodedImage,
+        revision: WorkingSpaceRevision,
+        plan: StretchPlan
+    ) throws -> (minimum: Double, maximum: Double) {
+        var minimum = Double.infinity
+        var maximum = -Double.infinity
+        try source.rgba8Premultiplied.withUnsafeBytes { rawBuffer in
+            let bytes = rawBuffer.bindMemory(to: UInt8.self)
+            for pixelIndex in 0..<source.pixelCount {
+                if pixelIndex.isMultiple(of: cancellationStride) { try Task.checkCancellation() }
+                let offset = pixelIndex * 4
+                let base = try baseValue(revision.base, bytes: bytes, offset: offset)
+                let recovered = try applyFrozen(
+                    base: base,
+                    revision: revision,
+                    center: plan.mean,
+                    transform: plan.transform
+                )
+                minimum = min(minimum, recovered.x, recovered.y, recovered.z)
+                maximum = max(maximum, recovered.x, recovered.y, recovered.z)
+            }
+        }
+        guard minimum.isFinite, maximum.isFinite else {
+            throw DecorrelationStretchError.nonFiniteInput
+        }
+        return (minimum, maximum)
+    }
+
+    private struct FrozenRenderResult {
+        let data: Data
+        let evaluatedPixelCount: Int
+        let clippedColorPixelCount: Int
+        let minimumMappedComponent: Double?
+        let maximumMappedComponent: Double?
+    }
+
+    private static func renderFrozen(
+        source: DecodedImage,
+        revision: WorkingSpaceRevision,
+        center: SIMD3<Double>,
+        transform: Matrix3x3,
+        outputMapping: FrozenOutputMapping
+    ) throws -> FrozenRenderResult {
+        var output = Data(count: source.pixelCount * 4)
+        var evaluated = 0
+        var clipped = 0
+        var minimum = Double.infinity
+        var maximum = -Double.infinity
+        try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
+            try output.withUnsafeMutableBytes { outputBuffer in
+                let sourceBytes = sourceBuffer.bindMemory(to: UInt8.self)
+                let outputBytes = outputBuffer.bindMemory(to: UInt8.self)
+                for pixelIndex in 0..<source.pixelCount {
+                    if pixelIndex.isMultiple(of: cancellationStride) { try Task.checkCancellation() }
+                    let offset = pixelIndex * 4
+                    let alpha = sourceBytes[offset + 3]
+                    let base = try baseValue(revision.base, bytes: sourceBytes, offset: offset)
+                    let recovered = try applyFrozen(
+                        base: base,
+                        revision: revision,
+                        center: center,
+                        transform: transform
+                    )
+                    let mapped: SIMD3<Double>
+                    switch outputMapping {
+                    case let .encodedSRGBGlobalRangeV1(minimum, _, scale, _):
+                        mapped = (recovered - SIMD3<Double>(repeating: minimum)) * scale
+                    case .cieLabD65ToClippedSRGBV1:
+                        mapped = try CIELabD65.toSRGB(recovered)
+                    }
+                    guard mapped.x.isFinite, mapped.y.isFinite, mapped.z.isFinite else {
+                        throw DecorrelationStretchError.nonFiniteInput
+                    }
+                    if alpha > 0 {
+                        evaluated += 1
+                        minimum = min(minimum, mapped.x, mapped.y, mapped.z)
+                        maximum = max(maximum, mapped.x, mapped.y, mapped.z)
+                        if mapped.x < 0 || mapped.x > 1 || mapped.y < 0 || mapped.y > 1 || mapped.z < 0 || mapped.z > 1 {
+                            clipped += 1
+                        }
+                    }
+                    outputBytes[offset] = premultipliedByte(normalized: mapped.x, alpha: alpha)
+                    outputBytes[offset + 1] = premultipliedByte(normalized: mapped.y, alpha: alpha)
+                    outputBytes[offset + 2] = premultipliedByte(normalized: mapped.z, alpha: alpha)
+                    outputBytes[offset + 3] = alpha
+                }
+            }
+        }
+        return FrozenRenderResult(
+            data: output,
+            evaluatedPixelCount: evaluated,
+            clippedColorPixelCount: clipped,
+            minimumMappedComponent: evaluated == 0 ? nil : minimum,
+            maximumMappedComponent: evaluated == 0 ? nil : maximum
         )
     }
 

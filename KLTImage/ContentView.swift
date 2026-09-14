@@ -5,6 +5,7 @@ struct ContentView: View {
     @Bindable var model: WorkspaceModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showsMethod = false
+    @State private var showsLibrary = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,6 +38,9 @@ struct ContentView: View {
                 .opacity(0.01)
         }
         .frame(minWidth: 900, minHeight: 620)
+        .sheet(isPresented: $showsLibrary) {
+            MethodLibraryView(workspace: model, closeAction: { showsLibrary = false })
+        }
     }
 
     private var header: some View {
@@ -66,6 +70,13 @@ struct ContentView: View {
                         .accessibilityIdentifier("cancel-operation-button")
                         .accessibilityHint("Stops the current local file operation")
                 }
+                Button {
+                    showsLibrary = true
+                } label: {
+                    Label("Methods", systemImage: "slider.horizontal.3")
+                }
+                .buttonStyle(SecondaryActionButtonStyle())
+                .accessibilityIdentifier("methods-button")
                 Button(action: model.presentOpenPanel) {
                     Label("Open Image", systemImage: "folder")
                 }
@@ -100,6 +111,9 @@ struct ContentView: View {
                         .font(.plexMono(10, weight: .semibold))
                         .tracking(0.8)
                         .foregroundStyle(KLTColor.inkMuted)
+                    Text(model.executionModeText)
+                        .font(.plexMono(9, weight: .semibold))
+                        .foregroundStyle(KLTColor.accentPressed)
                     Text(model.methodText)
                         .font(.plexSans(12, weight: .semibold))
                         .foregroundStyle(KLTColor.ink)
@@ -132,10 +146,10 @@ struct ContentView: View {
                     .stroke(KLTColor.inkMuted, lineWidth: 1)
             )
             .labelsHidden()
-            .frame(width: 254)
+            .frame(width: 390)
             .disabled(!model.canChangePresentation)
             .accessibilityIdentifier("image-view-picker")
-            .accessibilityHint("Chooses the original image, split comparison, or enhanced image")
+            .accessibilityHint("Chooses Original, Side-by-Side, Slider, or Processed display without recalculating")
         }
         .padding(.horizontal, 16)
         .frame(height: 48)

@@ -6,11 +6,21 @@ options:
     macOS: "14.0"
   createIntermediateGroups: true
 
+configs:
+  Debug: debug
+  Release: release
+  ReleaseTests: release
+
 settings:
   base:
     SWIFT_VERSION: 6.0
     MACOSX_DEPLOYMENT_TARGET: 14.0
     CLANG_ENABLE_MODULES: YES
+  configs:
+    ReleaseTests:
+      ENABLE_TESTABILITY: YES
+      ONLY_ACTIVE_ARCH: YES
+      ARCHS: arm64
 
 targets:
   KLTCore:
@@ -53,7 +63,7 @@ targets:
         ENABLE_APP_SANDBOX: YES
         ENABLE_HARDENED_RUNTIME: YES
       configs:
-        Release:
+        ReleaseTests:
           # Local Release UI tests use ad-hoc signatures for both the app and
           # KLTCore. Hardened library validation rejects that unsigned-team
           # pairing before XCTest can launch. The release script still signs
@@ -71,6 +81,21 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.core-tests
         GENERATE_INFOPLIST_FILE: YES
+
+  KLTImageTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: KLTImageTests
+    dependencies:
+      - target: KLTImage
+      - target: KLTCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.app-tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/KLT Image.app/Contents/MacOS/KLT Image"
+        BUNDLE_LOADER: "$(TEST_HOST)"
 
   KLTImageUITests:
     type: bundle.ui-testing
@@ -94,5 +119,6 @@ schemes:
     test:
       targets:
         - KLTCoreTests
+        - KLTImageTests
         - KLTImageUITests
       gatherCoverageData: true

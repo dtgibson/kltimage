@@ -84,6 +84,17 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7B009687077C5AA7842F8C22"
+               BuildableName = "KLTImageTests.xctest"
+               BlueprintName = "KLTImageTests"
+               ReferencedContainer = "container:KLTImage.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D4E433BCDB3E6D26A95372A"
                BuildableName = "KLTImageUITests.xctest"
                BlueprintName = "KLTImageUITests"

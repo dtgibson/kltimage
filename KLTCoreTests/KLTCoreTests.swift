@@ -1,4 +1,5 @@
 import CoreGraphics
+import Darwin
 import Foundation
 import ImageIO
 import UniformTypeIdentifiers
@@ -219,6 +220,34 @@ final class ImagePipelineTests: XCTestCase {
             }
         }
 
+        let affineRequest = CalculatedAnalysisRequest(
+            workingSpace: .affine(WorkingSpaceCatalog.curated[0].revision),
+            matrixMode: .covariance,
+            sampleSource: .wholeImage,
+            region: nil
+        )
+        let affineStart = CFAbsoluteTimeGetCurrent()
+        let affineResult = try ImagePipeline.enhance(
+            decoded,
+            request: affineRequest,
+            workingSpaceName: WorkingSpaceCatalog.curated[0].libraryName
+        )
+        let affineElapsed = CFAbsoluteTimeGetCurrent() - affineStart
+        print("24 MP affine calculation took \(affineElapsed) seconds")
+        XCTAssertLessThan(affineElapsed, 5, "The 24 MP affine calculation exceeded five seconds")
+
+        let recipe = try TransformRecipeFactory.capture(
+            decodedSource: decoded,
+            displayFilename: "performance-fixture.tif",
+            enhancement: affineResult
+        )
+        let replayStart = CFAbsoluteTimeGetCurrent()
+        let replayResult = try ImagePipeline.replay(decoded, recipe: recipe, recipeName: "Performance replay")
+        let replayElapsed = CFAbsoluteTimeGetCurrent() - replayStart
+        print("24 MP frozen replay took \(replayElapsed) seconds")
+        XCTAssertLessThan(replayElapsed, 5, "The 24 MP frozen replay exceeded five seconds")
+        XCTAssertEqual(replayResult.rgba8Premultiplied, affineResult.rgba8Premultiplied)
+
         // Measure feature overhead separately from the existing eight-case
         // enhancement matrix. Five hash samples and many record samples make
         // the medians resistant to one-off scheduler and clock noise, while
@@ -280,6 +309,93 @@ final class ImagePipelineTests: XCTestCase {
             256_000_000
         )
     }
+
+#if !DEBUG
+    func testSixtyFourMegapixelReplayHasOneFrameOfIncrementalPeakMemory() throws {
+        let width = 8_000
+        let height = 8_000
+        let byteCount = try ImageProcessingLimits.checkedRGBAByteCount(width: width, height: height)
+        var sourceBytes = Data(count: byteCount)
+        sourceBytes.withUnsafeMutableBytes { rawBuffer in
+            let bytes = rawBuffer.bindMemory(to: UInt8.self)
+            for offset in stride(from: 0, to: bytes.count, by: 4_096) {
+                bytes[offset] = UInt8(truncatingIfNeeded: offset / 4_096)
+            }
+        }
+        let provider = try XCTUnwrap(CGDataProvider(data: sourceBytes as CFData))
+        let image = try XCTUnwrap(CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bitsPerPixel: 32,
+            bytesPerRow: width * 4,
+            space: CGColorSpace(name: CGColorSpace.sRGB)!,
+            bitmapInfo: CGBitmapInfo.byteOrder32Big.union(
+                CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+            ),
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: .relativeColorimetric
+        ))
+        let fingerprint = try AnalysisSourceFingerprint(
+            algorithm: "sha256",
+            value: String(repeating: "a", count: 64)
+        )
+        let source = DecodedImage(
+            width: width,
+            height: height,
+            sourceTypeIdentifier: UTType.tiff.identifier,
+            hasAlpha: true,
+            originalImage: image,
+            analysisSourceFingerprint: fingerprint,
+            rgba8Premultiplied: sourceBytes
+        )
+        let origin = try AnalysisSourceDescriptor(
+            displayFilename: "memory-profile.tif",
+            width: width,
+            height: height,
+            fingerprint: fingerprint
+        )
+        let recipe = TransformRecipeSnapshot(
+            identifier: UUID(uuidString: "55555555-5555-5555-5555-555555555555")!,
+            workingSpace: WorkingSpaceCatalog.standardRGB.revision,
+            workingSpaceNameAtCapture: "RGB",
+            originatingAnalysis: OriginatingAnalysis(
+                matrixMode: .covariance,
+                samplingMode: .wholeImage,
+                region: nil,
+                samplePixelCount: width * height
+            ),
+            originSource: origin,
+            workingCenter: .zero,
+            transform: .identity,
+            outputMapping: .encodedSRGBGlobalRangeV1(
+                minimum: 0,
+                maximum: 1,
+                scale: 1,
+                clipsToUnitRange: true
+            )
+        )
+        let before = try processMemoryReading()
+
+        let replay = try ImagePipeline.replay(source, recipe: recipe, recipeName: "64 MP profile")
+
+        let after = try processMemoryReading()
+        let incrementalPeak = after.residentPeakBytes > before.residentPeakBytes
+            ? after.residentPeakBytes - before.residentPeakBytes
+            : 0
+        print(
+            "64 MP replay memory: frame \(byteCount) bytes; footprint before \(before.physicalFootprintBytes); footprint after \(after.physicalFootprintBytes); resident peak before \(before.residentPeakBytes); resident peak after \(after.residentPeakBytes); incremental peak \(incrementalPeak) bytes"
+        )
+        XCTAssertEqual(replay.rgba8Premultiplied.count, byteCount)
+        XCTAssertLessThanOrEqual(
+            incrementalPeak,
+            UInt64(byteCount + 64 * 1_024 * 1_024),
+            "Replay retained more than one output frame plus 64 MiB of incremental overhead"
+        )
+    }
+#endif
 
     func testFullFrameProcessingLimitRejectsOnePixelOverBoundary() {
         XCTAssertThrowsError(
@@ -525,5 +641,21 @@ final class ImagePipelineTests: XCTestCase {
             context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
         }
         return data
+    }
+
+    private func processMemoryReading() throws -> (physicalFootprintBytes: UInt64, residentPeakBytes: UInt64) {
+        var info = task_vm_info_data_t()
+        var count = mach_msg_type_number_t(
+            MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<natural_t>.size
+        )
+        let result = withUnsafeMutablePointer(to: &info) { pointer in
+            pointer.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
+                task_info(mach_task_self_, task_flavor_t(TASK_VM_INFO), $0, &count)
+            }
+        }
+        guard result == KERN_SUCCESS else {
+            throw NSError(domain: NSMachErrorDomain, code: Int(result))
+        }
+        return (info.phys_footprint, info.resident_size_peak)
     }
 }

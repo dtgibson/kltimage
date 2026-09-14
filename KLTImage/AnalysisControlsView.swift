@@ -5,78 +5,137 @@ import SwiftUI
 struct AnalysisControlsView: View {
     @Bindable var model: WorkspaceModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var transformSeed: TransformRecipeSnapshot?
+    @State private var saveName = ""
 
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 heading
-                controlSection(title: "Color space", count: "1 OF 3") {
-                    Picker("Color space", selection: colorSpaceBinding) {
-                        ForEach(AnalysisColorSpace.allCases) { colorSpace in
-                            Text(colorSpace.displayName).tag(colorSpace)
+                if model.isReplayed {
+                    replayedControls
+                } else {
+                    controlSection(title: "Working space", count: "1 OF 3") {
+                        Menu {
+                            Section("Standard") {
+                                ForEach(model.methodLibrary.standardSpaces) { descriptor in
+                                    Button(descriptor.libraryName) {
+                                        model.useWorkingSpace(descriptor.revision, name: descriptor.libraryName)
+                                    }
+                                }
+                            }
+                            Section("Curated") {
+                                ForEach(model.methodLibrary.curatedSpaces) { descriptor in
+                                    Button(descriptor.libraryName) {
+                                        model.useWorkingSpace(descriptor.revision, name: descriptor.libraryName)
+                                    }
+                                }
+                            }
+                            Section("My Spaces") {
+                                ForEach(model.methodLibrary.snapshot.userWorkingSpaces) { item in
+                                    Button(item.libraryName) { model.useWorkingSpace(item.revision, name: item.libraryName) }
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(model.activeMethodName).font(.plexSans(11, weight: .semibold))
+                                    Text("\(model.activeWorkingSpace.identity.kind.rawValue.uppercased()) · \(model.activeWorkingSpace.base.displayName) · V\(model.activeWorkingSpace.definitionVersion)")
+                                        .font(.plexMono(8)).foregroundStyle(KLTColor.inkMuted)
+                                }
+                                Spacer(); Image(systemName: "chevron.up.chevron.down")
+                            }
+                            .padding(8).background(KLTColor.surfaceRaised, in: RoundedRectangle(cornerRadius: 8))
+                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(KLTColor.divider))
                         }
-                    }
-                    .analysisSegmentStyle()
-                    .accessibilityIdentifier("color-space-picker")
-                    Text(colorSpaceExplanation)
-                        .controlExplanationStyle()
-                }
-                controlSection(title: "Matrix mode", count: "2 OF 3") {
-                    Picker("Matrix mode", selection: matrixModeBinding) {
-                        ForEach(AnalysisMatrixMode.allCases) { mode in
-                            Text(mode.displayName).tag(mode)
+                        .menuStyle(.borderlessButton)
+                        .accessibilityIdentifier("working-space-picker")
+                        .accessibilityLabel("Working space")
+                        Picker("Standard working spaces", selection: colorSpaceBinding) {
+                            Text("RGB").tag(AnalysisColorSpace.rgb)
+                            Text("Lab").tag(AnalysisColorSpace.lab)
                         }
+                        .analysisSegmentStyle()
+                        .accessibilityIdentifier("color-space-picker")
+                        Text("The working space changes the three variables used to calculate this image’s transform.")
+                            .controlExplanationStyle()
                     }
-                    .analysisSegmentStyle()
-                    .accessibilityIdentifier("matrix-mode-picker")
-                    Text(matrixExplanation)
-                        .controlExplanationStyle()
-                }
-                controlSection(title: "Statistical sample", count: "3 OF 3") {
-                    VStack(spacing: 6) {
-                        SampleSourceButton(
-                            title: "Whole image",
-                            detail: "All \(formattedPixelCount) source pixels establish the transform.",
-                            selected: model.sampleSource == .wholeImage
-                        ) {
-                            withAnimation(selectionAnimation) {
-                                model.selectSampleSource(.wholeImage)
+                    controlSection(title: "Matrix mode", count: "2 OF 3") {
+                        Picker("Matrix mode", selection: matrixModeBinding) {
+                            ForEach(AnalysisMatrixMode.allCases) { mode in
+                                Text(mode.displayName).tag(mode)
                             }
                         }
-                        .accessibilityIdentifier("whole-image-sample-button")
-
-                        SampleSourceButton(
-                            title: "Selected region",
-                            detail: "The rectangle supplies statistics; the complete frame is enhanced.",
-                            selected: model.sampleSource == .selectedRegion
-                        ) {
-                            withAnimation(selectionAnimation) {
-                                model.selectSampleSource(.selectedRegion)
+                        .analysisSegmentStyle()
+                        .accessibilityIdentifier("matrix-mode-picker")
+                        Text(matrixExplanation)
+                            .controlExplanationStyle()
+                    }
+                    controlSection(title: "Statistical sample", count: "3 OF 3") {
+                        VStack(spacing: 6) {
+                            SampleSourceButton(
+                                title: "Whole image",
+                                detail: "All \(formattedPixelCount) source pixels establish the transform.",
+                                selected: model.sampleSource == .wholeImage
+                            ) {
+                                withAnimation(selectionAnimation) {
+                                    model.selectSampleSource(.wholeImage)
+                                }
                             }
-                        }
-                        .accessibilityIdentifier("selected-region-sample-button")
-                    }
+                            .accessibilityIdentifier("whole-image-sample-button")
 
-                    if model.sampleSource == .selectedRegion {
-                        RegionEditorView(model: model)
-                            .padding(.top, 10)
-                            .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .top)))
+                            SampleSourceButton(
+                                title: "Selected region",
+                                detail: "The rectangle supplies statistics; the complete frame is enhanced.",
+                                selected: model.sampleSource == .selectedRegion
+                            ) {
+                                withAnimation(selectionAnimation) {
+                                    model.selectSampleSource(.selectedRegion)
+                                }
+                            }
+                            .accessibilityIdentifier("selected-region-sample-button")
+                        }
+
+                        if model.sampleSource == .selectedRegion {
+                            RegionEditorView(model: model)
+                                .padding(.top, 10)
+                                .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .top)))
+                        }
                     }
+                    saveTransformButton
                 }
                 methodSummary
             }
         }
         .scrollIndicators(.visible)
         .background(KLTColor.surface)
-        .disabled(!model.analysisControlsEnabled)
         .animation(selectionAnimation, value: model.sampleSource)
+        .sheet(item: $transformSeed) { seed in
+            SaveTransformView(
+                seed: seed,
+                name: $saveName,
+                cancel: { transformSeed = nil },
+                save: {
+                    Task {
+                        do {
+                            try await model.saveTransform(seed, name: saveName)
+                            transformSeed = nil
+                        } catch {
+                            model.methodLibrary.reportOperationError(error)
+                        }
+                    }
+                }
+            )
+        }
     }
 
     private var heading: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Analysis controls")
                 .font(.plexSans(20, weight: .bold))
-            Text("Choose the variables, matrix, and pixels that establish the transform.")
+            Text(model.isReplayed
+                 ? "Inspect the frozen method or return to image-specific calculation."
+                 : "Choose the coordinates and pixels that calculate a new transform.")
                 .font(.plexSans(11))
                 .foregroundStyle(KLTColor.inkMuted)
                 .fixedSize(horizontal: false, vertical: true)
@@ -85,6 +144,48 @@ struct AnalysisControlsView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 15)
         .overlay(alignment: .bottom) { Divider().overlay(KLTColor.line) }
+    }
+
+    private var replayedControls: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("FROZEN SAVED TRANSFORM")
+                .font(.plexMono(9, weight: .semibold)).foregroundStyle(KLTColor.accentPressed)
+            Text(model.activeMethodName).font(.plexSans(14, weight: .bold))
+            if case let .replayed(recipe, _) = model.methodSelection {
+                Text("Origin: \(recipe.originSource.displayFilename)")
+                    .font(.plexMono(9)).foregroundStyle(KLTColor.inkMuted)
+                Text("\(recipe.originatingAnalysis.matrixMode.displayName) and \(recipe.originatingAnalysis.samplingMode.displayName) are inactive provenance values.")
+                    .font(.plexSans(10)).foregroundStyle(KLTColor.inkMuted)
+            }
+            Text("No values are recalculated from this target.")
+                .font(.plexSans(10, weight: .semibold))
+            if let diagnostics = model.replayDiagnostics {
+                Text("No target statistics · \(diagnostics.clippedFraction.formatted(.percent.precision(.fractionLength(1)))) clipped · local only")
+                    .font(.plexMono(8)).foregroundStyle(diagnostics.clippedColorPixelCount > 0 ? KLTColor.warning : KLTColor.inkMuted)
+            }
+            Button("Calculate for This Image", action: model.calculateForThisImage)
+                .buttonStyle(SecondaryActionButtonStyle())
+                .accessibilityIdentifier("calculate-for-this-image-button")
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .overlay(alignment: .bottom) { Divider().overlay(KLTColor.line) }
+    }
+
+    private var saveTransformButton: some View {
+        Button {
+            guard let seed = model.capturedTransformSeed() else { return }
+            saveName = "\(model.activeMethodName) transform"
+            transformSeed = seed
+        } label: {
+            Label("Save Calculated Transform", systemImage: "square.and.arrow.down.on.square")
+        }
+        .buttonStyle(SecondaryActionButtonStyle())
+        .disabled(!model.canSaveTransform)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .accessibilityIdentifier("save-calculated-transform-button")
+        .accessibilityHint("Freezes the exact accepted center, transform, inverse, and output mapping")
     }
 
     private func controlSection<Content: View>(
@@ -167,6 +268,12 @@ struct AnalysisControlsView: View {
     }
 
     private var summaryDetail: String {
+        if model.isReplayed {
+            guard let diagnostics = model.replayDiagnostics else {
+                return "Frozen recipe · no target statistics"
+            }
+            return "No target statistics · \(diagnostics.clippedFraction.formatted(.percent.precision(.fractionLength(1)))) clipped · local only"
+        }
         switch model.phase {
         case .ready:
             guard let descriptor = model.enhanced?.descriptor else { return "Local processing" }
@@ -413,5 +520,37 @@ private extension View {
         font(.plexSans(10))
             .foregroundStyle(KLTColor.inkMuted)
             .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+private struct SaveTransformView: View {
+    let seed: TransformRecipeSnapshot
+    @Binding var name: String
+    let cancel: () -> Void
+    let save: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Save calculated transform").font(.plexSans(20, weight: .bold))
+            Text("Freeze the exact accepted calculation for deterministic replay.")
+                .font(.plexSans(11)).foregroundStyle(KLTColor.inkMuted)
+            TextField("Transform name", text: $name)
+                .accessibilityIdentifier("transform-name-field")
+            VStack(alignment: .leading, spacing: 5) {
+                Text("\(seed.workingSpaceNameAtCapture) · definition v\(seed.workingSpace.definitionVersion)")
+                Text("\(seed.originSource.displayFilename) · \(seed.originatingAnalysis.matrixMode.displayName) · \(seed.originatingAnalysis.samplingMode.displayName)")
+                Text("center · transform · inverse · output mapping")
+            }
+            .font(.plexMono(9)).foregroundStyle(KLTColor.inkMuted)
+            HStack {
+                Spacer()
+                Button("Cancel", action: cancel).buttonStyle(SecondaryActionButtonStyle())
+                Button("Save Transform", action: save)
+                    .buttonStyle(PrimaryActionButtonStyle())
+                    .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || name.unicodeScalars.count > 80)
+                    .accessibilityIdentifier("confirm-save-transform-button")
+            }
+        }
+        .padding(20).frame(width: 480).background(KLTColor.surfaceRaised).environment(\.colorScheme, .light)
     }
 }

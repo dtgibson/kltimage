@@ -62,17 +62,24 @@ public enum ImageProcessingLimits {
     /// the source, enhanced result, decoder storage, and export working buffers
     /// on the lowest-memory supported Mac class.
     public static let maximumPixelCount = 64_000_000
+    public static let maximumIOSPixelCount = 26_000_000
+    /// 26 MP at 16-bit RGBA is about 198 MiB. This 256 MiB encoded-file cap
+    /// leaves room for ordinary TIFF headers/metadata while bounding provider
+    /// staging before iOS ImageIO performs a full decode.
+    public static let maximumIOSEncodedByteCount = 256 * 1024 * 1024
 
     private static let rgbaBytesPerPixel = 4
 
     /// Validates declared or decoded dimensions and returns the required RGBA bytes.
-    public static func checkedRGBAByteCount(width: Int, height: Int) throws -> Int {
+    public static func checkedRGBAByteCount(
+        width: Int, height: Int, maximumPixelCount: Int = maximumPixelCount
+    ) throws -> Int {
         guard width > 0, height > 0 else {
             throw ImagePipelineError.invalidDimensions
         }
 
         let (pixelCount, pixelOverflow) = width.multipliedReportingOverflow(by: height)
-        guard !pixelOverflow, pixelCount <= maximumPixelCount else {
+        guard !pixelOverflow, maximumPixelCount > 0, pixelCount <= maximumPixelCount else {
             throw ImagePipelineError.imageTooLarge
         }
 
@@ -156,12 +163,36 @@ public enum ImagePipeline {
 
     /// Decodes the first frame, applies its orientation, and converts it to 8-bit sRGB RGBA.
     public static func decode(_ data: Data) throws -> DecodedImage {
+        try decode(data, maximumPixelCount: ImageProcessingLimits.maximumPixelCount)
+    }
+
+    public static func decode(
+        _ data: Data, maximumPixelCount: Int
+    ) throws -> DecodedImage {
         try Task.checkCancellation()
 
         let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
         guard let source = CGImageSourceCreateWithData(data as CFData, sourceOptions) else {
             throw ImagePipelineError.unreadableImage
         }
+        return try decode(source, maximumPixelCount: maximumPixelCount)
+    }
+
+    /// ImageIO reads provider-backed files without a second full compressed Data copy.
+    public static func decode(
+        at url: URL, maximumPixelCount: Int = ImageProcessingLimits.maximumPixelCount
+    ) throws -> DecodedImage {
+        try Task.checkCancellation()
+        let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, sourceOptions) else {
+            throw ImagePipelineError.unreadableImage
+        }
+        return try decode(source, maximumPixelCount: maximumPixelCount)
+    }
+
+    private static func decode(
+        _ source: CGImageSource, maximumPixelCount: Int
+    ) throws -> DecodedImage {
         guard CGImageSourceGetCount(source) > 0 else {
             throw ImagePipelineError.unreadableImage
         }
@@ -174,9 +205,12 @@ public enum ImagePipeline {
         }
 
         // Reject from metadata before ImageIO is asked for a full-resolution decode.
+        let orientation = (properties?[kCGImagePropertyOrientation] as? NSNumber)?.intValue ?? 1
+        let swapsAxes = (5...8).contains(orientation)
         _ = try ImageProcessingLimits.checkedRGBAByteCount(
-            width: rawWidth,
-            height: rawHeight
+            width: swapsAxes ? rawHeight : rawWidth,
+            height: swapsAxes ? rawWidth : rawHeight,
+            maximumPixelCount: maximumPixelCount
         )
 
         let thumbnailOptions: [CFString: Any] = [
@@ -200,7 +234,8 @@ public enum ImagePipeline {
         // Revalidate the decoder's actual output before allocating the app-owned buffer.
         let byteCount = try ImageProcessingLimits.checkedRGBAByteCount(
             width: width,
-            height: height
+            height: height,
+            maximumPixelCount: maximumPixelCount
         )
 
         var rgba = Data(count: byteCount)

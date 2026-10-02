@@ -4,6 +4,7 @@ options:
   bundleIdPrefix: com.kltimage
   deploymentTarget:
     macOS: "14.0"
+    iOS: "18.0"
   createIntermediateGroups: true
 
 configs:
@@ -35,6 +36,74 @@ targets:
         DEFINES_MODULE: YES
         SKIP_INSTALL: YES
         CODE_SIGN_IDENTITY: "-"
+
+  KLTCoreIOS:
+    type: framework
+    platform: iOS
+    sources:
+      - path: KLTCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.ios.core
+        PRODUCT_NAME: KLTCore
+        PRODUCT_MODULE_NAME: KLTCore
+        GENERATE_INFOPLIST_FILE: YES
+        DEFINES_MODULE: YES
+        SKIP_INSTALL: YES
+
+  KLTImageIOS:
+    type: application
+    platform: iOS
+    sources:
+      - path: KLTImageIOS
+        excludes:
+          - Resources
+          - Info.plist
+      - path: KLTImageIOS/Resources
+        buildPhase: resources
+      - path: KLTImage/MethodFileIO.swift
+      - path: KLTImage/DesignSystem.swift
+      - path: KLTImage/Resources/Fonts
+        buildPhase: resources
+    dependencies:
+      - target: KLTCoreIOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.ios
+        PRODUCT_NAME: KLT Image
+        PRODUCT_MODULE_NAME: KLTImageIOS
+        INFOPLIST_FILE: KLTImageIOS/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_EMIT_LOC_STRINGS: YES
+
+  KLTCoreIOSTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: KLTCoreTests
+    dependencies:
+      - target: KLTCoreIOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.ios.core-tests
+        GENERATE_INFOPLIST_FILE: YES
+
+  KLTImageIOSTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: KLTImageIOSTests
+    dependencies:
+      - target: KLTImageIOS
+      - target: KLTCoreIOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.ios.app-tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/KLT Image.app/KLT Image"
+        BUNDLE_LOADER: "$(TEST_HOST)"
 
   KLTImage:
     type: application
@@ -125,4 +194,16 @@ schemes:
         - KLTCoreTests
         - KLTImageTests
         - KLTImageUITests
+      gatherCoverageData: true
+
+  KLTImageIOS:
+    build:
+      targets:
+        KLTCoreIOS: all
+        KLTImageIOS: all
+        KLTCoreIOSTests: [test]
+    test:
+      targets:
+        - KLTCoreIOSTests
+        - KLTImageIOSTests
       gatherCoverageData: true

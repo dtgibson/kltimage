@@ -8,7 +8,7 @@ After asset or project changes, run `xcodegen generate`, open the generated proj
 
 ## Using Custom Color Spaces and Reusable Transforms
 
-KLT Image 1.3.2 build 8 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.2). Its SHA-256 is `3730547ba9ca115544a83f90ffe1a7342a8624af25054d434f74967393a37f1e`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
+KLT Image 1.3.3 build 9 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.3). Its SHA-256 is `98cd1404efceebcf4282b78b774e1cb9fed30e4f208f5aa7c085eb1a1739ece1`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
 
 1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Wait for **Result ready**. Images, methods, filenames, and fingerprints remain local to the Mac.
 
@@ -47,7 +47,7 @@ Historical Build 7 verification passed 96/96 Debug tests and 98/98 optimized `Re
 
 ## Preparing a trusted macOS release
 
-The published 1.3.2 build 8 release uses the same fail-closed process as trusted 1.3.1 build 7. GitHub Releases is the sole production publication target; the previous tailnet mirror is no longer a required final release step. The process requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
+The published 1.3.3 build 9 release uses the established fail-closed release process. GitHub Releases is the sole production publication target; the previous tailnet mirror is no longer a required final release step. The process requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
 
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun notarytool store-credentials "kltimage-release"
@@ -81,7 +81,11 @@ Exercise that final boundary without building or notarizing:
 After copying or downloading an artifact, verify it against its separately recorded SHA-256:
 
 ```sh
-./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.2-build-8.zip EXPECTED_SHA256
+./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.3-build-9.zip EXPECTED_SHA256
 ```
 
-This verification never removes quarantine. A fresh GitHub download of Build 8 matched the approved artifact byte-for-byte and independently passed this verifier. Trusted 1.3.1 build 7 remains the rollback release. Prior Build 6 GitHub and tailnet publication and verification remain historical facts; the existing historical tailnet route and old artifacts are unchanged and are not production release gates.
+This verification never removes quarantine. A fresh GitHub download of Build 9 matched the approved artifact byte-for-byte and independently passed this verifier. Trusted 1.3.2 build 8 remains the rollback release. Prior Build 6 GitHub and tailnet publication and verification remain historical facts; the existing historical tailnet route and old artifacts are unchanged and are not production release gates.
+
+## 1000% zoom release verification
+
+Build 9 preserves image dimensions, interpolation and scientific transforms while raising the existing zoom ceiling to 1000%. Mac Debug/optimized core and app suites and local iPhone/iPad zoom controls passed. Native Mac controls, maximum-zoom registration/gesture ownership, comparison-mode transitions and matched screen/export detail remain unverified. Publication was explicitly approved with these gaps; no physical-device acceptance is claimed.

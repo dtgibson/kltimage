@@ -1,18 +1,7 @@
-## Professional App Icon
+## RGB fidelity and extended zoom
 
-### What this does
+Existing Mac, iPhone and iPad zoom buttons and pinch now share a 1000% fit-relative ceiling. The source, scientific transforms, interpolation and full-resolution export behavior are preserved. Added regression checks cover dimensions, scalar pixel mapping, orientation, alpha and zoom geometry. Investigation reproduced RGB blocks in a supplied compressed JPEG’s lossless exports, with evidence of amplified source chroma structure; this release does not remove JPEG artifacts.
 
-KLT Image previously had no custom application icon. It now compiles the approved original navy-and-teal image-comparison artwork into a native macOS AppIcon asset catalog, covering all ten 16–512-point slots at 1× and 2×. The editable SVG, reproducible exporter, and small-size review proofs remain in the repository; application behavior is unchanged.
+Mac Debug and optimized core/app suites, local iPhone/iPad zoom controls and the performance requirement passed. Native Mac controls, maximum-zoom registration and gesture ownership, comparison-mode transitions and matched native screen/export detail remain unverified. Publication was explicitly approved with these gaps; no physical-device acceptance is claimed.
 
-### How to test
-
-1. Review the [approved icon preview](https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-icon/design.html).
-2. Run `python3 scripts/export-app-icon.py --check` to verify production assets match the SVG.
-3. Run `xcodegen generate`, then build the KLTImage scheme. Confirm the built app contains `Contents/Resources/AppIcon.icns` and its Info.plist identifies `AppIcon`.
-4. Verify the universal release's bundled icon, Developer ID signatures, notarization, stapling, and quarantined Gatekeeper acceptance. The user approved icon-focused verification for this resource-only change; do not rerun unrelated application suites.
-
-### Notes for reviewer
-
-The SVG artwork matches the direction approved by the user on September 14, 2026. Production export requires librsvg (`rsvg-convert`); review-sheet export additionally uses Pillow and the already-bundled fonts. Generated PNGs are committed, so normal Xcode builds need neither dependency. Motion, controls, data handling, entitlements, and document icons are outside this resource-only change.
-
-The implementation Debug build and deterministic asset checks are recorded in `pipeline/professional-app-icon/implementation-record.md`. QA records the accepted icon-focused scope, the actual 95/96 Debug result (one imposed timeout), and 92/92 optimized core/app tests; no full-suite pass is claimed. Version 1.3.2 build 8 is published at https://github.com/dtgibson/kltimage/releases/tag/v1.3.2 after explicit approval. Its fresh GitHub download is byte-identical to the approved ZIP and passes universal architecture, Developer ID signature, notarization, stapling, checksum, quarantine and Gatekeeper verification. Version 1.3.1 build 7 remains the rollback release.
+Mac 1.3.3 (9) is published at https://github.com/dtgibson/kltimage/releases/tag/v1.3.3. Its fresh download is byte-identical to the approved universal ZIP and independently passes Developer ID signature, notarization, stapling, checksum, quarantine and Gatekeeper verification. Mac 1.3.2 (8) remains the rollback release. iOS 1.0 (2) passed Apple validation, was uploaded and processed as VALID, and is IN_BETA_TESTING in the existing internal group with one unchanged tester. New-build installation remains unverified.

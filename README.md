@@ -11,11 +11,13 @@ KLT Image supports standard RGB and Lab processing plus documented curated and u
 
 ## Download
 
-Download KLT Image 1.3.2 build 8 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.3.2/KLT-Image-1.3.2-build-8.zip).
+Download KLT Image 1.3.3 build 9 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.3.3/KLT-Image-1.3.3-build-9.zip).
 
-SHA-256: `3730547ba9ca115544a83f90ffe1a7342a8624af25054d434f74967393a37f1e`
+SHA-256: `98cd1404efceebcf4282b78b774e1cb9fed30e4f208f5aa7c085eb1a1739ece1`
 
-Build 8 adds the approved navy-and-teal macOS app icon. It is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. GitHub is the canonical release channel. Trusted Build 7 remains available as the rollback release.
+Build 9 raises the existing zoom ceiling to 1000%. It is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. GitHub is the canonical Mac release channel. Trusted Build 8 remains available as the rollback release.
+
+iOS 1.0 (2) is processed and available through the existing internal TestFlight group. It is not a public App Store release; installation of this build remains unverified.
 
 ## What it does
 
@@ -84,7 +86,7 @@ The numerical and image-processing code lives in `KLTCore`; the SwiftUI and AppK
 
 ## Current status
 
-Version 1.3.2 build 8 is published on GitHub Releases. A fresh GitHub download matches the approved artifact byte-for-byte and passes the repository's fail-closed Developer ID signing, notarization, stapling, checksum, quarantine, and Gatekeeper checks. This icon-only release passed asset fidelity, compiled icon, and security review under the user-approved icon-focused verification scope; no complete regression-suite pass is claimed for Build 8. GitHub is the sole current production channel, and trusted version 1.3.1 build 7 is the rollback release.
+Version 1.3.3 build 9 is published on GitHub Releases. A fresh download matches the approved artifact byte-for-byte and passes signature, notarization, stapling, checksum, quarantine and Gatekeeper checks. Mac Debug/optimized core and app tests, local iPhone/iPad zoom controls, and performance checks passed. Native Mac zoom controls, maximum-zoom registration and gesture ownership, comparison-mode transitions, and matched screen/export detail remain unverified; publication was explicitly approved with those gaps. RGB JPEG artifacts are not removed and scientific arithmetic is unchanged. Trusted version 1.3.2 build 8 is the rollback release.
 
 ## License
 

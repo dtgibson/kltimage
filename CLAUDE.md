@@ -17,6 +17,7 @@
 - Development previews and design reviews must be reachable through HTTPS Tailscale links. The user generally cannot access the development Mac locally; localhost, file URLs, and filesystem links are not usable preview handoffs. Verify the tailnet URL before sharing. This does not change GitHub as the Mac production release channel.
 
 - Follow `pipeline/design-system.md`: a quiet, fixed light scientific palette, IBM Plex typography, restrained teal actions, and content-first layouts.
+- Keep zoom percentages relative to Fit: 100% means Fit, and 1000% means ten times Fit, not a fixed display-pixel-to-source-pixel ratio. Buttons and pinch must share the same ceiling on all platforms.
 - On iPhone and iPad, keep source, result, and sample geometry registered while touch gestures change only the view; give the slider divider and sample editor separate gesture ownership.
 - Native controls placed on the fixed light palette must explicitly use a matching light appearance so macOS dark mode cannot reduce contrast.
 - Preserve VoiceOver labels, keyboard access, status announcements, and reduced-motion behavior when changing controls.

@@ -155,3 +155,19 @@
 **Rationale:** A fixed mobile pixel ceiling bounds decoded working memory, and a counted encoded-byte ceiling bounds Files and Photos staging, independent of changing free-memory estimates.
 
 **Implications:** Some large encoded files below the pixel ceiling are deliberately rejected. Full-workflow memory safety at these limits remains unverified on the lowest-memory supported iPhone and iPad; if user/tester results show failure, lower and document a fixed limit before claiming mobile acceptance.
+
+## Extend inspection zoom while preserving scientific output — 2026-10-02
+
+**Decision:** Raise the existing Mac, iPhone and iPad zoom ceiling to 1000%, retaining fit-relative percentages, interpolation, scientific arithmetic and full-resolution exports. Preserve the earlier reproducible RGB baseline and exploratory-use decisions; do not add smoothing or source repair to address compressed-source blockiness.
+
+**Rationale:** The supplied 500×666 4:2:0 JPEG reproduces pronounced RGB blocks in full-resolution lossless exports, with exact scalar pixel mapping and PNG round trips. The evidence supports amplification of existing JPEG chroma structure, not a demonstrated processing downsample or pixel-mapping defect.
+
+**Implications:** This release improves close inspection and fidelity regression coverage; it does not remove JPEG artifacts. Future fidelity work must distinguish source compression, calculated pixels, export and native display, and must not generalize this sample's finding to every image or claim native screen/export equality without matched evidence.
+
+## Publish extended zoom with explicitly accepted verification gaps — 2026-10-02
+
+**Decision:** Following explicit user approval after disclosure of the remaining native QA gaps, publish Mac 1.3.3 (9) through GitHub Releases and iOS 1.0 (2) through the existing internal TestFlight group. Mac 1.3.2 (8) is the trusted rollback release, superseding the Build 8/current and Build 7/rollback designation above; the channel and release-trust policies remain unchanged.
+
+**Rationale:** The freshly downloaded Mac release matched the approved ZIP and passed independent signing, notarization, stapling and quarantined Gatekeeper verification. Apple reports iOS build 2 as VALID and IN_BETA_TESTING in the existing group alongside build 1, with one unchanged tester. Mac core/app suites and local iPhone/iPad native zoom checks passed.
+
+**Implications:** Approval accepts the disclosed gaps for these releases; QA remains NEEDS VERIFICATION. Native Mac zoom, maximum-zoom pan/registration/sample/slider interaction, verified comparison-mode transitions and matched native screen/export detail remain open. TestFlight availability does not establish installation of build 2. No physical device was accessed, and future work retains the normal verification requirements.

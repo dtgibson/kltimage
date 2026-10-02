@@ -11,7 +11,7 @@ KLT Image is a native Mac, iPhone, and iPad scientific-imaging tool for revealin
 - **Local method library:** Keeps user working spaces and saved transforms in a narrowly scoped sandboxed library with explicit inspect, rename, duplicate, edit where applicable, delete, export, and strict import workflows.
 - **Frozen transform replay:** Saves the complete accepted transform recipe and applies its captured mathematics unchanged without refitting statistics or output mapping to the target image.
 - **Calculated/replayed provenance:** Keeps one immutable current record that identifies how the result was produced, preserves its exact source and method snapshot, and exports deterministic versioned JSON.
-- **Comparison, replacement, and export:** Presents Original, Side-by-Side, Slider, and Processed views, keeps slider reveal dragging independent from registered-image panning, preserves the accepted workspace while a replacement decodes or rolls back, atomically installs successful replacements, and exports the current full-resolution result as PNG, TIFF, or JPEG.
+- **Comparison, replacement, and export:** Presents Original, Side-by-Side, Slider, and Processed views with zoom up to 1000% relative to Fit, keeps slider reveal dragging independent from registered-image panning, preserves the accepted workspace while a replacement decodes or rolls back, atomically installs successful replacements, and exports the current full-resolution result as PNG, TIFF, or JPEG.
 - **iPhone and iPad analysis:** Provides a touch-first native workspace for local image import, full-resolution analysis and comparison, source-region selection, saved methods, provenance inspection, and explicit export.
 
 ## Scientific Behavior
@@ -29,8 +29,8 @@ KLT Image is a native Mac, iPhone, and iPad scientific-imaging tool for revealin
 - The shared, independently testable scientific core owns numerical and image-processing behavior; each platform app owns its native presentation and file workflows.
 - There is no backend, database, account system, or product network path; persistence is limited to a narrowly scoped method-library file in sandboxed Application Support.
 - Full-frame processing has a fixed 64-million-pixel ceiling on Mac and a fixed 26-million-oriented-pixel and 256 MiB encoded-source boundary on iOS; larger images require a future tiled or out-of-core pipeline.
-- Developer ID-signed, Apple-notarized, stapled, and independently verified KLT Image 1.3.2 build 8 is live on GitHub, the canonical Mac production channel; Build 7 is the trusted rollback release.
-- The separate iOS 1.0 (1) build is processed and assigned to an internal TestFlight group with no testers; installation and on-device workflows remain unverified, and no public App Store release has occurred.
+- Developer ID-signed, Apple-notarized, stapled, and independently verified KLT Image 1.3.3 build 9 is live on GitHub, the canonical Mac production channel; Build 8 is the trusted rollback release.
+- The separate iOS 1.0 (2) build is processed and available to the existing internal TestFlight group with one tester; installation of this build and on-device workflows remain unverified, and no public App Store release has occurred.
 
 ## Deferred Scope
 

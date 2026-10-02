@@ -934,6 +934,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;
@@ -1123,6 +1124,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;
@@ -1619,6 +1621,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;

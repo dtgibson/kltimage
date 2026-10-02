@@ -2,7 +2,7 @@
 
 ## Architecture
 
-- Keep scientific transforms and image-format logic in `KLTCore`; keep SwiftUI, AppKit file panels, and main-actor workspace state in `KLTImage`.
+- Keep scientific transforms, image-format logic, and versioned document codecs in shared `KLTCore`; keep each platform's SwiftUI, AppKit/UIKit/PhotosUI file workflows, and main-actor workspace state in its app target.
 - Preserve the decoded source buffer unchanged. Enhanced results use separate buffers and explicit export destinations.
 - Keep image processing local, cancellable, deterministic, and outside the main actor.
 - Keep working-space definitions, frozen transform recipes, and documentary analysis records as separate typed artifacts: working spaces calculate, recipes replay captured values, and analysis records are never executable method input.
@@ -10,12 +10,14 @@
 - Treat versioned analysis JSON as a protocol contract: use dedicated export DTOs, canonical sorted-key finite encoding with explicit nulls, atomic writes, and golden-byte compatibility coverage; keep export local, explicit, and free of implicit persistence or network transfer.
 - Keep portable method import bounded to a regular file of at most 256 KiB, duplicate-key-aware, exact-field and exact-version validated, and fail-closed before any library or workspace mutation; reject analysis-record schemas at the method boundary.
 - Keep persistence limited to user methods in sandboxed Application Support, with no pixels, results, history, regions, bookmarks, or ordinary workspace state. Validate the complete library before publication and use the shared mode-`0600`, fsync-backed, same-directory atomic replacement path for method-store and method-export writes.
+- Keep Mac and iOS method stores independent; exchange methods only through explicit compatible documents. On iOS, validate an existing store before its first mutation and count provider-source bytes while staging, with a fixed 256 MiB encoded limit, a 26-million-oriented-pixel decode limit, and cleanup of app-owned staging files.
 
 ## Interface
 
-- Development previews and design reviews must be reachable through HTTPS Tailscale links. The user generally cannot access the development Mac locally; localhost, file URLs, and filesystem links are not usable preview handoffs. Verify the tailnet URL before sharing. This does not change GitHub as the production release channel.
+- Development previews and design reviews must be reachable through HTTPS Tailscale links. The user generally cannot access the development Mac locally; localhost, file URLs, and filesystem links are not usable preview handoffs. Verify the tailnet URL before sharing. This does not change GitHub as the Mac production release channel.
 
 - Follow `pipeline/design-system.md`: a quiet, fixed light scientific palette, IBM Plex typography, restrained teal actions, and content-first layouts.
+- On iPhone and iPad, keep source, result, and sample geometry registered while touch gestures change only the view; give the slider divider and sample editor separate gesture ownership.
 - Native controls placed on the fixed light palette must explicitly use a matching light appearance so macOS dark mode cannot reduce contrast.
 - Preserve VoiceOver labels, keyboard access, status announcements, and reduced-motion behavior when changing controls.
 - Keep approved app-icon artwork in its editable SVG master and committed native PNG catalog; after artwork changes, use `scripts/export-app-icon.py --check` to detect divergence and regenerate only from the approved design.
@@ -23,7 +25,8 @@
 ## Project and Verification
 
 - `project.yml` is the source of truth for the generated Xcode project; regenerate `KLTImage.xcodeproj` with XcodeGen after project-setting changes.
-- Run both Debug and Release XCTest bundles. The 24-megapixel benchmark, including source-fingerprint and analysis-record overhead, is Release-only and must remain below five seconds on supported Apple silicon.
+- Run both Mac Debug and Release XCTest bundles. The 24-megapixel benchmark, including source-fingerprint and analysis-record overhead, is Release-only and must remain below five seconds on supported Apple silicon. Run iOS tests and UI checks on local simulators.
+- Agents must never access any physical device. The user and their testers own all on-device verification through TestFlight; simulator results do not establish TestFlight installation or provider-backed device behavior.
 - Treat supported-format import, orientation, alpha preservation, deterministic output, numerical stability, and export dimensions as regression requirements.
 - Keep test path and environment overrides inside `#if DEBUG`. Define `DEBUG` for the optimized `ReleaseTests` configuration so XCTest can exercise those hooks, verify their identifying strings are absent from the shipping executable, and never add that condition to the universal hardened non-testable `Release` configuration.
 - Treat only signed complete XCTest runs as UI-verification evidence: `CODE_SIGNING_ALLOWED=NO` can invalidate test bundles before app tests begin. Preserve machine-wide accessibility settings, including an already-enabled Full Keyboard Access mode, rather than toggling them blindly.
@@ -37,3 +40,4 @@
 - Keep the release ZIP and checksum under unmistakably pending names until the independent verifier succeeds. Verification failure may retain pending diagnostics but must leave no final-named artifact; promote final names only with same-volume renames after acceptance.
 - Verify the final ZIP with `scripts/verify-macos-release.sh` and a separately recorded SHA-256. Reject unexpected identity/team, architectures, versions, entitlements, or `get-task-allow`.
 - After explicit production approval, publish the same versioned, independently verified ZIP and checksum through GitHub Releases as the canonical production channel; re-download and independently verify the served copy before advertising it. Historical mirrors are not a release gate.
+- Ship iOS builds separately through signed App Store Connect/TestFlight delivery; verify processing and tester availability before claiming installation or on-device acceptance. The Mac GitHub channel and its release trust requirements remain independent.

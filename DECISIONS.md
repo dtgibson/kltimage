@@ -139,3 +139,19 @@
 **Rationale:** The fresh GitHub download matched the approved archive byte-for-byte and passed the full independent release trust verifier with quarantine retained.
 
 **Implications:** Advertised release references use Build 8; rollback restores Build 7. Development and design review continue through verified HTTPS Tailscale links, independently of GitHub production publication.
+
+## Bring KLT Image to iPhone and iPad through a separate beta channel — 2026-10-01
+
+**Decision:** Add a native iOS/iPadOS 18-or-later app alongside the Mac app, sharing the scientific and portable-document contract while keeping platform workspaces and method stores separate. Use internal TestFlight for the first iOS distribution; retain GitHub Releases as the Mac production channel and reserve public App Store publication for a later decision.
+
+**Rationale:** Users need the established analysis, comparison, provenance, and saved-method workflow where photographs are captured or reviewed, without requiring a Mac transfer, account, or automatic sync.
+
+**Implications:** Cross-platform method exchange remains an explicit document action. TestFlight processing alone does not establish installation or on-device acceptance; the user and testers own that verification.
+
+## Set independent mobile image limits — 2026-10-01
+
+**Decision:** Bound iOS imports to 26,000,000 oriented pixels and 256 MiB of encoded source data, while retaining the Mac's 64,000,000-pixel limit; reject over-limit sources rather than silently reducing resolution.
+
+**Rationale:** A fixed mobile pixel ceiling bounds decoded working memory, and a counted encoded-byte ceiling bounds Files and Photos staging, independent of changing free-memory estimates.
+
+**Implications:** Some large encoded files below the pixel ceiling are deliberately rejected. Full-workflow memory safety at these limits remains unverified on the lowest-memory supported iPhone and iPad; if user/tester results show failure, lower and document a fixed limit before claiming mobile acceptance.

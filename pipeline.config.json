@@ -8,11 +8,11 @@
     "frontend": "SwiftUI",
     "componentLibrary": "Native SwiftUI controls",
     "nativeIntegration": "AppKit on macOS; UIKit and PhotosUI on iOS/iPadOS",
-    "testRunner": "XCTest via xcodebuild on macOS, iOS Simulator, and release devices",
+    "testRunner": "XCTest via xcodebuild on macOS and local iOS Simulator; user/tester TestFlight verification on physical devices",
     "cicd": "manual platform-specific signed releases and independent verification; macOS notarization and iOS TestFlight; no GitHub Actions workflow",
     "environments": {
       "dev": "local Xcode/source checkout and iOS Simulator",
-      "staging": "planned signed iOS TestFlight build through App Store Connect",
+      "staging": "processed iOS 1.0 (1) internal TestFlight build; internal group has no testers",
       "prod": "public GitHub Release for macOS"
     },
     "imageProcessing": [
@@ -23,7 +23,7 @@
     "ios": {
       "minimumOS": "iOS/iPadOS 18.0",
       "maximumOrientedPixels": 26000000,
-      "initialDistribution": "signed TestFlight build for verified testers"
+      "initialDistribution": "signed internal TestFlight build, pending tester assignment and on-device verification"
     },
     "backend": null,
     "database": null
@@ -66,5 +66,5 @@
     "rollback": "restore trusted Build 7 as the advertised GitHub release; the existing tailnet route and historical artifacts are outside the current release flow"
   },
   "createdAt": "2026-09-11T02:22:22Z",
-  "updatedAt": "2026-10-01T22:56:41Z"
+  "updatedAt": "2026-10-02T05:27:57Z"
 }

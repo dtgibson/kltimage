@@ -55,6 +55,8 @@ All neutrals are blue-green tinted. Avoid pure black, dead gray, and accent-colo
 
 Original, Side-by-Side, Slider, and Processed are presentation-only views over the same immutable source and current result; switching among them never recalculates or changes exported pixels. Side-by-Side panes and Slider layers share registered zoom, pan, and source coordinates, while labels name both the visible content and calculated/replayed state. Native controls on the fixed light toolbar explicitly use the matching light appearance, strong ink for unselected labels, and a visible cool-gray boundary so system dark mode cannot erase their resting state.
 
+On touch screens, keep the image as the primary canvas and map the source, result, and sample rectangle through one viewport transform. Use a compact context strip and sheets on iPhone; on wide iPad, keep active analysis beside the canvas. Give the slider reveal, sample edit, and canvas pan/zoom distinct gesture ownership, and provide visible Fit, zoom, and exact source-pixel controls alongside gestures.
+
 ### Primary Action
 
 Only the most important immediate action receives the filled accent style. In a loaded document this is Export Result; in the empty state it is Open Image.

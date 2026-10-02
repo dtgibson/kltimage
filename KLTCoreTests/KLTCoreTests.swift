@@ -431,12 +431,21 @@ final class ImagePipelineTests: XCTestCase {
     }
 
     func testDecodeRespectsOrientationAndConvertsToSRGB() throws {
-        let source = try fixtureData(width: 2, height: 3, type: .tiff, orientation: 6)
-        let decoded = try ImagePipeline.decode(source)
-
-        XCTAssertEqual(decoded.width, 3)
-        XCTAssertEqual(decoded.height, 2)
-        XCTAssertEqual(decoded.originalImage.colorSpace?.name, CGColorSpace.sRGB)
+        let original = fixtureImage(width: 2, height: 3, includesAlpha: false).pixels
+        // Source indices laid out row-major after each EXIF rotation/reflection.
+        let layouts = [[0, 1, 2, 3, 4, 5], [1, 0, 3, 2, 5, 4],
+                       [5, 4, 3, 2, 1, 0], [4, 5, 2, 3, 0, 1],
+                       [0, 2, 4, 1, 3, 5], [4, 2, 0, 5, 3, 1],
+                       [5, 3, 1, 4, 2, 0], [1, 3, 5, 0, 2, 4]]
+        for orientation in 1...8 {
+            let source = try fixtureData(width: 2, height: 3, type: .tiff, orientation: orientation)
+            let decoded = try ImagePipeline.decode(source)
+            XCTAssertEqual(decoded.width, orientation >= 5 ? 3 : 2)
+            XCTAssertEqual(decoded.height, orientation >= 5 ? 2 : 3)
+            XCTAssertEqual(decoded.originalImage.colorSpace?.name, CGColorSpace.sRGB)
+            let expected = Data(layouts[orientation - 1].flatMap { Array(original[($0 * 4)..<($0 * 4 + 4)]) })
+            XCTAssertEqual(rgbaData(in: decoded.originalImage), expected, "EXIF orientation \(orientation)")
+        }
     }
 
     func testCorruptInputProducesReadableError() {

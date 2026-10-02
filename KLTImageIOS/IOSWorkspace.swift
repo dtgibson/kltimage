@@ -324,7 +324,7 @@ final class IOSWorkspace {
     }
 
     func fit() { zoom = 1; pan = .zero }
-    func zoomIn() { zoom = min(4, zoom * 1.25) }
+    func zoomIn() { zoom = ImageZoom.clamped(zoom * 1.25, minimum: 1) }
     func zoomOut() { zoom = max(1, zoom / 1.25); if zoom == 1 { pan = .zero } }
 
     func setRegion(_ proposed: SourcePixelRegion) {

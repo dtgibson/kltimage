@@ -1,0 +1,1121 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project /tmp/klt-native-ui-qa/KLTImage.xcodeproj -scheme NativeZoomQA -configuration Debug -destination "platform=iOS Simulator,id=068373BA-E6B6-4640-B923-26B8BDB472DB" -derivedDataPath /tmp/klt-native-ui-qa/build -resultBundlePath /tmp/klt-native-ui-qa/run.xcresult test
+
+Writing result bundle at path:
+	/tmp/klt-native-ui-qa/run.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (3 targets)
+    Target 'NativeZoomQA' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTImageIOS' in project 'KLTImage'
+    Target 'KLTImageIOS' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTCoreIOS' in project 'KLTImage' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /tmp/klt-native-ui-qa/KLTImageIOS/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+Build description signature: a010e3f73df5ae915738e8a44417decb
+Build description path: /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/XCBuildData/a010e3f73df5ae915738e8a44417decb.xcbuilddata
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/ModuleCache.noindex
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/ModuleCache.noindex
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/CompilationCache.noindex
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/CompilationCache.noindex
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -o /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/Build/Products
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/Build/Products
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/PrecompiledHeaders
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/PrecompiledHeaders
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml
+
+CreateBuildDirectory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /tmp/klt-native-ui-qa/KLTImage.xcodeproj
+    builtin-create-build-directory /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/ProductTypeInfoPlistAdditions.plist (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/ProductTypeInfoPlistAdditions.plist
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/empty-NativeZoomQA.plist (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/empty-NativeZoomQA.plist
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftFileList (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.LinkFileList (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.LinkFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftConstValuesFileList (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_const_extract_protocols.json (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-OutputFileMap.json (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-OutputFileMap.json
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.hmap (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.DependencyStaticMetadataFileList (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.DependencyMetadataFileList (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.DependencyMetadataFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-project-headers.hmap (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-project-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-own-target-headers.hmap (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-own-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-generated-files.hmap (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-generated-files.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-all-target-headers.hmap (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-all-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-all-non-framework-target-headers.hmap (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources/Entitlements-Simulated.plist (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources/Entitlements-Simulated.plist
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS_const_extract_protocols.json (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-OutputFileMap.json (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-OutputFileMap.json
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftFileList (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftConstValuesFileList (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.LinkFileList (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.LinkFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.hmap (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.DependencyStaticMetadataFileList (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.DependencyMetadataFileList (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.DependencyMetadataFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-project-headers.hmap (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-project-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-own-target-headers.hmap (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-own-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-generated-files.hmap (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-generated-files.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-all-target-headers.hmap (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-all-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-all-non-framework-target-headers.hmap (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-DebugDylibPath-normal-arm64.txt (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-DebugDylibInstallName-normal-arm64.txt (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/Entitlements-Simulated.plist (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/Entitlements-Simulated.plist
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/module.modulemap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/module.modulemap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS_const_extract_protocols.json (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS-OutputFileMap.json (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS-OutputFileMap.json
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftFileList (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftConstValuesFileList (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.LinkFileList (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.LinkFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/7187679823f38a2a940e0043cdf9d637-common-args.resp (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/7187679823f38a2a940e0043cdf9d637-common-args.resp
+'-std=gnu11' -fmodules -gmodules '-fmodules-cache-path=/tmp/klt-native-ui-qa/build/ModuleCache.noindex' '-fmodule-name=KLTCore' -fpascal-strings -O0 -fno-common '-DDEBUG=1' -g -iquote /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-generated-files.hmap -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-own-target-headers.hmap -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-non-framework-target-headers.hmap -ivfsoverlay /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -iquote /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-project-headers.hmap -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources-normal/arm64 -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/arm64 -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources -F/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.hmap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.DependencyStaticMetadataFileList (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.DependencyMetadataFileList (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.DependencyMetadataFileList
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-project-headers.hmap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-project-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-own-target-headers.hmap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-own-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-generated-files.hmap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-generated-files.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-target-headers.hmap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-non-framework-target-headers.hmap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/KLTCore_vers.c (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    write-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/KLTCore_vers.c
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/module.modulemap /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/module.modulemap (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/module.modulemap /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Headers (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Headers
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework
+
+ProcessInfoPlistFile /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-infoPlistUtility /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist
+
+SwiftDriver KLTCoreIOS normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KLTCore -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_stdbool-9J1T8FQIFMIFYSFLJFIQR0YTQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/ptrcheck-AI90DCB2DVSJ0ABVPOJK96W6I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/ptrauth-6MVCVF0G8K2YZ6K3OPM0L1K7G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/SwiftShims-LQZKPF9AASVEQUXXEOHXAFJZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_float-6HD9502TTQQRBO9TZSOD6V91Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-70YBDQ0WTIB0RH9J1RDDEBRUQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_stdarg-3W6N2Z7CK61UVT4FU4PPPI7EC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_AvailabilityInternal-B5E8G9KQYPE9UWPYYASNN39H4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_stddef-D5AC9MLXMC1796N3YUH9OUPVZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_DarwinFoundation1-6LL7MLHO17VHA9GR88XOBKSYR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_limits-CPDNGWHNIPT5JEEKRDIOCGUVN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_DarwinFoundation2-D0GJGA45ENSWJDT1II3COBJ9N.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/sys_types-8QIRY2FFBHFXKOVLA398TLF2H.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/string_h-3BZZMW50V0EZK6DZXX5CN44HS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_stdint-2L0988FRILMC50F06KLP55Z1C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_DarwinFoundation3-1RXTI9JVDY81T0LOLRKT601Q8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_inttypes-6NIAZ2PX6IHRSVLHQI59W9F12.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Darwin-67EXITDUDF1J98DQ5UGOH3EJ9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/ObjectiveC-E7WJD7U2PEOWY5S5SE67EGH7I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/os_object-6HHNNXN31PFG8QBRSRAE2MZAT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/os_workgroup-6EP1NM8R2JGB7TST5B7O094ME.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Dispatch-878IY9BLR2H71DDNRYC5VXU8W.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreFoundation-5GWHG9GPHNV7W2415XLW3L9WK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/XPC-37I7X8EC0PO8A3BQYOZL72E8C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Security-AD02I9LZ00U0YP3TCBUWH4YYV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CFNetwork-E841ND9IPDBKLUAY0NUKN4VSZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreGraphics-6QMYY87R88DQVMZMZRPJU7DF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Foundation-CV2BCIB5UAELAOJ7BRL91ZKTU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/ImageIO-5EWC3P1XC4VGN5R5OQHMQIKLK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/IOSurface-BB75P1OZ6UMWSTG7HDF15UOLF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/LocalAuthentication-5240Q2FX78Q4W9ZS9Y70ANKBX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-224OHY7GSOE1ZFF6XDXW13I0Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/OpenGLES-IQXENZ7Q49D0CY4E74MQ6T26.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Metal-D42BAJSXYJ2CCBNDUL7UTQMKB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreVideo-8IF677RU9JNJ9GVZ0REX9VA65.pcm
+
+SwiftCompile normal arm64 Compiling\ AnalysisRecord.swift,\ AnalysisTypes.swift /tmp/klt-native-ui-qa/KLTCore/AnalysisRecord.swift /tmp/klt-native-ui-qa/KLTCore/AnalysisTypes.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/AnalysisRecord.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile AnalysisRecord.swift
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/AnalysisTypes.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile AnalysisTypes.swift
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ KLTCore (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+
+SwiftCompile normal arm64 Compiling\ MethodDocuments.swift /tmp/klt-native-ui-qa/KLTCore/MethodDocuments.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/MethodDocuments.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile MethodDocuments.swift
+
+SwiftCompile normal arm64 Compiling\ ImagePipeline.swift /tmp/klt-native-ui-qa/KLTCore/ImagePipeline.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/ImagePipeline.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile ImagePipeline.swift
+
+SwiftCompile normal arm64 Compiling\ DecorrelationStretch.swift /tmp/klt-native-ui-qa/KLTCore/DecorrelationStretch.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/DecorrelationStretch.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile DecorrelationStretch.swift
+
+SwiftCompile normal arm64 Compiling\ ExtendedAnalysisRecord.swift /tmp/klt-native-ui-qa/KLTCore/ExtendedAnalysisRecord.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/ExtendedAnalysisRecord.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile ExtendedAnalysisRecord.swift
+
+SwiftCompile normal arm64 Compiling\ TransformRecipe.swift /tmp/klt-native-ui-qa/KLTCore/TransformRecipe.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/TransformRecipe.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile TransformRecipe.swift
+
+SwiftCompile normal arm64 Compiling\ Matrix3x3.swift /tmp/klt-native-ui-qa/KLTCore/Matrix3x3.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/Matrix3x3.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile Matrix3x3.swift
+
+SwiftCompile normal arm64 Compiling\ WorkingSpace.swift /tmp/klt-native-ui-qa/KLTCore/WorkingSpace.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTCore/WorkingSpace.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile WorkingSpace.swift
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for KLTCore (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftDriver\ Compilation\ Requirements KLTCoreIOS normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KLTCore -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling Matrix3x3.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftMergeGeneratedHeaders /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Headers/KLTCore-Swift.h /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-Swift.h (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-swiftHeaderTool -arch arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-Swift.h -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Headers/KLTCore-Swift.h
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftmodule (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftmodule /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/arm64-apple-ios-simulator.swiftdoc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftdoc (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftdoc /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/arm64-apple-ios-simulator.abi.json /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.abi.json (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.abi.json /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftsourceinfo (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftsourceinfo /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Modules/KLTCore.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling DecorrelationStretch.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+ScanDependencies /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/KLTCore_vers.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Using response file: /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/7187679823f38a2a940e0043cdf9d637-common-args.resp
+    
+    builtin-ScanDependencies -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.o.scan -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -ivfsstatcache /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -target arm64-apple-ios18.0-simulator -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Werror\=return-type -Wdocumentation -Wunreachable-code -Wquoted-include-in-framework-header -Werror\=deprecated-objc-isa-usage -Werror\=objc-root-class -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -fstrict-aliasing -Wdeprecated-declarations -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wno-semicolon-before-method-body -Wunguarded-availability -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/7187679823f38a2a940e0043cdf9d637-common-args.resp -MMD -MT dependencies -MF /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.d --serialize-diagnostics /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.dia -c /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/KLTCore_vers.c -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.o -index-unit-output-path /KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.o
+
+ProcessProductPackaging "" /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "8QKC3L2FKP.com.kltimage.ios";
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent
+
+ProcessProductPackagingDER /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent.der (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /usr/bin/derq query -f xml -i /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent.der --raw
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/unthinned (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/unthinned
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned
+
+GenerateAssetSymbols /tmp/klt-native-ui-qa/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /tmp/klt-native-ui-qa/KLTImageIOS/Resources/Assets.xcassets --compile /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies --output-partial-info-plist /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 18.0 --platform iphonesimulator --bundle-identifier com.kltimage.ios --generate-swift-asset-symbol-extensions NO --generate-swift-asset-symbols /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols.h
+/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CompileC /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/KLTCore_vers.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Using response file: /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/7187679823f38a2a940e0043cdf9d637-common-args.resp
+    
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -ivfsstatcache /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -target arm64-apple-ios18.0-simulator -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Werror\=return-type -Wdocumentation -Wunreachable-code -Wquoted-include-in-framework-header -Werror\=deprecated-objc-isa-usage -Werror\=objc-root-class -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -fstrict-aliasing -Wdeprecated-declarations -Wno-sign-conversion -Winfinite-recursion -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wno-semicolon-before-method-body -Wunguarded-availability -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/7187679823f38a2a940e0043cdf9d637-common-args.resp -MMD -MT dependencies -MF /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.d --serialize-diagnostics /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.dia -c /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/KLTCore_vers.c -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.o -index-unit-output-path /KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_vers.o
+
+CompileAssetCatalogVariant thinned /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app /tmp/klt-native-ui-qa/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /tmp/klt-native-ui-qa/KLTImageIOS/Resources/Assets.xcassets --compile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --output-partial-info-plist /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPhone18,1 --filter-for-device-os-version 26.4.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 18.0 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned
+/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriverJobDiscovery normal arm64 Compiling AnalysisRecord.swift, AnalysisTypes.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling TransformRecipe.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftDriver KLTImageIOS normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KLTImageIOS -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling WorkingSpace.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ExtendedAnalysisRecord.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling MethodDocuments.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ImagePipeline.swift (in target 'KLTCoreIOS' from project 'KLTImage')
+
+SwiftDriver\ Compilation KLTCoreIOS normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KLTCore -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCoreIOS_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/KLTCore normal (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.0-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -filelist /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.LinkFileList -install_name @rpath/KLTCore.framework/KLTCore -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.swiftmodule -Xlinker -no_adhoc_codesign -compatibility_version 1 -current_version 1 -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/KLTCore
+
+ExtractAppIntentsMetadata (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name KLTCore --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk --xcode-version 27A266a --platform-family iOS --deployment-target 18.0 --bundle-identifier com.kltimage.ios.core --output /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework --target-triple arm64-apple-ios18.0-simulator --binary-file /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/KLTCore --dependency-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore_dependency_info.dat --stringsdata-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftFileList --metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.DependencyMetadataFileList --static-metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/Objects-normal/arm64/KLTCore.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-10-02 09:41:09.486 appintentsmetadataprocessor[23743:8583849] Starting appintentsmetadataprocessor export
+2026-10-02 09:41:09.494 appintentsmetadataprocessor[23743:8583849] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+AppIntentsSSUTraining (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist --temp-dir-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/ssu --bundle-id com.kltimage.ios.core --product-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework --extracted-metadata-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Metadata.appintents --metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/KLTCore.DependencyMetadataFileList --source-file /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist --archive-ssu-assets
+2026-10-02 09:41:09.529 appintentsnltrainingprocessor[23744:8583850] Parsing options for appintentsnltrainingprocessor
+2026-10-02 09:41:09.530 appintentsnltrainingprocessor[23744:8583850] Starting AppIntents SSU YAML Generation
+2026-10-02 09:41:09.532 appintentsnltrainingprocessor[23744:8583850] No AppShortcuts found - Skipping.
+
+GenerateTAPI /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator/KLTCore.framework/KLTCore.tbd (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/tapi stubify -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -F/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -L/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework/KLTCore -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator/KLTCore.framework/KLTCore.tbd
+
+CodeSign /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework
+
+RegisterExecutionPolicyException /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-RegisterExecutionPolicyException /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework
+
+Touch /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /usr/bin/touch -c /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework
+
+Ld /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib normal (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.0-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -install_name @rpath/KLT\ Image.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image_dependency_info.dat -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib
+
+CpResource /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/OFL-IBM-Plex-Sans.txt /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/OFL-IBM-Plex-Sans.txt (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/OFL-IBM-Plex-Sans.txt /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+CpResource /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/IBMPlexSans-Regular.ttf /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexSans-Regular.ttf (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexSans-Regular.ttf /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+CpResource /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/IBMPlexSans-Bold.ttf /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexSans-Bold.ttf (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexSans-Bold.ttf /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+CpResource /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/IBMPlexSans-SemiBold.ttf /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexSans-SemiBold.ttf (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexSans-SemiBold.ttf /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+CpResource /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/OFL-IBM-Plex-Mono.txt /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/OFL-IBM-Plex-Mono.txt (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/OFL-IBM-Plex-Mono.txt /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+CpResource /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/IBMPlexMono-SemiBold.ttf /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexMono-SemiBold.ttf (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexMono-SemiBold.ttf /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+CpResource /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/IBMPlexMono-Regular.ttf /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexMono-Regular.ttf (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /tmp/klt-native-ui-qa/KLTImage/Resources/Fonts/IBMPlexMono-Regular.ttf /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreAudioTypes-7QB85R2PY7ECUNCRU1G3TI1H8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreTransferable-7GEQRBC8I4D5VGVCWFSOLBJTD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Accessibility-DAG1Z29K48W4I3FHDZKTO5ZCW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/UserNotifications-7G4683T2XV5FNQ9G0SWG2R4K7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/FileProvider-BQVYN1IODD37AIVGLFQTAYG8P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_LocationEssentials-BO3AVNDA3WYF5O2IOLNEWQ3K1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreImage-9MB76V56ASKRLGWWI5ZTOBS5A.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/dnssd-6XYNBRCX9BDNOFGKRTQD84A7I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreData-C2PJPSS2EK6Y43A85KPASU00R.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreLocation-BICMDTND9M866A6ASXV7Z6YKE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/UIUtilities-GBXBGI93P7S0WIL9IRYEOOD2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_intrinsics-CNG5E5LTGK96B8PVSH76MUU20.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_tgmath-9IRGAXBFFT58CY4RG9QI2OIQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/MachO-EHGFU4FK3QUXNVKZZX5DU0WB7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/_Builtin_stdatomic-3OXVAWGUXMHRQMB9M1JFTRTHK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreMIDI-6511XGW40MADQVCNFSHNTB2FG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Network-L4MQRXMU3PRXVW5MOOXTDL73.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreAudio-F4AXX07ETQ1DTNZAX9URKLH0V.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreMotion-1BMRARON1BVXW7ONYWEM503H8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/DataDetection-BZ6U4N5MHHPY9KPQR9YZZ9DEW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CloudKit-7927J8D26HZSVUR1LCZS2FY5N.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreText-ADAZICKW40YZI5ACEMPVXMW6U.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/os-A1Q5RJXZFU8DT6KNRRVT2GYK5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/CoreMedia-6239K6WBEFZ74OET2WUBTFJ9X.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/AudioToolbox-35ID30LSAMIKAHK2VT4HVTGKA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/AVRouting-2CM5GTNZZMW7V79A9N6U84SV3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/ExtensionFoundation-40BFQJ53Q7OOUC7FHH05J4QZD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/QuartzCore-22GEDTHDW9PZ06AJ1AX0VKPWS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/OSLog-B1BVLO1GEB528I5P297GNA2OS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/DeveloperToolsSupport-2MKB62HZTZVZH7ES8BD767W6F.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Symbols-7BQJECKEN5KEJQEFW6E9WEIRS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/simd-EMGJ0ACPVQETYTXL6YBA6LR4I.pcm
+
+LinkAssetCatalog /tmp/klt-native-ui-qa/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-linkAssetCatalog --thinned /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --thinned-dependencies /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --unthinned /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/unthinned --unthinned-dependencies /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_unthinned --output /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app --plist-output /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist
+note: Emplaced /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon76x76@2x~ipad.png (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon60x60@2x.png (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT Image.app/Assets.car (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/SwiftUICore-2TIS5W9BQYNFNEQFZ6PO7OOZ0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/UIKit-53ENDD8YF7MJ2BF1KNEE7NYA8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/VideoToolbox-2UBGVABEB40UM87IVHUSF3AHW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/MediaToolbox-BZGGVVX39J4L6LXM6WVJ63SKW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/AVFAudio-4CTKMKAPIRUB0FLVF7N3QEFXP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/AVFoundation-7MXO22OUEGHEDXO9GM6AUEWR8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Spatial-UXW247K90XHMKSIE7XQXHOZA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/SwiftUI-D74IVRYSGNY881YCBX8Y7G9Z7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/Photos-4805J3B3N2ZWN9K6YHFU50L55.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules/PhotosUI-7SRXJJQVTKXCZC0I0IXNQOUHS.pcm
+
+SwiftCompile normal arm64 Compiling\ DesignSystem.swift,\ IOSDesign.swift /tmp/klt-native-ui-qa/KLTImage/DesignSystem.swift /tmp/klt-native-ui-qa/KLTImageIOS/IOSDesign.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImage/DesignSystem.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile DesignSystem.swift
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/IOSDesign.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile IOSDesign.swift
+
+SwiftCompile normal arm64 Compiling\ IOSImageSourceStaging.swift,\ IOSLibraryView.swift /tmp/klt-native-ui-qa/KLTImageIOS/IOSImageSourceStaging.swift /tmp/klt-native-ui-qa/KLTImageIOS/IOSLibraryView.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/IOSImageSourceStaging.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile IOSImageSourceStaging.swift
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/IOSLibraryView.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile IOSLibraryView.swift
+
+SwiftCompile normal arm64 Compiling\ IOSWorkspace.swift,\ KLTImageIOSApp.swift /tmp/klt-native-ui-qa/KLTImageIOS/IOSWorkspace.swift /tmp/klt-native-ui-qa/KLTImageIOS/KLTImageIOSApp.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/IOSWorkspace.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile IOSWorkspace.swift
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/KLTImageIOSApp.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile KLTImageIOSApp.swift
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ KLTImageIOS (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+
+SwiftCompile normal arm64 Compiling\ IOSMethodLibrary.swift,\ IOSRootView.swift /tmp/klt-native-ui-qa/KLTImageIOS/IOSMethodLibrary.swift /tmp/klt-native-ui-qa/KLTImageIOS/IOSRootView.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/IOSMethodLibrary.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile IOSMethodLibrary.swift
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/IOSRootView.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile IOSRootView.swift
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile GeneratedAssetSymbols.swift
+
+SwiftCompile normal arm64 Compiling\ RegisteredCanvas.swift /tmp/klt-native-ui-qa/KLTImageIOS/RegisteredCanvas.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/RegisteredCanvas.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile RegisteredCanvas.swift
+
+SwiftCompile normal arm64 Compiling\ MethodFileIO.swift /tmp/klt-native-ui-qa/KLTImage/MethodFileIO.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImage/MethodFileIO.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile MethodFileIO.swift
+
+SwiftCompile normal arm64 Compiling\ PhotosSourcePicker.swift /tmp/klt-native-ui-qa/KLTImageIOS/PhotosSourcePicker.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/KLTImageIOS/PhotosSourcePicker.swift (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile PhotosSourcePicker.swift
+
+SwiftDriverJobDiscovery normal arm64 Compiling GeneratedAssetSymbols.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling MethodFileIO.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for KLTImageIOS (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftDriver\ Compilation\ Requirements KLTImageIOS normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KLTImageIOS -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/KLTImageIOS-Swift.h /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-Swift.h (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-swiftHeaderTool -arch arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-Swift.h -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/KLTImageIOS-Swift.h
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/arm64-apple-ios-simulator.swiftmodule /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftmodule (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftmodule /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/arm64-apple-ios-simulator.swiftdoc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftdoc (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftdoc /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/arm64-apple-ios-simulator.abi.json /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.abi.json (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.abi.json /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftsourceinfo (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftsourceinfo /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTImageIOS.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+ProcessProductPackaging "" /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "8QKC3L2FKP.com.kltimage.native-zoom-qa.xctrunner";
+    "keychain-access-groups" =     (
+        "8QKC3L2FKP.com.kltimage.native-zoom-qa.xctrunner"
+    );
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent
+
+ProcessProductPackagingDER /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent.der (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /usr/bin/derq query -f xml -i /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent.der --raw
+
+SwiftDriver NativeZoomQA normal arm64 com.apple.xcode.tools.swift.compiler (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name NativeZoomQA -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-B7HX5DZVSTT6CYFESW1QZ9YVK.pcm
+
+SwiftExplicitDependencyCompileModuleFromInterface arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-29A5H8QOX7A4Z.swiftmodule
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-988YG2IVD06U94FLJR9QSRSZM.pcm
+
+SwiftDriverJobDiscovery normal arm64 Compiling DesignSystem.swift, IOSDesign.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftExplicitDependencyCompileModuleFromInterface arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-V9HI0DJISISL.swiftmodule
+
+SwiftDriverJobDiscovery normal arm64 Compiling IOSImageSourceStaging.swift, IOSLibraryView.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling PhotosSourcePicker.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling IOSWorkspace.swift, KLTImageIOSApp.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftDriverJobDiscovery normal arm64 Compiling RegisteredCanvas.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ NativeZoomQA (in target 'NativeZoomQA' from project 'KLTImage')
+
+SwiftCompile normal arm64 (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+
+SwiftCompile normal arm64 Compiling\ NativeZoomQA.swift /tmp/klt-native-ui-qa/Tests/NativeZoomQA.swift (in target 'NativeZoomQA' from project 'KLTImage')
+
+SwiftCompile normal arm64 /tmp/klt-native-ui-qa/Tests/NativeZoomQA.swift (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-SwiftPerFileCompile NativeZoomQA.swift
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for NativeZoomQA (in target 'NativeZoomQA' from project 'KLTImage')
+
+SwiftDriver\ Compilation\ Requirements NativeZoomQA normal arm64 com.apple.xcode.tools.swift.compiler (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name NativeZoomQA -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources/NativeZoomQA-Swift.h /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-Swift.h (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-swiftHeaderTool -arch arm64 /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-Swift.h -o /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources/NativeZoomQA-Swift.h
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/arm64-apple-ios-simulator.swiftmodule /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftmodule (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftmodule /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/arm64-apple-ios-simulator.swiftdoc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftdoc (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftdoc /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/arm64-apple-ios-simulator.abi.json /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.abi.json (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.abi.json /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftsourceinfo (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftsourceinfo /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling NativeZoomQA.swift (in target 'NativeZoomQA' from project 'KLTImage')
+
+SwiftDriver\ Compilation NativeZoomQA normal arm64 com.apple.xcode.tools.swift.compiler (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name NativeZoomQA -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling IOSMethodLibrary.swift, IOSRootView.swift (in target 'KLTImageIOS' from project 'KLTImage')
+
+SwiftDriver\ Compilation KLTImageIOS normal arm64 com.apple.xcode.tools.swift.compiler (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name KLTImageIOS -Onone @/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/klt-native-ui-qa/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/klt-native-ui-qa/build/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache -output-file-map /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/klt-native-ui-qa/build/ModuleCache.noindex -sdk-module-cache-path /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/klt-native-ui-qa/build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-generated-files.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-own-target-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImage-50bd2480daeb457905f9a66d948a0a79-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-project-headers.hmap -Xcc -I/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources-normal/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources/arm64 -Xcc -I/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS-Swift.h -working-directory /tmp/klt-native-ui-qa -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib normal (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.0-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -filelist /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.LinkFileList -install_name @rpath/KLT\ Image.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLTImageIOS.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -framework KLTCore -Xlinker -no_adhoc_codesign -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib
+
+ConstructStubExecutorLinkFileList /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-ExecutorLinkFileList-normal-arm64.txt (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    construct-stub-executor-link-file-list /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'KLTImageIOS' from project 'KLTImage')
+
+Ld /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image normal (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.0-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -F/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image-ExecutorLinkFileList-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.app-Simulated.xcent.der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib -Xlinker -no_adhoc_codesign -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks
+
+ProcessInfoPlistFile /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist /tmp/klt-native-ui-qa/KLTImageIOS/Info.plist (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-infoPlistUtility /tmp/klt-native-ui-qa/KLTImageIOS/Info.plist -producttype com.apple.product-type.application -genpkginfo /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist -scanforprivacyfile /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist
+
+CodeSign /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework
+/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT Image.app/Frameworks/KLTCore.framework: replacing existing signature
+
+CopySwiftLibs /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/SystemExtensions --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Extensions --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name KLTImageIOS --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk --xcode-version 27A266a --platform-family iOS --deployment-target 18.0 --bundle-identifier com.kltimage.ios --output /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app --target-triple arm64-apple-ios18.0-simulator --binary-file /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image --dependency-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image_dependency_info.dat --stringsdata-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftFileList --metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.DependencyMetadataFileList --static-metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/Objects-normal/arm64/KLT\ Image.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-10-02 09:41:14.628 appintentsmetadataprocessor[23890:8584405] Starting appintentsmetadataprocessor export
+2026-10-02 09:41:14.629 appintentsmetadataprocessor[23890:8584405] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+AppIntentsSSUTraining (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist --temp-dir-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/ssu --bundle-id com.kltimage.ios --product-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app --extracted-metadata-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Metadata.appintents --metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/KLT\ Image.DependencyMetadataFileList --source-file /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist --archive-ssu-assets
+2026-10-02 09:41:14.655 appintentsnltrainingprocessor[23891:8584406] Parsing options for appintentsnltrainingprocessor
+2026-10-02 09:41:14.656 appintentsnltrainingprocessor[23891:8584406] Starting AppIntents SSU YAML Generation
+2026-10-02 09:41:14.656 appintentsnltrainingprocessor[23891:8584406] No AppShortcuts found - Skipping.
+
+CodeSign /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib
+
+CodeSign /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib
+
+CodeSign /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+RegisterExecutionPolicyException /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-RegisterExecutionPolicyException /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+Validate /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-validationUtility /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /usr/bin/touch -c /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+
+ProcessInfoPlistFile /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Info.plist /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/empty-NativeZoomQA.plist (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-infoPlistUtility /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/empty-NativeZoomQA.plist -producttype com.apple.product-type.bundle.ui-testing -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/ProductTypeInfoPlistAdditions.plist -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Info.plist
+
+Ld /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/NativeZoomQA normal (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.0-simulator -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F/tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk/Developer/Library/Frameworks -filelist /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.LinkFileList -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.xctest-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/NativeZoomQA
+
+CopySwiftLibs /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/NativeZoomQA --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Frameworks --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/PlugIns --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/SystemExtensions --scan-folder /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name NativeZoomQA --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk --xcode-version 27A266a --platform-family iOS --deployment-target 18.0 --bundle-identifier com.kltimage.native-zoom-qa --output /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest --target-triple arm64-apple-ios18.0-simulator --binary-file /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/NativeZoomQA --dependency-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA_dependency_info.dat --stringsdata-file /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftFileList --metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.DependencyMetadataFileList --static-metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/Objects-normal/arm64/NativeZoomQA.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-10-02 09:41:14.919 appintentsmetadataprocessor[23908:8584455] Starting appintentsmetadataprocessor export
+2026-10-02 09:41:14.920 appintentsmetadataprocessor[23908:8584455] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+AppIntentsSSUTraining (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Info.plist --temp-dir-path /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/ssu --bundle-id com.kltimage.native-zoom-qa --product-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest --extracted-metadata-path /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Metadata.appintents --metadata-file-list /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/NativeZoomQA.build/NativeZoomQA.DependencyMetadataFileList --source-file /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Info.plist --archive-ssu-assets
+2026-10-02 09:41:14.947 appintentsnltrainingprocessor[23910:8584459] Parsing options for appintentsnltrainingprocessor
+2026-10-02 09:41:14.948 appintentsnltrainingprocessor[23910:8584459] Starting AppIntents SSU YAML Generation
+2026-10-02 09:41:14.948 appintentsnltrainingprocessor[23910:8584459] No AppShortcuts found - Skipping.
+
+MkDir /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /bin/mkdir -p /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app
+
+CopyAndPreserveArchs /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/NativeZoomQA-Runner (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/XCTRunner -output /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/NativeZoomQA-Runner -extract arm64
+
+Copy /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PkgInfo /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app
+
+CopyPlistFile /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/Info.plist /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-copyPlist --validate --convert xml1 --macro-expansion WRAPPEDPRODUCTNAME NativeZoomQA-Runner --macro-expansion WRAPPEDPRODUCTBUNDLEIDENTIFIER com.kltimage.native-zoom-qa.xctrunner --macro-expansion TESTPRODUCTNAME NativeZoomQA --macro-expansion TESTPRODUCTBUNDLEIDENTIFIER com.kltimage.native-zoom-qa --copy-value UIDeviceFamily /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest/Info.plist --outdir /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app -- /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist
+
+CodeSign /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest
+
+CodeSign /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app
+/tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app: replacing existing signature
+
+RegisterExecutionPolicyException /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    builtin-RegisterExecutionPolicyException /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest
+
+Touch /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest (in target 'NativeZoomQA' from project 'KLTImage')
+    cd /tmp/klt-native-ui-qa
+    /usr/bin/touch -c /tmp/klt-native-ui-qa/build/Build/Products/Debug-iphonesimulator/NativeZoomQA-Runner.app/PlugIns/NativeZoomQA.xctest
+
+PruneExplicitPrecompiledModules /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-native-ui-qa/build/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-native-ui-qa/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+2026-10-02 09:41:16.943442-0700 NativeZoomQA-Runner[23986:8584886] [Default] Running tests...
+objc[23986]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23E254a/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.4.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x10a3d4310) and /Library/Developer/CoreSimulator/Volumes/iOS_23E254a/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.4.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x10b154398). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'All tests' started at 2026-10-02 09:41:19.095.
+Test Suite 'NativeZoomQA.xctest' started at 2026-10-02 09:41:19.095.
+Test Suite 'NativeZoomQA' started at 2026-10-02 09:41:19.096.
+Test Case '-[NativeZoomQA.NativeZoomQA testNativeButtonsPinchAndFit]' started.
+    t =     0.00s Start Test at 2026-10-02 09:41:19.096
+    t =     0.15s Set Up
+    t =     0.15s Open com.kltimage.ios
+    t =     0.15s     Launch com.kltimage.ios
+    t =     0.15s         Terminate com.kltimage.ios:14057
+2026-10-02 09:41:20.510 xcodebuild[23410:8582814] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-02 09:41:20.510 xcodebuild[23410:8582814] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     2.04s         Setting up automation session
+    t =     2.88s         Wait for com.kltimage.ios to idle
+    t =     4.38s Waiting 10.0s for "Open image" Button to exist
+    t =     5.42s     Checking `Expect predicate `existsNoRetry == 1` for object "Open image" Button`
+    t =     5.42s         Checking existence of `"Open image" Button`
+    t =     5.51s Tap "Open image" Button
+    t =     5.51s     Wait for com.kltimage.ios to idle
+    t =     5.52s     Find the "Open image" Button
+    t =     5.55s Requesting snapshot of accessibility hierarchy for app with pid 24259
+/tmp/klt-native-ui-qa/Tests/NativeZoomQA.swift:9: error: -[NativeZoomQA.NativeZoomQA testNativeButtonsPinchAndFit] : Failed to tap "Open image" Button: Find single matching element. Multiple matching elements found for <XCUIElementQuery: 0x10a6d6760>.
+Sparse tree of matches:
+→Application, pid: 24259, label: 'KLT Image'
+  ↳Window (Main)
+    ↳Other
+      ↳Other
+        ↳Other
+          ↳Other
+            ↳Other
+              ↳Other
+                ↳Other
+                  ↳Other
+                    ↳Other
+                      ↳Other
+                        ↳Other
+                          ↳NavigationBar, identifier: 'KLT Image'
+                          ⋅ ↳Button, label: 'Open image'
+                          ↳Other
+                            ↳Other
+                              ↳Other
+                                ↳Other
+                                  ↳Button, label: 'Open image'
+    t =     5.87s Tear Down
+Test Case '-[NativeZoomQA.NativeZoomQA testNativeButtonsPinchAndFit]' failed (6.110 seconds).
+Test Suite 'NativeZoomQA' failed at 2026-10-02 09:41:25.206.
+	 Executed 1 test, with 1 failure (0 unexpected) in 6.110 (6.111) seconds
+Test Suite 'NativeZoomQA.xctest' failed at 2026-10-02 09:41:25.207.
+	 Executed 1 test, with 1 failure (0 unexpected) in 6.110 (6.111) seconds
+Test Suite 'All tests' failed at 2026-10-02 09:41:25.207.
+	 Executed 1 test, with 1 failure (0 unexpected) in 6.110 (6.112) seconds
+2026-10-02 09:41:25.511 xcodebuild[23410:8582951]  IDETestOperationsObserverDebug: Failure collecting diagnostics from simulator: Process exited with error 72:
+ xcrun: error: unable to find utility "simctl", not a developer tool or in PATH
+
+2026-10-02 09:41:25.515 xcodebuild[23410:8582814] [MT] IDETestOperationsObserverDebug: 10.513 elapsed -- Testing started completed.
+2026-10-02 09:41:25.515 xcodebuild[23410:8582814] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-02 09:41:25.515 xcodebuild[23410:8582814] [MT] IDETestOperationsObserverDebug: 10.513 sec, +10.513 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/klt-native-ui-qa/run.xcresult
+
+Failing tests:
+	NativeZoomQA.testNativeButtonsPinchAndFit()
+
+** TEST FAILED **
+
+Testing started

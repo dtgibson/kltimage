@@ -1,0 +1,15 @@
+TIER 1
+TIERNAME Thread check
+CLASSES logic
+TRIGGERS -
+BASE 1e70866f42c87a952788ab6290201f48c2bc3305
+FILES 9
+FILE logic KLTCore/AnalysisTypes.swift
+FILE logic KLTCoreTests/AnalysisControlsTests.swift
+FILE logic KLTCoreTests/KLTCoreTests.swift
+FILE logic KLTImage/ComparisonCanvas.swift
+FILE logic KLTImage/WorkspaceModel.swift
+FILE logic KLTImageIOS/IOSWorkspace.swift
+FILE logic KLTImageIOS/RegisteredCanvas.swift
+FILE logic KLTImageIOSTests/KLTImageIOSTests.swift
+FILE logic KLTImageTests/ComparisonCanvasInteractionTests.swift

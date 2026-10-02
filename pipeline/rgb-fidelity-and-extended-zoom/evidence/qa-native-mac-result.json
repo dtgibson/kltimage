@@ -1,0 +1,51 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "00006000-000C09243C38801E",
+        "deviceName" : "My Mac",
+        "modelName" : "MacBook Pro",
+        "osBuildNumber" : "26A434",
+        "osVersion" : "27.0.1",
+        "platform" : "macOS"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 1,
+      "passedTests" : 0,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "KLTImage · Built with macOS 27.0.1",
+  "expectedFailures" : 0,
+  "failedTests" : 1,
+  "finishTime" : 1790959047.015,
+  "passedTests" : 0,
+  "result" : "Failed",
+  "runtimeWarnings" : [
+
+  ],
+  "skippedTests" : 0,
+  "startTime" : 1790958979.647,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "The test runner failed to initialize for UI testing. (Underlying Error: Timed out while enabling automation mode.)",
+      "targetName" : "KLTImageUITests",
+      "testIdentifier" : 1,
+      "testIdentifierString" : "KLTImageUITests-Runner (14195) encountered an error",
+      "testName" : "KLTImageUITests-Runner (14195) encountered an error"
+    }
+  ],
+  "title" : "Test - KLTImage",
+  "topInsights" : [
+
+  ],
+  "totalTestCount" : 1
+}

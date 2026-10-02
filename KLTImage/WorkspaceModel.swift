@@ -638,7 +638,7 @@ final class WorkspaceModel {
         }
     }
 
-    func zoomIn() { zoom = min(8, zoom * 1.25) }
+    func zoomIn() { zoom = ImageZoom.clamped(zoom * 1.25, minimum: 0.25) }
     func zoomOut() { zoom = max(0.25, zoom / 1.25) }
     func resetView() {
         zoom = 1

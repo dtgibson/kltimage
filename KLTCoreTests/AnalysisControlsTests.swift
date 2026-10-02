@@ -119,7 +119,7 @@ final class AnalysisControlsTests: XCTestCase {
             let transform = ImageViewportTransform(
                 sourceSize: CGSize(width: 1200, height: 800),
                 paneSize: paneSize,
-                zoom: 1.75,
+                zoom: ImageZoom.maximum,
                 pan: CGSize(width: -43, height: 27)
             )
             let viewRect = transform.sourceToView(region)
@@ -128,6 +128,15 @@ final class AnalysisControlsTests: XCTestCase {
                 to: CGPoint(x: viewRect.maxX, y: viewRect.maxY)
             )
             XCTAssertEqual(reconstructed, region)
+        }
+    }
+
+    func testPinchClampRetainsPlatformFloorsAndAllowsZoomingOutFromCeiling() {
+        for minimum in [0.25, 1.0] {
+            XCTAssertEqual(ImageZoom.clamped(9 * 2, minimum: minimum), 10)
+            XCTAssertEqual(ImageZoom.clamped(10 * 1.2, minimum: minimum), 10)
+            XCTAssertEqual(ImageZoom.clamped(10 * 0.8, minimum: minimum), 8)
+            XCTAssertEqual(ImageZoom.clamped(0.01, minimum: minimum), minimum)
         }
     }
 
@@ -171,9 +180,112 @@ final class AnalysisControlsTests: XCTestCase {
                     XCTAssertEqual(first.image.height, source.height)
                     XCTAssertEqual(rgbaData(in: first.image), rgbaData(in: second.image))
                     XCTAssertEqual(alphaBytes(in: first.image), sourceAlpha)
+                    let reference = try scalarReference(rgbaData(in: source.originalImage), analysis: first.analysis,
+                                                        colorSpace: colorSpace)
+                    XCTAssertLessThanOrEqual(zip(rgbaData(in: first.image), reference)
+                        .map { abs(Int($0) - Int($1)) }.max()!, 1)
                 }
             }
         }
+    }
+
+    func testFineDetailSurvivesDecodeMappingAndLosslessExport() throws {
+        // Odd dimensions and one-pixel changes expose spatial subsampling or block replication.
+        let fixture = try decodedFixture(width: 257, height: 193, includesAlpha: false) { x, y in
+            (UInt8(100 + (x * 7 + y * 3) % 41),
+             UInt8(105 + (x * 3 + y * 11) % 37),
+             UInt8(110 + (x * 13 + y * 5) % 43), 255)
+        }
+        let original = rgbaData(in: fixture.originalImage)
+        for format in ImageExportFormat.allCases {
+            let encoded = try ImagePipeline.encodedData(for: fixture.originalImage, format: format)
+            let source = try ImagePipeline.decode(encoded)
+            let sourceBytes = rgbaData(in: source.originalImage)
+            XCTAssertEqual(source.width, 257)
+            XCTAssertEqual(source.height, 193)
+            if format == .jpeg {
+                XCTAssertNotEqual(sourceBytes, original, "The compressed control must actually alter pixels")
+            } else {
+                XCTAssertEqual(sourceBytes, original, "Lossless decode must retain every fine-detail pixel")
+            }
+            for colorSpace in AnalysisColorSpace.allCases {
+                for matrixMode in AnalysisMatrixMode.allCases {
+                    let input = AnalysisInput(method: AnalysisMethod(colorSpace: colorSpace, matrixMode: matrixMode),
+                                              sampleSource: .wholeImage, region: nil)
+                    let result = try ImagePipeline.enhance(source, input: input)
+                    let actual = rgbaData(in: result.image)
+                    XCTAssertEqual(result.image.width, source.width)
+                    XCTAssertEqual(result.image.height, source.height)
+                    XCTAssertFalse(result.analysis.isDegenerate)
+                    let reference = try scalarReference(sourceBytes, analysis: result.analysis, colorSpace: colorSpace)
+                    let maxError = zip(actual, reference).map { abs(Int($0) - Int($1)) }.max()!
+                    XCTAssertLessThanOrEqual(maxError, 1, "Every mapped pixel, including detail boundaries, must match the scalar reference")
+                    XCTAssertEqual(actual, rgbaData(in: try ImagePipeline.enhance(source, input: input).image))
+                    XCTAssertEqual(rgbaData(in: source.originalImage), sourceBytes)
+                    for export in ImageExportFormat.allCases {
+                        let roundTrip = try ImagePipeline.decode(ImagePipeline.encodedData(for: result.image, format: export))
+                        XCTAssertEqual(roundTrip.width, source.width)
+                        XCTAssertEqual(roundTrip.height, source.height)
+                        let exported = rgbaData(in: roundTrip.originalImage)
+                        if export == .jpeg {
+                            // JPEG is lossy; use mean component error, not false exact-pixel promises.
+                            XCTAssertLessThan(meanRGBError(actual, exported), 60)
+                        } else {
+                            XCTAssertEqual(exported, actual)
+                        }
+                    }
+                    if format == .jpeg {
+                        let lossless = try ImagePipeline.enhance(fixture, input: input)
+                        print("Fine-detail JPEG control \(colorSpace)/\(matrixMode): source mean RGB error \(meanRGBError(original, sourceBytes)); result mean RGB error \(meanRGBError(rgbaData(in: lossless.image), actual)); scalar max error \(maxError)")
+                    }
+                }
+            }
+        }
+    }
+
+    // Apply the recorded center/matrix/range with scalar loops, independently of
+    // StretchPlan and the render/replay loops. Lab conversion has separate published-reference tests.
+    private func scalarReference(_ source: Data, analysis: StretchAnalysis,
+                                 colorSpace: AnalysisColorSpace) throws -> Data {
+        let bytes = [UInt8](source)
+        var output = bytes
+        for offset in stride(from: 0, to: bytes.count, by: 4) {
+            let alpha = Double(bytes[offset + 3])
+            let rgb = (0..<3).map { alpha == 0 ? 0 : min(1, Double(bytes[offset + $0]) / alpha) }
+            let color: [Double]
+            if colorSpace == .lab {
+                let lab = try CIELabD65.fromSRGB(SIMD3(rgb[0], rgb[1], rgb[2]))
+                color = [lab.x, lab.y, lab.z]
+            } else { color = rgb }
+            let center = [analysis.mean.x, analysis.mean.y, analysis.mean.z]
+            var transformed = [Double](repeating: 0, count: 3)
+            for row in 0..<3 {
+                var sum = 0.0
+                for column in 0..<3 {
+                    sum += analysis.transform[row, column] * (color[column] - center[column])
+                }
+                transformed[row] = center[row] + sum
+            }
+            let mapped: [Double]
+            switch analysis.outputMapping {
+            case let .rgbGlobalRange(minimum, _, scale):
+                mapped = transformed.map { ($0 - minimum) * scale }
+            case .labD65ToSRGB:
+                let rgb = try CIELabD65.toClippedSRGB(SIMD3(transformed[0], transformed[1], transformed[2]))
+                mapped = [rgb.x, rgb.y, rgb.z]
+            case .limitedVariationIdentity:
+                mapped = rgb
+            }
+            for channel in 0..<3 {
+                output[offset + channel] = UInt8((min(1, max(0, mapped[channel])) * alpha).rounded())
+            }
+        }
+        return Data(output)
+    }
+
+    private func meanRGBError(_ lhs: Data, _ rhs: Data) -> Double {
+        let pairs = zip(lhs, rhs).enumerated().filter { $0.offset % 4 != 3 }
+        return pairs.reduce(0.0) { $0 + Double(abs(Int($1.element.0) - Int($1.element.1))) } / Double(pairs.count)
     }
 
     func testCorrelationMatrixUsesUnitDiagonalAndExcludesFlatVariable() throws {

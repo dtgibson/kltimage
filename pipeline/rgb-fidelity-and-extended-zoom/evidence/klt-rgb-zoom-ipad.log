@@ -1,0 +1,224 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project KLTImage.xcodeproj -scheme KLTImageIOS -configuration Debug -destination "platform=iOS Simulator,id=7816C5F3-F485-40BB-A6C6-C86BE97B3287" -derivedDataPath /tmp/klt-rgb-zoom-ios "-only-testing:KLTImageIOSTests"
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (4 targets)
+    Target 'KLTImageIOSTests' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTImageIOS' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTImageIOS' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTCoreIOSTests' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTCoreIOS' in project 'KLTImage' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 52b31c603160cf445329a9b851a5cce9
+Build description path: /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/XCBuildData/52b31c603160cf445329a9b851a5cce9.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk /tmp/klt-rgb-zoom-ios/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+    cd /Users/developer/devwork/kltimage/KLTImage.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -o /tmp/klt-rgb-zoom-ios/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+
+ProcessInfoPlistFile /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist
+
+Copy /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework: replacing existing signature
+
+CompileAssetCatalogVariant thinned /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets --compile /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --output-partial-info-plist /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPad17,4-A --filter-for-device-os-version 26.4.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 18.0 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned
+/tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/Assets.car
+
+
+LinkAssetCatalog /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-linkAssetCatalog --thinned /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --thinned-dependencies /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --unthinned /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/unthinned --unthinned-dependencies /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_unthinned --output /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app --plist-output /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist
+note: Emplaced /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/Assets.car (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon60x60@2x.png (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon76x76@2x~ipad.png (in target 'KLTImageIOS' from project 'KLTImage')
+
+Copy /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/Frameworks/KLTCore.framework: replacing existing signature
+
+ProcessInfoPlistFile /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist /Users/developer/devwork/kltimage/KLTImageIOS/Info.plist (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /Users/developer/devwork/kltimage/KLTImageIOS/Info.plist -producttype com.apple.product-type.application -genpkginfo /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist -scanforprivacyfile /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework -o /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist
+
+CopySwiftLibs /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/SystemExtensions --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Extensions --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+Copy /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework: replacing existing signature
+
+ProcessInfoPlistFile /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Info.plist /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/empty-KLTImageIOSTests.plist (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/empty-KLTImageIOSTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Info.plist
+
+ProcessInfoPlistFile /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Info.plist /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/empty-KLTCoreIOSTests.plist (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/empty-KLTCoreIOSTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Info.plist
+
+CopySwiftLibs /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/KLTCoreIOSTests --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/PlugIns --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/SystemExtensions --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Extensions --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+CopySwiftLibs /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/KLTImageIOSTests --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/PlugIns --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/SystemExtensions --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Extensions --scan-folder /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/PlugIns/KLTImageIOSTests.xctest: replacing existing signature
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest: replacing existing signature
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/KLT Image.debug.dylib: replacing existing signature
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/__preview.dylib: replacing existing signature
+
+CodeSign /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+/tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT Image.app: replacing existing signature
+
+Validate /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-validationUtility /tmp/klt-rgb-zoom-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app -shallow-bundle -infoplist-subpath Info.plist
+
+PruneExplicitPrecompiledModules /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-rgb-zoom-ios/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-rgb-zoom-ios/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+2026-10-02 09:27:44.354230-0700 KLT Image[2678:8493062] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/2D87CD6F-90E4-43A8-8118-EA7B324AF9FD/KLT%20Image.app/IBMPlexMono-Regular.ttf"
+2026-10-02 09:27:44.357840-0700 KLT Image[2678:8493062] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/2D87CD6F-90E4-43A8-8118-EA7B324AF9FD/KLT%20Image.app/IBMPlexSans-SemiBold.ttf"
+2026-10-02 09:27:44.358416-0700 KLT Image[2678:8493062] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/2D87CD6F-90E4-43A8-8118-EA7B324AF9FD/KLT%20Image.app/IBMPlexMono-SemiBold.ttf"
+2026-10-02 09:27:44.358767-0700 KLT Image[2678:8493062] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/2D87CD6F-90E4-43A8-8118-EA7B324AF9FD/KLT%20Image.app/IBMPlexSans-Regular.ttf"
+2026-10-02 09:27:44.359100-0700 KLT Image[2678:8493062] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/2D87CD6F-90E4-43A8-8118-EA7B324AF9FD/KLT%20Image.app/IBMPlexSans-Bold.ttf"
+2026-10-02 09:27:44.684147-0700 KLT Image[2678:8493205] [General] Failed to send CA Event for app launch measurements for ca_event_type: 0 event_name: com.apple.app_launch_measurement.FirstFramePresentationMetric
+2026-10-02 09:27:44.759620-0700 KLT Image[2678:8493205] [General] Failed to send CA Event for app launch measurements for ca_event_type: 1 event_name: com.apple.app_launch_measurement.ExtendedLaunchMetrics
+Test Suite 'All tests' started at 2026-10-02 09:27:45.072.
+Test Suite 'KLTImageIOSTests.xctest' started at 2026-10-02 09:27:45.072.
+Test Suite 'KLTImageIOSTests' started at 2026-10-02 09:27:45.072.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testCorruptIOSStoreIsNotReplaced]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testCorruptIOSStoreIsNotReplaced]' passed (0.006 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testEncodedSourceBoundRejectsStaticAndGrowingProvider]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testEncodedSourceBoundRejectsStaticAndGrowingProvider]' passed (0.003 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testFirstMutationWritesCanonicalStore]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testFirstMutationWritesCanonicalStore]' passed (0.003 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testImportReplaceCannotDeleteASecondSpaceWithTheIncomingName]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testImportReplaceCannotDeleteASecondSpaceWithTheIncomingName]' passed (0.002 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testLaunchRecoveryRemovesOnlyOwnedSourceFiles]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testLaunchRecoveryRemovesOnlyOwnedSourceFiles]' passed (0.002 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testMutationBeforeLoadDoesNotOverwriteCorruptStore]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testMutationBeforeLoadDoesNotOverwriteCorruptStore]' passed (0.002 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testPartialStageIsRemovedOnErrorAndCancellation]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testPartialStageIsRemovedOnErrorAndCancellation]' passed (0.012 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testRegisteredViewportPreservesSourceCoordinatesUnderZoomAndPan]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testRegisteredViewportPreservesSourceCoordinatesUnderZoomAndPan]' passed (0.001 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testWorkspaceAcceptsOneMatchingResultAndExportsItsRecord]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testWorkspaceAcceptsOneMatchingResultAndExportsItsRecord]' passed (0.145 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testZoomButtonsReachTenTimesFitAndReset]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testZoomButtonsReachTenTimesFitAndReset]' passed (0.001 seconds).
+Test Suite 'KLTImageIOSTests' passed at 2026-10-02 09:27:45.251.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.175 (0.179) seconds
+Test Suite 'KLTImageIOSTests.xctest' passed at 2026-10-02 09:27:45.251.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.175 (0.179) seconds
+Test Suite 'All tests' passed at 2026-10-02 09:27:45.251.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.175 (0.180) seconds
+2026-10-02 09:27:45.804 xcodebuild[2377:8490727] [MT] IDETestOperationsObserverDebug: 18.037 elapsed -- Testing started completed.
+2026-10-02 09:27:45.814 xcodebuild[2377:8490727] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-02 09:27:45.814 xcodebuild[2377:8490727] [MT] IDETestOperationsObserverDebug: 18.037 sec, +18.037 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/klt-rgb-zoom-ios/Logs/Test/Test-KLTImageIOS-2026.10.02_09-27-26--0700.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

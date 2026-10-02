@@ -349,7 +349,7 @@ struct RegisteredCanvas: View {
         guard workspace.source != nil, owner == .none || owner == .canvas else { return }
         guard phase == .changed else { return }
         let (viewport, local) = paneContext(location, size: size)
-        let newZoom = min(4, max(1, workspace.zoom * scale))
+        let newZoom = ImageZoom.clamped(workspace.zoom * scale, minimum: 1)
         let factor = newZoom / workspace.zoom
         workspace.pan = viewport.zoomedPan(factor: factor, around: local, newZoom: newZoom)
         workspace.zoom = newZoom

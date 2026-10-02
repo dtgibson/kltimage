@@ -157,7 +157,7 @@ struct ComparisonCanvas: View {
             .onChanged { value in
                 if zoomAtGestureStart == nil { zoomAtGestureStart = model.zoom }
                 guard let start = zoomAtGestureStart else { return }
-                model.zoom = min(8, max(0.25, start * value.magnification))
+                model.zoom = ImageZoom.clamped(start * value.magnification, minimum: 0.25)
             }
             .onEnded { _ in zoomAtGestureStart = nil }
     }

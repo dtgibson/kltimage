@@ -329,6 +329,15 @@ public enum CIELabD65 {
     }
 }
 
+/// Zoom is relative to the fitted image, on both platforms.
+public enum ImageZoom {
+    public static let maximum = 10.0
+
+    public static func clamped(_ proposed: Double, minimum: Double) -> Double {
+        min(maximum, max(minimum, proposed))
+    }
+}
+
 public struct ImageViewportTransform: @unchecked Sendable {
     public let sourceSize: CGSize
     public let paneSize: CGSize

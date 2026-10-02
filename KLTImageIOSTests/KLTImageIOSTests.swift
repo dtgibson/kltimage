@@ -5,6 +5,24 @@ import KLTCore
 
 final class KLTImageIOSTests: XCTestCase {
     @MainActor
+    func testZoomButtonsReachTenTimesFitAndReset() {
+        let workspace = IOSWorkspace()
+        for _ in 0..<30 { workspace.zoomIn() }
+        XCTAssertEqual(workspace.zoom, 10)
+        workspace.zoomOut()
+        XCTAssertEqual(workspace.zoom, 8)
+        workspace.pan = CGSize(width: 900, height: -700)
+        for _ in 0..<30 { workspace.zoomOut() }
+        XCTAssertEqual(workspace.zoom, 1)
+        XCTAssertEqual(workspace.pan, .zero)
+        workspace.zoomIn()
+        workspace.pan = CGSize(width: 900, height: -700)
+        workspace.fit()
+        XCTAssertEqual(workspace.zoom, 1)
+        XCTAssertEqual(workspace.pan, .zero)
+    }
+
+    @MainActor
     func testWorkspaceAcceptsOneMatchingResultAndExportsItsRecord() async throws {
         let png = Data(base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAYAAAD+Bd/7AAAAAXNSR0IB2cksfwAAAFBlWElmTU0AKgAAAAgAAgESAAMAAAABAAEAAIdpAAQAAAABAAAAJgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAACKADAAQAAAABAAAABgAAAAA4aestAAAAn0lEQVQIHR1NyxGCMBQcZ3LYo4JMCjA/7ACiBXhTyIHOAjRGoARiEa4c3ry3b3+nc/16m7aX+slpgtSPXir/kcYT+yDFfZmgyh66ytwRJvH2O3Q5wfEv3DZCN/EQmSJDF8QUuTLDXOIg7ELXtkO1E8mOzh12pahlEg2iThE3RtkUoPwIV5H4V6aRpgBh1xmq+MKw31GkGX3UXLvBbFn+ANf2M2AGpmb4AAAAAElFTkSuQmCC")!
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".png")
@@ -99,8 +117,9 @@ final class KLTImageIOSTests: XCTestCase {
         let initial = RegisteredViewport(source: source, canvas: canvas, zoom: 1, pan: .zero)
         let point = CGPoint(x: 250, y: 195)
         let before = initial.sourcePoint(point)
-        let newZoom: CGFloat = 2
-        let newPan = initial.zoomedPan(factor: 2, around: point, newZoom: newZoom)
+        let newZoom: CGFloat = ImageZoom.clamped(25, minimum: 1)
+        XCTAssertEqual(newZoom, 10)
+        let newPan = initial.zoomedPan(factor: newZoom, around: point, newZoom: newZoom)
         let zoomed = RegisteredViewport(source: source, canvas: canvas, zoom: newZoom, pan: newPan)
         let after = zoomed.sourcePoint(point)
         XCTAssertEqual(after.x, before.x, accuracy: 0.001)
@@ -109,6 +128,11 @@ final class KLTImageIOSTests: XCTestCase {
         let viewRegion = zoomed.viewRect(region)
         XCTAssertEqual(zoomed.sourcePoint(viewRegion.origin).x, 1_000, accuracy: 0.001)
         XCTAssertEqual(zoomed.sourcePoint(viewRegion.origin).y, 500, accuracy: 0.001)
+        let edgePan = zoomed.clampedPan(CGSize(width: 1e6, height: -1e6))
+        XCTAssertEqual(edgePan.width, (zoomed.fit.width * newZoom - canvas.width) / 2)
+        XCTAssertEqual(edgePan.height, -(zoomed.fit.height * newZoom - canvas.height) / 2)
+        // An overshooting pinch at the ceiling must not move the anchor.
+        XCTAssertEqual(zoomed.zoomedPan(factor: 1, around: point, newZoom: newZoom), newPan)
     }
 
     func testCorruptIOSStoreIsNotReplaced() async throws {

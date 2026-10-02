@@ -1,8 +1,24 @@
 import CoreGraphics
 import XCTest
+import KLTCore
 @testable import KLTImage
 
 final class ComparisonCanvasInteractionTests: XCTestCase {
+    @MainActor
+    func testZoomButtonsReachTenTimesFitAndReset() {
+        let model = WorkspaceModel()
+        for _ in 0..<30 { model.zoomIn() }
+        XCTAssertEqual(model.zoom, 10)
+        model.zoomOut()
+        XCTAssertEqual(model.zoom, 8)
+        for _ in 0..<30 { model.zoomOut() }
+        XCTAssertEqual(model.zoom, 0.25)
+        model.pan = CGSize(width: 900, height: -700)
+        model.resetView()
+        XCTAssertEqual(model.zoom, 1)
+        XCTAssertEqual(model.pan, .zero)
+    }
+
     func testRevealHandleDragChangesRevealWithoutPanningAndBackgroundDragStillPans() {
         var gestureState = ComparisonCanvasGestureState()
         let initialPan = CGSize(width: 11, height: -7)

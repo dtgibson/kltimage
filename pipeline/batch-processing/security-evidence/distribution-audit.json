@@ -1,0 +1,90 @@
+{
+  "base": "383756798707e651e5363a5babfdd20c5ecabdbb",
+  "scriptChanges": {
+    "scripts/release-macos.sh": {
+      "onlyVersionBuildAndUsageFilenameChanged": true,
+      "sha256": "6fc26d6399f0db599fca7970aa100a32e726652e1ed71e07c34d491557c7d1e9"
+    },
+    "scripts/verify-macos-release.sh": {
+      "onlyVersionBuildAndUsageFilenameChanged": true,
+      "sha256": "a597ec1c46168bdf01fba04f227350e683e1f8f8d4f71748bf298891da270156"
+    }
+  },
+  "packages": {
+    "mac": {
+      "path": "/Users/developer/devwork/kltimage/releases/KLT-Image-1.4.0-build-10.zip",
+      "sha256": "a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4",
+      "bytes": 4600215
+    },
+    "ios": {
+      "path": "/Users/developer/devwork/kltimage/.derived-data/batch-release/KLTImageIOS-1.1-3-TestFlight-export/KLT Image.ipa",
+      "sha256": "c43064e35815481ffe521b173e764de585edc6ec8873e00d9563d322d4525a4b",
+      "bytes": 2188548
+    }
+  },
+  "ios": {
+    "appInfo": {
+      "CFBundleIdentifier": "com.kltimage.ios",
+      "CFBundleShortVersionString": "1.1",
+      "CFBundleVersion": "3",
+      "MinimumOSVersion": "18.0",
+      "UIDeviceFamily": [
+        1,
+        2
+      ]
+    },
+    "app": {
+      "strictSignatureValid": true,
+      "signing": [
+        "Identifier=com.kltimage.ios",
+        "Authority=Apple Distribution: DAVID THOMAS GIBSON (8QKC3L2FKP)",
+        "Authority=Apple Worldwide Developer Relations Certification Authority",
+        "Authority=Apple Root CA",
+        "TeamIdentifier=8QKC3L2FKP"
+      ],
+      "architectures": "arm64",
+      "binarySHA256": "fa7decfe70ef9a25f243c8f5b32704e0d9a3d386bbb9b4a4b9272bcdebf29001",
+      "entitlementKeys": [
+        "application-identifier",
+        "beta-reports-active",
+        "com.apple.developer.team-identifier",
+        "get-task-allow"
+      ],
+      "getTaskAllow": false,
+      "debugMarkerMatches": [],
+      "applicationIdentifier": "8QKC3L2FKP.com.kltimage.ios"
+    },
+    "framework": {
+      "strictSignatureValid": true,
+      "signing": [
+        "Identifier=com.kltimage.ios.core",
+        "Authority=Apple Distribution: DAVID THOMAS GIBSON (8QKC3L2FKP)",
+        "Authority=Apple Worldwide Developer Relations Certification Authority",
+        "Authority=Apple Root CA",
+        "TeamIdentifier=8QKC3L2FKP"
+      ],
+      "architectures": "arm64",
+      "binarySHA256": "d54be1754a5f30bc332cf095b3288667af768a32b88e8a808adc4dfb87e86497",
+      "entitlementKeys": [],
+      "getTaskAllow": null,
+      "debugMarkerMatches": [],
+      "version": "1.1"
+    },
+    "profile": {
+      "team": [
+        "8QKC3L2FKP"
+      ],
+      "applicationIdentifier": "8QKC3L2FKP.com.kltimage.ios",
+      "getTaskAllow": false,
+      "betaReportsActive": true,
+      "deviceListAbsent": true,
+      "allDevicesAbsentOrFalse": true,
+      "expiry": "2027-07-05T15:56:33",
+      "type": "App Store distribution; consistent with app-store-connect export"
+    },
+    "archiveMetadataMatches": true
+  },
+  "macVerifierExit": 0,
+  "packagesUnchangedAfterChecks": true,
+  "uploadedOrPublished": false
+}

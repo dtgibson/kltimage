@@ -1,0 +1,12 @@
+{
+  "app": {
+    "archiveMember": "KLT Image.app/Contents/MacOS/KLT Image",
+    "sha256": "2276b16f89d77e239d67e3513f12343f6c6b4d54c9c1ffd6ec71419773b937f2",
+    "debugMarkerMatches": []
+  },
+  "framework": {
+    "archiveMember": "KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/A/KLTCore",
+    "sha256": "46283f2efdcf7d41485d6f37e100224254e5a35722142aa051200af3ab303e77",
+    "debugMarkerMatches": []
+  }
+}

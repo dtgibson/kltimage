@@ -1,0 +1,7 @@
+Running altool at path '/Applications/Xcode.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources/altool'...
+
+2026-10-03 03:21:12.224  INFO: [ContentDelivery.Uploader.75BAC75380] 
+==========================================
+VERIFY SUCCEEDED with no errors
+==========================================
+No errors validating archive at '.derived-data/batch-release/KLTImageIOS-1.1-3-TestFlight-export/KLT Image.ipa'.

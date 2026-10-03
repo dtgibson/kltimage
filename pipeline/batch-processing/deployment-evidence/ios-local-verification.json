@@ -1,0 +1,42 @@
+{
+  "version": "1.1",
+  "build": "3",
+  "ipa": "/Users/developer/devwork/kltimage/.derived-data/batch-release/KLTImageIOS-1.1-3-TestFlight-export/KLT Image.ipa",
+  "sha256": "c43064e35815481ffe521b173e764de585edc6ec8873e00d9563d322d4525a4b",
+  "bytes": 2188548,
+  "bundleIdentifier": "com.kltimage.ios",
+  "minimumOS": "18.0",
+  "families": [
+    1,
+    2
+  ],
+  "signature": "Apple Distribution / 8QKC3L2FKP",
+  "frameworkVersion": "1.1",
+  "get-task-allow": false,
+  "beta-reports-active": true,
+  "profileNotDeviceLimited": true,
+  "profileExpiry": "2027-07-05 15:56:33",
+  "binaries": {
+    "iosApp": {
+      "sha256": "fa7decfe70ef9a25f243c8f5b32704e0d9a3d386bbb9b4a4b9272bcdebf29001",
+      "architectures": "arm64",
+      "debugMarkersAbsent": true
+    },
+    "iosCore": {
+      "sha256": "d54be1754a5f30bc332cf095b3288667af768a32b88e8a808adc4dfb87e86497",
+      "architectures": "arm64",
+      "debugMarkersAbsent": true
+    },
+    "macApp": {
+      "sha256": "2276b16f89d77e239d67e3513f12343f6c6b4d54c9c1ffd6ec71419773b937f2",
+      "architectures": "x86_64 arm64",
+      "debugMarkersAbsent": true
+    },
+    "macCore": {
+      "sha256": "46283f2efdcf7d41485d6f37e100224254e5a35722142aa051200af3ab303e77",
+      "architectures": "x86_64 arm64",
+      "debugMarkersAbsent": true
+    }
+  },
+  "uploaded": false
+}

@@ -1,0 +1,70 @@
+{
+  "status": "private-candidates-ready-publication-pending",
+  "preparedAt": "2026-10-03T10:25:22.254935+00:00",
+  "sourceCommit": "538dc9cc81604e5b4097896415e6afcca232e209",
+  "upstream": "383756798707e651e5363a5babfdd20c5ecabdbb",
+  "reviewURL": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/release-candidate/",
+  "mac": {
+    "version": "1.4.0",
+    "build": "10",
+    "zip": "/Users/developer/devwork/kltimage/releases/KLT-Image-1.4.0-build-10.zip",
+    "sha256": "a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4",
+    "bytes": 4600215,
+    "notarySubmission": "a57f0b4e-0c6e-4311-9b4f-2369d1252603",
+    "notaryStatus": "Accepted",
+    "independentVerification": "passed before final-name promotion, retained copy, fresh normal-certificate HTTPS tailnet download and separate Auditor extraction",
+    "published": false
+  },
+  "ios": {
+    "version": "1.1",
+    "build": "3",
+    "ipa": "/Users/developer/devwork/kltimage/.derived-data/batch-release/KLTImageIOS-1.1-3-TestFlight-export/KLT Image.ipa",
+    "sha256": "c43064e35815481ffe521b173e764de585edc6ec8873e00d9563d322d4525a4b",
+    "bytes": 2188548,
+    "bundleIdentifier": "com.kltimage.ios",
+    "minimumOS": "18.0",
+    "families": [
+      1,
+      2
+    ],
+    "signature": "Apple Distribution / 8QKC3L2FKP",
+    "frameworkVersion": "1.1",
+    "get-task-allow": false,
+    "beta-reports-active": true,
+    "profileNotDeviceLimited": true,
+    "profileExpiry": "2027-07-05 15:56:33",
+    "binaries": {
+      "iosApp": {
+        "sha256": "fa7decfe70ef9a25f243c8f5b32704e0d9a3d386bbb9b4a4b9272bcdebf29001",
+        "architectures": "arm64",
+        "debugMarkersAbsent": true
+      },
+      "iosCore": {
+        "sha256": "d54be1754a5f30bc332cf095b3288667af768a32b88e8a808adc4dfb87e86497",
+        "architectures": "arm64",
+        "debugMarkersAbsent": true
+      },
+      "macApp": {
+        "sha256": "2276b16f89d77e239d67e3513f12343f6c6b4d54c9c1ffd6ec71419773b937f2",
+        "architectures": "x86_64 arm64",
+        "debugMarkersAbsent": true
+      },
+      "macCore": {
+        "sha256": "46283f2efdcf7d41485d6f37e100224254e5a35722142aa051200af3ab303e77",
+        "architectures": "x86_64 arm64",
+        "debugMarkersAbsent": true
+      }
+    },
+    "uploaded": false,
+    "archive": "/Users/developer/devwork/kltimage/.derived-data/batch-release/KLTImageIOS-1.1-3.xcarchive",
+    "appleValidation": "VERIFY SUCCEEDED with no errors, 2026-10-03 03:21:12 PDT"
+  },
+  "limitations": [
+    "Mac native UI, keyboard, VoiceOver and lifecycle coverage environment-blocked",
+    "Native <=1-second cancellation acknowledgment inconclusive",
+    "Real cloud providers and all external crash/cleanup windows unverified",
+    "Physical device and TestFlight installation unverified; user/testers only"
+  ],
+  "independentDistributionAudit": "PASS; security-evidence/distribution-audit.md",
+  "remoteRecheck": "origin/main still 383756798707e651e5363a5babfdd20c5ecabdbb; v1.4.0 still absent"
+}

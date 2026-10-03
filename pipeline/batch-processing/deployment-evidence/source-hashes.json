@@ -1,0 +1,21 @@
+{
+  "BatchTests/BatchProcessingTests.swift": "4df068e8b485d98b7962dc5ddf8a138abad1623041545bda8fb30242ce92bb33",
+  "KLTCore/ImagePipeline.swift": "8fa134e7a20d2c8074be8c921dc2acab1623f745eafcf858d3264544ead4f7bd",
+  "KLTCoreTests/IOSDecodePolicyTests.swift": "6ebd819311835aa01b48d6dbbf955483f93f349eb21939bd6eff0965677adfe2",
+  "KLTImage.xcodeproj/project.pbxproj": "ffaa58461aaf5734c52a4b1e6eb44b7e6edfc7e8f393b259d6432f47ef7928fb",
+  "KLTImage/BatchMacLifecycle.swift": "8457b8a37999d27bc26999c336cf293390d8fe7c8b789d82f7104563b86968dc",
+  "KLTImage/ContentView.swift": "15f80a2c592d91b4446f21feca7d814a35547afc031b656047a4ef719ce9a39e",
+  "KLTImage/KLTImageApp.swift": "1cec6389f32edea4ec6d60d6c418799daf3d2986033b4059f0341aa9f812cb30",
+  "KLTImage/WorkspaceModel.swift": "ec17f172585a8d622445285e8354252ff06b15a931a98c074fa84337a23da95d",
+  "KLTImageIOS/BatchSources.swift": "aa47b9a85ad2413ee31eeaab6803d8b4f049dfb132a9bec157b31173854789fa",
+  "KLTImageIOS/IOSRootView.swift": "01923e808efd7bdca08c3ac2ece283a84bbabf3e2bd2b4614b6e1fa06d0e23ff",
+  "KLTImageIOS/IOSWorkspace.swift": "4c31c1e55c72db7cd10af5ffcdcb1b72aae1bdd428c364da2b9bf872ab8e0d62",
+  "KLTImageIOS/KLTImageIOSApp.swift": "8f6d9129dc97f77dc0b4749e4bfa944d9db9037ccecebc87ea7d70164d36537b",
+  "SharedBatch/BatchModel.swift": "46af536bb23e4fb15523a30c40f1249aac814c60c900aaa88723bde0bf4378f1",
+  "SharedBatch/BatchPublisher.swift": "e7d396835f10f87c2320d94a80d4cb5f64a7b9129311d477fb338d5734e63dce",
+  "SharedBatch/BatchRunner.swift": "57e769b082abdb516cb4d0498e49ca8280d50835a6cf47684e1ffdd0b369637e",
+  "SharedBatch/BatchStorage.swift": "d74c14e84887f9f322387227bbf7de1079200db5d19f7bf95c0c26677ae334f4",
+  "SharedBatch/BatchTypes.swift": "f75576b0f2924372be6e94c10966020bd5159421dd9950d30e10230e2c9d94e1",
+  "SharedBatch/BatchView.swift": "53b31e1bb93fd41c3ded2304a48f47c6558ce4897833f6eefdff344e5bd1603a",
+  "project.yml": "524a76d628c5d6ac4843ce4430d604e0ba9b3c04e40fb78680c6655462378fa4"
+}

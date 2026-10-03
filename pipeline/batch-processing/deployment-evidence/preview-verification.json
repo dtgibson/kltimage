@@ -1,0 +1,13 @@
+{
+  "pageHTTPS": 200,
+  "zipHTTPS": 200,
+  "checksumHTTPS": 200,
+  "certificateValidation": "normal curl trust; no insecure flag",
+  "macDownloadSHA256": "a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4",
+  "independentDownloadedZIPVerification": "passed",
+  "rootIndexUnchanged": true,
+  "allTailscaleRoutesUnchanged": true,
+  "tailnetOnly": true,
+  "funnelEnabled": false,
+  "browserVisualInspection": "unavailable; HTTP content and links checked"
+}

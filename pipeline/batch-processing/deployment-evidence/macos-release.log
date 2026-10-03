@@ -1,0 +1,40 @@
+Release workspace: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod
+⚙️  Generating plists...
+⚙️  Generating project...
+⚙️  Writing project...
+Created project at /Users/developer/devwork/kltimage/KLTImage.xcodeproj
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app/Contents/Frameworks/KLTCore.framework: replacing existing signature
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app: replacing existing signature
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app/Contents/Frameworks/KLTCore.framework: valid on disk
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app/Contents/Frameworks/KLTCore.framework: satisfies its Designated Requirement
+--prepared:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release.nHJlod/stage/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+--validated:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release.nHJlod/stage/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app: valid on disk
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app: satisfies its Designated Requirement
+Developer ID-signed candidate verified: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app
+Processing: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app
+Processing: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app
+The staple and validate action worked!
+Processing: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app
+The validate action worked!
+--prepared:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release.nHJlod/stage/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+--validated:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release.nHJlod/stage/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app: valid on disk
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/stage/KLT Image.app: satisfies its Designated Requirement
+UNVERIFIED-KLT-Image-1.4.0-build-10.zip.pending: OK
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.czNDNj/KLT Image.app/Contents/Frameworks/KLTCore.framework: valid on disk
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.czNDNj/KLT Image.app/Contents/Frameworks/KLTCore.framework: satisfies its Designated Requirement
+--prepared:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release-verify.czNDNj/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+--validated:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release-verify.czNDNj/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.czNDNj/KLT Image.app: valid on disk
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.czNDNj/KLT Image.app: satisfies its Designated Requirement
+Processing: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.czNDNj/KLT Image.app
+The validate action worked!
+Verified KLT Image 1.4.0 (10): universal, Developer ID-signed, notarized, stapled, quarantined, and Gatekeeper accepted.
+SHA-256: a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4
+
+Release candidate ready (not published):
+  Archive: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/KLT-Image-1.4.0-build-10.zip
+  Checksum: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release.nHJlod/KLT-Image-1.4.0-build-10.zip.sha256
+  SHA-256: a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4
+  Notary submission: a57f0b4e-0c6e-4311-9b4f-2369d1252603

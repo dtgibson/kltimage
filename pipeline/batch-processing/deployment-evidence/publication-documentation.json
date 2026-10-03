@@ -1,0 +1,13 @@
+{
+  "verifiedAt": "2026-10-03T15:19:40.156048+00:00",
+  "releaseNotesMatchGitHub": true,
+  "releaseNotesSHA256": "7fd4ee44697c074bdd1b1f4eebb8dd89a1e0f10973155f4da55a247aa70ac284",
+  "releaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.4.0",
+  "releasePublishedAt": "2026-10-03T15:02:12Z",
+  "releaseAssetSHA256Unchanged": true,
+  "privateReviewHTTPS": 200,
+  "privateReviewContentMatches": true,
+  "rootReviewUnchanged": true,
+  "macRollbackVersion": "1.3.2 (8)",
+  "iosInstallationVerified": false
+}

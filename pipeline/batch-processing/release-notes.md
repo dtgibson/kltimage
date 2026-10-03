@@ -7,7 +7,7 @@ Process up to 100 photographs in one foreground run. Choose **Calculate each ima
 - See a separate outcome for every input, including failed, canceled and partially saved items. Existing files and source photographs are preserved.
 - Process one full-resolution image at a time. This release also corrects growing raster-buffer retention while preserving the existing image decoding, scientific calculations and analysis JSON formats.
 
-The same batch workflow is prepared for iPhone and iPad in iOS 1.1 (3), delivered separately through internal TestFlight after approval. This Mac download requires macOS 14 or later and supports Apple silicon and Intel Macs. The mobile build requires iOS/iPadOS 18 or later.
+The same batch workflow is available for iPhone and iPad in iOS 1.1 (3) through the existing KLT Image Internal TestFlight group. Apple has processed the build and confirmed internal availability; installation remains unverified. No public App Store release occurred. This Mac download requires macOS 14 or later and supports Apple silicon and Intel Macs. The mobile build requires iOS/iPadOS 18 or later.
 
 Batch processing is an active-app workflow. Keep the app in the foreground on iPhone and iPad; an interrupted run does not resume automatically. Independently calculated images do not establish quantitative color comparability. A cloud destination's synchronization remains controlled by its provider.
 

@@ -8,7 +8,7 @@ After asset or project changes, run `xcodegen generate`, open the generated proj
 
 ## Using Custom Color Spaces and Reusable Transforms
 
-KLT Image 1.3.3 build 9 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.3.3). Its SHA-256 is `98cd1404efceebcf4282b78b774e1cb9fed30e4f208f5aa7c085eb1a1739ece1`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
+KLT Image 1.4.0 build 10 is available from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/tag/v1.4.0). Its SHA-256 is `a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4`. GitHub is the canonical release channel. To run from source, open `KLTImage.xcodeproj` in Xcode 26 or later, select the **KLTImage** scheme and **My Mac**, then press Command-R.
 
 1. Click **Open Image** and choose a JPEG, PNG, TIFF, or HEIC photograph up to 64 megapixels. Wait for **Result ready**. Images, methods, filenames, and fingerprints remain local to the Mac.
 
@@ -47,7 +47,7 @@ Historical Build 7 verification passed 96/96 Debug tests and 98/98 optimized `Re
 
 ## Preparing a trusted macOS release
 
-The published 1.3.3 build 9 release uses the established fail-closed release process. GitHub Releases is the sole production publication target; the previous tailnet mirror is no longer a required final release step. The process requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
+The published 1.4.0 build 10 release uses the established fail-closed release process. GitHub Releases is the sole production publication target; the previous tailnet mirror is no longer a required final release step. The process requires the installed `Developer ID Application: DAVID THOMAS GIBSON (8QKC3L2FKP)` identity and either a validated notarytool Keychain profile or the existing App Store Connect Team API credential path. Store a profile once; the command prompts securely for the app-specific password instead of placing it in shell history:
 
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun notarytool store-credentials "kltimage-release"
@@ -81,11 +81,21 @@ Exercise that final boundary without building or notarizing:
 After copying or downloading an artifact, verify it against its separately recorded SHA-256:
 
 ```sh
-./scripts/verify-macos-release.sh /path/to/KLT-Image-1.3.3-build-9.zip EXPECTED_SHA256
+./scripts/verify-macos-release.sh /path/to/KLT-Image-1.4.0-build-10.zip EXPECTED_SHA256
 ```
 
-This verification never removes quarantine. A fresh GitHub download of Build 9 matched the approved artifact byte-for-byte and independently passed this verifier. Trusted 1.3.2 build 8 remains the rollback release. Prior Build 6 GitHub and tailnet publication and verification remain historical facts; the existing historical tailnet route and old artifacts are unchanged and are not production release gates.
+This verification never removes quarantine. A fresh GitHub download of Build 10 matched the approved artifact byte-for-byte and independently passed this verifier. Trusted 1.3.2 build 8 remains the rollback release. Prior Build 6 GitHub and tailnet publication and verification remain historical facts; the existing historical tailnet route and old artifacts are unchanged and are not production release gates.
 
 ## 1000% zoom release verification
 
 Build 9 preserves image dimensions, interpolation and scientific transforms while raising the existing zoom ceiling to 1000%. Mac Debug/optimized core and app suites and local iPhone/iPad zoom controls passed. Native Mac controls, maximum-zoom registration/gesture ownership, comparison-mode transitions and matched screen/export detail remain unverified. Publication was explicitly approved with these gaps; no physical-device acceptance is claimed.
+
+## Batch processing
+
+Mac 1.4.0 (10) and internal TestFlight 1.1 (3) on iPhone/iPad add **Batch**, available even when the interactive workspace is empty. Select up to 100 photographs, choose **Calculate each image** for whole-image statistics or **Replay saved transform** for unchanged captured mathematics, then review the output format, optional JSON and destination. Start creates a new run folder. Existing files are never silently overwritten, and each input reports what was actually saved, including partial image/record outcomes.
+
+PNG is the default; TIFF and JPEG are also available. Analysis JSON is off by default. Keep mobile runs in the foreground. An interruption stops the run without automatic resume; starting again is a new explicit attempt. Cloud synchronization belongs to the selected provider. Independent calculations do not make colors quantitatively comparable across images.
+
+Controlled final-source tests, exact decoder parity, output accounting and the 100-image 24 MP resource check passed. Mac native UI/keyboard/VoiceOver/lifecycle coverage remains environment-blocked, native one-second Cancel acknowledgment is inconclusive, and real providers, every external crash/cleanup window, physical-device behavior and TestFlight installation remain unverified. Package verification does not satisfy these native checks. Device verification belongs to the user/testers through TestFlight.
+
+The existing internal testers can find **KLT Image 1.1 (3)** in TestFlight. Apple reports the build VALID and IN_BETA_TESTING in **KLT Image Internal**, with the same one-tester membership. No public App Store release or new invitation was created. Availability does not establish installation of this build.

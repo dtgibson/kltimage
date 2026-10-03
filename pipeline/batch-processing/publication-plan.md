@@ -1,6 +1,6 @@
 # Publication plan — Batch processing
 
-**Status: prepared only.** No source push, tag push, GitHub release, TestFlight upload or tester assignment is authorized or performed. The orchestrator executes the following only after explicit approval covering both channels and the documented acceptance limits. Commands are a mechanical handoff, not a request for the user to perform them.
+**Status: both approved channels published and verified.** The commands below preserve the approved execution plan for audit. Do not repeat completed push, tag, release or upload operations. The user selected the final publication option covering both channels and the documented acceptance limits.
 
 ## Reviewed bytes and cargo
 
@@ -55,10 +55,19 @@ python3 .derived-data/batch-release/asc-release.py attach
 python3 .derived-data/batch-release/asc-release.py status
 ```
 
-`attach` sets `usesNonExemptEncryption=false` if absent and associates only 1.1 (3) with the existing **KLT Image Internal** group (`ac0dc0c0-f8ae-4813-bae7-4af4ac313509`). The security review confirms no new cryptographic/network surface; existing cryptography is local SHA-256 provenance. No tester invitation, deletion or change is required. Readback must show `VALID`, `IN_BETA_TESTING`, association with the existing group and the unchanged one-tester count. The prior run's delivery credential received 403 on metadata mutation; if repeated, use the already configured alternate credential through the established secure environment mechanism. Do not print credentials, create replacement keys or re-upload an accepted build to fix metadata permissions.
+`attach` sets `usesNonExemptEncryption=false` if absent and associates only 1.1 (3) with the existing **KLT Image Internal** group (`ac0dc0c0-f8ae-4813-bae7-4af4ac313509`). The security review confirms no new cryptographic/network surface; existing cryptography is local SHA-256 provenance. No tester invitation, deletion or change is required. Readback must show `VALID`, `IN_BETA_TESTING`, association with the existing group and the unchanged one-tester count. The prior run's delivery credential received 403 on metadata mutation; if repeated, use the already configured alternate credential through a process-local environment override. The established loader selects the sole `AuthKey_*.p8` under `~/.appstoreconnect/private_keys` whose basename differs from the active `APPLE_API_KEY_PATH`, asserts exactly one match, sets the subprocess's `APPLE_API_KEY_PATH` to that path and `APPLE_API_KEY_ID` to its `AuthKey_` filename stem, and retains the existing issuer. It never prints or changes credential values or global shell configuration. Do not print credentials, create replacement keys or re-upload an accepted build to fix metadata permissions.
 
 Management URL: https://appstoreconnect.apple.com/apps/6818412230/testflight/ios . Update iOS release metadata only after processing and group association are verified. Physical-device and installation verification remain exclusively the user/testers' work; never enumerate or access devices. No public App Store submission is part of this plan.
 
 ## Recovery
 
-Preparation changes no live release. Current Mac 1.3.3 (9), SHA-256 `98cd1404efceebcf4282b78b774e1cb9fed30e4f208f5aa7c085eb1a1739ece1`, remains available and is the immediate prior source/behavior baseline. Configured trusted rollback 1.3.2 (8), SHA-256 `3730547ba9ca115544a83f90ffe1a7342a8624af25054d434f74967393a37f1e`, is preserved. If postpublication health fails, stop advertising the candidate and restore the appropriate trusted release under the orchestrator's rollback procedure. Do not delete historical assets or remove quarantine. Retain TestFlight 1.0 (2) and its group association; do not alter existing testers if 1.1 (3) is unsuitable.
+Before publication, preparation changed no live release. Previous Mac 1.3.3 (9), SHA-256 `98cd1404efceebcf4282b78b774e1cb9fed30e4f208f5aa7c085eb1a1739ece1`, remains available and is the immediate prior source/behavior baseline. Configured trusted rollback 1.3.2 (8), SHA-256 `3730547ba9ca115544a83f90ffe1a7342a8624af25054d434f74967393a37f1e`, is preserved. If postpublication health fails, stop advertising the candidate and restore the appropriate trusted release under the orchestrator's rollback procedure. Do not delete historical assets or remove quarantine. Retain TestFlight 1.0 (2) and its group association; do not alter existing testers if 1.1 (3) is unsuitable.
+
+
+## Verified execution
+
+The user approved the final publication option. The coordinator pushed the reviewed source and tag, published Mac 1.4.0 (10) at **2026-10-03T15:02:12Z**, and independently verified the freshly downloaded public ZIP and checksum before advertised links changed. Source tag v1.4.0 remains pinned to `538dc9cc81604e5b4097896415e6afcca232e209`; the artifact hash is unchanged.
+
+The coordinator uploaded the exact iOS 1.1 (3) IPA once at **2026-10-03T15:05:01Z**, delivery/build ID `d415823a-cc95-4129-a7a0-84648411882c`. Fresh readback confirms VALID, non-exempt encryption false, IN_BETA_TESTING and association with the existing **KLT Image Internal** group, still one tester. The initial delivery credential received a metadata-only 403; the established alternate credential applied the declaration and association through a process-local override. No key, tester or global credential setting changed, and no repeat upload occurred.
+
+Evidence is in `deployment-evidence/mac-publication.json`, `macos-public-verifier.log`, `ios-publication.json`, `ios-upload.log` and `ios-testflight-readback.json`. Old releases and TestFlight builds are preserved. Native UI/provider/crash-window/Cancel timing and physical-device/TestFlight installation limits remain unchanged. The commands above are retained execution history, not outstanding work.

@@ -1,5 +1,5 @@
 {
-  "status": "private-candidates-ready-publication-pending",
+  "status": "mac-published-verified-ios-available-in-internal-testflight",
   "preparedAt": "2026-10-03T10:25:22.254935+00:00",
   "sourceCommit": "538dc9cc81604e5b4097896415e6afcca232e209",
   "upstream": "383756798707e651e5363a5babfdd20c5ecabdbb",
@@ -13,7 +13,11 @@
     "notarySubmission": "a57f0b4e-0c6e-4311-9b4f-2369d1252603",
     "notaryStatus": "Accepted",
     "independentVerification": "passed before final-name promotion, retained copy, fresh normal-certificate HTTPS tailnet download and separate Auditor extraction",
-    "published": false
+    "published": true,
+    "publishedAt": "2026-10-03T15:02:12Z",
+    "releaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.4.0",
+    "downloadURL": "https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip",
+    "publicDownloadVerification": "passed; exact approved SHA-256 and checksum sidecar"
   },
   "ios": {
     "version": "1.1",
@@ -55,9 +59,19 @@
         "debugMarkersAbsent": true
       }
     },
-    "uploaded": false,
+    "uploaded": true,
     "archive": "/Users/developer/devwork/kltimage/.derived-data/batch-release/KLTImageIOS-1.1-3.xcarchive",
-    "appleValidation": "VERIFY SUCCEEDED with no errors, 2026-10-03 03:21:12 PDT"
+    "appleValidation": "VERIFY SUCCEEDED with no errors, 2026-10-03 03:21:12 PDT",
+    "uploadedAt": "2026-10-03T15:05:01Z",
+    "buildId": "d415823a-cc95-4129-a7a0-84648411882c",
+    "processingState": "VALID",
+    "usesNonExemptEncryption": false,
+    "internalBuildState": "IN_BETA_TESTING",
+    "externalBuildState": "READY_FOR_BETA_SUBMISSION",
+    "group": "KLT Image Internal",
+    "groupId": "ac0dc0c0-f8ae-4813-bae7-4af4ac313509",
+    "testerCount": 1,
+    "installationVerified": false
   },
   "limitations": [
     "Mac native UI, keyboard, VoiceOver and lifecycle coverage environment-blocked",
@@ -66,5 +80,7 @@
     "Physical device and TestFlight installation unverified; user/testers only"
   ],
   "independentDistributionAudit": "PASS; security-evidence/distribution-audit.md",
-  "remoteRecheck": "origin/main still 383756798707e651e5363a5babfdd20c5ecabdbb; v1.4.0 still absent"
+  "remoteRecheck": "Approved prepublication recheck passed; source/tag pushed and v1.4.0 published. See mac-publication.json.",
+  "approvedByUser": true,
+  "verifiedAt": "2026-10-03T15:17:54.081979+00:00"
 }

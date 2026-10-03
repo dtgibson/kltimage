@@ -1,0 +1,9 @@
+Running altool at path '/Applications/Xcode.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources/altool'...
+
+2026-10-03 08:05:01.609  INFO: [ContentDelivery.Uploader.7492C75380] 
+==========================================
+UPLOAD SUCCEEDED with no errors
+Delivery UUID: d415823a-cc95-4129-a7a0-84648411882c
+Transferred 2188548 bytes in 2.673 seconds (818.63KB/s, 6.549Mbps)
+==========================================
+No errors uploading archive at '.derived-data/batch-release/KLTImageIOS-1.1-3-TestFlight-export/KLT Image.ipa'.

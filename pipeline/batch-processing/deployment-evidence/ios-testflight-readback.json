@@ -1,0 +1,55 @@
+{
+  "appId": "6818412230",
+  "builds": [
+    {
+      "id": "d415823a-cc95-4129-a7a0-84648411882c",
+      "version": "1.1",
+      "build": "3",
+      "processingState": "VALID",
+      "usesNonExemptEncryption": false,
+      "beta": {
+        "autoNotifyEnabled": true,
+        "internalBuildState": "IN_BETA_TESTING",
+        "externalBuildState": "READY_FOR_BETA_SUBMISSION"
+      }
+    },
+    {
+      "id": "5168e00e-a220-4ff8-86bb-5a4cadb9f730",
+      "version": "1.0",
+      "build": "2",
+      "processingState": "VALID",
+      "usesNonExemptEncryption": false,
+      "beta": {
+        "autoNotifyEnabled": true,
+        "internalBuildState": "IN_BETA_TESTING",
+        "externalBuildState": "READY_FOR_BETA_SUBMISSION"
+      }
+    },
+    {
+      "id": "4b8f4a8d-bc8e-443a-8c43-c20d7cdd790e",
+      "version": "1.0",
+      "build": "1",
+      "processingState": "VALID",
+      "usesNonExemptEncryption": false,
+      "beta": {
+        "autoNotifyEnabled": true,
+        "internalBuildState": "IN_BETA_TESTING",
+        "externalBuildState": "READY_FOR_BETA_SUBMISSION"
+      }
+    }
+  ],
+  "group": {
+    "id": "ac0dc0c0-f8ae-4813-bae7-4af4ac313509",
+    "name": "KLT Image Internal",
+    "isInternalGroup": true,
+    "testerCount": 1,
+    "testerStates": [
+      "INSTALLED"
+    ],
+    "buildIds": [
+      "d415823a-cc95-4129-a7a0-84648411882c",
+      "5168e00e-a220-4ff8-86bb-5a4cadb9f730",
+      "4b8f4a8d-bc8e-443a-8c43-c20d7cdd790e"
+    ]
+  }
+}

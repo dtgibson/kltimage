@@ -1,0 +1,16 @@
+{
+  "checkedFiles": [
+    "pipeline/batch-processing/deployment-evidence/mac-publication.json",
+    "pipeline/batch-processing/deployment-evidence/macos-public-verifier.log",
+    "pipeline/batch-processing/deployment-evidence/ios-publication.json",
+    "pipeline/batch-processing/deployment-evidence/ios-upload.log",
+    "pipeline/batch-processing/deployment-evidence/ios-testflight-readback.json"
+  ],
+  "result": "passed",
+  "checks": [
+    "No configured credential values or private-key paths/identifiers",
+    "No authorization headers, JWTs or PEM private keys",
+    "No email addresses or personal tester identity fields"
+  ],
+  "testerData": "Only existing group name/id, count, state and build associations; no personal identity data"
+}

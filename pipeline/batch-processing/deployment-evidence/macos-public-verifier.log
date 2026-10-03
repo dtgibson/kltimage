@@ -1,0 +1,10 @@
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.fPi7Jv/KLT Image.app/Contents/Frameworks/KLTCore.framework: valid on disk
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.fPi7Jv/KLT Image.app/Contents/Frameworks/KLTCore.framework: satisfies its Designated Requirement
+--prepared:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release-verify.fPi7Jv/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+--validated:/private/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T/kltimage-release-verify.fPi7Jv/KLT Image.app/Contents/Frameworks/KLTCore.framework/Versions/Current/.
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.fPi7Jv/KLT Image.app: valid on disk
+/var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.fPi7Jv/KLT Image.app: satisfies its Designated Requirement
+Processing: /var/folders/qn/fzq2ymy1219bnchgrdvmcrdc0000gp/T//kltimage-release-verify.fPi7Jv/KLT Image.app
+The validate action worked!
+Verified KLT Image 1.4.0 (10): universal, Developer ID-signed, notarized, stapled, quarantined, and Gatekeeper accepted.
+SHA-256: a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4

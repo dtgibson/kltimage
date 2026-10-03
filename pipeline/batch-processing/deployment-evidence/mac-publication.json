@@ -1,0 +1,46 @@
+{
+  "approvedByUser": true,
+  "verifiedAt": "2026-10-03T15:04:33.028486+00:00",
+  "sourceCommit": "538dc9cc81604e5b4097896415e6afcca232e209",
+  "release": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/dtgibson/kltimage/releases/assets/608000500",
+        "contentType": "application/zip",
+        "createdAt": "2026-10-03T15:02:11Z",
+        "digest": "sha256:a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4",
+        "downloadCount": 0,
+        "id": "RA_kwDOUXH5Rc4kPVn0",
+        "label": "",
+        "name": "KLT-Image-1.4.0-build-10.zip",
+        "size": 4600215,
+        "state": "uploaded",
+        "updatedAt": "2026-10-03T15:02:12Z",
+        "url": "https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/dtgibson/kltimage/releases/assets/608000496",
+        "contentType": "application/octet-stream",
+        "createdAt": "2026-10-03T15:02:11Z",
+        "digest": "sha256:c1487fb22b85f5b5c62f03ece51a3c78ae5fb77ff0e6131656ac6f6a46851899",
+        "downloadCount": 0,
+        "id": "RA_kwDOUXH5Rc4kPVnw",
+        "label": "",
+        "name": "KLT-Image-1.4.0-build-10.zip.sha256",
+        "size": 95,
+        "state": "uploaded",
+        "updatedAt": "2026-10-03T15:02:11Z",
+        "url": "https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip.sha256"
+      }
+    ],
+    "isDraft": false,
+    "isPrerelease": false,
+    "publishedAt": "2026-10-03T15:02:12Z",
+    "tagName": "v1.4.0",
+    "targetCommitish": "main",
+    "url": "https://github.com/dtgibson/kltimage/releases/tag/v1.4.0"
+  },
+  "downloadedSHA256": "a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4",
+  "publicDownloadVerifier": "passed",
+  "checksumSidecarMatches": true
+}

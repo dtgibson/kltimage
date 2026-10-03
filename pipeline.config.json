@@ -12,7 +12,7 @@
     "cicd": "manual platform-specific signed releases and independent verification; macOS notarization and iOS TestFlight; no GitHub Actions workflow",
     "environments": {
       "dev": "local Xcode/source checkout and iOS Simulator",
-      "staging": "processed iOS 1.0 (2) internal TestFlight build; KLT Image Internal group has one existing tester",
+      "staging": "processed iOS 1.1 (3) internal TestFlight build; KLT Image Internal group has one existing tester",
       "prod": "public GitHub Release for macOS"
     },
     "imageProcessing": [
@@ -23,7 +23,7 @@
     "ios": {
       "minimumOS": "iOS/iPadOS 18.0",
       "maximumOrientedPixels": 26000000,
-      "initialDistribution": "signed internal TestFlight; current 1.0 (2) processed and available to existing internal group, new-build installation unverified"
+      "initialDistribution": "signed internal TestFlight; current 1.1 (3) processed and available to existing internal group, new-build installation unverified"
     },
     "backend": null,
     "database": null
@@ -34,16 +34,16 @@
   "deployment": {
     "branch": "main",
     "visibility": "public GitHub release",
-    "githubReleaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.3.3",
+    "githubReleaseURL": "https://github.com/dtgibson/kltimage/releases/tag/v1.4.0",
     "artifactDirectory": "/Users/developer/devwork/kltimage/releases",
     "currentRelease": {
-      "version": "1.3.3",
-      "build": "9",
-      "url": "https://github.com/dtgibson/kltimage/releases/download/v1.3.3/KLT-Image-1.3.3-build-9.zip",
-      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.3.3/KLT-Image-1.3.3-build-9.zip",
-      "sha256": "98cd1404efceebcf4282b78b774e1cb9fed30e4f208f5aa7c085eb1a1739ece1",
-      "notarySubmission": "ff8afe5d-3a2c-4ee3-aeb7-ec3790609dfe",
-      "publishedAt": "2026-10-02T18:20:48Z"
+      "version": "1.4.0",
+      "build": "10",
+      "url": "https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip",
+      "githubURL": "https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip",
+      "sha256": "a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4",
+      "notarySubmission": "a57f0b4e-0c6e-4311-9b4f-2369d1252603",
+      "publishedAt": "2026-10-03T15:02:12Z"
     },
     "rollbackArtifact": {
       "version": "1.3.2",
@@ -65,20 +65,20 @@
     "releasePolicy": "publish each approved build as a distinct GitHub Release and update advertised links only after a fresh download passes independent release verification",
     "rollback": "restore trusted Build 8 as the advertised GitHub release; existing tailnet routes and historical artifacts are outside the current release flow",
     "iosTestFlight": {
-      "version": "1.0",
-      "build": "2",
+      "version": "1.1",
+      "build": "3",
       "bundleIdentifier": "com.kltimage.ios",
       "appId": "6818412230",
-      "buildId": "5168e00e-a220-4ff8-86bb-5a4cadb9f730",
+      "buildId": "d415823a-cc95-4129-a7a0-84648411882c",
       "processingState": "VALID",
       "internalBuildState": "IN_BETA_TESTING",
       "group": "KLT Image Internal",
       "testerCount": 1,
-      "sha256": "6c9f2a40771db245219ffa84c4a3594df715ef565ca06b920dc79302ca661eab",
-      "uploadedAt": "2026-10-02T18:22:11Z",
+      "sha256": "c43064e35815481ffe521b173e764de585edc6ec8873e00d9563d322d4525a4b",
+      "uploadedAt": "2026-10-03T15:05:01Z",
       "installationVerified": false
     }
   },
   "createdAt": "2026-09-11T02:22:22Z",
-  "updatedAt": "2026-10-02T18:26:31.090719Z"
+  "updatedAt": "2026-10-03T15:17:54.081979+00:00"
 }

@@ -1,0 +1,40 @@
+[
+  {
+    "capture": "iphone-calculated-success.txt",
+    "folder": "/Users/developer/Library/Developer/CoreSimulator/Devices/068373BA-E6B6-4640-B923-26B8BDB472DB/data/Containers/Shared/AppGroup/763CE217-2427-4E42-8E01-7C4E835ABE59/File Provider Storage/KLT Batch 2026-10-03 00-44-35 FA955B9B-3279-4299-B9C5-8D6E9C9E6A6D",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1446375,
+        "sha256": "e8603e8620479a2df34c009c5d60caef9df8eb9726849004edd1340d394dadc2"
+      }
+    ]
+  },
+  {
+    "capture": "iphone-calculated-record-success.txt",
+    "folder": "/Users/developer/Library/Developer/CoreSimulator/Devices/068373BA-E6B6-4640-B923-26B8BDB472DB/data/Containers/Shared/AppGroup/763CE217-2427-4E42-8E01-7C4E835ABE59/File Provider Storage/KLT Batch 2026-10-03 00-53-48 92C9C04D-163C-47F2-8D5F-FB482F83D574",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt-analysis.json",
+        "bytes": 1959,
+        "sha256": "f4edafefaf17496ef1edab623083597fa24ea0f344b3e3dd6c5c70c0682e6f66",
+        "topLevelKeys": [
+          "conventions",
+          "interpretation",
+          "mathematics",
+          "request",
+          "schema",
+          "source",
+          "version"
+        ],
+        "schema": "org.kltimage.analysis-record",
+        "version": 1
+      },
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1446375,
+        "sha256": "e8603e8620479a2df34c009c5d60caef9df8eb9726849004edd1340d394dadc2"
+      }
+    ]
+  }
+]

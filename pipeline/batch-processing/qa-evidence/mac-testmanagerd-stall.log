@@ -1,0 +1,6 @@
+00:41:39.227 xcodebuild[22540:13176931] Requesting a socket for communication with testmanagerd.
+00:41:39.235 xcodebuild[22540:13176971] Got socket for DTX-layer communication.
+00:41:39.235 xcodebuild[22540:13176971] Initiating control session with IDE capabilities: <XCTCapabilities: 0x75b4e748d0>: {
+    "report crashes capability" = 3;
+}
+00:41:39.236 xcodebuild[22540:13176971] XPC connection for control was invalidated.

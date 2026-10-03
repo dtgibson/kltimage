@@ -1,0 +1,7 @@
+ISOLATION baseline mode=uncached pid=98794 status=0 footprint=113066704
+ISOLATION item=1 status=0 footprint=234308496
+ISOLATION item=2 status=0 footprint=354583584
+ISOLATION item=3 status=0 footprint=474891464
+ISOLATION item=4 status=0 footprint=595133784
+ISOLATION item=5 status=0 footprint=715408896
+ISOLATION item=6 status=0 footprint=835651216

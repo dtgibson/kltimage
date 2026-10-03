@@ -1,0 +1,32 @@
+Process:         klt-batch-memory-isolation [98957]
+Path:            /private/tmp/klt-batch-memory-isolation
+Load Address:    0x102504000
+Identifier:      klt-batch-memory-isolation
+Version:         0
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  codex [86484]
+Target Type:     live task
+
+Date/Time:       2026-10-03 01:46:09.428 -0700
+Launch Time:     2026-10-03 01:45:53.906 -0700
+OS Version:      macOS 27.0.1 (26A434)
+Report Version:  7
+Analysis Tool:   /usr/bin/heap
+
+Physical footprint:         799.3M
+Physical footprint (peak):  982.5M
+Idle exit:                  untracked
+----
+
+Process 98957: 5 zones
+
+All zones: 2741 nodes malloced - Sizes: 117216KB[6] 93808KB[6] 24KB[12] 20KB[1] 12KB[1] 10KB[2] 8KB[1] 6KB[1] 5KB[6] 3KB[6] 2.5KB[2] 2KB[2] 1.5KB[5] 1.25KB[7] 1KB[3] 896[2] 768[6] 640[17] 512[2] 448[3] 384[5] 320[47] 256[21] 224[11] 192[25] 160[190] 128[201] 112[85] 96[173] 80[405] 64[500] 48[275] 32[437] 16[275] 
+
+Found:  186 ObjC classes  70 Swift classes  48 C++ classes  99 CFTypes
+Derived 100 type names for non-objects from allocation backtraces
+
+Active blocks in all zones that match pattern 'non-object[90m-]':
+
+Process 98957 is not debuggable. Due to security restrictions, heap can only show contents of readonly memory of restricted processes.
+

@@ -1,0 +1,84 @@
+{
+  "replaySchemas": [
+    {
+      "schema": "org.kltimage.analysis-record",
+      "version": 2,
+      "mode": "replayed",
+      "target": {
+        "analysisPixelFormat": "rgba8-premultiplied-srgb",
+        "filename": "specimen-anna-hummingbird",
+        "fingerprint": {
+          "algorithm": "sha256",
+          "value": "6a3d45b0cb8406ec328cda28e71954a0df7a023a9a990592ff6acb2ae6760d4b"
+        },
+        "height": 720,
+        "width": 1280
+      },
+      "origin": {
+        "analysisPixelFormat": "rgba8-premultiplied-srgb",
+        "filename": "klt-batch-qa-24mp.jpeg",
+        "fingerprint": {
+          "algorithm": "sha256",
+          "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+        },
+        "height": 4000,
+        "width": 6000
+      }
+    },
+    {
+      "schema": "org.kltimage.analysis-record",
+      "version": 2,
+      "mode": "replayed",
+      "target": {
+        "analysisPixelFormat": "rgba8-premultiplied-srgb",
+        "filename": "klt-batch-qa-24mp",
+        "fingerprint": {
+          "algorithm": "sha256",
+          "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+        },
+        "height": 4000,
+        "width": 6000
+      },
+      "origin": {
+        "analysisPixelFormat": "rgba8-premultiplied-srgb",
+        "filename": "klt-batch-qa-24mp.jpeg",
+        "fingerprint": {
+          "algorithm": "sha256",
+          "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+        },
+        "height": 4000,
+        "width": 6000
+      }
+    }
+  ],
+  "frozenPayloadIdentical": true,
+  "bothCalculationNull": true,
+  "folders": [
+    {
+      "name": "KLT Batch 2026-10-03 02-45-25 90F19143-362A-4F80-A921-961FE4929D08",
+      "artifactCount": 1
+    },
+    {
+      "name": "KLT Batch 2026-10-03 02-49-02 2CF5F36F-7AC8-48C9-83B3-FCC486B1C685",
+      "artifactCount": 4
+    },
+    {
+      "name": "KLT Batch 2026-10-03 02-51-30 973570DE-E553-4D9E-B33C-C6482A8EF675",
+      "artifactCount": 2
+    },
+    {
+      "name": "KLT Batch 2026-10-03 02-52-24 67DBC206-58CD-49DE-A5B1-65EB6B293998",
+      "artifactCount": 2
+    },
+    {
+      "name": "KLT Batch 2026-10-03 02-53-05 5E8AB335-37C7-4A0B-BEE1-5D1C23FE59F7",
+      "artifactCount": 2
+    },
+    {
+      "name": "KLT Batch 2026-10-03 02-54-20 3AE61087-A48F-4B3D-B91C-3DD7745A3CF1",
+      "artifactCount": 2
+    }
+  ],
+  "privateStagingEmptyAfterRelaunch": true,
+  "latencyThresholdVerified": false
+}

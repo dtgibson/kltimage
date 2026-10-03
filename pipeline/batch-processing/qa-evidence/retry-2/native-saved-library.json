@@ -1,0 +1,119 @@
+{
+  "savedTransforms": [
+    {
+      "createdAt": "2026-10-03T09:44:54.884Z",
+      "libraryName": "Saved transform",
+      "modifiedAt": "2026-10-03T09:44:54.884Z",
+      "recipe": {
+        "algorithm": {
+          "identifier": "org.kltimage.decorrelation-stretch",
+          "version": 1
+        },
+        "frozenApplication": {
+          "alphaPolicy": "preserve-source-byte",
+          "byteQuantization": "clamp-unit-premultiply-round-nearest",
+          "matrixStorage": "row-major",
+          "outputMapping": {
+            "clipsToUnitRange": true,
+            "kind": "encoded-srgb-global-range-v1",
+            "maximum": 2.210601720129533,
+            "minimum": -2.175205265271583,
+            "scale": 0.22800820996652735
+          },
+          "transform": [
+            2.1698685838924123,
+            -1.4535649072524766,
+            0.28954831351201804,
+            -1.4535649072524766,
+            4.049125313432833,
+            -1.7264251707716847,
+            0.28954831351201804,
+            -1.7264251707716847,
+            2.5742073745744865
+          ],
+          "workingCenter": [
+            0.8565045214052843,
+            0.6599835176470704,
+            0.4678063003267367
+          ]
+        },
+        "identifier": "e1b1af7f-d575-4e31-832d-66edb2ab6020",
+        "interpretation": {
+          "exploratoryUseNotice": "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement."
+        },
+        "originSource": {
+          "analysisPixelFormat": "rgba8-premultiplied-srgb",
+          "filename": "klt-batch-qa-24mp.jpeg",
+          "fingerprint": {
+            "algorithm": "sha256",
+            "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+          },
+          "height": 4000,
+          "width": 6000
+        },
+        "originatingAnalysis": {
+          "matrixMode": "covariance",
+          "region": null,
+          "samplePixelCount": 24000000,
+          "samplingMode": "wholeImage"
+        },
+        "recipeFormatVersion": 1,
+        "workingSpace": {
+          "base": "encoded-srgb",
+          "baseChannelOrder": [
+            "red",
+            "green",
+            "blue"
+          ],
+          "baseChannelUnits": [
+            "encoded-srgb-[0,1]",
+            "encoded-srgb-[0,1]",
+            "encoded-srgb-[0,1]"
+          ],
+          "definitionVersion": 1,
+          "forwardMatrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "identity": {
+            "identifier": "org.kltimage.space.rgb",
+            "kind": "standard"
+          },
+          "inverseMatrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "outputBehavior": "encoded-srgb-global-range-v1",
+          "workingChannelNames": [
+            "red",
+            "green",
+            "blue"
+          ]
+        },
+        "workingSpaceNameAtCapture": "RGB"
+      }
+    }
+  ],
+  "schema": "org.kltimage.method-library",
+  "userWorkingSpaces": [],
+  "version": 1
+}

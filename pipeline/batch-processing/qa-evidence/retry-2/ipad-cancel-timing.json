@@ -1,0 +1,7 @@
+{
+  "tapStartToObservedSnapshotSeconds": 1.3620372499863151,
+  "tapCommandSeconds": 0.7623016249854118,
+  "snapshotSeconds": 0.5997356250009034,
+  "acknowledged": true,
+  "tapOutput": "\u2713 Tap at (303.0, 970.0) completed successfully\n \n"
+}

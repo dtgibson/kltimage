@@ -1,0 +1,8 @@
+{
+  "tapInvocationToCompletedScreenshotSeconds": 1.4057297919935081,
+  "tapCommandSeconds": 1.0583563330001198,
+  "screenshotSeconds": 0.34737345899338834,
+  "tapExit": 0,
+  "screenshotExit": 0,
+  "method": "Clock starts before coordinate tap invocation; screenshot completes after tap. Visual artifact determines acknowledgment."
+}

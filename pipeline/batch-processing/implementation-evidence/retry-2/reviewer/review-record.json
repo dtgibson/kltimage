@@ -1,0 +1,17 @@
+{
+  "scope": "Read-only expert review; standalone local diagnostics only; no production edits, physical devices, pipeline transitions or releases.",
+  "platform": "macOS 27.0.1 (26A434); local development Mac; standalone Swift compiled with explicit Xcode DEVELOPER_DIR.",
+  "recommendedCandidate": "Preserve existing ImageIO thumbnail and CGContext drawing operations. Allocate destination with calloc, draw into the pointer, release CGContext, then transfer ownership to Data(bytesNoCopy:count:deallocator:.free). Keep cancellation and error cleanup ownership explicit.",
+  "evidence": {
+    "thumbnailWithoutRendering": "lifetime-nodraw.log: six24MPitems125174456\u2192125977632 bytes",
+    "thumbnailProviderReadWithoutRendering": "lifetime-read.log: six24MPitems125207248\u2192125961272 bytes",
+    "trueCFDataCopyThenRendering": "lifetime-deepcopy.log:317539288\u2192918882008 bytes; fails",
+    "copiedCGImageShouldInterpolateFalse": "lifetime-nointerpolate.log:317637592\u2192918898392 bytes; fails",
+    "callocRenderFree": "lifetime-rawbuffer.log:221381496\u2192222627376 bytes; bounded in six-item probe",
+    "callocRenderThenDataNoCopyAndCGImage": "lifetime-nocopy.log:221496184\u2192222660144 bytes; bounded in six-item probe",
+    "png16Alpha": "alpha.log: direct16bit straight-alpha\u21928bit sRGB has1812 differing bytes/max1; source-color-space16bit premultiplied CGContext intermediate gives exact0byte deltas for sRGB, DisplayP3 and AdobeRGB fixtures."
+  },
+  "apiReview": "SDK CGImageSource.h documents ShouldCache/ShouldCacheImmediately and RemoveCacheAtIndex for source decoded caching, with no documented separate thumbnail/render-cache lifetime invalidation found. Existing failed options need no repetition.",
+  "interpretation": "Observed growth depends on rendering into Data(count:) destination in this reproduction; public raw-buffer ownership path avoids it. Underlying framework/allocator cause is not proven by footprint alone.",
+  "remainingVerification": "Engineer owns production ownership change, all384 exact-pixel fixture parity, optimized100-image memory test, and required platform checks. No general bounded-memory claim beyond six-item diagnostic is made."
+}

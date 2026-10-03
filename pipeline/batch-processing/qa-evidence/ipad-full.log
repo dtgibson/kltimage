@@ -1,0 +1,407 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project KLTImage.xcodeproj -scheme KLTImageIOS -configuration Debug -destination "platform=iOS Simulator,id=7816C5F3-F485-40BB-A6C6-C86BE97B3287" -derivedDataPath /tmp/klt-batch-qa-ios -resultBundlePath /tmp/klt-batch-qa-ipad.xcresult -parallel-testing-enabled NO test
+
+Writing result bundle at path:
+	/tmp/klt-batch-qa-ipad.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (4 targets)
+    Target 'KLTImageIOSTests' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTImageIOS' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTImageIOS' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTCoreIOSTests' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTCoreIOS' in project 'KLTImage' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 171650644d09389455c626af8f38dafe
+Build description path: /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/XCBuildData/171650644d09389455c626af8f38dafe.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk /tmp/klt-batch-qa-ios/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+    cd /Users/developer/devwork/kltimage/KLTImage.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -o /tmp/klt-batch-qa-ios/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist
+
+Copy /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks/KLTCore.framework: replacing existing signature
+
+CompileAssetCatalogVariant thinned /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets --compile /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --output-partial-info-plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPad17,4-A --filter-for-device-os-version 26.4.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 18.0 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/Assets.car
+
+
+LinkAssetCatalog /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-linkAssetCatalog --thinned /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --thinned-dependencies /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --unthinned /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/unthinned --unthinned-dependencies /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_unthinned --output /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app --plist-output /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist
+note: Emplaced /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon60x60@2x.png (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/Assets.car (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon76x76@2x~ipad.png (in target 'KLTImageIOS' from project 'KLTImage')
+
+Copy /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/Frameworks/KLTCore.framework: replacing existing signature
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist /Users/developer/devwork/kltimage/KLTImageIOS/Info.plist (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /Users/developer/devwork/kltimage/KLTImageIOS/Info.plist -producttype com.apple.product-type.application -genpkginfo /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist -scanforprivacyfile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist
+
+CopySwiftLibs /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/SystemExtensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Extensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+Copy /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks -remove-static-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks/KLTCore.framework: replacing existing signature
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Info.plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/empty-KLTImageIOSTests.plist (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/empty-KLTImageIOSTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Info.plist
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Info.plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/empty-KLTCoreIOSTests.plist (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/empty-KLTCoreIOSTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Info.plist
+
+CopySwiftLibs /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/KLTCoreIOSTests --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/PlugIns --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/SystemExtensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Extensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+CopySwiftLibs /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/KLTImageIOSTests --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/PlugIns --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/SystemExtensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Extensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest: replacing existing signature
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/PlugIns/KLTImageIOSTests.xctest: replacing existing signature
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/KLT Image.debug.dylib: replacing existing signature
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/__preview.dylib
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/__preview.dylib: replacing existing signature
+
+CodeSign /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app
+/tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app: replacing existing signature
+
+Validate /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-validationUtility /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app -shallow-bundle -infoplist-subpath Info.plist
+
+PruneExplicitPrecompiledModules /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-batch-qa-ios/SDKExplicitPrecompiledModules
+
+Test Suite 'All tests' started at 2026-10-03 00:42:51.621.
+Test Suite 'KLTCoreIOSTests.xctest' started at 2026-10-03 00:42:51.621.
+Test Suite 'AnalysisControlsTests' started at 2026-10-03 00:42:51.622.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testAllEightAnalysisCombinationsAreDeterministicAndPreserveAlpha]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testAllEightAnalysisCombinationsAreDeterministicAndPreserveAlpha]' passed (0.045 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testAlreadyCancelledAnalysisStopsBeforePublishingAResult]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testAlreadyCancelledAnalysisStopsBeforePublishingAResult]' passed (0.005 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testBaselineMatchesImmutableVersion100Build2GoldenFixtures]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testBaselineMatchesImmutableVersion100Build2GoldenFixtures]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testCorrelationMatrixMatchesThreeVariableReference]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testCorrelationMatrixMatchesThreeVariableReference]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testCorrelationMatrixUsesUnitDiagonalAndExcludesFlatVariable]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testCorrelationMatrixUsesUnitDiagonalAndExcludesFlatVariable]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testEveryCombinationExportsAtSourceDimensions]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testEveryCombinationExportsAtSourceDimensions]' passed (0.016 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testFineDetailSurvivesDecodeMappingAndLosslessExport]' started.
+Fine-detail JPEG control rgb/covariance: source mean RGB error 7.229981922407478; result mean RGB error 41.37406503901131; scalar max error 0
+Fine-detail JPEG control rgb/correlation: source mean RGB error 7.229981922407478; result mean RGB error 39.62490675591218; scalar max error 0
+Fine-detail JPEG control lab/covariance: source mean RGB error 7.229981922407478; result mean RGB error 19.65600155910835; scalar max error 0
+Fine-detail JPEG control lab/correlation: source mean RGB error 7.229981922407478; result mean RGB error 13.315033971089292; scalar max error 0
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testFineDetailSurvivesDecodeMappingAndLosslessExport]' passed (5.659 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testLabInverseClipsFiniteOutOfGamutAndRejectsNonFinite]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testLabInverseClipsFiniteOutOfGamutAndRejectsNonFinite]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testPinchClampRetainsPlatformFloorsAndAllowsZoomingOutFromCeiling]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testPinchClampRetainsPlatformFloorsAndAllowsZoomingOutFromCeiling]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testPublishedSRGBLabReferenceColorsAndRoundTrip]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testPublishedSRGBLabReferenceColorsAndRoundTrip]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testRegionStatisticsProduceAFullFrameResult]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testRegionStatisticsProduceAFullFrameResult]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testRegionValidatorRetainsExactBoundsAndRejectsEveryGeometryClass]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testRegionValidatorRetainsExactBoundsAndRejectsEveryGeometryClass]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testRequestGateRequiresNewestJobAndCurrentScientificKey]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testRequestGateRequiresNewestJobAndCurrentScientificKey]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testSelectedRegionIncludesExactHalfOpenPixelPopulation]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testSelectedRegionIncludesExactHalfOpenPixelPopulation]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testUniformSelectedRegionFailsWithoutWholeImageFallback]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testUniformSelectedRegionFailsWithoutWholeImageFallback]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testViewportTransformRoundTripsCanonicalBoundsAcrossZoomAndPan]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisControlsTests testViewportTransformRoundTripsCanonicalBoundsAcrossZoomAndPan]' passed (0.001 seconds).
+Test Suite 'AnalysisControlsTests' passed at 2026-10-03 00:42:57.368.
+	 Executed 16 tests, with 0 failures (0 unexpected) in 5.740 (5.746) seconds
+Test Suite 'AnalysisRecordTests' started at 2026-10-03 00:42:57.368.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testCanonicalJSONBytesAreGoldenAndAtomicWritesRepeatExactly]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testCanonicalJSONBytesAreGoldenAndAtomicWritesRepeatExactly]' passed (0.007 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testCanonicalJSONHasVersionedSchemaExplicitNullAndNoVolatileValues]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testCanonicalJSONHasVersionedSchemaExplicitNullAndNoVolatileValues]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testDecodedSourceFingerprintIsStableAndPixelSensitive]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testDecodedSourceFingerprintIsStableAndPixelSensitive]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testLimitedVariationRecordUsesExplicitIdentityOutputPath]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testLimitedVariationRecordUsesExplicitIdentityOutputPath]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testRecordValueTypesRejectNonFiniteAndWrongSizedValues]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testRecordValueTypesRejectNonFiniteAndWrongSizedValues]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testRepeatedAndNearEqualEigenvaluesKeepDeterministicOrderAndSigns]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testRepeatedAndNearEqualEigenvaluesKeepDeterministicOrderAndSigns]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testSelectedRegionRecordUsesResolvedHalfOpenBoundsAndNormalizedGeometry]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testSelectedRegionRecordUsesResolvedHalfOpenBoundsAndNormalizedGeometry]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testWholeImageRecordCapturesExactMathematicsAndRGBOutputMapping]' started.
+Test Case '-[KLTCoreIOSTests.AnalysisRecordTests testWholeImageRecordCapturesExactMathematicsAndRGBOutputMapping]' passed (0.001 seconds).
+Test Suite 'AnalysisRecordTests' passed at 2026-10-03 00:42:57.387.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.016 (0.019) seconds
+Test Suite 'DecorrelationStretchTests' started at 2026-10-03 00:42:57.387.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testAlphaDoesNotEnterColorCovariance]' started.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testAlphaDoesNotEnterColorCovariance]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testCovarianceMatchesReferenceValues]' started.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testCovarianceMatchesReferenceValues]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testNearSingularColorDataStaysFiniteAndBounded]' started.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testNearSingularColorDataStaysFiniteAndBounded]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testOutputIsDeterministicFiniteAndPreservesAlpha]' started.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testOutputIsDeterministicFiniteAndPreservesAlpha]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testSinglePixelRemainsUnchanged]' started.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testSinglePixelRemainsUnchanged]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testStableOutputComponentsHaveEqualVariance]' started.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testStableOutputComponentsHaveEqualVariance]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testUniformImageRemainsUnchanged]' started.
+Test Case '-[KLTCoreIOSTests.DecorrelationStretchTests testUniformImageRemainsUnchanged]' passed (0.001 seconds).
+Test Suite 'DecorrelationStretchTests' passed at 2026-10-03 00:42:57.395.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.006 (0.008) seconds
+Test Suite 'IOSDecodePolicyTests' started at 2026-10-03 00:42:57.396.
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFileURLDecodeMatchesDataDecode]' started.
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFileURLDecodeMatchesDataDecode]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFixedMobileBoundaryDoesNotChangeMacBoundary]' started.
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFixedMobileBoundaryDoesNotChangeMacBoundary]' passed (0.001 seconds).
+Test Suite 'IOSDecodePolicyTests' passed at 2026-10-03 00:42:57.400.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+Test Suite 'ImagePipelineTests' started at 2026-10-03 00:42:57.400.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testAllSupportedImportFormatsDecode]' started.
+2026-10-03 00:42:57.402098-0700 xctest[23616:13185401] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (6x4) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testAllSupportedImportFormatsDecode]' passed (0.055 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testCorruptInputProducesReadableError]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testCorruptInputProducesReadableError]' passed (0.003 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testDecodeRespectsOrientationAndConvertsToSRGB]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testDecodeRespectsOrientationAndConvertsToSRGB]' passed (0.004 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testEnhancementPreservesDimensionsAndAlphaBytes]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testEnhancementPreservesDimensionsAndAlphaBytes]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testFullFrameProcessingLimitAllowsExactlySixtyFourMegapixels]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testFullFrameProcessingLimitAllowsExactlySixtyFourMegapixels]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testFullFrameProcessingLimitRejectsInvalidAndOverflowingDimensions]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testFullFrameProcessingLimitRejectsInvalidAndOverflowingDimensions]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testFullFrameProcessingLimitRejectsOnePixelOverBoundary]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testFullFrameProcessingLimitRejectsOnePixelOverBoundary]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testJPEGExportRetainsDimensions]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testJPEGExportRetainsDimensions]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testOversizedMetadataIsRejectedBeforeFullFrameDecode]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testOversizedMetadataIsRejectedBeforeFullFrameDecode]' passed (0.003 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testPNGAndTIFFExportRetainDimensionsAndTransparency]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testPNGAndTIFFExportRetainDimensionsAndTransparency]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testRepeatedPipelineProcessingIsByteDeterministic]' started.
+Test Case '-[KLTCoreIOSTests.ImagePipelineTests testRepeatedPipelineProcessingIsByteDeterministic]' passed (0.002 seconds).
+Test Suite 'ImagePipelineTests' passed at 2026-10-03 00:42:57.477.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.074 (0.078) seconds
+Test Suite 'Matrix3x3Tests' started at 2026-10-03 00:42:57.478.
+Test Case '-[KLTCoreIOSTests.Matrix3x3Tests testSymmetricEigenDecompositionReconstructsMatrix]' started.
+Test Case '-[KLTCoreIOSTests.Matrix3x3Tests testSymmetricEigenDecompositionReconstructsMatrix]' passed (0.001 seconds).
+Test Suite 'Matrix3x3Tests' passed at 2026-10-03 00:42:57.479.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'MethodFeatureTests' started at 2026-10-03 00:42:57.479.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testAnalysisV2UsesExplicitNullForOptionalReplayOutcomeAndRegions]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testAnalysisV2UsesExplicitNullForOptionalReplayOutcomeAndRegions]' passed (0.009 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testBuiltInIdentityCannotBeReusedWithDifferentMathematics]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testBuiltInIdentityCannotBeReusedWithDifferentMathematics]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testCaptureAndReplayOriginalSourceAreByteIdenticalForStandardAndAffineSpaces]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testCaptureAndReplayOriginalSourceAreByteIdenticalForStandardAndAffineSpaces]' passed (0.005 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testCrossSourceReplayIsDeterministicAndReportsObservationalDiagnostics]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testCrossSourceReplayIsDeterministicAndReportsObservationalDiagnostics]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testCuratedDefinitionsPinForwardInverseAndConditioning]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testCuratedDefinitionsPinForwardInverseAndConditioning]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testEveryCuratedCalculationCombinationIsDeterministic]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testEveryCuratedCalculationCombinationIsDeterministic]' passed (0.013 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testExtremeValidCustomSpaceRemainsFiniteAndDeterministic]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testExtremeValidCustomSpaceRemainsFiniteAndDeterministic]' passed (0.004 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testFullyTransparentReplayHasNoObservedRangeAndPreservesAlpha]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testFullyTransparentReplayHasNoObservedRangeAndPreservesAlpha]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testLibraryRejectsNormalizedNamesAcrossArtifactTypes]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testLibraryRejectsNormalizedNamesAcrossArtifactTypes]' passed (0.003 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableDocumentsAreCanonicalStrictAndRoundTrip]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableDocumentsAreCanonicalStrictAndRoundTrip]' passed (0.003 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableWorkingSpaceImportRejectsInconsistentInverse]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableWorkingSpaceImportRejectsInconsistentInverse]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableWorkingSpaceImportRejectsResourceAndSyntaxAbuse]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableWorkingSpaceImportRejectsResourceAndSyntaxAbuse]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableWorkingSpaceImportReportsTheWrongMatrixCount]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testPortableWorkingSpaceImportReportsTheWrongMatrixCount]' passed (0.001 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testRecipeAndLibraryDocumentsRoundTripAndAnalysisV2IsTagged]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testRecipeAndLibraryDocumentsRoundTripAndAnalysisV2IsTagged]' passed (0.013 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testRecipeValidationRejectsOriginDimensionOverflow]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testRecipeValidationRejectsOriginDimensionOverflow]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testReplayAnalysisV2ContainsFrozenPayloadWithoutTargetStatistics]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testReplayAnalysisV2ContainsFrozenPayloadWithoutTargetStatistics]' passed (0.004 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testReplayCanReportClippingAndLowContrastTogether]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testReplayCanReportClippingAndLowContrastTogether]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testSeededRandomizedAffineCalculationsAndFrozenReplaysStayFiniteAndDeterministic]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testSeededRandomizedAffineCalculationsAndFrozenReplaysStayFiniteAndDeterministic]' passed (0.063 seconds).
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testValidatorPinsSingularConditionAndInclusiveBoundaryRules]' started.
+Test Case '-[KLTCoreIOSTests.MethodFeatureTests testValidatorPinsSingularConditionAndInclusiveBoundaryRules]' passed (0.001 seconds).
+Test Suite 'MethodFeatureTests' passed at 2026-10-03 00:42:57.617.
+	 Executed 19 tests, with 0 failures (0 unexpected) in 0.131 (0.138) seconds
+Test Suite 'KLTCoreIOSTests.xctest' passed at 2026-10-03 00:42:57.617.
+	 Executed 64 tests, with 0 failures (0 unexpected) in 5.971 (5.996) seconds
+Test Suite 'All tests' passed at 2026-10-03 00:42:57.617.
+	 Executed 64 tests, with 0 failures (0 unexpected) in 5.971 (5.997) seconds
+2026-10-03 00:42:59.998102-0700 KLT Image[23641:13185829] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/F7C1951C-7ECF-422F-BEF0-6CAE50AD7679/KLT%20Image.app/IBMPlexMono-Regular.ttf"
+2026-10-03 00:43:00.012856-0700 KLT Image[23641:13185829] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/F7C1951C-7ECF-422F-BEF0-6CAE50AD7679/KLT%20Image.app/IBMPlexSans-SemiBold.ttf"
+2026-10-03 00:43:00.013738-0700 KLT Image[23641:13185829] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/F7C1951C-7ECF-422F-BEF0-6CAE50AD7679/KLT%20Image.app/IBMPlexMono-SemiBold.ttf"
+2026-10-03 00:43:00.014231-0700 KLT Image[23641:13185829] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/F7C1951C-7ECF-422F-BEF0-6CAE50AD7679/KLT%20Image.app/IBMPlexSans-Regular.ttf"
+2026-10-03 00:43:00.014736-0700 KLT Image[23641:13185829] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/F7C1951C-7ECF-422F-BEF0-6CAE50AD7679/KLT%20Image.app/IBMPlexSans-Bold.ttf"
+Test Suite 'All tests' started at 2026-10-03 00:43:01.850.
+Test Suite 'KLTImageIOSTests.xctest' started at 2026-10-03 00:43:01.851.
+Test Suite 'BatchProcessingTests' started at 2026-10-03 00:43:01.851.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testBoundedEncoderPreservesExistingBytesAndOriginalSinkErrors]' started.
+2026-10-03 00:43:01.865934-0700 KLT Image[23641:13185829] [KLT Image] finalize:433: *** ERROR: Could not write any more data to the consumer
+2026-10-03 00:43:01.867627-0700 KLT Image[23641:13185829] [KLT Image] finalize:433: *** ERROR: Could not write any more data to the consumer
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testBoundedEncoderPreservesExistingBytesAndOriginalSinkErrors]' passed (0.019 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testCleanupDebtSurvivesRelaunchAndRejectsWrongFolderWithoutTouchingSentinels]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testCleanupDebtSurvivesRelaunchAndRejectsWrongFolderWithoutTouchingSentinels]' passed (0.019 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testExclusivePairCollisionAndCancellationPreserveActualCommits]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testExclusivePairCollisionAndCancellationPreserveActualCommits]' passed (0.183 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testHundredEntriesStaySequentialAndLateCanceledAcquisitionDrains]' started.
+objc[23641]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23E254a/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.4.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x116a04398) and /Library/Developer/CoreSimulator/Volumes/iOS_23E254a/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.4.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x118a9c310). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testHundredEntriesStaySequentialAndLateCanceledAcquisitionDrains]' passed (1.060 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testScientificParityAndAcceptanceGateForCalculationAndRegionReplay]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testScientificParityAndAcceptanceGateForCalculationAndRegionReplay]' passed (0.022 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSerialRunnerSettlesMixedInputsAndCancellationWithoutAcquiringNext]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSerialRunnerSettlesMixedInputsAndCancellationWithoutAcquiringNext]' passed (0.090 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSetupBoundDefaultsAndNoWorkspaceMutationWhileLeaseHeld]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSetupBoundDefaultsAndNoWorkspaceMutationWhileLeaseHeld]' passed (0.004 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testStableStagingRejectsOverflowChangesAndLinksAndReleasesQuota]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testStableStagingRejectsOverflowChangesAndLinksAndReleasesQuota]' passed (0.006 seconds).
+Test Suite 'BatchProcessingTests' passed at 2026-10-03 00:43:03.260.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 1.404 (1.409) seconds
+Test Suite 'KLTImageIOSTests' started at 2026-10-03 00:43:03.260.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testCorruptIOSStoreIsNotReplaced]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testCorruptIOSStoreIsNotReplaced]' passed (0.009 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testEncodedSourceBoundRejectsStaticAndGrowingProvider]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testEncodedSourceBoundRejectsStaticAndGrowingProvider]' passed (0.004 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testFirstMutationWritesCanonicalStore]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testFirstMutationWritesCanonicalStore]' passed (0.003 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testImportReplaceCannotDeleteASecondSpaceWithTheIncomingName]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testImportReplaceCannotDeleteASecondSpaceWithTheIncomingName]' passed (0.002 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testLaunchRecoveryRemovesOnlyOwnedSourceFiles]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testLaunchRecoveryRemovesOnlyOwnedSourceFiles]' passed (0.003 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testMutationBeforeLoadDoesNotOverwriteCorruptStore]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testMutationBeforeLoadDoesNotOverwriteCorruptStore]' passed (0.002 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testPartialStageIsRemovedOnErrorAndCancellation]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testPartialStageIsRemovedOnErrorAndCancellation]' passed (0.003 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testRegisteredViewportPreservesSourceCoordinatesUnderZoomAndPan]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testRegisteredViewportPreservesSourceCoordinatesUnderZoomAndPan]' passed (0.001 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testWorkspaceAcceptsOneMatchingResultAndExportsItsRecord]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testWorkspaceAcceptsOneMatchingResultAndExportsItsRecord]' passed (0.136 seconds).
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testZoomButtonsReachTenTimesFitAndReset]' started.
+Test Case '-[KLTImageIOSTests.KLTImageIOSTests testZoomButtonsReachTenTimesFitAndReset]' passed (0.001 seconds).
+Test Suite 'KLTImageIOSTests' passed at 2026-10-03 00:43:03.426.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.163 (0.166) seconds
+Test Suite 'KLTImageIOSTests.xctest' passed at 2026-10-03 00:43:03.427.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 1.567 (1.576) seconds
+Test Suite 'All tests' passed at 2026-10-03 00:43:03.427.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 1.567 (1.577) seconds
+2026-10-03 00:43:03.718 xcodebuild[23583:13185141] [MT] IDETestOperationsObserverDebug: 13.345 elapsed -- Testing started completed.
+2026-10-03 00:43:03.718 xcodebuild[23583:13185141] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-03 00:43:03.718 xcodebuild[23583:13185141] [MT] IDETestOperationsObserverDebug: 13.345 sec, +13.345 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/klt-batch-qa-ipad.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

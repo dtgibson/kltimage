@@ -1,0 +1,7 @@
+ISOLATION baseline mode=detached pid=213 status=0 footprint=113099472
+ISOLATION item=1 status=0 footprint=234308472
+ISOLATION item=2 status=0 footprint=354599968
+ISOLATION item=3 status=0 footprint=474924208
+ISOLATION item=4 status=0 footprint=595215704
+ISOLATION item=5 status=0 footprint=715490792
+ISOLATION item=6 status=0 footprint=835716752

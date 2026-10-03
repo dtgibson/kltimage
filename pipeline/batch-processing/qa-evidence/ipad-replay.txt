@@ -1,0 +1,78 @@
+{"AXLabel": "KLT Image", "AXValue": null, "AXUniqueId": null, "type": "Application", "enabled": true, "frame": {"x": 0, "width": 1032, "height": 1376, "y": 0}}
+{"AXLabel": "KLT IMAGE", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 59.5, "height": 14.5, "x": 23.75, "y": 48}}
+{"AXLabel": "Workspace", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 116.25, "height": 20.5, "x": 26, "y": 88.5}}
+{"AXLabel": "photo.on.rectangle", "AXValue": null, "AXUniqueId": "photo.on.rectangle", "type": "Image", "enabled": true, "frame": {"width": 21, "height": 17, "x": 26, "y": 90}}
+{"AXLabel": "Workspace", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 116.25, "height": 20.5, "x": 26, "y": 88.5}}
+{"AXLabel": "Library", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 79.25, "height": 21.010986328125, "x": 25, "y": 119.989013671875}}
+{"AXLabel": "square.stack", "AXValue": null, "AXUniqueId": "square.stack", "type": "Image", "enabled": true, "frame": {"width": 17.5, "height": 21, "x": 25, "y": 120}}
+{"AXLabel": "Library", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 79.25, "height": 21.010986328125, "x": 25, "y": 119.989013671875}}
+{"AXLabel": "Local scientific imaging", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 113.5, "height": 13, "x": 23.75, "y": 1327}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": null, "type": "Group", "enabled": true, "frame": {"width": 40, "height": 36, "x": 180.5, "y": 36}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"width": 40, "height": 36, "x": 180.5, "y": 36}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"width": 26, "height": 26, "x": 187.5, "y": 41}}
+{"AXLabel": "Methods", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 38.5, "height": 36, "x": 236.5, "y": 36}}
+{"AXLabel": "KLT Image", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"width": 83, "height": 21, "x": 424.5, "y": 43.5}}
+{"AXLabel": "Open image", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 37, "height": 36, "x": 661, "y": 36}}
+{"AXLabel": "Analysis record", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": false, "frame": {"width": 37.5, "height": 36, "x": 714, "y": 36}}
+{"AXLabel": "photo.artframe", "AXValue": null, "AXUniqueId": "photo.artframe", "type": "Image", "enabled": true, "frame": {"width": 51, "height": 40, "x": 440.5, "y": 637}}
+{"AXLabel": "Reveal subtle color structure", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 270.5, "height": 26, "x": 330.75, "y": 717.75}}
+{"AXLabel": "Choose a photograph. Analysis stays on this device, and the source stays unchanged.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 424.5, "height": 32.5, "x": 253.75, "y": 747.75}}
+{"AXLabel": "Open image", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 89.5, "height": 32, "x": 421.5, "y": 796.5}}
+{"AXLabel": "ANALYSIS", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 784, "height": 14.5, "width": 53, "y": 50}}
+{"AXLabel": "No analysis yet", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 80.5, "height": 25, "width": 135, "x": 784}}
+{"AXLabel": "Working space, RGB", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 784, "height": 14, "width": 230, "y": 138}}
+{"AXLabel": "Matrix, Covariance", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 168, "height": 14, "width": 230, "x": 784}}
+{"AXLabel": "Sample, Whole image", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 784, "height": 14, "width": 230, "y": 198}}
+{"AXLabel": "Change analysis", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"y": 228, "height": 14, "width": 89, "x": 784}}
+{"AXLabel": "Inspect record", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": false, "frame": {"y": 258, "height": 14, "width": 76.5, "x": 784}}
+{"AXLabel": "Export record", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": false, "frame": {"y": 288, "height": 14, "width": 72.5, "x": 784}}
+{"AXLabel": "Export result", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": false, "frame": {"x": 784, "height": 32, "width": 91.5, "y": 318}}
+{"AXLabel": "Enhanced color is exploratory evidence.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 366, "height": 13, "width": 195.5, "x": 784}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"x": 999, "height": 1316, "width": 30, "y": 30}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"y": 30, "height": 1316, "width": 30, "x": 999}}
+{"AXLabel": "KLT IMAGE", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "height": 13, "width": 63, "y": 382}}
+{"AXLabel": "Batch processing", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"y": 399, "height": 26, "width": 161, "x": 250}}
+{"AXLabel": "Close", "AXValue": null, "AXUniqueId": "batch-close", "type": "Button", "enabled": true, "frame": {"y": 381.5, "height": 33, "width": 54, "x": 728.5}}
+{"AXLabel": "Images", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"x": 250, "height": 18.5, "width": 52.5, "y": -59.5}}
+{"AXLabel": "0 / 100", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 731.5, "height": 16, "width": 50.5, "y": -58.25}}
+{"AXLabel": "Up to 100 images per batch", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": -29, "height": 16.5, "width": 172, "x": 250}}
+{"AXLabel": "Add files\u2026", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"x": 250, "height": 16.5, "width": 68, "y": -0.5}}
+{"AXLabel": "Add from Photos\u2026", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 16.5, "x": 326, "width": 118.5, "y": 1}}
+{"AXLabel": "Clear", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": false, "frame": {"height": 16.5, "x": 452.5, "width": 33.5, "y": 1}}
+{"AXLabel": "Choose your photographs", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 18.5, "x": 250, "width": 184.5, "y": 45.5}}
+{"AXLabel": "Add JPEG, PNG, TIFF, or HEIC files. Your original images stay unchanged.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 16.5, "x": 250, "width": 466, "y": 76}}
+{"AXLabel": "Each source is read when its turn begins, not when selected.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 14, "x": 250, "width": 323, "y": 118}}
+{"AXLabel": "Resource limits", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 24.5, "x": 250, "width": 532, "y": 144}}
+{"AXLabel": "Resource limits", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 24.5, "x": 250, "width": 532, "y": 144}}
+{"AXLabel": "Processing method", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"height": 18.5, "x": 250, "width": 137, "y": 218.5}}
+{"AXLabel": "Calculate each image, Fit a new transform from each image's own whole-image statistics.", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 60.5, "x": 250, "width": 532, "y": 249}}
+{"AXLabel": "circle", "AXValue": null, "AXUniqueId": "circle", "type": "Image", "enabled": true, "frame": {"height": 14, "x": 263, "width": 14, "y": 264}}
+{"AXLabel": "Calculate each image", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 17.5, "x": 290, "width": 144.5, "y": 261}}
+{"AXLabel": "Fit a new transform from each image's own whole-image statistics.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 15, "x": 290, "width": 383, "y": 282.5}}
+{"AXLabel": "Replay saved transform, Apply one saved transform unchanged. No target statistics are fitted.", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 60.5, "x": 250, "width": 532, "y": 323}}
+{"AXLabel": "largecircle.fill.circle", "AXValue": null, "AXUniqueId": "largecircle.fill.circle", "type": "Image", "enabled": true, "frame": {"height": 14, "x": 263, "width": 14, "y": 338}}
+{"AXLabel": "Replay saved transform", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 17.5, "x": 290, "width": 158.5, "y": 335}}
+{"AXLabel": "Apply one saved transform unchanged. No target statistics are fitted.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 15, "x": 290, "width": 395, "y": 356.5}}
+{"AXLabel": "Saved transform, Choose a transform", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"height": 34.5, "x": 250, "width": 190.5, "y": 396.5}}
+{"AXLabel": "Choose a transform", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 20.5, "x": 262, "width": 150.5, "y": 403.5}}
+{"AXLabel": "No saved transforms yet", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 16.5, "x": 250, "width": 152, "y": 443}}
+{"AXLabel": "Create a transform from a result, or import a transform in Methods. Close Batch to use that workflow. Analysis JSON cannot be replayed.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 28, "x": 250, "width": 484.5, "y": 471.5}}
+{"AXLabel": "Save results", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"height": 18.5, "x": 250, "width": 88.5, "y": 548}}
+{"AXLabel": "Format, PNG", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"height": 34.5, "x": 250, "width": 75, "y": 580}}
+{"AXLabel": "PNG", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 20.5, "x": 262, "width": 35, "y": 587}}
+{"AXLabel": "Full source resolution \u00b7 Transparency preserved", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 14, "x": 250, "width": 253.5, "y": 626.5}}
+{"AXLabel": "Include analysis JSON", "AXValue": "0", "AXUniqueId": null, "type": "CheckBox", "enabled": true, "frame": {"height": 28, "x": 250, "width": 532, "y": 652.5}}
+{"AXLabel": "Include analysis JSON", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 16.5, "x": 250, "width": 141, "y": 659.25}}
+{"AXLabel": null, "AXValue": "0", "AXUniqueId": null, "type": "CheckBox", "enabled": true, "frame": {"height": 28, "x": 721, "width": 63, "y": 653.5}}
+{"AXLabel": "One record beside each image, tied to its exact result.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 14, "x": 250, "width": 287, "y": 693.5}}
+{"AXLabel": "Choose an output folder", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 16.5, "x": 250, "width": 149.5, "y": 719.5}}
+{"AXLabel": "Choose folder\u2026", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 16.5, "x": 250, "width": 101.5, "y": 748}}
+{"AXLabel": "New run folder", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"x": 250, "height": 24.5, "width": 532, "y": 777.5}}
+{"AXLabel": "New run folder", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 24.5, "x": 250, "width": 532, "y": 777.5}}
+{"AXLabel": "A new folder is created at Start. Existing files are never replaced.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "height": 14, "width": 344, "y": 814}}
+{"AXLabel": "Temporary output files can appear in the selected run folder while saving. Cloud syncing is managed by your provider.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 482.5, "height": 28, "y": 841}}
+{"AXLabel": "Vertical scroll bar, 3 pages", "AXValue": "100%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"x": 773, "width": 30, "height": 450, "y": 449.5}}
+{"AXLabel": "Vertical scroll bar, 3 pages", "AXValue": "100%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"x": 773, "width": 30, "height": 450, "y": 449.5}}
+{"AXLabel": "Keep KLT Image open in the foreground", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "height": 14, "width": 213.5, "y": 908}}
+{"AXLabel": "Add an eligible image to begin.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 164.5, "height": 14, "y": 934}}
+{"AXLabel": "Start batch \u00b7 0", "AXValue": null, "AXUniqueId": "batch-start", "type": "Button", "enabled": false, "frame": {"x": 250, "width": 99, "height": 32, "y": 960}}

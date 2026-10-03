@@ -1,0 +1,48 @@
+{"AXLabel": "KLT Image", "AXValue": null, "AXUniqueId": null, "type": "Application", "enabled": true, "frame": {"y": 0, "x": 0, "width": 1032, "height": 1376}}
+{"AXLabel": "KLT IMAGE", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 48, "height": 14.5, "x": 23.75, "width": 59.5}}
+{"AXLabel": "Workspace", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"y": 88.5, "height": 20.5, "x": 26, "width": 116.25}}
+{"AXLabel": "photo.on.rectangle", "AXValue": null, "AXUniqueId": "photo.on.rectangle", "type": "Image", "enabled": true, "frame": {"y": 90, "height": 17, "x": 26, "width": 21}}
+{"AXLabel": "Workspace", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 88.5, "height": 20.5, "x": 26, "width": 116.25}}
+{"AXLabel": "Library", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"y": 119.989013671875, "height": 21.010986328125, "x": 25, "width": 79.25}}
+{"AXLabel": "square.stack", "AXValue": null, "AXUniqueId": "square.stack", "type": "Image", "enabled": true, "frame": {"y": 120, "height": 21, "x": 25, "width": 17.5}}
+{"AXLabel": "Library", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 119.989013671875, "height": 21.010986328125, "x": 25, "width": 79.25}}
+{"AXLabel": "Local scientific imaging", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 1327, "height": 13, "x": 23.75, "width": 113.5}}
+{"AXLabel": "Method library", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"y": 89.5, "height": 41, "x": 166.5, "width": 230.5}}
+{"AXLabel": "Standard", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"y": 138, "height": 36.5, "x": 186.5, "width": 825.5}}
+{"AXLabel": "RGB", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 196.75, "height": 16.5, "x": 206.5, "width": 30.5}}
+{"AXLabel": "Definition v1 \u00b7 Encoded sRGB", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 213.25, "height": 13, "x": 206.5, "width": 168}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"y": 189.5, "height": 44, "x": 948, "width": 44}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"y": 204.5, "height": 14, "x": 963, "width": 14}}
+{"AXLabel": "CIE Lab D65", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 270.75, "height": 16.5, "x": 206.5, "width": 80.5}}
+{"AXLabel": "Definition v1 \u00b7 CIE Lab D65", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 287.25, "width": 162, "x": 206.5, "height": 13}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"y": 263.5, "width": 44, "x": 948, "height": 44}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"x": 963, "width": 14, "y": 278.5, "height": 14}}
+{"AXLabel": "Curated", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"y": 340, "width": 825.5, "x": 186.5, "height": 36.5}}
+{"AXLabel": "Luma + Chroma", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 398.75, "width": 101, "x": 206.5, "height": 16.5}}
+{"AXLabel": "Definition v1 \u00b7 Encoded sRGB", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 206.5, "y": 415.25, "width": 168, "height": 13}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"x": 948, "width": 44, "y": 391.5, "height": 44}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"y": 406.5, "x": 963, "width": 14, "height": 14}}
+{"AXLabel": "Red + Complement", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"y": 472.75, "x": 206.5, "width": 121.5, "height": 16.5}}
+{"AXLabel": "Definition v1 \u00b7 Encoded sRGB", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 206.5, "y": 489.25, "width": 168, "height": 13}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"x": 948, "y": 465.5, "width": 44, "height": 44}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"y": 480.5, "x": 963, "width": 14, "height": 14}}
+{"AXLabel": "Lab Blue\u2013Yellow", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 206.5, "width": 103.5, "y": 546.75, "height": 16.5}}
+{"AXLabel": "Definition v1 \u00b7 CIE Lab D65", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 13, "width": 162, "x": 206.5, "y": 563.25}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"height": 44, "width": 44, "x": 948, "y": 539.5}}
+{"AXLabel": "More", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"height": 14, "width": 14, "y": 554.5, "x": 963}}
+{"AXLabel": "User working spaces", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"height": 36.5, "width": 825.5, "x": 186.5, "y": 616}}
+{"AXLabel": "No user spaces yet.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 52, "width": 825.5, "y": 652.5, "x": 186.5}}
+{"AXLabel": "Create working space", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 52, "width": 825.5, "y": 704.5, "x": 186.5}}
+{"AXLabel": "Add", "AXValue": null, "AXUniqueId": "plus", "type": "Image", "enabled": true, "frame": {"height": 14.5, "width": 14.5, "x": 211.5, "y": 723.5}}
+{"AXLabel": "Create working space", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 16.5, "width": 170.5, "x": 211.5, "y": 722.25}}
+{"AXLabel": "Saved transforms", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"height": 36.5, "width": 825.5, "x": 186.5, "y": 774}}
+{"AXLabel": "No saved transforms yet.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 52, "width": 825.5, "x": 186.5, "y": 810.5}}
+{"AXLabel": "Save current calculated transform", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": false, "frame": {"width": 825.5, "x": 186.5, "height": 52, "y": 862.5}}
+{"AXLabel": "Download", "AXValue": null, "AXUniqueId": "square.and.arrow.down", "type": "Image", "enabled": false, "frame": {"width": 15.5, "x": 211, "height": 20.5, "y": 878.5}}
+{"AXLabel": "Save current calculated transform", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": false, "frame": {"width": 245, "x": 211, "height": 20.5, "y": 878.5}}
+{"AXLabel": "Import method document", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 825.5, "x": 186.5, "height": 52, "y": 949.5}}
+{"AXLabel": "Download", "AXValue": null, "AXUniqueId": "square.and.arrow.down", "type": "Image", "enabled": true, "frame": {"width": 15.5, "x": 211, "height": 20.5, "y": 965.5}}
+{"AXLabel": "Import method document", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 191.5, "x": 211, "height": 20.5, "y": 965.5}}
+{"AXLabel": "Move methods between Mac and iPhone or iPad through explicit JSON file exchange.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 825.5, "x": 186.5, "height": 52, "y": 1001.5}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"width": 30, "x": 999, "height": 1260, "y": 86}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"width": 30, "x": 999, "height": 1260, "y": 86}}

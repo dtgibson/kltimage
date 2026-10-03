@@ -1,0 +1,7 @@
+ISOLATION baseline mode=flush pid=99779 status=0 footprint=113017552
+ISOLATION item=1 status=0 footprint=234341264
+ISOLATION item=2 status=0 footprint=354599992
+ISOLATION item=3 status=0 footprint=474858696
+ISOLATION item=4 status=0 footprint=595133808
+ISOLATION item=5 status=0 footprint=715425280
+ISOLATION item=6 status=0 footprint=835651240

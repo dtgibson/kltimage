@@ -174,15 +174,30 @@ final class WorkspaceModel {
     }
 
     let methodLibrary: MethodLibraryModel
-    var comparisonMode: ComparisonMode = .sideBySide {
-        didSet {
-            guard oldValue != comparisonMode else { return }
-            statusAnnouncement = "\(comparisonMode.rawValue) view selected. Scientific result unchanged."
+    private var comparisonModeValue: ComparisonMode = .sideBySide
+    var comparisonMode: ComparisonMode {
+        get { comparisonModeValue }
+        set {
+            guard !BatchWorkspaceLease.shared.isHeld, comparisonModeValue != newValue else { return }
+            comparisonModeValue = newValue
+            statusAnnouncement = "\(newValue.rawValue) view selected. Scientific result unchanged."
         }
     }
-    var comparisonReveal = 0.5
-    var zoom = 1.0
-    var pan = CGSize.zero
+    private var comparisonRevealValue = 0.5
+    var comparisonReveal: Double {
+        get { comparisonRevealValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; comparisonRevealValue = newValue }
+    }
+    private var zoomValue = 1.0
+    var zoom: Double {
+        get { zoomValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; zoomValue = newValue }
+    }
+    private var panValue = CGSize.zero
+    var pan: CGSize {
+        get { panValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; panValue = newValue }
+    }
 
     private var sourceIdentity: SourceIdentity?
     private var activeOperation: Task<Void, Never>?
@@ -299,7 +314,7 @@ final class WorkspaceModel {
     var replayDiagnostics: ReplayDiagnostics? { currentCompletedEnhancement?.value.replayDiagnostics }
 
     var canExport: Bool {
-        currentImageExport != nil
+        !BatchWorkspaceLease.shared.isHeld && currentImageExport != nil
     }
 
     var currentImageExport: ImageExportPresentation? {
@@ -320,10 +335,10 @@ final class WorkspaceModel {
     var canChangePresentation: Bool { source != nil }
 
     var analysisControlsEnabled: Bool {
-        source != nil && !isReplayed && phase != .importing && phase != .exporting
+        source != nil && !BatchWorkspaceLease.shared.isHeld && !isReplayed && phase != .importing && phase != .exporting
     }
 
-    var isBusy: Bool { phase == .importing || phase == .exporting }
+    var isBusy: Bool { BatchWorkspaceLease.shared.isHeld || phase == .importing || phase == .exporting }
 
     var resultCurrency: ResultCurrency {
         guard let completedEnhancement else { return .none }
@@ -363,6 +378,7 @@ final class WorkspaceModel {
     }
 
     func openImage(at url: URL, applying recipeItem: SavedTransformItem? = nil) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard phase != .exporting else { return }
 
         if phase != .importing { imageImportRollbackPhase = phase }
@@ -378,7 +394,9 @@ final class WorkspaceModel {
         operationID = newOperationID
         let accessedSecurityScope = url.startAccessingSecurityScopedResource()
         let decodeImage = self.decodeImage
+        BatchInteractiveWork.shared.begin()
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
+            defer { BatchInteractiveWork.shared.end() }
             defer {
                 if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
             }
@@ -414,6 +432,7 @@ final class WorkspaceModel {
     }
 
     func useWorkingSpace(_ revision: WorkingSpaceRevision, name: String) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard !isBusy else { return }
         do {
             _ = try WorkingSpaceValidator.validate(revision, libraryName: name)
@@ -435,12 +454,14 @@ final class WorkspaceModel {
     }
 
     func applyRecipe(_ item: SavedTransformItem) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard !isBusy else { return }
         methodSelection = .replayed(item.recipe, name: item.libraryName)
         requestAnalysis()
     }
 
     func applyRecipeToAnotherImage(_ item: SavedTransformItem) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         let panel = NSOpenPanel()
         panel.title = "Apply \(item.libraryName) to another image"
         panel.prompt = "Open and Apply"
@@ -452,6 +473,7 @@ final class WorkspaceModel {
     }
 
     func calculateForThisImage() {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard !isBusy else { return }
         let controls = lastCalculatedControls
         methodSelection = .calculated(controls.workingSpace, name: controls.name)
@@ -479,6 +501,7 @@ final class WorkspaceModel {
     }
 
     func updateRegionDraft(_ field: RegionField, value: String) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         switch field {
         case .x: regionEditor.draftX = value
         case .y: regionEditor.draftY = value
@@ -488,6 +511,7 @@ final class WorkspaceModel {
     }
 
     func applyRegionDraft() {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard let source else { return }
         guard
             let x = parsedInteger(regionEditor.draftX),
@@ -517,6 +541,7 @@ final class WorkspaceModel {
     }
 
     func commitPointerRegion(_ region: SourcePixelRegion) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard let source, sampleSource == .selectedRegion else { return }
         regionEditor.setDrafts(from: region)
         do {
@@ -537,6 +562,7 @@ final class WorkspaceModel {
     }
 
     func clearRegion() {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         regionEditor = RegionEditorState()
         rememberCalculatedControls()
         guard sampleSource == .selectedRegion else { return }
@@ -641,6 +667,7 @@ final class WorkspaceModel {
     func zoomIn() { zoom = ImageZoom.clamped(zoom * 1.25, minimum: 0.25) }
     func zoomOut() { zoom = max(0.25, zoom / 1.25) }
     func resetView() {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         zoom = 1
         pan = .zero
     }
@@ -679,6 +706,7 @@ final class WorkspaceModel {
     }
 
     private func requestAnalysis() {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard let source, let sourceIdentity else { return }
         activeOperation?.cancel()
         activeOperation = nil
@@ -727,7 +755,9 @@ final class WorkspaceModel {
             : "Calculating \(methodText) locally from the unchanged source."
         let methodName = activeMethodName
         let calculateImage = self.calculateImage
+        BatchInteractiveWork.shared.begin()
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
+            defer { BatchInteractiveWork.shared.end() }
             do {
                 let result: EnhancedImage
                 switch execution {
@@ -797,7 +827,9 @@ final class WorkspaceModel {
         let newOperationID = UUID()
         operationID = newOperationID
         let accessedSecurityScope = url.startAccessingSecurityScopedResource()
+        BatchInteractiveWork.shared.begin()
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
+            defer { BatchInteractiveWork.shared.end() }
             defer {
                 if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
             }
@@ -837,7 +869,9 @@ final class WorkspaceModel {
         let newOperationID = UUID()
         operationID = newOperationID
         let accessedSecurityScope = url.startAccessingSecurityScopedResource()
+        BatchInteractiveWork.shared.begin()
         activeOperation = Task.detached(priority: .userInitiated) { [weak self] in
+            defer { BatchInteractiveWork.shared.end() }
             defer {
                 if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
             }
@@ -1082,6 +1116,7 @@ final class WorkspaceModel {
     }
 
     private func exportMayBegin(_ kind: ExportKind) -> Bool {
+        guard !BatchWorkspaceLease.shared.isHeld else { return false }
         guard phase == .importing else { return true }
         let subject = kind == .analysisRecord ? "an analysis record" : "a result"
         let message = "Wait for the replacement image to finish loading before exporting \(subject). The import is still running."

@@ -1,0 +1,26 @@
+{
+  "KLTCore/ImagePipeline.swift": {
+    "sha256": "8fa134e7a20d2c8074be8c921dc2acab1623f745eafcf858d3264544ead4f7bd",
+    "mtime": 1791019503.291501
+  },
+  "KLTCoreTests/IOSDecodePolicyTests.swift": {
+    "sha256": "6ebd819311835aa01b48d6dbbf955483f93f349eb21939bd6eff0965677adfe2",
+    "mtime": 1791018050.771369
+  },
+  "BatchTests/BatchProcessingTests.swift": {
+    "sha256": "4df068e8b485d98b7962dc5ddf8a138abad1623041545bda8fb30242ce92bb33",
+    "mtime": 1791018716.0739985
+  },
+  "/tmp/klt-batch-retry-2-release/Build/Products/ReleaseTests/KLTCore.framework/Versions/A/KLTCore": {
+    "sha256": "2d95cef36909e2af628f48f2d952d0d46b417e0cc5c72c5ba4fdd98bf9208130",
+    "mtime": 1791019530.886388
+  },
+  "/tmp/klt-batch-retry-2-release/Build/Products/ReleaseTests/KLT Image.app/Contents/MacOS/KLT Image": {
+    "sha256": "31157106e812cea90fc0d507a27d8049ac742e1d878c279e21efc424df0adf44",
+    "mtime": 1791019551.886617
+  },
+  "/tmp/klt-batch-retry-2-release/Build/Products/ReleaseTests/KLT Image.app/Contents/PlugIns/KLTImageTests.xctest/Contents/MacOS/KLTImageTests": {
+    "sha256": "12c21294df46c4b04964e6e9720f84bcada980e032febf59cd8da60811bcef6f",
+    "mtime": 1791019551.846216
+  }
+}

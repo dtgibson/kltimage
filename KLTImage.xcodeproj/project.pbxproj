@@ -11,6 +11,7 @@
 		022C5D8A7B157FA88523B2A3 /* MethodFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286C44D832E30E94D24006D2 /* MethodFeatureTests.swift */; };
 		04F1C8866E609AEC8D434BDB /* IOSDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C212D8968B0240B8D9CB7E3 /* IOSDesign.swift */; };
 		06502007213684769D33CBCC /* DecorrelationStretch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */; };
+		0666BD897E62307AC9435C06 /* BatchSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B49AD686BE7CEEBDAB71A77 /* BatchSources.swift */; };
 		0C98063DC3B58233B2D70CC7 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6334CB251C5906227075EB /* IBMPlexMono-Regular.ttf */; };
 		0CA1B626A2F66F343E7B368B /* KLTCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0DE32AA093B94632B3158E78 /* KLTCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */; };
@@ -24,34 +25,44 @@
 		1EC74FD561FE74007047E7F3 /* KLTCoreIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 64A483EEAB2A53BB7BFCA0A6 /* KLTCoreIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1F78536F208E56116782C1C2 /* KLTImageIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D635B5610007546297096789 /* KLTImageIOSTests.swift */; };
 		1FE24674AABD265EFC75EE1E /* OFL-IBM-Plex-Sans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6655F2DE37021A1390EF7A1B /* OFL-IBM-Plex-Sans.txt */; };
+		220ABA8DFD3DA0700E576D7F /* BatchPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7586A8530DDEEFC9B1C5C7 /* BatchPublisher.swift */; };
 		25AB6CDAF45B204B01897908 /* WorkingSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE215DECB5D7F641AA742F7 /* WorkingSpace.swift */; };
 		26008FCB94F7E8B786AE2BB6 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AF8120313FDB64471AA9407 /* IBMPlexSans-Bold.ttf */; };
 		26D9ADDC65B7642C76C08528 /* DecorrelationStretch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */; };
 		28DFD2490B9E10378DD38D72 /* ExtendedAnalysisRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544CA3C07629C36D73BDB46 /* ExtendedAnalysisRecord.swift */; };
 		2B98CCAB750CE877B60F97D4 /* MethodFileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D8D8E2546F53EE82FBD5EA /* MethodFileIO.swift */; };
+		2C97BA6F112F807F30C03528 /* BatchRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF858A7CF62D40CCD118D23 /* BatchRunner.swift */; };
 		2E1960B699DB1D983BEEC22E /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AB88805547BDA0337CB22 /* DesignSystem.swift */; };
+		317D38214927359C1D5C636F /* BatchProcessingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9822963981EFAB3CBC15D7C8 /* BatchProcessingTests.swift */; };
+		37C671C6FB7A62F181A09C3B /* BatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA4016FB26587AB036C8B85 /* BatchModel.swift */; };
 		3A8A6770D081A776C31227DB /* AnalysisControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86586C3D5940EBC2EBA0B10C /* AnalysisControlsView.swift */; };
 		3BDAE0FB09141B24EE3FC484 /* IOSDecodePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51908EDC4F08CF2513049FFE /* IOSDecodePolicyTests.swift */; };
 		410D67505D02239EBBF8400E /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
 		4215477173DD2AC7F932C575 /* MethodLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF637F1D3700677689EEF76 /* MethodLibraryView.swift */; };
 		4441C1C77FEC22C5D371B804 /* KLTCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4821B74A687FC27A229BF30A /* IBMPlexSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6ABA994D4D6CFEA02E88EFD6 /* IBMPlexSans-SemiBold.ttf */; };
+		4B07F041938D3DDCB039481E /* BatchProcessingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9822963981EFAB3CBC15D7C8 /* BatchProcessingTests.swift */; };
 		4D3FEEC792C97AA41862117A /* KLTCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A483EEAB2A53BB7BFCA0A6 /* KLTCoreIOS.framework */; };
 		4DBDD4A1738A3C28C4326C69 /* TransformRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178C9CA065635B4C65960DC9 /* TransformRecipe.swift */; };
 		4E03346835B4CBCA9302F87C /* KLTImageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7BAF8148E3C49049591897 /* KLTImageApp.swift */; };
 		51DECEFEF683C4E8CBA94CE0 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */; };
+		5720200A7270E96F5B9ADB12 /* BatchStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D35CADF0F16DFE4B94B9F1F /* BatchStorage.swift */; };
 		5840BA86E98887BD098370F0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
 		5C651314DA05E31BA3E33D6A /* AnalysisRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23475334AC619E94A301CF7 /* AnalysisRecord.swift */; };
+		5EFBD937A64506D85812E947 /* BatchMacLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E14A1B3ED615CEC0D087ABE /* BatchMacLifecycle.swift */; };
 		61FC22F558D687A7568F6FF0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
 		646E5702CD3D808B8FB4CECB /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6334CB251C5906227075EB /* IBMPlexMono-Regular.ttf */; };
 		649C3F261BEFE732EBDD14F4 /* ComparisonCanvasInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DB9B7A0867C7FCFD30A603 /* ComparisonCanvasInteractionTests.swift */; };
 		65D54E103A659D1CF053645A /* KLTCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A483EEAB2A53BB7BFCA0A6 /* KLTCoreIOS.framework */; };
 		699B65DED6CD460716F3C7E4 /* KLTCoreIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 64A483EEAB2A53BB7BFCA0A6 /* KLTCoreIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6C17D10A91C617CE94893436 /* IOSDecodePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51908EDC4F08CF2513049FFE /* IOSDecodePolicyTests.swift */; };
+		6FA895C3F1D0C4EA39E5A8B8 /* BatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C081CF8E6F53A09BF7A6E5C5 /* BatchView.swift */; };
 		75BEDDC248D21BCECE351087 /* KLTImageIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B983A83BF793021CA68A3C /* KLTImageIOSApp.swift */; };
+		7CC25562F59ACD0A72DC2DB6 /* BatchTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F605C300E2ED70BEF384574 /* BatchTypes.swift */; };
 		7E33F58A45A4CEE83E592FA4 /* MethodLibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A911F3B31AA58649486F467 /* MethodLibraryStore.swift */; };
 		7F9070A2AB1B0B3CB09DBAC9 /* AnalysisTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */; };
 		804933EC0CD463586079F027 /* ExtendedAnalysisRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544CA3C07629C36D73BDB46 /* ExtendedAnalysisRecord.swift */; };
+		8232F9DEB3DD67482E9C203D /* BatchStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D35CADF0F16DFE4B94B9F1F /* BatchStorage.swift */; };
 		8299AC7734309A132FDE39F0 /* WorkingSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE215DECB5D7F641AA742F7 /* WorkingSpace.swift */; };
 		862C2521EAEE06FF8D03BE71 /* AnalysisTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */; };
 		870786AFFEAD37CFA52433BA /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */; };
@@ -59,6 +70,7 @@
 		8DCEFC62A909205DF8B8BE6C /* IOSWorkspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F016D70DC65D6B80E9F8A2 /* IOSWorkspace.swift */; };
 		990C2E4990B6B16BB95C9A11 /* KLTCoreIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 64A483EEAB2A53BB7BFCA0A6 /* KLTCoreIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9DDA3C0429C72DE04CC72825 /* AnalysisControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */; };
+		9E12D1E137796A45C325EC5D /* BatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA4016FB26587AB036C8B85 /* BatchModel.swift */; };
 		A08BCA6948CF9E9CB933E541 /* MethodLibraryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A8F12F78191A75E2FF1F0D /* MethodLibraryModel.swift */; };
 		A33CBC4A926D4FB9E6D6CD85 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE9320651DAD60AEBD5392 /* ContentView.swift */; };
 		A3C8110E61FB79B95DE02141 /* AnalysisRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2946AD867FA688B35BC629D1 /* AnalysisRecordTests.swift */; };
@@ -68,7 +80,10 @@
 		B2143FA8BEE79E71BD13C111 /* Matrix3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = F527D7A85C856DDD813827D2 /* Matrix3x3.swift */; };
 		B2DDA0BE51A78EB142370C8C /* TransformRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178C9CA065635B4C65960DC9 /* TransformRecipe.swift */; };
 		B3F6AB7801F194C4BB2BC789 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AB88805547BDA0337CB22 /* DesignSystem.swift */; };
+		B41A45994B31B9F75FF917F4 /* BatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C081CF8E6F53A09BF7A6E5C5 /* BatchView.swift */; };
 		B5CF9BFCB331F4EEB6EA17F8 /* MethodLibraryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88CB44704F4E57178D390B /* MethodLibraryStoreTests.swift */; };
+		BA314FD44AC8DD63B6F2F38A /* BatchRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF858A7CF62D40CCD118D23 /* BatchRunner.swift */; };
+		BA836FB807238179E105127A /* BatchPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7586A8530DDEEFC9B1C5C7 /* BatchPublisher.swift */; };
 		BF02BE46B76B5FB4F1E2C076 /* MethodFileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D8D8E2546F53EE82FBD5EA /* MethodFileIO.swift */; };
 		BF2B1F19FD419FCE39DC0378 /* OFL-IBM-Plex-Mono.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04EFA2837EC864B8FD08CFF2 /* OFL-IBM-Plex-Mono.txt */; };
 		C046C02D46D3DEEBA01C60BF /* IOSMethodLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1FDF4ED386FBE21556EF6E /* IOSMethodLibrary.swift */; };
@@ -80,6 +95,7 @@
 		D609079D47F863670AB98AA4 /* AnalysisRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23475334AC619E94A301CF7 /* AnalysisRecord.swift */; };
 		D76A6CF58FC31D8CF6BD91F7 /* AnalysisRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2946AD867FA688B35BC629D1 /* AnalysisRecordTests.swift */; };
 		DD695F5905932272DA68B5E6 /* WorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */; };
+		DEEC04A1AE974A42EEFEE57C /* BatchTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F605C300E2ED70BEF384574 /* BatchTypes.swift */; };
 		E079A9202AC8C1701446DC86 /* ComparisonCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */; };
 		E1FBA7C30217546DAB90E833 /* KLTImageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EC820EA66EC4781A49B54F /* KLTImageUITests.swift */; };
 		E37E36DB54B2044E51405475 /* MethodDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447BC0D15F924277856CCFF /* MethodDocuments.swift */; };
@@ -240,17 +256,22 @@
 		178C9CA065635B4C65960DC9 /* TransformRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformRecipe.swift; sourceTree = "<group>"; };
 		1B46AEE1A5586C9A71636A8C /* IOSLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSLibraryView.swift; sourceTree = "<group>"; };
 		1EA88CB3E44E871D652C9DAB /* DecorrelationStretch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorrelationStretch.swift; sourceTree = "<group>"; };
+		1F605C300E2ED70BEF384574 /* BatchTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTypes.swift; sourceTree = "<group>"; };
 		24B983A83BF793021CA68A3C /* KLTImageIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTImageIOSApp.swift; sourceTree = "<group>"; };
 		286C44D832E30E94D24006D2 /* MethodFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodFeatureTests.swift; sourceTree = "<group>"; };
 		2946AD867FA688B35BC629D1 /* AnalysisRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecordTests.swift; sourceTree = "<group>"; };
+		2E14A1B3ED615CEC0D087ABE /* BatchMacLifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchMacLifecycle.swift; sourceTree = "<group>"; };
 		2FF637F1D3700677689EEF76 /* MethodLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodLibraryView.swift; sourceTree = "<group>"; };
+		3B49AD686BE7CEEBDAB71A77 /* BatchSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchSources.swift; sourceTree = "<group>"; };
 		3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisControlsTests.swift; sourceTree = "<group>"; };
 		403F53BCE698D0D519672617 /* IOSImageSourceStaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSImageSourceStaging.swift; sourceTree = "<group>"; };
 		45E32EBF2EF7AA4BCF3DB762 /* AnalysisRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecordView.swift; sourceTree = "<group>"; };
 		4AA1394DCE931A77332C36FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4D35CADF0F16DFE4B94B9F1F /* BatchStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchStorage.swift; sourceTree = "<group>"; };
 		4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
 		51908EDC4F08CF2513049FFE /* IOSDecodePolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSDecodePolicyTests.swift; sourceTree = "<group>"; };
 		57A8F12F78191A75E2FF1F0D /* MethodLibraryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodLibraryModel.swift; sourceTree = "<group>"; };
+		5FA4016FB26587AB036C8B85 /* BatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchModel.swift; sourceTree = "<group>"; };
 		64A483EEAB2A53BB7BFCA0A6 /* KLTCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KLTCoreIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64EE9320651DAD60AEBD5392 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		65D433182C2DD7D13AA7CF5C /* KLTCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KLTCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -258,6 +279,7 @@
 		6A1315BF5219FC8C0BF7C402 /* KLTImageIOSTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KLTImageIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ABA994D4D6CFEA02E88EFD6 /* IBMPlexSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
+		6FF858A7CF62D40CCD118D23 /* BatchRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchRunner.swift; sourceTree = "<group>"; };
 		716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisTypes.swift; sourceTree = "<group>"; };
 		7AF8120313FDB64471AA9407 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		7C212D8968B0240B8D9CB7E3 /* IOSDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSDesign.swift; sourceTree = "<group>"; };
@@ -268,15 +290,18 @@
 		88EC820EA66EC4781A49B54F /* KLTImageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTImageUITests.swift; sourceTree = "<group>"; };
 		8B38A6D09BA76AE9273A63BF /* IOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSRootView.swift; sourceTree = "<group>"; };
 		8E16F7D803152C0213A6A6B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9822963981EFAB3CBC15D7C8 /* BatchProcessingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchProcessingTests.swift; sourceTree = "<group>"; };
 		997CBF3DF96F1DBEB1666A3C /* PhotosSourcePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosSourcePicker.swift; sourceTree = "<group>"; };
 		9A911F3B31AA58649486F467 /* MethodLibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodLibraryStore.swift; sourceTree = "<group>"; };
 		9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>"; };
 		A03417358DC58628252EE97E /* KLTImageUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTImageUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A23475334AC619E94A301CF7 /* AnalysisRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecord.swift; sourceTree = "<group>"; };
 		AB4EEE159AE3DD4CF609A5AA /* RegisteredCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredCanvas.swift; sourceTree = "<group>"; };
+		AB7586A8530DDEEFC9B1C5C7 /* BatchPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchPublisher.swift; sourceTree = "<group>"; };
 		B0D8D8E2546F53EE82FBD5EA /* MethodFileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodFileIO.swift; sourceTree = "<group>"; };
 		B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTCoreTests.swift; sourceTree = "<group>"; };
 		BDE215DECB5D7F641AA742F7 /* WorkingSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSpace.swift; sourceTree = "<group>"; };
+		C081CF8E6F53A09BF7A6E5C5 /* BatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchView.swift; sourceTree = "<group>"; };
 		C446D1EA64AFE7CAB63E1380 /* KLTCoreIOSTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KLTCoreIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C674ACA4F9FEEEDAAE4DB49D /* MetadataStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataStrip.swift; sourceTree = "<group>"; };
 		CE6334CB251C5906227075EB /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
@@ -354,6 +379,19 @@
 			path = KLTCoreTests;
 			sourceTree = "<group>";
 		};
+		466100E76049048B65EBF66F /* SharedBatch */ = {
+			isa = PBXGroup;
+			children = (
+				5FA4016FB26587AB036C8B85 /* BatchModel.swift */,
+				AB7586A8530DDEEFC9B1C5C7 /* BatchPublisher.swift */,
+				6FF858A7CF62D40CCD118D23 /* BatchRunner.swift */,
+				4D35CADF0F16DFE4B94B9F1F /* BatchStorage.swift */,
+				1F605C300E2ED70BEF384574 /* BatchTypes.swift */,
+				C081CF8E6F53A09BF7A6E5C5 /* BatchView.swift */,
+			);
+			path = SharedBatch;
+			sourceTree = "<group>";
+		};
 		523D4C0619C6B27372803196 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +417,7 @@
 		763A8E770A0BFFD2BC032384 = {
 			isa = PBXGroup;
 			children = (
+				C6CE5B54AEB995BEC5878F75 /* BatchTests */,
 				DDAC1222555800DDCE129C40 /* KLTCore */,
 				01FA2F724B1A97C9EAFE8D7C /* KLTCoreTests */,
 				79CB89C2DAC6EFF225ACD603 /* KLTImage */,
@@ -386,6 +425,7 @@
 				B9AB8268693C61D3CEF281E9 /* KLTImageIOSTests */,
 				C63AEB2BA528262B22F83546 /* KLTImageTests */,
 				BF15049F344A4B2A20016C31 /* KLTImageUITests */,
+				466100E76049048B65EBF66F /* SharedBatch */,
 				AC3696B1C66FA08445B55A89 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -395,6 +435,7 @@
 			children = (
 				86586C3D5940EBC2EBA0B10C /* AnalysisControlsView.swift */,
 				45E32EBF2EF7AA4BCF3DB762 /* AnalysisRecordView.swift */,
+				2E14A1B3ED615CEC0D087ABE /* BatchMacLifecycle.swift */,
 				82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */,
 				64EE9320651DAD60AEBD5392 /* ContentView.swift */,
 				0A8AB88805547BDA0337CB22 /* DesignSystem.swift */,
@@ -462,9 +503,18 @@
 			path = KLTImageTests;
 			sourceTree = "<group>";
 		};
+		C6CE5B54AEB995BEC5878F75 /* BatchTests */ = {
+			isa = PBXGroup;
+			children = (
+				9822963981EFAB3CBC15D7C8 /* BatchProcessingTests.swift */,
+			);
+			path = BatchTests;
+			sourceTree = "<group>";
+		};
 		D237129CCDC3A6AB414AA02A /* KLTImageIOS */ = {
 			isa = PBXGroup;
 			children = (
+				3B49AD686BE7CEEBDAB71A77 /* BatchSources.swift */,
 				7C212D8968B0240B8D9CB7E3 /* IOSDesign.swift */,
 				403F53BCE698D0D519672617 /* IOSImageSourceStaging.swift */,
 				1B46AEE1A5586C9A71636A8C /* IOSLibraryView.swift */,
@@ -769,6 +819,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317D38214927359C1D5C636F /* BatchProcessingTests.swift in Sources */,
 				1F78536F208E56116782C1C2 /* KLTImageIOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -791,6 +842,13 @@
 			files = (
 				3A8A6770D081A776C31227DB /* AnalysisControlsView.swift in Sources */,
 				CEB4769CF2151B9C00DA100B /* AnalysisRecordView.swift in Sources */,
+				5EFBD937A64506D85812E947 /* BatchMacLifecycle.swift in Sources */,
+				37C671C6FB7A62F181A09C3B /* BatchModel.swift in Sources */,
+				220ABA8DFD3DA0700E576D7F /* BatchPublisher.swift in Sources */,
+				2C97BA6F112F807F30C03528 /* BatchRunner.swift in Sources */,
+				8232F9DEB3DD67482E9C203D /* BatchStorage.swift in Sources */,
+				7CC25562F59ACD0A72DC2DB6 /* BatchTypes.swift in Sources */,
+				6FA895C3F1D0C4EA39E5A8B8 /* BatchView.swift in Sources */,
 				E079A9202AC8C1701446DC86 /* ComparisonCanvas.swift in Sources */,
 				A33CBC4A926D4FB9E6D6CD85 /* ContentView.swift in Sources */,
 				2E1960B699DB1D983BEEC22E /* DesignSystem.swift in Sources */,
@@ -844,6 +902,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B07F041938D3DDCB039481E /* BatchProcessingTests.swift in Sources */,
 				649C3F261BEFE732EBDD14F4 /* ComparisonCanvasInteractionTests.swift in Sources */,
 				007F4A1283EF5730D3343362 /* MethodImportAndWorkspaceTests.swift in Sources */,
 				B5CF9BFCB331F4EEB6EA17F8 /* MethodLibraryStoreTests.swift in Sources */,
@@ -854,6 +913,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E12D1E137796A45C325EC5D /* BatchModel.swift in Sources */,
+				BA836FB807238179E105127A /* BatchPublisher.swift in Sources */,
+				BA314FD44AC8DD63B6F2F38A /* BatchRunner.swift in Sources */,
+				0666BD897E62307AC9435C06 /* BatchSources.swift in Sources */,
+				5720200A7270E96F5B9ADB12 /* BatchStorage.swift in Sources */,
+				DEEC04A1AE974A42EEFEE57C /* BatchTypes.swift in Sources */,
+				B41A45994B31B9F75FF917F4 /* BatchView.swift in Sources */,
 				B3F6AB7801F194C4BB2BC789 /* DesignSystem.swift in Sources */,
 				04F1C8866E609AEC8D434BDB /* IOSDesign.swift in Sources */,
 				1DCB1D5134F15DB66E850AC7 /* IOSImageSourceStaging.swift in Sources */,
@@ -934,7 +1000,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;
@@ -1022,14 +1088,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios;
 				PRODUCT_MODULE_NAME = KLTImageIOS;
 				PRODUCT_NAME = "KLT Image";
@@ -1127,7 +1193,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;
@@ -1176,14 +1242,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios;
 				PRODUCT_MODULE_NAME = KLTImageIOS;
 				PRODUCT_NAME = "KLT Image";
@@ -1200,7 +1266,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1211,7 +1277,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";
@@ -1259,14 +1325,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios;
 				PRODUCT_MODULE_NAME = KLTImageIOS;
 				PRODUCT_NAME = "KLT Image";
@@ -1386,7 +1452,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1397,7 +1463,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";
@@ -1503,7 +1569,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KLTImage/KLTImage.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1514,7 +1580,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.mac;
 				PRODUCT_MODULE_NAME = KLTImage;
 				PRODUCT_NAME = "KLT Image";
@@ -1630,7 +1696,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;

@@ -1,0 +1,9 @@
+ISOLATION baseline mode=nointerpolate pid=9401 status=0 footprint=100172448
+FORMAT direct bpc=8 bpp=32 row=24000 bitmap=3 alpha=3 color=Optional(kCGColorSpaceSRGB) interpolate=true intent=3
+FORMAT thumbnail bpc=8 bpp=32 row=24000 bitmap=2 alpha=2 color=Optional(kCGColorSpaceSRGB) interpolate=true intent=0
+ISOLATION item=1 status=0 footprint=317637592
+ISOLATION item=2 status=0 footprint=437945448
+ISOLATION item=3 status=0 footprint=558204176
+ISOLATION item=4 status=0 footprint=678430112
+ISOLATION item=5 status=0 footprint=798705224
+ISOLATION item=6 status=0 footprint=918898392

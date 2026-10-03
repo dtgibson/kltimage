@@ -1,0 +1,26 @@
+{
+  "url": "https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/",
+  "httpStatus": 200,
+  "checks": [
+    "embedded font readiness",
+    "defaults",
+    "empty guards",
+    "replay selection guard and origin",
+    "JPEG notice",
+    "JSON toggle",
+    "three responsive layouts without horizontal overflow",
+    "input selection and destination guard",
+    "start/cancel stopping acknowledgment and actual ordinal accounting",
+    "return-to-setup notice",
+    "wrong-folder debt retention",
+    "matching-folder cleanup simulation",
+    "reduced-motion transition removal",
+    "no browser page errors"
+  ],
+  "screenshots": [
+    "mac-setup.png",
+    "ipad-replay.png",
+    "iphone-partial.png"
+  ],
+  "limits": "HTML review only; native pickers, SwiftUI accessibility and real file operations not validated."
+}

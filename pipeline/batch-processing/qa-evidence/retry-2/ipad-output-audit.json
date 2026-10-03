@@ -1,0 +1,1073 @@
+[
+  {
+    "folder": "KLT Batch 2026-10-03 02-45-25 90F19143-362A-4F80-A921-961FE4929D08",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1446375,
+        "sha256": "e8603e8620479a2df34c009c5d60caef9df8eb9726849004edd1340d394dadc2",
+        "dimensions": [
+          1280,
+          720
+        ]
+      }
+    ]
+  },
+  {
+    "folder": "KLT Batch 2026-10-03 02-49-02 2CF5F36F-7AC8-48C9-83B3-FCC486B1C685",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt-analysis.json",
+        "bytes": 2677,
+        "sha256": "e5a03e771e48e7f4ce665b1b4ac5f216a8fbb9ae2f02cbad30731863015683ba",
+        "document": {
+          "calculation": null,
+          "conventions": {
+            "baseChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ],
+            "baseChannelUnits": [
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]"
+            ],
+            "matrixStorage": "row-major",
+            "regionBounds": "half-open",
+            "regionOrigin": "top-left",
+            "workingChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ]
+          },
+          "execution": {
+            "algorithm": {
+              "identifier": "org.kltimage.decorrelation-stretch",
+              "version": 1
+            },
+            "mode": "replayed",
+            "workingSpace": {
+              "base": "encoded-srgb",
+              "baseChannelOrder": [
+                "red",
+                "green",
+                "blue"
+              ],
+              "baseChannelUnits": [
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]"
+              ],
+              "definitionVersion": 1,
+              "forwardMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "identity": {
+                "identifier": "org.kltimage.space.rgb",
+                "kind": "standard"
+              },
+              "inverseMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "outputBehavior": "encoded-srgb-global-range-v1",
+              "workingChannelNames": [
+                "red",
+                "green",
+                "blue"
+              ]
+            },
+            "workingSpaceNameAtExecution": "RGB"
+          },
+          "interpretation": {
+            "exploratoryUseNotice": "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.",
+            "limitedVariation": false
+          },
+          "replay": {
+            "frozenApplication": {
+              "alphaPolicy": "preserve-source-byte",
+              "byteQuantization": "clamp-unit-premultiply-round-nearest",
+              "matrixStorage": "row-major",
+              "outputMapping": {
+                "clipsToUnitRange": true,
+                "kind": "encoded-srgb-global-range-v1",
+                "maximum": 2.210601720129533,
+                "minimum": -2.175205265271583,
+                "scale": 0.22800820996652735
+              },
+              "transform": [
+                2.1698685838924123,
+                -1.4535649072524766,
+                0.28954831351201804,
+                -1.4535649072524766,
+                4.049125313432833,
+                -1.7264251707716847,
+                0.28954831351201804,
+                -1.7264251707716847,
+                2.5742073745744865
+              ],
+              "workingCenter": [
+                0.8565045214052843,
+                0.6599835176470704,
+                0.4678063003267367
+              ]
+            },
+            "originSource": {
+              "analysisPixelFormat": "rgba8-premultiplied-srgb",
+              "filename": "klt-batch-qa-24mp.jpeg",
+              "fingerprint": {
+                "algorithm": "sha256",
+                "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+              },
+              "height": 4000,
+              "width": 6000
+            },
+            "originatingAnalysis": {
+              "matrixMode": "covariance",
+              "region": null,
+              "samplePixelCount": 24000000,
+              "samplingMode": "wholeImage"
+            },
+            "recipe": {
+              "identifier": "e1b1af7f-d575-4e31-832d-66edb2ab6020",
+              "libraryNameAtExecution": "Saved transform",
+              "recipeFormatVersion": 1
+            },
+            "targetOutcome": {
+              "clippedColorPixelCount": 1,
+              "clippedFraction": 1.0850694444444444e-06,
+              "evaluatedPixelCount": 921600,
+              "mappedRange": 0.989557028023402,
+              "maximumMappedComponent": 0.9891114379925302,
+              "minimumMappedComponent": -0.00044559003087176954,
+              "sameAsOrigin": false
+            }
+          },
+          "schema": "org.kltimage.analysis-record",
+          "targetSource": {
+            "analysisPixelFormat": "rgba8-premultiplied-srgb",
+            "filename": "specimen-anna-hummingbird",
+            "fingerprint": {
+              "algorithm": "sha256",
+              "value": "6a3d45b0cb8406ec328cda28e71954a0df7a023a9a990592ff6acb2ae6760d4b"
+            },
+            "height": 720,
+            "width": 1280
+          },
+          "version": 2
+        }
+      },
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1445296,
+        "sha256": "8102e58f770913d730cc6abf3e6a43ea75de0433463512f9dece8395fef48693",
+        "dimensions": [
+          1280,
+          720
+        ]
+      },
+      {
+        "name": "002-klt-batch-qa-24mp-klt-analysis.json",
+        "bytes": 2595,
+        "sha256": "0018d0f5a0835a7144f31764e8bcedb8fa1fa2de2a513582f2ef22350bcf2be8",
+        "document": {
+          "calculation": null,
+          "conventions": {
+            "baseChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ],
+            "baseChannelUnits": [
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]"
+            ],
+            "matrixStorage": "row-major",
+            "regionBounds": "half-open",
+            "regionOrigin": "top-left",
+            "workingChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ]
+          },
+          "execution": {
+            "algorithm": {
+              "identifier": "org.kltimage.decorrelation-stretch",
+              "version": 1
+            },
+            "mode": "replayed",
+            "workingSpace": {
+              "base": "encoded-srgb",
+              "baseChannelOrder": [
+                "red",
+                "green",
+                "blue"
+              ],
+              "baseChannelUnits": [
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]"
+              ],
+              "definitionVersion": 1,
+              "forwardMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "identity": {
+                "identifier": "org.kltimage.space.rgb",
+                "kind": "standard"
+              },
+              "inverseMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "outputBehavior": "encoded-srgb-global-range-v1",
+              "workingChannelNames": [
+                "red",
+                "green",
+                "blue"
+              ]
+            },
+            "workingSpaceNameAtExecution": "RGB"
+          },
+          "interpretation": {
+            "exploratoryUseNotice": "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.",
+            "limitedVariation": false
+          },
+          "replay": {
+            "frozenApplication": {
+              "alphaPolicy": "preserve-source-byte",
+              "byteQuantization": "clamp-unit-premultiply-round-nearest",
+              "matrixStorage": "row-major",
+              "outputMapping": {
+                "clipsToUnitRange": true,
+                "kind": "encoded-srgb-global-range-v1",
+                "maximum": 2.210601720129533,
+                "minimum": -2.175205265271583,
+                "scale": 0.22800820996652735
+              },
+              "transform": [
+                2.1698685838924123,
+                -1.4535649072524766,
+                0.28954831351201804,
+                -1.4535649072524766,
+                4.049125313432833,
+                -1.7264251707716847,
+                0.28954831351201804,
+                -1.7264251707716847,
+                2.5742073745744865
+              ],
+              "workingCenter": [
+                0.8565045214052843,
+                0.6599835176470704,
+                0.4678063003267367
+              ]
+            },
+            "originSource": {
+              "analysisPixelFormat": "rgba8-premultiplied-srgb",
+              "filename": "klt-batch-qa-24mp.jpeg",
+              "fingerprint": {
+                "algorithm": "sha256",
+                "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+              },
+              "height": 4000,
+              "width": 6000
+            },
+            "originatingAnalysis": {
+              "matrixMode": "covariance",
+              "region": null,
+              "samplePixelCount": 24000000,
+              "samplingMode": "wholeImage"
+            },
+            "recipe": {
+              "identifier": "e1b1af7f-d575-4e31-832d-66edb2ab6020",
+              "libraryNameAtExecution": "Saved transform",
+              "recipeFormatVersion": 1
+            },
+            "targetOutcome": {
+              "clippedColorPixelCount": 0,
+              "clippedFraction": 0,
+              "evaluatedPixelCount": 24000000,
+              "mappedRange": 1,
+              "maximumMappedComponent": 1,
+              "minimumMappedComponent": 0,
+              "sameAsOrigin": true
+            }
+          },
+          "schema": "org.kltimage.analysis-record",
+          "targetSource": {
+            "analysisPixelFormat": "rgba8-premultiplied-srgb",
+            "filename": "klt-batch-qa-24mp",
+            "fingerprint": {
+              "algorithm": "sha256",
+              "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+            },
+            "height": 4000,
+            "width": 6000
+          },
+          "version": 2
+        }
+      },
+      {
+        "name": "002-klt-batch-qa-24mp-klt.png",
+        "bytes": 17639288,
+        "sha256": "466b9e42b2945aabec423be99dc8cbd3ae8a00cfae2e77df6e1820100977bab8",
+        "dimensions": [
+          6000,
+          4000
+        ]
+      }
+    ]
+  },
+  {
+    "folder": "KLT Batch 2026-10-03 02-51-30 973570DE-E553-4D9E-B33C-C6482A8EF675",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt-analysis.json",
+        "bytes": 2677,
+        "sha256": "e5a03e771e48e7f4ce665b1b4ac5f216a8fbb9ae2f02cbad30731863015683ba",
+        "document": {
+          "calculation": null,
+          "conventions": {
+            "baseChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ],
+            "baseChannelUnits": [
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]"
+            ],
+            "matrixStorage": "row-major",
+            "regionBounds": "half-open",
+            "regionOrigin": "top-left",
+            "workingChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ]
+          },
+          "execution": {
+            "algorithm": {
+              "identifier": "org.kltimage.decorrelation-stretch",
+              "version": 1
+            },
+            "mode": "replayed",
+            "workingSpace": {
+              "base": "encoded-srgb",
+              "baseChannelOrder": [
+                "red",
+                "green",
+                "blue"
+              ],
+              "baseChannelUnits": [
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]"
+              ],
+              "definitionVersion": 1,
+              "forwardMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "identity": {
+                "identifier": "org.kltimage.space.rgb",
+                "kind": "standard"
+              },
+              "inverseMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "outputBehavior": "encoded-srgb-global-range-v1",
+              "workingChannelNames": [
+                "red",
+                "green",
+                "blue"
+              ]
+            },
+            "workingSpaceNameAtExecution": "RGB"
+          },
+          "interpretation": {
+            "exploratoryUseNotice": "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.",
+            "limitedVariation": false
+          },
+          "replay": {
+            "frozenApplication": {
+              "alphaPolicy": "preserve-source-byte",
+              "byteQuantization": "clamp-unit-premultiply-round-nearest",
+              "matrixStorage": "row-major",
+              "outputMapping": {
+                "clipsToUnitRange": true,
+                "kind": "encoded-srgb-global-range-v1",
+                "maximum": 2.210601720129533,
+                "minimum": -2.175205265271583,
+                "scale": 0.22800820996652735
+              },
+              "transform": [
+                2.1698685838924123,
+                -1.4535649072524766,
+                0.28954831351201804,
+                -1.4535649072524766,
+                4.049125313432833,
+                -1.7264251707716847,
+                0.28954831351201804,
+                -1.7264251707716847,
+                2.5742073745744865
+              ],
+              "workingCenter": [
+                0.8565045214052843,
+                0.6599835176470704,
+                0.4678063003267367
+              ]
+            },
+            "originSource": {
+              "analysisPixelFormat": "rgba8-premultiplied-srgb",
+              "filename": "klt-batch-qa-24mp.jpeg",
+              "fingerprint": {
+                "algorithm": "sha256",
+                "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+              },
+              "height": 4000,
+              "width": 6000
+            },
+            "originatingAnalysis": {
+              "matrixMode": "covariance",
+              "region": null,
+              "samplePixelCount": 24000000,
+              "samplingMode": "wholeImage"
+            },
+            "recipe": {
+              "identifier": "e1b1af7f-d575-4e31-832d-66edb2ab6020",
+              "libraryNameAtExecution": "Saved transform",
+              "recipeFormatVersion": 1
+            },
+            "targetOutcome": {
+              "clippedColorPixelCount": 1,
+              "clippedFraction": 1.0850694444444444e-06,
+              "evaluatedPixelCount": 921600,
+              "mappedRange": 0.989557028023402,
+              "maximumMappedComponent": 0.9891114379925302,
+              "minimumMappedComponent": -0.00044559003087176954,
+              "sameAsOrigin": false
+            }
+          },
+          "schema": "org.kltimage.analysis-record",
+          "targetSource": {
+            "analysisPixelFormat": "rgba8-premultiplied-srgb",
+            "filename": "specimen-anna-hummingbird",
+            "fingerprint": {
+              "algorithm": "sha256",
+              "value": "6a3d45b0cb8406ec328cda28e71954a0df7a023a9a990592ff6acb2ae6760d4b"
+            },
+            "height": 720,
+            "width": 1280
+          },
+          "version": 2
+        }
+      },
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1445296,
+        "sha256": "8102e58f770913d730cc6abf3e6a43ea75de0433463512f9dece8395fef48693",
+        "dimensions": [
+          1280,
+          720
+        ]
+      }
+    ]
+  },
+  {
+    "folder": "KLT Batch 2026-10-03 02-52-24 67DBC206-58CD-49DE-A5B1-65EB6B293998",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt-analysis.json",
+        "bytes": 2677,
+        "sha256": "e5a03e771e48e7f4ce665b1b4ac5f216a8fbb9ae2f02cbad30731863015683ba",
+        "document": {
+          "calculation": null,
+          "conventions": {
+            "baseChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ],
+            "baseChannelUnits": [
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]"
+            ],
+            "matrixStorage": "row-major",
+            "regionBounds": "half-open",
+            "regionOrigin": "top-left",
+            "workingChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ]
+          },
+          "execution": {
+            "algorithm": {
+              "identifier": "org.kltimage.decorrelation-stretch",
+              "version": 1
+            },
+            "mode": "replayed",
+            "workingSpace": {
+              "base": "encoded-srgb",
+              "baseChannelOrder": [
+                "red",
+                "green",
+                "blue"
+              ],
+              "baseChannelUnits": [
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]"
+              ],
+              "definitionVersion": 1,
+              "forwardMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "identity": {
+                "identifier": "org.kltimage.space.rgb",
+                "kind": "standard"
+              },
+              "inverseMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "outputBehavior": "encoded-srgb-global-range-v1",
+              "workingChannelNames": [
+                "red",
+                "green",
+                "blue"
+              ]
+            },
+            "workingSpaceNameAtExecution": "RGB"
+          },
+          "interpretation": {
+            "exploratoryUseNotice": "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.",
+            "limitedVariation": false
+          },
+          "replay": {
+            "frozenApplication": {
+              "alphaPolicy": "preserve-source-byte",
+              "byteQuantization": "clamp-unit-premultiply-round-nearest",
+              "matrixStorage": "row-major",
+              "outputMapping": {
+                "clipsToUnitRange": true,
+                "kind": "encoded-srgb-global-range-v1",
+                "maximum": 2.210601720129533,
+                "minimum": -2.175205265271583,
+                "scale": 0.22800820996652735
+              },
+              "transform": [
+                2.1698685838924123,
+                -1.4535649072524766,
+                0.28954831351201804,
+                -1.4535649072524766,
+                4.049125313432833,
+                -1.7264251707716847,
+                0.28954831351201804,
+                -1.7264251707716847,
+                2.5742073745744865
+              ],
+              "workingCenter": [
+                0.8565045214052843,
+                0.6599835176470704,
+                0.4678063003267367
+              ]
+            },
+            "originSource": {
+              "analysisPixelFormat": "rgba8-premultiplied-srgb",
+              "filename": "klt-batch-qa-24mp.jpeg",
+              "fingerprint": {
+                "algorithm": "sha256",
+                "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+              },
+              "height": 4000,
+              "width": 6000
+            },
+            "originatingAnalysis": {
+              "matrixMode": "covariance",
+              "region": null,
+              "samplePixelCount": 24000000,
+              "samplingMode": "wholeImage"
+            },
+            "recipe": {
+              "identifier": "e1b1af7f-d575-4e31-832d-66edb2ab6020",
+              "libraryNameAtExecution": "Saved transform",
+              "recipeFormatVersion": 1
+            },
+            "targetOutcome": {
+              "clippedColorPixelCount": 1,
+              "clippedFraction": 1.0850694444444444e-06,
+              "evaluatedPixelCount": 921600,
+              "mappedRange": 0.989557028023402,
+              "maximumMappedComponent": 0.9891114379925302,
+              "minimumMappedComponent": -0.00044559003087176954,
+              "sameAsOrigin": false
+            }
+          },
+          "schema": "org.kltimage.analysis-record",
+          "targetSource": {
+            "analysisPixelFormat": "rgba8-premultiplied-srgb",
+            "filename": "specimen-anna-hummingbird",
+            "fingerprint": {
+              "algorithm": "sha256",
+              "value": "6a3d45b0cb8406ec328cda28e71954a0df7a023a9a990592ff6acb2ae6760d4b"
+            },
+            "height": 720,
+            "width": 1280
+          },
+          "version": 2
+        }
+      },
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1445296,
+        "sha256": "8102e58f770913d730cc6abf3e6a43ea75de0433463512f9dece8395fef48693",
+        "dimensions": [
+          1280,
+          720
+        ]
+      }
+    ]
+  },
+  {
+    "folder": "KLT Batch 2026-10-03 02-53-05 5E8AB335-37C7-4A0B-BEE1-5D1C23FE59F7",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt-analysis.json",
+        "bytes": 2677,
+        "sha256": "e5a03e771e48e7f4ce665b1b4ac5f216a8fbb9ae2f02cbad30731863015683ba",
+        "document": {
+          "calculation": null,
+          "conventions": {
+            "baseChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ],
+            "baseChannelUnits": [
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]"
+            ],
+            "matrixStorage": "row-major",
+            "regionBounds": "half-open",
+            "regionOrigin": "top-left",
+            "workingChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ]
+          },
+          "execution": {
+            "algorithm": {
+              "identifier": "org.kltimage.decorrelation-stretch",
+              "version": 1
+            },
+            "mode": "replayed",
+            "workingSpace": {
+              "base": "encoded-srgb",
+              "baseChannelOrder": [
+                "red",
+                "green",
+                "blue"
+              ],
+              "baseChannelUnits": [
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]"
+              ],
+              "definitionVersion": 1,
+              "forwardMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "identity": {
+                "identifier": "org.kltimage.space.rgb",
+                "kind": "standard"
+              },
+              "inverseMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "outputBehavior": "encoded-srgb-global-range-v1",
+              "workingChannelNames": [
+                "red",
+                "green",
+                "blue"
+              ]
+            },
+            "workingSpaceNameAtExecution": "RGB"
+          },
+          "interpretation": {
+            "exploratoryUseNotice": "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.",
+            "limitedVariation": false
+          },
+          "replay": {
+            "frozenApplication": {
+              "alphaPolicy": "preserve-source-byte",
+              "byteQuantization": "clamp-unit-premultiply-round-nearest",
+              "matrixStorage": "row-major",
+              "outputMapping": {
+                "clipsToUnitRange": true,
+                "kind": "encoded-srgb-global-range-v1",
+                "maximum": 2.210601720129533,
+                "minimum": -2.175205265271583,
+                "scale": 0.22800820996652735
+              },
+              "transform": [
+                2.1698685838924123,
+                -1.4535649072524766,
+                0.28954831351201804,
+                -1.4535649072524766,
+                4.049125313432833,
+                -1.7264251707716847,
+                0.28954831351201804,
+                -1.7264251707716847,
+                2.5742073745744865
+              ],
+              "workingCenter": [
+                0.8565045214052843,
+                0.6599835176470704,
+                0.4678063003267367
+              ]
+            },
+            "originSource": {
+              "analysisPixelFormat": "rgba8-premultiplied-srgb",
+              "filename": "klt-batch-qa-24mp.jpeg",
+              "fingerprint": {
+                "algorithm": "sha256",
+                "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+              },
+              "height": 4000,
+              "width": 6000
+            },
+            "originatingAnalysis": {
+              "matrixMode": "covariance",
+              "region": null,
+              "samplePixelCount": 24000000,
+              "samplingMode": "wholeImage"
+            },
+            "recipe": {
+              "identifier": "e1b1af7f-d575-4e31-832d-66edb2ab6020",
+              "libraryNameAtExecution": "Saved transform",
+              "recipeFormatVersion": 1
+            },
+            "targetOutcome": {
+              "clippedColorPixelCount": 1,
+              "clippedFraction": 1.0850694444444444e-06,
+              "evaluatedPixelCount": 921600,
+              "mappedRange": 0.989557028023402,
+              "maximumMappedComponent": 0.9891114379925302,
+              "minimumMappedComponent": -0.00044559003087176954,
+              "sameAsOrigin": false
+            }
+          },
+          "schema": "org.kltimage.analysis-record",
+          "targetSource": {
+            "analysisPixelFormat": "rgba8-premultiplied-srgb",
+            "filename": "specimen-anna-hummingbird",
+            "fingerprint": {
+              "algorithm": "sha256",
+              "value": "6a3d45b0cb8406ec328cda28e71954a0df7a023a9a990592ff6acb2ae6760d4b"
+            },
+            "height": 720,
+            "width": 1280
+          },
+          "version": 2
+        }
+      },
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1445296,
+        "sha256": "8102e58f770913d730cc6abf3e6a43ea75de0433463512f9dece8395fef48693",
+        "dimensions": [
+          1280,
+          720
+        ]
+      }
+    ]
+  },
+  {
+    "folder": "KLT Batch 2026-10-03 02-54-20 3AE61087-A48F-4B3D-B91C-3DD7745A3CF1",
+    "files": [
+      {
+        "name": "001-specimen-anna-hummingbird-klt-analysis.json",
+        "bytes": 2677,
+        "sha256": "e5a03e771e48e7f4ce665b1b4ac5f216a8fbb9ae2f02cbad30731863015683ba",
+        "document": {
+          "calculation": null,
+          "conventions": {
+            "baseChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ],
+            "baseChannelUnits": [
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]",
+              "encoded-srgb-[0,1]"
+            ],
+            "matrixStorage": "row-major",
+            "regionBounds": "half-open",
+            "regionOrigin": "top-left",
+            "workingChannelOrder": [
+              "red",
+              "green",
+              "blue"
+            ]
+          },
+          "execution": {
+            "algorithm": {
+              "identifier": "org.kltimage.decorrelation-stretch",
+              "version": 1
+            },
+            "mode": "replayed",
+            "workingSpace": {
+              "base": "encoded-srgb",
+              "baseChannelOrder": [
+                "red",
+                "green",
+                "blue"
+              ],
+              "baseChannelUnits": [
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]",
+                "encoded-srgb-[0,1]"
+              ],
+              "definitionVersion": 1,
+              "forwardMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "identity": {
+                "identifier": "org.kltimage.space.rgb",
+                "kind": "standard"
+              },
+              "inverseMatrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "outputBehavior": "encoded-srgb-global-range-v1",
+              "workingChannelNames": [
+                "red",
+                "green",
+                "blue"
+              ]
+            },
+            "workingSpaceNameAtExecution": "RGB"
+          },
+          "interpretation": {
+            "exploratoryUseNotice": "Color differences are amplified for inspection. The result is not, by itself, a scientific measurement.",
+            "limitedVariation": false
+          },
+          "replay": {
+            "frozenApplication": {
+              "alphaPolicy": "preserve-source-byte",
+              "byteQuantization": "clamp-unit-premultiply-round-nearest",
+              "matrixStorage": "row-major",
+              "outputMapping": {
+                "clipsToUnitRange": true,
+                "kind": "encoded-srgb-global-range-v1",
+                "maximum": 2.210601720129533,
+                "minimum": -2.175205265271583,
+                "scale": 0.22800820996652735
+              },
+              "transform": [
+                2.1698685838924123,
+                -1.4535649072524766,
+                0.28954831351201804,
+                -1.4535649072524766,
+                4.049125313432833,
+                -1.7264251707716847,
+                0.28954831351201804,
+                -1.7264251707716847,
+                2.5742073745744865
+              ],
+              "workingCenter": [
+                0.8565045214052843,
+                0.6599835176470704,
+                0.4678063003267367
+              ]
+            },
+            "originSource": {
+              "analysisPixelFormat": "rgba8-premultiplied-srgb",
+              "filename": "klt-batch-qa-24mp.jpeg",
+              "fingerprint": {
+                "algorithm": "sha256",
+                "value": "92da259b18c2a4cf48334e889c15f7b3253023ed2d090140a40b61bdd168e059"
+              },
+              "height": 4000,
+              "width": 6000
+            },
+            "originatingAnalysis": {
+              "matrixMode": "covariance",
+              "region": null,
+              "samplePixelCount": 24000000,
+              "samplingMode": "wholeImage"
+            },
+            "recipe": {
+              "identifier": "e1b1af7f-d575-4e31-832d-66edb2ab6020",
+              "libraryNameAtExecution": "Saved transform",
+              "recipeFormatVersion": 1
+            },
+            "targetOutcome": {
+              "clippedColorPixelCount": 1,
+              "clippedFraction": 1.0850694444444444e-06,
+              "evaluatedPixelCount": 921600,
+              "mappedRange": 0.989557028023402,
+              "maximumMappedComponent": 0.9891114379925302,
+              "minimumMappedComponent": -0.00044559003087176954,
+              "sameAsOrigin": false
+            }
+          },
+          "schema": "org.kltimage.analysis-record",
+          "targetSource": {
+            "analysisPixelFormat": "rgba8-premultiplied-srgb",
+            "filename": "specimen-anna-hummingbird",
+            "fingerprint": {
+              "algorithm": "sha256",
+              "value": "6a3d45b0cb8406ec328cda28e71954a0df7a023a9a990592ff6acb2ae6760d4b"
+            },
+            "height": 720,
+            "width": 1280
+          },
+          "version": 2
+        }
+      },
+      {
+        "name": "001-specimen-anna-hummingbird-klt.png",
+        "bytes": 1445296,
+        "sha256": "8102e58f770913d730cc6abf3e6a43ea75de0433463512f9dece8395fef48693",
+        "dimensions": [
+          1280,
+          720
+        ]
+      }
+    ]
+  }
+]

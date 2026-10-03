@@ -1,0 +1,15 @@
+Test Suite 'Selected tests' started at 2026-10-03 02:11:13.864.
+Test Suite 'KLTCoreTests.xctest' started at 2026-10-03 02:11:13.866.
+Test Suite 'IOSDecodePolicyTests' started at 2026-10-03 02:11:13.866.
+Test Case '-[KLTCoreTests.IOSDecodePolicyTests testDecodeMatchesLegacyThumbnailPixelsAcrossFormatsOrientationAndProfiles]' started.
+Test Case '-[KLTCoreTests.IOSDecodePolicyTests testDecodeMatchesLegacyThumbnailPixelsAcrossFormatsOrientationAndProfiles]' passed (5.975 seconds).
+Test Case '-[KLTCoreTests.IOSDecodePolicyTests testFileURLDecodeMatchesDataDecode]' started.
+Test Case '-[KLTCoreTests.IOSDecodePolicyTests testFileURLDecodeMatchesDataDecode]' passed (0.002 seconds).
+Test Case '-[KLTCoreTests.IOSDecodePolicyTests testFixedMobileBoundaryDoesNotChangeMacBoundary]' started.
+Test Case '-[KLTCoreTests.IOSDecodePolicyTests testFixedMobileBoundaryDoesNotChangeMacBoundary]' passed (0.000 seconds).
+Test Suite 'IOSDecodePolicyTests' passed at 2026-10-03 02:11:19.843.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 5.977 (5.977) seconds
+Test Suite 'KLTCoreTests.xctest' passed at 2026-10-03 02:11:19.843.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 5.977 (5.977) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 02:11:19.843.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 5.977 (5.979) seconds

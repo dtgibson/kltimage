@@ -1,0 +1,7 @@
+ISOLATION baseline mode=deepcopy pid=7967 status=0 footprint=100221600
+ISOLATION item=1 status=0 footprint=317539288
+ISOLATION item=2 status=0 footprint=437830760
+ISOLATION item=3 status=0 footprint=558155024
+ISOLATION item=4 status=0 footprint=678397344
+ISOLATION item=5 status=0 footprint=798688840
+ISOLATION item=6 status=0 footprint=918882008

@@ -1,0 +1,14 @@
+{
+  "mac": {
+    "buildSucceeded": true,
+    "DEBUGDefinePresent": false,
+    "testFaultOrMemorySymbols": [],
+    "nmExit": 0
+  },
+  "ios": {
+    "buildSucceeded": true,
+    "DEBUGDefinePresent": false,
+    "testFaultOrMemorySymbols": [],
+    "nmExit": 0
+  }
+}

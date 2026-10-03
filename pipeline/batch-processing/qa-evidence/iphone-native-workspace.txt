@@ -1,0 +1,17 @@
+{"AXLabel": "KLT Image", "AXValue": null, "AXUniqueId": null, "type": "Application", "enabled": true, "frame": {"width": 402, "x": 0, "height": 874, "y": 0}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": null, "type": "Group", "enabled": true, "frame": {"width": 40, "x": 20.000000000000007, "height": 36, "y": 66}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"width": 40, "x": 20.000000000000007, "height": 36, "y": 66}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"width": 26, "x": 27.000000000000007, "height": 26, "y": 71}}
+{"AXLabel": "Methods", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 38.66666666666666, "x": 76.00000000000003, "height": 36, "y": 66}}
+{"AXLabel": "KLT Image", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"width": 83, "x": 159.33333333333334, "height": 20.66666666666667, "y": 73.66666666666666}}
+{"AXLabel": "Open image", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 37.333333333333314, "x": 291, "height": 36, "y": 66}}
+{"AXLabel": "Analysis record", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": false, "frame": {"width": 37.666666666666686, "x": 344.33333333333337, "height": 36, "y": 66}}
+{"AXLabel": "photo.artframe", "AXValue": null, "AXUniqueId": "photo.artframe", "type": "Image", "enabled": true, "frame": {"width": 50.66666793823242, "x": 175.66666666666666, "height": 39.66666793823242, "y": 371.3333333333333}}
+{"AXLabel": "Reveal subtle color structure", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 257, "x": 72.5, "height": 25, "y": 451.83333333333337}}
+{"AXLabel": "Choose a photograph. Analysis stays on this device, and the source stays unchanged.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 329.66666666666663, "x": 36.166666666666686, "height": 30, "y": 480.83333333333337}}
+{"AXLabel": "Open image", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 84, "x": 159, "height": 32, "y": 527}}
+{"AXLabel": "Tab Bar", "AXValue": null, "AXUniqueId": null, "type": "Group", "enabled": true, "frame": {"width": 402, "x": 0, "height": 83, "y": 791}}
+{"AXLabel": "Workspace", "AXValue": 1, "AXUniqueId": "photo.on.rectangle", "type": "RadioButton", "enabled": true, "frame": {"width": 94.66666666666666, "x": 110, "height": 54, "y": 795}}
+{"AXLabel": "photo.fill.on.rectangle.fill", "AXValue": null, "AXUniqueId": "photo.fill.on.rectangle.fill", "type": "Image", "enabled": true, "frame": {"width": 34.33333333333334, "height": 28.66666666666663, "x": 140, "y": 801.3333333333334}}
+{"AXLabel": "Library", "AXValue": 0, "AXUniqueId": "square.stack", "type": "RadioButton", "enabled": true, "frame": {"width": 94.66666666666669, "x": 196.66666666666669, "height": 54, "y": 795}}
+{"AXLabel": "square.stack.fill", "AXValue": null, "AXUniqueId": "square.stack.fill", "type": "Image", "enabled": true, "frame": {"width": 26, "x": 230.66666666666669, "height": 32.33333333333337, "y": 799.6666666666666}}

@@ -62,14 +62,46 @@ final class IOSWorkspace {
     private(set) var library: MethodLibrarySnapshot = .empty
     private(set) var libraryRecoveryError: String?
     private(set) var libraryMutationInProgress = false
-    var comparison: IOSComparisonMode = .sideBySide
-    var reveal = 0.5
-    var zoom = 1.0
-    var pan = CGSize.zero
-    var sampleSource: AnalysisSampleSource = .wholeImage { didSet { controlsChanged() } }
-    var matrixMode: AnalysisMatrixMode = .covariance { didSet { controlsChanged() } }
-    var region: SourcePixelRegion? { didSet { controlsChanged() } }
-    var method: IOSMethodSelection = .calculated(.standardRGB, "RGB") { didSet { controlsChanged() } }
+    private var comparisonValue: IOSComparisonMode = .sideBySide
+    var comparison: IOSComparisonMode {
+        get { comparisonValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; comparisonValue = newValue }
+    }
+    private var revealValue = 0.5
+    var reveal: Double {
+        get { revealValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; revealValue = newValue }
+    }
+    private var zoomValue = 1.0
+    var zoom: Double {
+        get { zoomValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; zoomValue = newValue }
+    }
+    private var panValue = CGSize.zero
+    var pan: CGSize {
+        get { panValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; panValue = newValue }
+    }
+    private var sampleSourceValue: AnalysisSampleSource = .wholeImage
+    var sampleSource: AnalysisSampleSource {
+        get { sampleSourceValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; sampleSourceValue = newValue; controlsChanged() }
+    }
+    private var matrixModeValue: AnalysisMatrixMode = .covariance
+    var matrixMode: AnalysisMatrixMode {
+        get { matrixModeValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; matrixModeValue = newValue; controlsChanged() }
+    }
+    private var regionValue: SourcePixelRegion?
+    var region: SourcePixelRegion? {
+        get { regionValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; regionValue = newValue; controlsChanged() }
+    }
+    private var methodValue: IOSMethodSelection = .calculated(.standardRGB, "RGB")
+    var method: IOSMethodSelection {
+        get { methodValue }
+        set { guard !BatchWorkspaceLease.shared.isHeld else { return }; methodValue = newValue; controlsChanged() }
+    }
 
     private let store: IOSMethodLibrary
     private var generation = UUID()
@@ -94,6 +126,8 @@ final class IOSWorkspace {
         self.store = store
         self.imageEncoder = imageEncoder
     }
+
+    var batchBusy: Bool { isImporting || isProcessing || isPreparingExport || activeExportTicket?.isValid == true }
 
     var isReplayed: Bool { if case .replayed = method { true } else { false } }
     var methodName: String {
@@ -146,6 +180,7 @@ final class IOSWorkspace {
     }
 
     func chooseSpace(_ descriptor: WorkingSpaceDescriptor) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         let selection: WorkingSpaceSelection
         switch descriptor.revision.identity.kind {
         case .standard:
@@ -157,20 +192,24 @@ final class IOSWorkspace {
     }
 
     func chooseSpace(_ item: UserWorkingSpaceItem) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         lastCalculated = (.affine(item.revision), item.libraryName)
         method = .calculated(.affine(item.revision), item.libraryName)
     }
 
     func applyRecipe(_ item: SavedTransformItem) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         method = .replayed(item.recipe, item.libraryName)
     }
 
     func calculateForThisImage() {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         method = .calculated(lastCalculated.0, lastCalculated.1)
     }
 
     /// A pending replacement never clears the accepted source or result.
     func importImage(_ url: URL, displayName: String? = nil, removeAfterImport: Bool = false) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         importTask?.cancel()
         let id = UUID()
         importID = id
@@ -178,7 +217,9 @@ final class IOSWorkspace {
         error = nil
         status = "Opening the full-resolution source…"
         let name = displayName ?? url.lastPathComponent
+        BatchInteractiveWork.shared.begin()
         importTask = Task.detached(priority: .userInitiated) { [weak self] in
+            defer { BatchInteractiveWork.shared.end() }
             let access = url.startAccessingSecurityScopedResource()
             var stagedURL: URL? = removeAfterImport ? url : nil
             defer {
@@ -246,6 +287,7 @@ final class IOSWorkspace {
     }
 
     func runAnalysis() {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard let source else { return }
         invalidateExport()
         analysisTask?.cancel()
@@ -272,7 +314,9 @@ final class IOSWorkspace {
         let methodName = methodName
         isProcessing = true
         status = isReplayed ? "Replaying frozen transform…" : "Calculating from the unchanged source…"
+        BatchInteractiveWork.shared.begin()
         analysisTask = Task.detached(priority: .userInitiated) { [weak self] in
+            defer { BatchInteractiveWork.shared.end() }
             do {
                 let image: EnhancedImage
                 switch request {
@@ -328,6 +372,7 @@ final class IOSWorkspace {
     func zoomOut() { zoom = max(1, zoom / 1.25); if zoom == 1 { pan = .zero } }
 
     func setRegion(_ proposed: SourcePixelRegion) {
+        guard !BatchWorkspaceLease.shared.isHeld else { return }
         guard let source else { return }
         do {
             _ = try SourcePixelRegionValidator.validate(
@@ -392,10 +437,15 @@ final class IOSWorkspace {
     private func prepareFileExport(
         _ result: IOSResult, encode: @escaping @Sendable () async throws -> Data
     ) async throws -> PreparedIOSExport {
+        guard !BatchWorkspaceLease.shared.isHeld else { throw IOSWorkspaceError.staleResult }
         invalidateExport()
         let id = exportID
         isPreparingExport = true
-        let task = Task.detached(priority: .userInitiated) { try await encode() }
+        BatchInteractiveWork.shared.begin()
+        let task = Task.detached(priority: .userInitiated) {
+            defer { BatchInteractiveWork.shared.end() }
+            return try await encode()
+        }
         exportTask = task
         defer {
             if exportID == id {

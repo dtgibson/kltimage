@@ -1,0 +1,14 @@
+{
+  "scope": "Read-only follow-up; standalone six-item allocation diagnostics; no production edits or new100-item run.",
+  "correction": "The growth is an observed allocator/render interaction. A minimal Foundation Data(count:96000000)+memset loop without ImageIO/CoreGraphics is bounded. Do not attribute a generic Foundation leak or a private CoreGraphics root cause.",
+  "differencesRuledOut": "Original bounded standalone already copied input to unique per-item URLs. Engineer independently confirmed production core-only decoding bounded and384fixture exact parity; loaded-framework/fullpipeline checks remained his scope.",
+  "overlapResults": {
+    "decodeOnly": "overlap-nocopy.log:221463416\u2192222758448 bytes; identical decoded buffer address on all6items.",
+    "secondDataWithCGImage": "overlap-nocopyperturb.log:317571984\u2192918980264 bytes; memcpy decoded buffer into overlapping96MB Data(count:), createCGImage but never render or encode secondimage. Decoded address stays fixed, secondData address advances. Original mode nocopyperturb corresponds to current script mode overlapimage.",
+    "secondDataWithoutCGImage": "overlap-dataonly.log:317539240\u2192918931112 bytes; same secondData allocation/copy but no secondCGImage, draw or encode.",
+    "secondOwnedDataWithCGImage": "overlap-nocopy-extra.log:317588368\u2192318817864 bytes; secondbuffer calloc\u2192Data(bytesNoCopy:.free) retains CGImage wrapping. Both buffer addresses repeat across6items.",
+    "minimalDataOnlyControl": "data-only-count.log:97878520\u2192121930280 bytes with plateau atitem2. No ImageIO/CoreGraphics; sixiterations ofData(count:96MB)+memset+release."
+  },
+  "supportedRecommendation": "Engineer should use checked explicitly owned calloc-backed Data for the remaining fullframe output allocations in enhance, renderFrozen, renderRGB, renderLab and opaqueImage; preserve rendering/math unchanged. In-memory overlap probe supports this next candidate, not finalbatch acceptance.",
+  "remainingVerification": "Engineer owns fullpipeline isolation, existing exactbyte tests, optimized100-image memory verification and platformchecks. No additional reviewer experiments planned."
+}

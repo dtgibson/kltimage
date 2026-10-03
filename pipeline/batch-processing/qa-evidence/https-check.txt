@@ -1,0 +1,6 @@
+200 https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/qa-2026-10-03/
+200 https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/qa-2026-10-03/iphone-empty.png
+200 https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/qa-2026-10-03/ipad-empty.png
+200 https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/qa-2026-10-03/iphone-accessibility-xxxl.png
+200 https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/qa-2026-10-03/iphone-calculated-record-success.png
+200 https://hephaestus-developer.giraffe-chuckwalla.ts.net/kltimage-batch-review/qa-2026-10-03/ipad-replay-empty.png

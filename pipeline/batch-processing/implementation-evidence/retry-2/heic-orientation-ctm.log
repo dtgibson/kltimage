@@ -1,0 +1,16 @@
+CTM EXIF=1 differingBytes=0 maxDelta=0
+HEIC exifRequested=1 metadata=1 metadataSize=64x48 direct=64x48 legacy=64x48 perm=1:different=0:max=0 perm=2:different=9178:max=200 perm=3:different=9182:max=245 perm=4:different=9128:max=193
+CTM EXIF=2 differingBytes=8658 maxDelta=59
+HEIC exifRequested=2 metadata=2 metadataSize=64x48 direct=64x48 legacy=64x48 perm=1:different=9173:max=224 perm=2:different=8658:max=59 perm=3:different=9152:max=192 perm=4:different=9187:max=250
+CTM EXIF=3 differingBytes=9040 maxDelta=78
+HEIC exifRequested=3 metadata=3 metadataSize=64x48 direct=64x48 legacy=64x48 perm=1:different=9193:max=250 perm=2:different=9159:max=188 perm=3:different=9040:max=78 perm=4:different=9157:max=218
+CTM EXIF=4 differingBytes=8569 maxDelta=73
+HEIC exifRequested=4 metadata=4 metadataSize=64x48 direct=64x48 legacy=64x48 perm=1:different=9154:max=202 perm=2:different=9183:max=248 perm=3:different=9163:max=203 perm=4:different=8569:max=73
+CTM EXIF=5 differingBytes=0 maxDelta=0
+HEIC exifRequested=5 metadata=5 metadataSize=64x48 direct=64x48 legacy=48x64 perm=5:different=0:max=0 perm=6:different=9128:max=193 perm=7:different=9182:max=245 perm=8:different=9178:max=200
+CTM EXIF=6 differingBytes=8569 maxDelta=73
+HEIC exifRequested=6 metadata=6 metadataSize=64x48 direct=64x48 legacy=48x64 perm=5:different=9154:max=202 perm=6:different=8569:max=73 perm=7:different=9163:max=203 perm=8:different=9183:max=248
+CTM EXIF=7 differingBytes=9040 maxDelta=78
+HEIC exifRequested=7 metadata=7 metadataSize=64x48 direct=64x48 legacy=48x64 perm=5:different=9193:max=250 perm=6:different=9157:max=218 perm=7:different=9040:max=78 perm=8:different=9159:max=188
+CTM EXIF=8 differingBytes=8658 maxDelta=59
+HEIC exifRequested=8 metadata=8 metadataSize=64x48 direct=64x48 legacy=48x64 perm=5:different=9173:max=224 perm=6:different=9187:max=250 perm=7:different=9152:max=192 perm=8:different=8658:max=59

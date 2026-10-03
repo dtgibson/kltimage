@@ -1,0 +1,82 @@
+{"AXLabel": "KLT Image", "AXValue": null, "AXUniqueId": null, "type": "Application", "enabled": true, "frame": {"height": 1376, "y": 0, "x": 0, "width": 1032}}
+{"AXLabel": "KLT IMAGE", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 14.5, "y": 48, "x": 23.75, "width": 59.5}}
+{"AXLabel": "Workspace", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 20.5, "y": 88.5, "x": 26, "width": 116.25}}
+{"AXLabel": "photo.on.rectangle", "AXValue": null, "AXUniqueId": "photo.on.rectangle", "type": "Image", "enabled": true, "frame": {"height": 17, "y": 90, "x": 26, "width": 21}}
+{"AXLabel": "Workspace", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 20.5, "y": 88.5, "x": 26, "width": 116.25}}
+{"AXLabel": "Library", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 21.010986328125, "x": 25, "y": 119.989013671875, "width": 79.25}}
+{"AXLabel": "square.stack", "AXValue": null, "AXUniqueId": "square.stack", "type": "Image", "enabled": true, "frame": {"height": 21, "y": 120, "x": 25, "width": 17.5}}
+{"AXLabel": "Library", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 21.010986328125, "y": 119.989013671875, "x": 25, "width": 79.25}}
+{"AXLabel": "Local scientific imaging", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 13, "x": 23.75, "y": 1327, "width": 113.5}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": null, "type": "Group", "enabled": true, "frame": {"height": 36, "y": 36, "x": 180.5, "width": 40}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": null, "type": "PopUpButton", "enabled": true, "frame": {"height": 36, "y": 36, "x": 180.5, "width": 40}}
+{"AXLabel": "Workspace actions", "AXValue": null, "AXUniqueId": "ellipsis.circle", "type": "Image", "enabled": true, "frame": {"height": 26, "x": 187.5, "y": 41, "width": 26}}
+{"AXLabel": "Methods", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 36, "x": 236.5, "y": 36, "width": 38.5}}
+{"AXLabel": "KLT Image", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"height": 21, "y": 43.5, "x": 424.5, "width": 83}}
+{"AXLabel": "Open image", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 36, "y": 36, "x": 661, "width": 37}}
+{"AXLabel": "Analysis record", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 36, "y": 36, "x": 714, "width": 37.5}}
+{"AXLabel": "Original", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 44, "y": 98, "x": 178.5, "width": 142.5}}
+{"AXLabel": "Side by side", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 44, "y": 98, "x": 323, "width": 142}}
+{"AXLabel": "Slider", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 44, "y": 98, "x": 467, "width": 142.5}}
+{"AXLabel": "Processed", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"height": 44, "y": 98, "x": 611.5, "width": 142}}
+{"AXLabel": "Registered comparison image, zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "Image", "enabled": true, "frame": {"height": 199.5, "x": 166.5, "y": 583.5, "width": 299}}
+{"AXLabel": "Registered comparison image, zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"height": 13, "y": 1185.5, "x": 180.5, "width": 48}}
+{"AXLabel": "Registered comparison image, zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "Image", "enabled": true, "frame": {"height": 199.5, "y": 583.5, "x": 466.5, "width": 299}}
+{"AXLabel": "Registered comparison image, zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 480.5, "y": 1185.5, "height": 13, "width": 54}}
+{"AXLabel": "Registered comparison image, zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "Group", "enabled": true, "frame": {"x": 166.5, "y": 154, "height": 1058.5, "width": 599}}
+{"AXLabel": "Registered comparison image, zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 186.5, "y": 174, "height": 13, "width": 24}}
+{"AXLabel": "Registered comparison image, zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 685.5, "y": 174, "height": 13, "width": 60}}
+{"AXLabel": "Zoom out", "AXValue": null, "AXUniqueId": "minus", "type": "Button", "enabled": true, "frame": {"x": 342, "y": 1174, "height": 1, "width": 8.5}}
+{"AXLabel": "Zoom 100 percent", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 370.25, "y": 1167.25, "height": 14.5, "width": 26.5}}
+{"AXLabel": "Zoom in", "AXValue": null, "AXUniqueId": "plus", "type": "Button", "enabled": true, "frame": {"x": 416.5, "y": 1170.5, "height": 8.5, "width": 8.5}}
+{"AXLabel": "Fit", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"x": 461, "y": 1168.75, "height": 11.5, "width": 11.5}}
+{"AXLabel": "Draw sample", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"x": 493.25, "y": 1168.75, "height": 11.5, "width": 58.5}}
+{"AXLabel": "Coordinates", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"x": 553.75, "y": 1168.75, "height": 11.5, "width": 54}}
+{"AXLabel": "RGB, \u00b7, covariance, \u00b7, whole image, CALCULATED, Enhanced color is exploratory evidence. Lighting, noise, compression and clipping can influence appearance.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 166.5, "y": 1212.5, "height": 44, "width": 599}}
+{"AXLabel": "RGB", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 180.5, "y": 1221.5, "height": 11.5, "width": 22}}
+{"AXLabel": "\u00b7", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 210.5, "y": 1221.5, "height": 11.5, "width": 3}}
+{"AXLabel": "covariance", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 221.5, "y": 1221.5, "height": 11.5, "width": 48.5}}
+{"AXLabel": "\u00b7", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 278, "y": 1221.5, "height": 11.5, "width": 3}}
+{"AXLabel": "whole image", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 289, "y": 1221.5, "height": 11.5, "width": 56.5}}
+{"AXLabel": "CALCULATED", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 686, "y": 1221.5, "height": 11.5, "width": 65.5}}
+{"AXLabel": "Enhanced color is exploratory evidence. Lighting, noise, compression and clipping can influence appearance.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 180.5, "y": 1236, "height": 11.5, "width": 483.5}}
+{"AXLabel": "Calculated for this image", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 180.5, "y": 1270.5, "height": 16.5, "width": 154.5}}
+{"AXLabel": "Method library saved. Current image is unchanged.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 180.5, "y": 1290, "height": 13, "width": 249.5}}
+{"AXLabel": "Analysis", "AXValue": null, "AXUniqueId": "chevron.right", "type": "Button", "enabled": true, "frame": {"x": 739, "y": 1278.5, "height": 16.5, "width": 12.5}}
+{"AXLabel": "Analysis", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"x": 180, "y": 1309.5, "height": 33, "width": 68}}
+{"AXLabel": "Export result", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"x": 255.5, "y": 1310, "height": 32, "width": 91.5}}
+{"AXLabel": "ANALYSIS", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 784, "y": 50, "height": 14.5, "width": 53}}
+{"AXLabel": "Calculated for this image", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 784, "y": 80.5, "height": 25, "width": 222.5}}
+{"AXLabel": "Working space, RGB", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 784, "y": 138, "height": 14, "width": 230}}
+{"AXLabel": "Matrix, Covariance", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 784, "y": 168, "height": 14, "width": 230}}
+{"AXLabel": "Sample, Whole image", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 230, "height": 14, "y": 198, "x": 784}}
+{"AXLabel": "Source, 6000 \u00d7 4000", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 230, "height": 14, "y": 228, "x": 784}}
+{"AXLabel": "Change analysis", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 89, "height": 14, "y": 258, "x": 784}}
+{"AXLabel": "Inspect record", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 76.5, "height": 14, "y": 288, "x": 784}}
+{"AXLabel": "Export record", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 72.5, "height": 14, "y": 318, "x": 784}}
+{"AXLabel": "Export result", "AXValue": null, "AXUniqueId": null, "type": "Button", "enabled": true, "frame": {"width": 91.5, "height": 32, "y": 348, "x": 784}}
+{"AXLabel": "Enhanced color is exploratory evidence.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 195.5, "height": 13, "y": 396, "x": 784}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"width": 30, "height": 1316, "y": 30, "x": 999}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"width": 30, "height": 1316, "y": 30, "x": 999}}
+{"AXLabel": "KLT IMAGE", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 63, "height": 13, "y": 382, "x": 250}}
+{"AXLabel": "Batch canceled", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"width": 144, "height": 26, "y": 399, "x": 250}}
+{"AXLabel": "Close", "AXValue": null, "AXUniqueId": "batch-close", "type": "Button", "enabled": true, "frame": {"width": 61, "height": 45, "y": 381.5, "x": 721.5}}
+{"AXLabel": "Replay saved transform \u00b7 Saved transform", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 300, "height": 18.5, "y": 474.5, "x": 250}}
+{"AXLabel": "PNG + analysis JSON", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 138.5, "height": 16.5, "y": 509, "x": 250}}
+{"AXLabel": "Selected Files folder", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 127, "height": 16.5, "y": 541.5, "x": 250}}
+{"AXLabel": "KLT Batch 2026-10-03 02-51-30 973570DE-E553-4D9E-B33C-C6482A8EF675", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"width": 436, "height": 14.5, "y": 574, "x": 250}}
+{"AXLabel": "Total 2 \u00b7 Successful 1 \u00b7 Partial 0 \u00b7 Failed 0 \u00b7 Canceled 1 \u00b7 Not processed 0", "AXValue": null, "AXUniqueId": "batch-counts", "type": "StaticText", "enabled": true, "frame": {"width": 453, "height": 16.5, "y": 604.5, "x": 250}}
+{"AXLabel": "Image outcomes", "AXValue": null, "AXUniqueId": null, "type": "Heading", "enabled": true, "frame": {"x": 250, "height": 18.5, "width": 118.5, "y": 637}}
+{"AXLabel": "001 \u00b7 specimen-anna-hummingbird, Saved with warning, Some target colors clip under this frozen recipe., 001-specimen-anna-hummingbird-klt.png, 001-specimen-anna-hummingbird-klt-analysis.json", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "height": 102, "y": 684, "width": 310.5}}
+{"AXLabel": "001 \u00b7 specimen-anna-hummingbird", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 216.5, "y": 684, "height": 16.5}}
+{"AXLabel": "Saved with warning", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 130, "y": 706.5, "height": 16}}
+{"AXLabel": "Some target colors clip under this frozen recipe.", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 296.5, "y": 728.5, "height": 16.5}}
+{"AXLabel": "001-specimen-anna-hummingbird-klt.png", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "height": 14.5, "y": 751, "width": 244.5}}
+{"AXLabel": "001-specimen-anna-hummingbird-klt-analysis.json", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 310.5, "y": 771.5, "height": 14.5}}
+{"AXLabel": "002 \u00b7 klt-batch-qa-24mp, Canceled, Batch canceled", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 148, "y": 810.5, "height": 61}}
+{"AXLabel": "002 \u00b7 klt-batch-qa-24mp", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "height": 16.5, "y": 810.5, "width": 148}}
+{"AXLabel": "Canceled", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 58, "y": 833, "height": 16}}
+{"AXLabel": "Batch canceled", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "width": 96, "y": 855, "height": 16.5}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"x": 773, "width": 30, "y": 450.5, "height": 463}}
+{"AXLabel": "Vertical scroll bar, 1 page", "AXValue": "0%", "AXUniqueId": null, "type": "Slider", "enabled": true, "frame": {"x": 773, "height": 463, "y": 450.5, "width": 30}}
+{"AXLabel": "Keep KLT Image open in the foreground", "AXValue": null, "AXUniqueId": null, "type": "StaticText", "enabled": true, "frame": {"x": 250, "height": 14, "y": 922, "width": 213.5}}
+{"AXLabel": "Return to setup", "AXValue": null, "AXUniqueId": "batch-return", "type": "Button", "enabled": true, "frame": {"x": 250, "height": 44, "y": 948, "width": 120}}

@@ -1,0 +1,266 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project KLTImage.xcodeproj -scheme KLTImageIOS -configuration Debug -destination "platform=iOS Simulator,id=7816C5F3-F485-40BB-A6C6-C86BE97B3287" -derivedDataPath /tmp/klt-batch-qa-ios -parallel-testing-enabled NO "-only-testing:KLTCoreIOSTests/IOSDecodePolicyTests" "-only-testing:KLTImageIOSTests/BatchProcessingTests" test
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (4 targets)
+    Target 'KLTImageIOSTests' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTImageIOS' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTImageIOS' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTCoreIOSTests' in project 'KLTImage'
+        ➜ Explicit dependency on target 'KLTCoreIOS' in project 'KLTImage'
+    Target 'KLTCoreIOS' in project 'KLTImage' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk /tmp/klt-batch-qa-ios/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+    cd /Users/developer/devwork/kltimage/KLTImage.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.0.sdk -o /tmp/klt-batch-qa-ios/SDKStatCaches.noindex/iphonesimulator27.0-24A430-8dc58220667be655e1bcc261a7455254.sdkstatcache
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist (in target 'KLTCoreIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOS.build/empty-KLTCore.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework/Info.plist
+
+CompileAssetCatalogVariant thinned /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets --compile /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --output-partial-info-plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPad17,4-A --filter-for-device-os-version 26.4.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 18.0 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned/Assets.car
+
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Info.plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/empty-KLTCoreIOSTests.plist (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/empty-KLTCoreIOSTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Info.plist
+
+CopySwiftLibs /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest (in target 'KLTCoreIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/KLTCoreIOSTests --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/PlugIns --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/SystemExtensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Extensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCoreIOSTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTCoreIOSTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+LinkAssetCatalog /Users/developer/devwork/kltimage/KLTImageIOS/Resources/Assets.xcassets (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-linkAssetCatalog --thinned /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/thinned --thinned-dependencies /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_thinned --unthinned /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_output/unthinned --unthinned-dependencies /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist_unthinned --output /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app --plist-output /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist
+note: Emplaced /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon76x76@2x~ipad.png (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/AppIcon60x60@2x.png (in target 'KLTImageIOS' from project 'KLTImage')
+note: Emplaced /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT Image.app/Assets.car (in target 'KLTImageIOS' from project 'KLTImage')
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist /Users/developer/devwork/kltimage/KLTImageIOS/Info.plist (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /Users/developer/devwork/kltimage/KLTImageIOS/Info.plist -producttype com.apple.product-type.application -genpkginfo /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/assetcatalog_generated_info.plist -scanforprivacyfile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks/KLTCore.framework -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Info.plist
+
+CopySwiftLibs /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app (in target 'KLTImageIOS' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/KLT\ Image.debug.dylib --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/SystemExtensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Extensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOS.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ProcessInfoPlistFile /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Info.plist /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/empty-KLTImageIOSTests.plist (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-infoPlistUtility /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/empty-KLTImageIOSTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Info.plist
+
+CopySwiftLibs /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest (in target 'KLTImageIOSTests' from project 'KLTImage')
+    cd /Users/developer/devwork/kltimage
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/KLTImageIOSTests --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/PlugIns --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/SystemExtensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Extensions --scan-folder /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLTCore.framework --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/klt-batch-qa-ios/Build/Products/Debug-iphonesimulator/KLT\ Image.app/PlugIns/KLTImageIOSTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/KLTImage.build/Debug-iphonesimulator/KLTImageIOSTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+PruneExplicitPrecompiledModules /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-batch-qa-ios/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/klt-batch-qa-ios/SDKExplicitPrecompiledModules
+
+Test Suite 'Selected tests' started at 2026-10-03 02:33:50.724.
+Test Suite 'KLTCoreIOSTests.xctest' started at 2026-10-03 02:33:50.724.
+Test Suite 'IOSDecodePolicyTests' started at 2026-10-03 02:33:50.725.
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testDecodeMatchesLegacyThumbnailPixelsAcrossFormatsOrientationAndProfiles]' started.
+2026-10-03 02:33:51.139963-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.176573-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.187263-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.196739-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.206068-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.217511-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.227567-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.237911-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.421650-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.431431-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.442979-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.451894-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.463400-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.474388-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.488697-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.498386-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.692395-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+Format description changes not supported in tile sessions2026-10-03 02:33:51.700677-0700 xctest[16477:13618990] Format description changes not supported in tile sessions
+2026-10-03 02:33:51.702696-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.721116-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.732022-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.743823-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.753117-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.763469-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.773837-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.944719-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+Format description changes not supported in tile sessions2026-10-03 02:33:51.953688-0700 xctest[16477:13618990] Format description changes not supported in tile sessions
+2026-10-03 02:33:51.955710-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.966737-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.984163-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:51.994077-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.003541-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.018512-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.034694-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.229658-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.230038-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.230108-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+Format description changes not supported in tile sessions2026-10-03 02:33:52.241045-0700 xctest[16477:13618990] Format description changes not supported in tile sessions
+2026-10-03 02:33:52.243057-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.243356-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.243422-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.255070-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.255434-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.255508-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.265117-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.265439-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.265506-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.281595-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.281935-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.282006-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.291990-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.292326-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.292391-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.302113-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.302432-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.302498-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.317059-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.317406-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.317475-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.331190-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.331292-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.358488-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.358593-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.372366-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.372464-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.395469-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.395569-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.421138-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.421248-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.436779-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.436884-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.452433-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.452569-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.468985-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.469088-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.497204-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.497587-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.497664-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+Format description changes not supported in tile sessions2026-10-03 02:33:52.508014-0700 xctest[16477:13618990] Format description changes not supported in tile sessions
+2026-10-03 02:33:52.510407-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.510912-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.510995-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.520840-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.521185-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.521259-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.531605-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.531924-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.531992-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.542428-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.542729-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.542795-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.551700-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.552037-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.552105-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.561687-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.562022-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.562097-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.572353-0700 xctest[16477:13618990] [xctest] writeImageAtIndex:1094: ⭕️ ERROR: 'xctest' is trying to save an opaque image (64x48) with 'AlphaLast'. This would unnecessarily increase the file size and will double (!!!) the required memory when decoding the image --> ignoring alpha.
+2026-10-03 02:33:52.572662-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.572734-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.589601-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.589694-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.607074-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.607159-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.631944-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.632051-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.652283-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.652388-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.670575-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.670679-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.695644-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.695749-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.721466-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.721575-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+2026-10-03 02:33:52.739978-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:284
+2026-10-03 02:33:52.740075-0700 xctest[16477:13618990] [] (Fig) signalled err=-16993 at <>:567
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testDecodeMatchesLegacyThumbnailPixelsAcrossFormatsOrientationAndProfiles]' passed (2.036 seconds).
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFileURLDecodeMatchesDataDecode]' started.
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFileURLDecodeMatchesDataDecode]' passed (0.002 seconds).
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFixedMobileBoundaryDoesNotChangeMacBoundary]' started.
+Test Case '-[KLTCoreIOSTests.IOSDecodePolicyTests testFixedMobileBoundaryDoesNotChangeMacBoundary]' passed (0.003 seconds).
+Test Suite 'IOSDecodePolicyTests' passed at 2026-10-03 02:33:52.767.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 2.041 (2.042) seconds
+Test Suite 'KLTCoreIOSTests.xctest' passed at 2026-10-03 02:33:52.767.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 2.041 (2.043) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 02:33:52.768.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 2.041 (2.044) seconds
+2026-10-03 02:33:54.331290-0700 KLT Image[16487:13619278] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/68458BCD-F85B-443A-AFE8-CC0D688783BB/KLT%20Image.app/IBMPlexMono-Regular.ttf"
+2026-10-03 02:33:54.334213-0700 KLT Image[16487:13619278] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/68458BCD-F85B-443A-AFE8-CC0D688783BB/KLT%20Image.app/IBMPlexSans-SemiBold.ttf"
+2026-10-03 02:33:54.334793-0700 KLT Image[16487:13619278] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/68458BCD-F85B-443A-AFE8-CC0D688783BB/KLT%20Image.app/IBMPlexMono-SemiBold.ttf"
+2026-10-03 02:33:54.335122-0700 KLT Image[16487:13619278] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/68458BCD-F85B-443A-AFE8-CC0D688783BB/KLT%20Image.app/IBMPlexSans-Regular.ttf"
+2026-10-03 02:33:54.335449-0700 KLT Image[16487:13619278] GSFont: file already registered - "file:///Users/developer/Library/Developer/CoreSimulator/Devices/7816C5F3-F485-40BB-A6C6-C86BE97B3287/data/Containers/Bundle/Application/68458BCD-F85B-443A-AFE8-CC0D688783BB/KLT%20Image.app/IBMPlexSans-Bold.ttf"
+Test Suite 'Selected tests' started at 2026-10-03 02:33:55.254.
+Test Suite 'KLTImageIOSTests.xctest' started at 2026-10-03 02:33:55.255.
+Test Suite 'BatchProcessingTests' started at 2026-10-03 02:33:55.255.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testBoundedEncoderPreservesExistingBytesAndOriginalSinkErrors]' started.
+2026-10-03 02:33:55.272196-0700 KLT Image[16487:13619278] [KLT Image] finalize:433: *** ERROR: Could not write any more data to the consumer
+2026-10-03 02:33:55.273736-0700 KLT Image[16487:13619278] [KLT Image] finalize:433: *** ERROR: Could not write any more data to the consumer
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testBoundedEncoderPreservesExistingBytesAndOriginalSinkErrors]' passed (0.021 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testCleanupDebtSurvivesRelaunchAndRejectsWrongFolderWithoutTouchingSentinels]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testCleanupDebtSurvivesRelaunchAndRejectsWrongFolderWithoutTouchingSentinels]' passed (0.020 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testDestinationLabelUsesLocalizedNameWithoutExposingProviderStorage]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testDestinationLabelUsesLocalizedNameWithoutExposingProviderStorage]' passed (0.001 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testExclusivePairCollisionAndCancellationPreserveActualCommits]' started.
+objc[16487]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23E254a/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.4.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x11608c398) and /Library/Developer/CoreSimulator/Volumes/iOS_23E254a/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.4.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x116360310). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testExclusivePairCollisionAndCancellationPreserveActualCommits]' passed (0.161 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testHundredEntriesStaySequentialAndLateCanceledAcquisitionDrains]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testHundredEntriesStaySequentialAndLateCanceledAcquisitionDrains]' passed (0.950 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testPopulatedWorkspacePreservedThroughCompleteFailCancelAndDismiss]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testPopulatedWorkspacePreservedThroughCompleteFailCancelAndDismiss]' passed (0.176 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testRunnerCapacityPermissionAndPostImageFaultsReportActualFiles]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testRunnerCapacityPermissionAndPostImageFaultsReportActualFiles]' passed (0.109 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testRunningRecipeSurvivesLibraryRenameReplacementAndDeletion]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testRunningRecipeSurvivesLibraryRenameReplacementAndDeletion]' passed (0.069 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testScientificParityAndAcceptanceGateForCalculationAndRegionReplay]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testScientificParityAndAcceptanceGateForCalculationAndRegionReplay]' passed (0.022 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSerialRunnerSettlesMixedInputsAndCancellationWithoutAcquiringNext]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSerialRunnerSettlesMixedInputsAndCancellationWithoutAcquiringNext]' passed (0.069 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSetupBoundDefaultsAndNoWorkspaceMutationWhileLeaseHeld]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testSetupBoundDefaultsAndNoWorkspaceMutationWhileLeaseHeld]' passed (0.003 seconds).
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testStableStagingRejectsOverflowChangesAndLinksAndReleasesQuota]' started.
+Test Case '-[KLTImageIOSTests.BatchProcessingTests testStableStagingRejectsOverflowChangesAndLinksAndReleasesQuota]' passed (0.005 seconds).
+Test Suite 'BatchProcessingTests' passed at 2026-10-03 02:33:56.865.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 1.606 (1.610) seconds
+Test Suite 'KLTImageIOSTests.xctest' passed at 2026-10-03 02:33:56.866.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 1.606 (1.611) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 02:33:56.866.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 1.606 (1.611) seconds
+2026-10-03 02:33:57.160 xcodebuild[16449:13618740] [MT] IDETestOperationsObserverDebug: 7.497 elapsed -- Testing started completed.
+2026-10-03 02:33:57.160 xcodebuild[16449:13618740] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-03 02:33:57.160 xcodebuild[16449:13618740] [MT] IDETestOperationsObserverDebug: 7.497 sec, +7.497 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/klt-batch-qa-ios/Logs/Test/Test-KLTImageIOS-2026.10.03_02-33-48--0700.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

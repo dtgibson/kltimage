@@ -1,0 +1,25 @@
+TIER 2
+TIERNAME Full weave
+CLASSES logic,security-surface
+TRIGGERS runtime-data
+BASE 383756798707e651e5363a5babfdd20c5ecabdbb
+FILES 19
+FILE logic BatchTests/BatchProcessingTests.swift
+FILE logic KLTCore/ImagePipeline.swift
+FILE logic,security-surface KLTCoreTests/IOSDecodePolicyTests.swift
+FILE logic KLTImage.xcodeproj/project.pbxproj
+FILE logic KLTImage/BatchMacLifecycle.swift
+FILE logic KLTImage/ContentView.swift
+FILE logic KLTImage/KLTImageApp.swift
+FILE logic KLTImage/WorkspaceModel.swift
+FILE logic KLTImageIOS/BatchSources.swift
+FILE logic KLTImageIOS/IOSRootView.swift
+FILE logic KLTImageIOS/IOSWorkspace.swift
+FILE logic KLTImageIOS/KLTImageIOSApp.swift
+FILE logic SharedBatch/BatchModel.swift
+FILE logic SharedBatch/BatchPublisher.swift
+FILE logic SharedBatch/BatchRunner.swift
+FILE logic SharedBatch/BatchStorage.swift
+FILE logic SharedBatch/BatchTypes.swift
+FILE logic SharedBatch/BatchView.swift
+FILE trigger:runtime-data project.yml

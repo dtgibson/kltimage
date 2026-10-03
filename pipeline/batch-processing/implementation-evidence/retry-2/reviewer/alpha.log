@@ -1,0 +1,12 @@
+FORMAT direct bpc=16 bpp=64 row=512 bitmap=4099 alpha=3 space=Optional(kCGColorSpaceSRGB)
+FORMAT thumb bpc=16 bpp=64 row=512 bitmap=4097 alpha=1 space=Optional(kCGColorSpaceSRGB)
+DIFF kCGColorSpaceSRGB direct count=1812 max=1
+DIFF kCGColorSpaceSRGB 16-intermediate count=0 max=0
+FORMAT direct bpc=16 bpp=64 row=512 bitmap=4099 alpha=3 space=Optional(kCGColorSpaceDisplayP3)
+FORMAT thumb bpc=16 bpp=64 row=512 bitmap=4097 alpha=1 space=Optional(kCGColorSpaceDisplayP3)
+DIFF kCGColorSpaceDisplayP3 direct count=0 max=0
+DIFF kCGColorSpaceDisplayP3 16-intermediate count=0 max=0
+FORMAT direct bpc=16 bpp=64 row=512 bitmap=4099 alpha=3 space=nil
+FORMAT thumb bpc=16 bpp=64 row=512 bitmap=4097 alpha=1 space=nil
+DIFF kCGColorSpaceAdobeRGB1998 direct count=0 max=0
+DIFF kCGColorSpaceAdobeRGB1998 16-intermediate count=0 max=0

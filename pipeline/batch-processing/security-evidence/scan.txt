@@ -1,0 +1,2 @@
+note	trust-boundary-touch	KLTCoreTests/IOSDecodePolicyTests.swift	trust-boundary file changed — audit this surface
+SCAN-RESULT findings=1 tool=grep

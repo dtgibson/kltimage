@@ -1,0 +1,36 @@
+Xcode version: 27.0 (27A266a)
+00:41:39.235 xcodebuild[22540:13176752] Beginning test session KLTCoreTests-97095A2E-D8D9-4EEB-BF64-5CE8CF17742F at 2026-10-03 00:41:39.235 on target <DVTLocalComputer: 0x75b5183d40 (My Mac | arm64e)> (27.0.1 (26A434))
+00:41:39.236 xcodebuild[22540:13176752] 	/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+-project
+KLTImage.xcodeproj
+-scheme
+KLTImage
+-configuration
+Debug
+-destination
+platform=macOS,arch=arm64
+-derivedDataPath
+/tmp/klt-batch-qa-mac
+-resultBundlePath
+/tmp/klt-batch-qa-debug.xcresult
+-parallel-testing-enabled
+NO
+test
+00:41:39.236 xcodebuild[22540:13176752] Test standard output and standard error is at /tmp/klt-batch-qa-debug.xcresult/Staging/1_Test/Diagnostics/KLTCoreTests-07077A40-C680-4347-8B50-108FE1A613B7-Configuration-Test Scheme Action-Iteration-1/KLTCoreTests-DADD4369-050B-44BF-800D-3AA88C638256/StandardOutputAndStandardError.txt
+00:41:39.237 xcodebuild[22540:13176752] Setting up test runner session
+00:41:39.237 xcodebuild[22540:13176752] Requesting a socket for communication with testmanagerd.
+00:41:39.237 xcodebuild[22540:13176752] Registering/updating daemon-based crash report observer for process names (
+    WindowServer,
+    "KLTImageUITests-Runner",
+    "KLT Image",
+    xctest,
+    DTServiceHub,
+    debugserver,
+    testmanagerd
+)
+00:41:39.237 xcodebuild[22540:13176971] Got socket for DTX-layer communication.
+00:41:39.237 xcodebuild[22540:13176972] Received connection for test runner session
+00:41:39.237 xcodebuild[22540:13176972] Listening for proxy connection request from the test bundle
+00:41:39.237 xcodebuild[22540:13176971] XPC connection for control was invalidated.
+00:41:39.237 xcodebuild[22540:13176752] Test runner session acquired connection.
+00:41:39.237 xcodebuild[22540:13176972] Initiating session with identifier: 97095A2E-D8D9-4EEB-BF64-5CE8CF17742F

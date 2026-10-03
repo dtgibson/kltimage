@@ -3,10 +3,12 @@ import SwiftUI
 @main
 @MainActor
 struct KLTImageApp: App {
+    @NSApplicationDelegateAdaptor(BatchApplicationDelegate.self) private var batchDelegate
     @State private var workspace: WorkspaceModel
 
     init() {
         FontCatalog.registerBundledFonts()
+        Task.detached { _ = BatchStorage.shared }
         _workspace = State(initialValue: WorkspaceModel())
     }
 

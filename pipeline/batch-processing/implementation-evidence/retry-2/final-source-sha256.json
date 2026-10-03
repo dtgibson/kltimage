@@ -1,0 +1,6 @@
+{
+  "KLTCore/ImagePipeline.swift": "8fa134e7a20d2c8074be8c921dc2acab1623f745eafcf858d3264544ead4f7bd",
+  "KLTCoreTests/IOSDecodePolicyTests.swift": "6ebd819311835aa01b48d6dbbf955483f93f349eb21939bd6eff0965677adfe2",
+  "BatchTests/BatchProcessingTests.swift": "4df068e8b485d98b7962dc5ddf8a138abad1623041545bda8fb30242ce92bb33",
+  "SharedBatch/BatchRunner.swift": "57e769b082abdb516cb4d0498e49ca8280d50835a6cf47684e1ffdd0b369637e"
+}

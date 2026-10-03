@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "durationSeconds": 211.465,
+  "samples": 103,
+  "shortMax": 349685416,
+  "firstTenMax": 351587352,
+  "lastTenMax": 232033592,
+  "final": 232033592,
+  "residentPeak": 3596222464,
+  "vmmapPhysicalMiB": 221.1,
+  "vmmapPhysicalPeakMiB": 610.5,
+  "purgeableVirtualGiB": 2.9,
+  "purgeableResidentDirtyKiB": 512
+}

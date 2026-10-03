@@ -6,6 +6,7 @@ struct ContentView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showsMethod = false
     @State private var showsLibrary = false
+    @State private var batch: BatchModel?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,6 +39,9 @@ struct ContentView: View {
                 .opacity(0.01)
         }
         .frame(minWidth: 900, minHeight: 620)
+        .sheet(isPresented: Binding(get: { batch != nil }, set: { if !$0 { batch?.dismiss { batch = nil } } })) {
+            if let batch { BatchView(model: batch, close: { self.batch = nil }) }
+        }
         .sheet(isPresented: $showsLibrary) {
             MethodLibraryView(workspace: model, closeAction: { showsLibrary = false })
         }
@@ -70,6 +74,13 @@ struct ContentView: View {
                         .accessibilityIdentifier("cancel-operation-button")
                         .accessibilityHint("Stops the current local file operation")
                 }
+                Button("Batch…") {
+                    batch = BatchModel(library: { model.methodLibrary.snapshot },
+                                       workspaceBusy: { model.phase == .importing || model.phase == .processing || model.phase == .exporting })
+                }
+                .buttonStyle(SecondaryActionButtonStyle())
+                .disabled(BatchWorkspaceLease.shared.isPresented)
+                .accessibilityIdentifier("batch-open")
                 Button {
                     showsLibrary = true
                 } label: {

@@ -1,0 +1,543 @@
+{
+  "candidate": "explicit ownership for decode and every full-frame output buffer",
+  "source": "KLTCore/ImagePipeline.swift",
+  "samples": [
+    {
+      "item": 1,
+      "physicalFootprint": 373654920,
+      "residentSizePeak": 774864896
+    },
+    {
+      "item": 2,
+      "physicalFootprint": 373868056,
+      "residentSizePeak": 1065107456
+    },
+    {
+      "item": 3,
+      "physicalFootprint": 374032040,
+      "residentSizePeak": 1257226240
+    },
+    {
+      "item": 1,
+      "physicalFootprint": 374212408,
+      "residentSizePeak": 1449263104
+    },
+    {
+      "item": 2,
+      "physicalFootprint": 374376368,
+      "residentSizePeak": 1641365504
+    },
+    {
+      "item": 3,
+      "physicalFootprint": 374573120,
+      "residentSizePeak": 1833484288
+    },
+    {
+      "item": 4,
+      "physicalFootprint": 377063632,
+      "residentSizePeak": 2025603072
+    },
+    {
+      "item": 5,
+      "physicalFootprint": 377244000,
+      "residentSizePeak": 2219999232
+    },
+    {
+      "item": 6,
+      "physicalFootprint": 377407960,
+      "residentSizePeak": 2412101632
+    },
+    {
+      "item": 7,
+      "physicalFootprint": 377588328,
+      "residentSizePeak": 2604204032
+    },
+    {
+      "item": 8,
+      "physicalFootprint": 377768696,
+      "residentSizePeak": 2796306432
+    },
+    {
+      "item": 9,
+      "physicalFootprint": 377965448,
+      "residentSizePeak": 2988425216
+    },
+    {
+      "item": 10,
+      "physicalFootprint": 378129408,
+      "residentSizePeak": 3180527616
+    },
+    {
+      "item": 11,
+      "physicalFootprint": 378309776,
+      "residentSizePeak": 3372630016
+    },
+    {
+      "item": 12,
+      "physicalFootprint": 378490144,
+      "residentSizePeak": 3564732416
+    },
+    {
+      "item": 13,
+      "physicalFootprint": 378506528,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 14,
+      "physicalFootprint": 258493728,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 15,
+      "physicalFootprint": 258460960,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 16,
+      "physicalFootprint": 258444576,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 17,
+      "physicalFootprint": 258411808,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 18,
+      "physicalFootprint": 258379040,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 19,
+      "physicalFootprint": 258346272,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 20,
+      "physicalFootprint": 258313504,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 21,
+      "physicalFootprint": 258297120,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 22,
+      "physicalFootprint": 258264352,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 23,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 24,
+      "physicalFootprint": 258198816,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 25,
+      "physicalFootprint": 258166048,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 26,
+      "physicalFootprint": 258133280,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 27,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 28,
+      "physicalFootprint": 258084128,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 29,
+      "physicalFootprint": 258084128,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 30,
+      "physicalFootprint": 258084128,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 31,
+      "physicalFootprint": 258084128,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 32,
+      "physicalFootprint": 258084128,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 33,
+      "physicalFootprint": 258084128,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 34,
+      "physicalFootprint": 258084128,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 35,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 36,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 37,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 38,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 39,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 40,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 41,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 42,
+      "physicalFootprint": 258116896,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 43,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 44,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 45,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 46,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 47,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 48,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 49,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 50,
+      "physicalFootprint": 258149664,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 51,
+      "physicalFootprint": 258198816,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 52,
+      "physicalFootprint": 258198816,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 53,
+      "physicalFootprint": 258215200,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 54,
+      "physicalFootprint": 258215200,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 55,
+      "physicalFootprint": 258215200,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 56,
+      "physicalFootprint": 258215200,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 57,
+      "physicalFootprint": 258215200,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 58,
+      "physicalFootprint": 258215200,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 59,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 60,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 61,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 62,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 63,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 64,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 65,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 66,
+      "physicalFootprint": 258231584,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 67,
+      "physicalFootprint": 258247968,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 68,
+      "physicalFootprint": 258247968,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 69,
+      "physicalFootprint": 258247968,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 70,
+      "physicalFootprint": 258247968,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 71,
+      "physicalFootprint": 258247968,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 72,
+      "physicalFootprint": 258247968,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 73,
+      "physicalFootprint": 258247968,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 74,
+      "physicalFootprint": 258264352,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 75,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 76,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 77,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 78,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 79,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 80,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 81,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 82,
+      "physicalFootprint": 258280736,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 83,
+      "physicalFootprint": 258297120,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 84,
+      "physicalFootprint": 258313504,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 85,
+      "physicalFootprint": 258329888,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 86,
+      "physicalFootprint": 258329888,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 87,
+      "physicalFootprint": 258329888,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 88,
+      "physicalFootprint": 258329888,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 89,
+      "physicalFootprint": 258329888,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 90,
+      "physicalFootprint": 258346272,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 91,
+      "physicalFootprint": 258362656,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 92,
+      "physicalFootprint": 258362656,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 93,
+      "physicalFootprint": 258362656,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 94,
+      "physicalFootprint": 258379040,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 95,
+      "physicalFootprint": 258379040,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 96,
+      "physicalFootprint": 258395424,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 97,
+      "physicalFootprint": 258395424,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 98,
+      "physicalFootprint": 258395424,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 99,
+      "physicalFootprint": 258428192,
+      "residentSizePeak": 3660775424
+    },
+    {
+      "item": 100,
+      "physicalFootprint": 258428192,
+      "residentSizePeak": 3660775424
+    }
+  ],
+  "summary": {
+    "frameBytes": 96000000,
+    "shortMax": 374032040,
+    "firstTenMax": 378129408,
+    "lastTenMax": 258428192,
+    "final": 258428192
+  },
+  "appTests": {
+    "passed": 43,
+    "failed": 0,
+    "log": "mac-all-owned-app-memory.log"
+  },
+  "vmmap": {
+    "early": "all-owned-memory-vmmap-early.txt",
+    "late": "all-owned-memory-vmmap-late.txt",
+    "physicalFootprintMiB": 246.4,
+    "physicalFootprintPeakMiB": 635.8,
+    "purgeableZoneVirtualGiB": 2.9,
+    "purgeableZoneResidentKiB": 512,
+    "purgeableZoneDirtyKiB": 512
+  },
+  "qualification": "Large virtual mappings remain; resident_size_peak reached 3660775424. Both vmmap snapshots show the purgeable zone largely unallocated rather than multi-gigabyte dirty retention. Physical-footprint samples stay within the three-item warmup plus64MiB. No claim that all framework reservations disappeared."
+}

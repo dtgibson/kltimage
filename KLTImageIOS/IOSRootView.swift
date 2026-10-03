@@ -34,6 +34,7 @@ private enum DetailSheet: String, Identifiable { case analysis, record, coordina
 struct IOSRootView: View {
     let workspace: IOSWorkspace
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var batch: BatchModel?
     @State private var tab = 0
     @State private var sheet: DetailSheet?
     @State private var sourceChoice = false
@@ -65,6 +66,12 @@ struct IOSRootView: View {
             case let .success(url): workspace.importImage(url)
             case let .failure(error): workspace.presentError("Files could not provide the image: \(error.localizedDescription)")
             }
+        }
+        .fullScreenCover(isPresented: Binding(get: { UIDevice.current.userInterfaceIdiom == .phone && batch != nil }, set: { if !$0 { batch?.dismiss { batch = nil } } })) {
+            if let batch { BatchView(model: batch, close: { self.batch = nil }) }
+        }
+        .sheet(isPresented: Binding(get: { UIDevice.current.userInterfaceIdiom != .phone && batch != nil }, set: { if !$0 { batch?.dismiss { batch = nil } } })) {
+            if let batch { BatchView(model: batch, close: { self.batch = nil }).presentationDetents([.large]) }
         }
         .sheet(isPresented: $photosPicker) {
             PhotosSourcePicker { result in
@@ -189,6 +196,13 @@ struct IOSRootView: View {
         .navigationTitle("KLT Image")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Menu {
+                    Button("Batch processing") {
+                        batch = BatchModel(library: { workspace.library }, workspaceBusy: { workspace.batchBusy })
+                    }.disabled(BatchWorkspaceLease.shared.isPresented)
+                } label: { Image(systemName: "ellipsis.circle").accessibilityLabel("Workspace actions") }
+            }
             ToolbarItem(placement: .topBarLeading) { Button("Methods", systemImage: "square.stack") { sheet = .library } }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Open image", systemImage: "plus") { sourceChoice = true }

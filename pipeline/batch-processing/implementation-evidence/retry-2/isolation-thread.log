@@ -1,0 +1,7 @@
+ISOLATION baseline mode=thread pid=4555 status=0 footprint=113132240
+ISOLATION item=1 status=0 footprint=234308496
+ISOLATION item=2 status=0 footprint=354649120
+ISOLATION item=3 status=0 footprint=475006152
+ISOLATION item=4 status=0 footprint=595232088
+ISOLATION item=5 status=0 footprint=715556352
+ISOLATION item=6 status=0 footprint=835749520

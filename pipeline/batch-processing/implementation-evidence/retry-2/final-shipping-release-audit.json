@@ -1,0 +1,18 @@
+{
+  "mac": {
+    "buildSucceeded": true,
+    "DEBUGDefinePresent": false,
+    "QAMemoryDefinePresent": false,
+    "testFaultOrMemorySymbols": [],
+    "nmExit": 0,
+    "binary": "/tmp/klt-batch-retry-release-mac/Build/Products/Release/KLT Image.app/Contents/MacOS/KLT Image"
+  },
+  "ios": {
+    "buildSucceeded": true,
+    "DEBUGDefinePresent": false,
+    "QAMemoryDefinePresent": false,
+    "testFaultOrMemorySymbols": [],
+    "nmExit": 0,
+    "binary": "/tmp/klt-batch-retry-release-ios/Build/Products/Release-iphonesimulator/KLT Image.app/KLT Image"
+  }
+}

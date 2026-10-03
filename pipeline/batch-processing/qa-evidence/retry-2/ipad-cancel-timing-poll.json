@@ -1,0 +1,17 @@
+{
+  "samples": [
+    {
+      "index": 0,
+      "elapsedSeconds": 0.7211740830098279,
+      "acknowledged": false
+    },
+    {
+      "index": 1,
+      "elapsedSeconds": 1.3434417080134153,
+      "acknowledged": true
+    }
+  ],
+  "tapOutput": "\u2713 Tap at (303.0, 970.0) completed successfully\n \n",
+  "tapExit": 0,
+  "method": "Snapshot polling starts concurrently with coordinate tap; elapsed begins before spawning tap process."
+}

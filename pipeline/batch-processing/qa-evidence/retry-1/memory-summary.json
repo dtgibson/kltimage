@@ -1,0 +1,23 @@
+{
+  "result": "needs-fix",
+  "finding": "QA-F3",
+  "test": "KLTImageTests.BatchProcessingTests/testQAFullResolutionShortAndHundredItemMemory",
+  "durationSeconds": 216.805,
+  "executed": 1,
+  "failures": 1,
+  "shortMaxBytes": 614221504,
+  "firstTenLongMaxBytes": 1818594520,
+  "lastTenLongMaxBytes": 2179190336,
+  "finalBytes": 2179190336,
+  "residentPeakBytes": 3884204032,
+  "runCounts": [
+    3,
+    100
+  ],
+  "dimensions": [
+    6000,
+    4000
+  ],
+  "rerunPerformed": false,
+  "rootCause": "unresolved; large allocated buffers, not established Swift array leak or reclaimable cache"
+}

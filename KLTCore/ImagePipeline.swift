@@ -238,28 +238,10 @@ public enum ImagePipeline {
             maximumPixelCount: maximumPixelCount
         )
 
-        var rgba = Data(count: byteCount)
-        let drewImage = rgba.withUnsafeMutableBytes { rawBuffer -> Bool in
-            guard let baseAddress = rawBuffer.baseAddress else { return false }
-            guard let context = CGContext(
-                data: baseAddress,
-                width: width,
-                height: height,
-                bitsPerComponent: 8,
-                bytesPerRow: width * 4,
-                space: colorSpace,
-                bitmapInfo: bitmapInfo.rawValue
-            ) else {
-                return false
+        let rgba = try makeOwnedRGBAData(byteCount: byteCount) { buffer in
+            guard drawDecodedImage(orientedImage, into: buffer.baseAddress!, width: width, height: height) else {
+                throw ImagePipelineError.cannotCreateWorkingImage
             }
-
-            context.setBlendMode(.copy)
-            context.interpolationQuality = .high
-            context.draw(orientedImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-            return true
-        }
-        guard drewImage else {
-            throw ImagePipelineError.cannotCreateWorkingImage
         }
 
         try Task.checkCancellation()
@@ -291,6 +273,20 @@ public enum ImagePipeline {
             analysisSourceFingerprint: fingerprint,
             rgba8Premultiplied: rgba
         )
+    }
+
+    // A separate non-inlined frame makes the CGContext lifetime end before its
+    // destination allocation is transferred to Foundation Data by the caller.
+    @inline(never)
+    private static func drawDecodedImage(_ image: CGImage, into buffer: UnsafeMutableRawPointer,
+                                         width: Int, height: Int) -> Bool {
+        guard let context = CGContext(data: buffer, width: width, height: height,
+                                      bitsPerComponent: 8, bytesPerRow: width * 4,
+                                      space: colorSpace, bitmapInfo: bitmapInfo.rawValue) else { return false }
+        context.setBlendMode(.copy)
+        context.interpolationQuality = .high
+        context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
+        return true
     }
 
     /// Applies the covariance-based RGB decorrelation stretch without changing source pixels.
@@ -348,13 +344,13 @@ public enum ImagePipeline {
             throw DecorrelationStretchError.nonFiniteInput
         }
         let outputScale = range > DecorrelationStretch.absoluteVarianceFloor ? 1 / range : 1
-        var output = Data(count: source.pixelCount * 4)
+        let output: Data
 
         if range <= DecorrelationStretch.absoluteVarianceFloor {
             output = source.rgba8Premultiplied
         } else {
-            try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
-                try output.withUnsafeMutableBytes { outputBuffer in
+            output = try makeOwnedRGBAData(byteCount: source.rgba8Premultiplied.count) { outputBuffer in
+                try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
                     let sourceBytes = sourceBuffer.bindMemory(to: UInt8.self)
                     let outputBytes = outputBuffer.bindMemory(to: UInt8.self)
                     for pixelIndex in 0..<source.pixelCount {
@@ -776,15 +772,7 @@ public enum ImagePipeline {
         jpegQuality: Double = 0.94
     ) throws -> Data {
         try Task.checkCancellation()
-        let imageToEncode: CGImage
-        if format == .jpeg {
-            guard let flattened = opaqueImage(from: image) else {
-                throw ImagePipelineError.cannotEncodeImage
-            }
-            imageToEncode = flattened
-        } else {
-            imageToEncode = image
-        }
+        let imageToEncode = try exportImage(image, format: format)
 
         let output = NSMutableData()
         guard let destination = CGImageDestinationCreateWithData(
@@ -796,16 +784,52 @@ public enum ImagePipeline {
             throw ImagePipelineError.cannotEncodeImage
         }
 
-        var properties: [CFString: Any] = [kCGImagePropertyOrientation: 1]
-        if format == .jpeg {
-            properties[kCGImageDestinationLossyCompressionQuality] = min(1, max(0, jpegQuality))
-        }
+        let properties = exportProperties(format: format, jpegQuality: jpegQuality)
         CGImageDestinationAddImage(destination, imageToEncode, properties as CFDictionary)
         guard CGImageDestinationFinalize(destination) else {
             throw ImagePipelineError.cannotEncodeImage
         }
         try Task.checkCancellation()
         return output as Data
+    }
+
+    /// The sink rejects bytes before they are retained or written. ImageIO's
+    /// generic finalize failure must not erase a caller's cap/cancellation error.
+    public static func encode(
+        _ image: CGImage, format: ImageExportFormat, jpegQuality: Double = 0.94,
+        maximumBytes: Int, write: @escaping (UnsafeRawBufferPointer) throws -> Void
+    ) throws -> Int {
+        let sink = BoundedImageSink(maximumBytes: maximumBytes, write: write)
+        var callbacks = CGDataConsumerCallbacks(putBytes: { info, bytes, count in
+            guard let info else { return 0 }
+            return Unmanaged<BoundedImageSink>.fromOpaque(info).takeUnretainedValue()
+                .consume(UnsafeRawBufferPointer(start: bytes, count: count))
+        }, releaseConsumer: nil)
+        guard let consumer = CGDataConsumer(info: Unmanaged.passUnretained(sink).toOpaque(), cbks: &callbacks),
+              let destination = CGImageDestinationCreateWithDataConsumer(
+                consumer, format.uniformType.identifier as CFString, 1, nil
+              ) else { throw ImagePipelineError.cannotEncodeImage }
+        let prepared = try exportImage(image, format: format)
+        CGImageDestinationAddImage(destination, prepared,
+                                   exportProperties(format: format, jpegQuality: jpegQuality) as CFDictionary)
+        let finalized = CGImageDestinationFinalize(destination)
+        if let error = sink.error { throw error }
+        guard finalized else { throw ImagePipelineError.cannotEncodeImage }
+        return sink.count
+    }
+
+    private static func exportImage(_ image: CGImage, format: ImageExportFormat) throws -> CGImage {
+        if format != .jpeg { return image }
+        guard let flattened = opaqueImage(from: image) else { throw ImagePipelineError.cannotEncodeImage }
+        return flattened
+    }
+
+    private static func exportProperties(format: ImageExportFormat, jpegQuality: Double) -> [CFString: Any] {
+        var properties: [CFString: Any] = [kCGImagePropertyOrientation: 1]
+        if format == .jpeg {
+            properties[kCGImageDestinationLossyCompressionQuality] = min(1, max(0, jpegQuality))
+        }
+        return properties
     }
 
     private static func analysis(
@@ -934,13 +958,12 @@ public enum ImagePipeline {
         transform: Matrix3x3,
         outputMapping: FrozenOutputMapping
     ) throws -> FrozenRenderResult {
-        var output = Data(count: source.pixelCount * 4)
         var evaluated = 0
         var clipped = 0
         var minimum = Double.infinity
         var maximum = -Double.infinity
-        try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
-            try output.withUnsafeMutableBytes { outputBuffer in
+        let output = try makeOwnedRGBAData(byteCount: source.rgba8Premultiplied.count) { outputBuffer in
+            try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
                 let sourceBytes = sourceBuffer.bindMemory(to: UInt8.self)
                 let outputBytes = outputBuffer.bindMemory(to: UInt8.self)
                 for pixelIndex in 0..<source.pixelCount {
@@ -1017,9 +1040,8 @@ public enum ImagePipeline {
             return (source.rgba8Premultiplied, minimum, maximum, outputScale)
         }
 
-        var output = Data(count: source.pixelCount * 4)
-        try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
-            try output.withUnsafeMutableBytes { outputBuffer in
+        let output = try makeOwnedRGBAData(byteCount: source.rgba8Premultiplied.count) { outputBuffer in
+            try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
                 let sourceBytes = sourceBuffer.bindMemory(to: UInt8.self)
                 let outputBytes = outputBuffer.bindMemory(to: UInt8.self)
                 for pixelIndex in 0..<source.pixelCount {
@@ -1049,9 +1071,8 @@ public enum ImagePipeline {
     }
 
     private static func renderLab(source: DecodedImage, plan: StretchPlan) throws -> Data {
-        var output = Data(count: source.pixelCount * 4)
-        try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
-            try output.withUnsafeMutableBytes { outputBuffer in
+        let output = try makeOwnedRGBAData(byteCount: source.rgba8Premultiplied.count) { outputBuffer in
+            try source.rgba8Premultiplied.withUnsafeBytes { sourceBuffer in
                 let sourceBytes = sourceBuffer.bindMemory(to: UInt8.self)
                 let outputBytes = outputBuffer.bindMemory(to: UInt8.self)
                 for pixelIndex in 0..<source.pixelCount {
@@ -1114,12 +1135,32 @@ public enum ImagePipeline {
         )
     }
 
+    // Explicit ownership keeps repeated full-frame decode/render/export bounded.
+    // Overlapping Data(count:) raster buffers showed retained memory in this
+    // ImageIO/CoreGraphics pipeline. Initialize raw storage before transferring it
+    // to immutable Data, so no mutable Data access can replace its allocation.
+    @inline(never)
+    private static func makeOwnedRGBAData(
+        byteCount: Int, initialize: (UnsafeMutableRawBufferPointer) throws -> Void
+    ) throws -> Data {
+        guard byteCount > 0, let buffer = calloc(byteCount, 1) else {
+            throw ImagePipelineError.cannotCreateWorkingImage
+        }
+        do {
+            try initialize(UnsafeMutableRawBufferPointer(start: buffer, count: byteCount))
+        } catch {
+            free(buffer)
+            throw error
+        }
+        return Data(bytesNoCopy: buffer, count: byteCount, deallocator: .free)
+    }
+
     private static func opaqueImage(from image: CGImage) -> CGImage? {
-        var rgba = Data(count: image.width * image.height * 4)
-        let rendered = rgba.withUnsafeMutableBytes { rawBuffer -> Bool in
-            guard let baseAddress = rawBuffer.baseAddress else { return false }
+        guard let byteCount = try? ImageProcessingLimits.checkedRGBAByteCount(
+            width: image.width, height: image.height, maximumPixelCount: .max
+        ), let rgba = try? makeOwnedRGBAData(byteCount: byteCount, initialize: { rawBuffer in
             guard let context = CGContext(
-                data: baseAddress,
+                data: rawBuffer.baseAddress!,
                 width: image.width,
                 height: image.height,
                 bitsPerComponent: 8,
@@ -1127,14 +1168,43 @@ public enum ImagePipeline {
                 space: colorSpace,
                 bitmapInfo: bitmapInfo.rawValue
             ) else {
-                return false
+                throw ImagePipelineError.cannotCreateWorkingImage
             }
             context.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
             context.fill(CGRect(x: 0, y: 0, width: image.width, height: image.height))
             context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
-            return true
-        }
-        guard rendered else { return nil }
+        }) else { return nil }
         return makeImage(width: image.width, height: image.height, rgba: rgba)
+    }
+
+}
+
+public enum BoundedImageEncodingError: Error, LocalizedError {
+    case byteLimit(Int)
+    public var errorDescription: String? {
+        switch self { case let .byteLimit(bytes):
+            "The encoded image exceeds the \(bytes / 1_048_576) MiB output limit. No reduced-quality output was substituted."
+        }
+    }
+}
+
+private final class BoundedImageSink {
+    let maximumBytes: Int
+    let write: (UnsafeRawBufferPointer) throws -> Void
+    var count = 0
+    var error: Error?
+    init(maximumBytes: Int, write: @escaping (UnsafeRawBufferPointer) throws -> Void) {
+        self.maximumBytes = maximumBytes; self.write = write
+    }
+    func consume(_ bytes: UnsafeRawBufferPointer) -> Int {
+        guard error == nil else { return 0 }
+        do {
+            guard bytes.count <= maximumBytes - count else {
+                throw BoundedImageEncodingError.byteLimit(maximumBytes)
+            }
+            try write(bytes)
+            count += bytes.count
+            return bytes.count
+        } catch { self.error = error; return 0 }
     }
 }

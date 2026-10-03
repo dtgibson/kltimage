@@ -1,0 +1,1 @@
+{"AXLabel": "DockFolderViewService", "AXValue": null, "AXUniqueId": null, "type": "Application", "enabled": true, "frame": {"width": 1032, "y": 0, "height": 1376, "x": 0}}

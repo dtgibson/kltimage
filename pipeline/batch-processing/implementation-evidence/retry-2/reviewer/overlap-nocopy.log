@@ -1,0 +1,15 @@
+ISOLATION baseline mode=nocopy pid=12979 status=0 footprint=100205216
+FORMAT direct bpc=8 bpp=32 row=24000 bitmap=3 alpha=3 color=Optional(kCGColorSpaceSRGB) interpolate=true intent=3
+FORMAT thumbnail bpc=8 bpp=32 row=24000 bitmap=2 alpha=2 color=Optional(kCGColorSpaceSRGB) interpolate=true intent=0
+BUFFER item=1 decoded=0x0000007839c08000
+ISOLATION item=1 status=0 footprint=221463416
+BUFFER item=2 decoded=0x0000007839c08000
+ISOLATION item=2 status=0 footprint=221774856
+BUFFER item=3 decoded=0x0000007839c08000
+ISOLATION item=3 status=0 footprint=222053528
+BUFFER item=4 decoded=0x0000007839c08000
+ISOLATION item=4 status=0 footprint=222283024
+BUFFER item=5 decoded=0x0000007839c08000
+ISOLATION item=5 status=0 footprint=222545312
+BUFFER item=6 decoded=0x0000007839c08000
+ISOLATION item=6 status=0 footprint=222758448

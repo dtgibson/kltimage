@@ -1,0 +1,7 @@
+ISOLATION baseline mode=read pid=7857 status=0 footprint=100237984
+ISOLATION item=1 status=0 footprint=125207248
+ISOLATION item=2 status=0 footprint=125371160
+ISOLATION item=3 status=0 footprint=125584224
+ISOLATION item=4 status=0 footprint=125698984
+ISOLATION item=5 status=0 footprint=125862896
+ISOLATION item=6 status=0 footprint=125961272

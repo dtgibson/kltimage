@@ -9,8 +9,10 @@
 - Keep each accepted calculated or replayed image and analysis record in one immutable, job-identified snapshot, and gate every inspection or export surface on exact source generation, immutable execution request, and job UUID through one shared predicate; cooperative cancellation alone is not a currency guarantee.
 - Treat versioned analysis JSON as a protocol contract: use dedicated export DTOs, canonical sorted-key finite encoding with explicit nulls, atomic writes, and golden-byte compatibility coverage; keep export local, explicit, and free of implicit persistence or network transfer.
 - Keep portable method import bounded to a regular file of at most 256 KiB, duplicate-key-aware, exact-field and exact-version validated, and fail-closed before any library or workspace mutation; reject analysis-record schemas at the method boundary.
-- Keep persistence limited to user methods in sandboxed Application Support, with no pixels, results, history, regions, bookmarks, or ordinary workspace state. Validate the complete library before publication and use the shared mode-`0600`, fsync-backed, same-directory atomic replacement path for method-store and method-export writes.
+- Keep persistent user content limited to methods, with no pixels, results, history, regions, bookmarks, queues, or ordinary workspace state. The only batch housekeeping exception is a bounded, backup-excluded receipt containing random ownership tokens, random temporary basenames and byte reservations; it grants no access, restores no run, and requires explicit folder reselect for external cleanup after access is lost. Validate the complete library before publication and use the shared mode-`0600`, fsync-backed, same-directory atomic replacement path for private stores and method-export writes.
 - Keep Mac and iOS method stores independent; exchange methods only through explicit compatible documents. On iOS, validate an existing store before its first mutation and count provider-source bytes while staging, with a fixed 256 MiB encoded limit, a 26-million-oriented-pixel decode limit, and cleanup of app-owned staging files.
+- Batch output uses exclusive no-overwrite publication, not the replacing method-store writer. Capture each actual commit before later operations can fail; cancellation must reconcile those receipts, preserve committed images, and report requested-but-missing records as partial saves.
+- Keep full-frame raster allocations behind the checked ownership helper, with exactly one free on failure or one transfer to Data on success; preserve decoder and scientific byte parity when changing buffer ownership.
 
 ## Interface
 
@@ -20,7 +22,7 @@
 - Keep zoom percentages relative to Fit: 100% means Fit, and 1000% means ten times Fit, not a fixed display-pixel-to-source-pixel ratio. Buttons and pinch must share the same ceiling on all platforms.
 - On iPhone and iPad, keep source, result, and sample geometry registered while touch gestures change only the view; give the slider divider and sample editor separate gesture ownership.
 - Native controls placed on the fixed light palette must explicitly use a matching light appearance so macOS dark mode cannot reduce contrast.
-- Preserve VoiceOver labels, keyboard access, status announcements, and reduced-motion behavior when changing controls.
+- Preserve VoiceOver labels, keyboard access, status announcements, and reduced-motion behavior when changing controls. Mobile actions need actual 44-point hit targets; verify edge taps as well as accessible bounds and text wrapping.
 - Keep approved app-icon artwork in its editable SVG master and committed native PNG catalog; after artwork changes, use `scripts/export-app-icon.py --check` to detect divergence and regenerate only from the approved design.
 
 ## Project and Verification
@@ -30,7 +32,7 @@
 - Agents must never access any physical device. The user and their testers own all on-device verification through TestFlight; simulator results do not establish TestFlight installation or provider-backed device behavior.
 - Treat supported-format import, orientation, alpha preservation, deterministic output, numerical stability, and export dimensions as regression requirements.
 - Keep test path and environment overrides inside `#if DEBUG`. Define `DEBUG` for the optimized `ReleaseTests` configuration so XCTest can exercise those hooks, verify their identifying strings are absent from the shipping executable, and never add that condition to the universal hardened non-testable `Release` configuration.
-- Treat only signed complete XCTest runs as UI-verification evidence: `CODE_SIGNING_ALLOWED=NO` can invalidate test bundles before app tests begin. Preserve machine-wide accessibility settings, including an already-enabled Full Keyboard Access mode, rather than toggling them blindly.
+- Treat only signed complete XCTest runs as UI-verification evidence: `CODE_SIGNING_ALLOWED=NO` can invalidate test bundles before app tests begin. Use per-process `DEVELOPER_DIR` for native tooling and preserve global Xcode/accessibility settings, including an already-enabled Full Keyboard Access mode; blocked native automation is not replaced by a unit-test acceptance claim.
 
 ## Release Packaging
 

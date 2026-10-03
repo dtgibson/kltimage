@@ -59,7 +59,7 @@ On touch screens, keep the image as the primary canvas and map the source, resul
 
 ### Primary Action
 
-Only the most important immediate action receives the filled accent style. In a loaded document this is Export Result; in the empty state it is Open Image.
+Only the most important immediate action in the active surface receives the filled accent style. In a loaded document this is Export Result; in the empty state it is Open Image. A processing setup uses Start; its settled outcome uses Return to setup.
 
 ### Method Disclosure
 
@@ -71,7 +71,13 @@ Keep the exploratory-use limitation visible in the metadata strip. It is calm gu
 
 ### Status and Error Placement
 
-Processing and errors appear where the enhanced result belongs. The original image remains available for context.
+Interactive processing and errors appear where the enhanced result belongs. The original image remains available for context. Multi-item work keeps status beside the affected row and reports shared stop reasons above the list; text, rather than color alone, distinguishes saved, partial, failed, canceled, and unprocessed outcomes.
+
+### Foreground Multi-Item Workflow
+
+Keep a numbered source list beside a focused setup form at wide widths; stack them on compact screens or at accessibility text sizes. Use Plex Mono for ordinals and filenames, existing tinted surfaces and dividers, and a growing safe-area footer that keeps the primary action reachable without covering content. Mobile actions have at least 44-point hit targets, with wrapping labels and operable edges. Present human-readable folder labels rather than provider paths, and expose complete identifiers through wrapping details.
+
+Make calculation and unchanged replay explicit choices with adjacent explanations. Before Start, disclose the destination, requested artifacts, source-acquisition timing, and foreground requirement. During work, show the current item and phase, with determinate progress only for settled items. Stopping remains visible until active work drains; outcomes name only actually saved files and distinguish a saved image with a missing record. Temporary cleanup is a separate utility notice, never a restored run or history view.
 
 ## Motion
 

@@ -171,3 +171,27 @@
 **Rationale:** The freshly downloaded Mac release matched the approved ZIP and passed independent signing, notarization, stapling and quarantined Gatekeeper verification. Apple reports iOS build 2 as VALID and IN_BETA_TESTING in the existing group alongside build 1, with one unchanged tester. Mac core/app suites and local iPhone/iPad native zoom checks passed.
 
 **Implications:** Approval accepts the disclosed gaps for these releases; QA remains NEEDS VERIFICATION. Native Mac zoom, maximum-zoom pan/registration/sample/slider interaction, verified comparison-mode transitions and matched native screen/export detail remain open. TestFlight availability does not establish installation of build 2. No physical device was accessed, and future work retains the normal verification requirements.
+
+## Batch processing with two explicit scientific modes — 2026-10-03
+
+**Decision:** Add foreground batches of up to 100 selected images on Mac, iPhone and iPad, with a user-selected choice between independent whole-image calculation and unchanged replay of one saved transform. This supersedes the earlier deferral of batch processing, without adding pooled statistics, per-image regions, background queues or automatic resume.
+
+**Rationale:** The user explicitly requested both modes on all platforms. Reusing the established scientific operations removes repeated manual work while preserving the distinction between image-specific fits and a captured method.
+
+**Implications:** Freeze one method and output configuration per run, preserve the interactive workspace, and process one full-resolution item at a time. A recipe's original region describes its origin only; matching calculation settings do not establish quantitative color comparability. Images and optional existing-format analysis JSON require an explicit Start and chosen destination.
+
+## Preserve partial saves and anonymous cleanup reservations — 2026-10-03
+
+**Decision:** Save each batch artifact exclusively without overwriting existing files, retaining a committed image if its requested record cannot save. Permit one narrowly scoped persistence exception: anonymous temporary-file ownership and byte reservations, separate from user methods and any queue or history.
+
+**Rationale:** An image and its record are separate filesystem commits, and provider access can expire before unfinished external temporary files are removed. Erasing saved images or forgetting reservations would misrepresent outcomes or let repeated launches bypass storage limits.
+
+**Implications:** Report actual committed artifacts after cancellation; success requires every requested artifact. Cleanup receipts grant no access and contain no paths, source identities, methods, final outputs or outcomes. After access is lost, external cleanup requires explicit selection of the associated folder. Providers that cannot support exclusive publication fail visibly; there is no overwrite fallback or cloud-sync guarantee.
+
+## Publish batch processing with scoped verification limits — 2026-10-03
+
+**Decision:** Following explicit final publication approval, release Mac 1.4.0 (10) through GitHub and iOS 1.1 (3) through the existing internal TestFlight group. This supersedes the preceding current-version designation; Mac 1.3.2 (8) remains the trusted rollback, and previous releases and TestFlight builds remain available.
+
+**Rationale:** The public Mac download passed the mandatory independent trust verifier. Apple confirms the exact mobile build is VALID and IN_BETA_TESTING with the unchanged one-tester group. Scoped core/batch checks, 384 exact decoder comparisons and an independent 3+100-image, 24 MP memory run passed; security found no vulnerability.
+
+**Implications:** Publication accepts the disclosed limits for these builds without converting them into passes: Mac native UI/keyboard/VoiceOver/lifecycle automation is environment-blocked, native Cancel acknowledgment within one second is inconclusive, and real cloud providers, all external crash/cleanup windows, physical-device behavior and installation of the new TestFlight build remain unverified. Future verification requirements remain in force.

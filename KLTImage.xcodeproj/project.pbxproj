@@ -48,6 +48,7 @@
 		51DECEFEF683C4E8CBA94CE0 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */; };
 		5720200A7270E96F5B9ADB12 /* BatchStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D35CADF0F16DFE4B94B9F1F /* BatchStorage.swift */; };
 		5840BA86E98887BD098370F0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
+		591B828EE5ECDD8CB3968A4F /* OFFICIAL-APP-STORE-PERMISSION.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4430711A40F6B3A3B8CC099A /* OFFICIAL-APP-STORE-PERMISSION.txt */; };
 		5C651314DA05E31BA3E33D6A /* AnalysisRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23475334AC619E94A301CF7 /* AnalysisRecord.swift */; };
 		5EFBD937A64506D85812E947 /* BatchMacLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E14A1B3ED615CEC0D087ABE /* BatchMacLifecycle.swift */; };
 		61FC22F558D687A7568F6FF0 /* KLTCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; };
@@ -68,6 +69,8 @@
 		870786AFFEAD37CFA52433BA /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */; };
 		8D9AD075DE93FED114BB9868 /* KLTCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65D433182C2DD7D13AA7CF5C /* KLTCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8DCEFC62A909205DF8B8BE6C /* IOSWorkspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F016D70DC65D6B80E9F8A2 /* IOSWorkspace.swift */; };
+		9178D1D697878643C2640AC4 /* AdaptiveWorkspaceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04261E6FAA4AF53ECCD74632 /* AdaptiveWorkspaceUITests.swift */; };
+		93F665CBC00F05F80DDE30A0 /* LICENSE-AGPL-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = BF2DCD37397C5E3E6D6CAE50 /* LICENSE-AGPL-3.0.txt */; };
 		990C2E4990B6B16BB95C9A11 /* KLTCoreIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 64A483EEAB2A53BB7BFCA0A6 /* KLTCoreIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9DDA3C0429C72DE04CC72825 /* AnalysisControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */; };
 		9E12D1E137796A45C325EC5D /* BatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA4016FB26587AB036C8B85 /* BatchModel.swift */; };
@@ -76,7 +79,10 @@
 		A3C8110E61FB79B95DE02141 /* AnalysisRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2946AD867FA688B35BC629D1 /* AnalysisRecordTests.swift */; };
 		A5D18AABF2832F37D8E58F1B /* OFL-IBM-Plex-Mono.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04EFA2837EC864B8FD08CFF2 /* OFL-IBM-Plex-Mono.txt */; };
 		A5D64C50D1A5C61A27D60C7B /* IOSLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B46AEE1A5586C9A71636A8C /* IOSLibraryView.swift */; };
+		A757C1B705B0216EA45503F6 /* KLT-Image-Notice.txt in Resources */ = {isa = PBXBuildFile; fileRef = 844F7A7FAAC978B7DE2480DE /* KLT-Image-Notice.txt */; };
+		A9F302B17700B45282753A1E /* IOSAdaptiveLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5ABCFCDE463B0DB4E27868 /* IOSAdaptiveLayout.swift */; };
 		AA865A6C47D32659C7B1B86D /* MethodDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447BC0D15F924277856CCFF /* MethodDocuments.swift */; };
+		ABC51507087636E9DF05B51D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F9F91F032A3D78BEC97AEBA3 /* PrivacyInfo.xcprivacy */; };
 		B2143FA8BEE79E71BD13C111 /* Matrix3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = F527D7A85C856DDD813827D2 /* Matrix3x3.swift */; };
 		B2DDA0BE51A78EB142370C8C /* TransformRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178C9CA065635B4C65960DC9 /* TransformRecipe.swift */; };
 		B3F6AB7801F194C4BB2BC789 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AB88805547BDA0337CB22 /* DesignSystem.swift */; };
@@ -107,6 +113,7 @@
 		F85C233A638C2A6B9A419665 /* OFL-IBM-Plex-Sans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6655F2DE37021A1390EF7A1B /* OFL-IBM-Plex-Sans.txt */; };
 		F8F505B6C1206DBC42771C84 /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F51D976E4CF6B882FCCB220 /* IBMPlexSans-Regular.ttf */; };
 		FC526D6076ACE3094D7BF43E /* KLTCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */; };
+		FD7A97FEA4CCCDE0AF2EA050 /* IOSReleaseLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13D6E070338A223ED37979E /* IOSReleaseLinks.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +151,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DACC569635522C29C548C649;
 			remoteInfo = KLTImage;
+		};
+		7FAECD831F7F66624A82D9F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22B3296C1DE06417360A74D4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BBDDAA526D27D580EDF9CAF1;
+			remoteInfo = KLTImageIOS;
 		};
 		8ABA5D69F1381D8C7E94AE8C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -246,6 +260,7 @@
 
 /* Begin PBXFileReference section */
 		00F016D70DC65D6B80E9F8A2 /* IOSWorkspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSWorkspace.swift; sourceTree = "<group>"; };
+		04261E6FAA4AF53ECCD74632 /* AdaptiveWorkspaceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveWorkspaceUITests.swift; sourceTree = "<group>"; };
 		04EFA2837EC864B8FD08CFF2 /* OFL-IBM-Plex-Mono.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-IBM-Plex-Mono.txt"; sourceTree = "<group>"; };
 		050ECDECE3ADF3FBC3158CD5 /* KLTImage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KLTImage.entitlements; sourceTree = "<group>"; };
 		07DB9B7A0867C7FCFD30A603 /* ComparisonCanvasInteractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCanvasInteractionTests.swift; sourceTree = "<group>"; };
@@ -265,6 +280,7 @@
 		3B49AD686BE7CEEBDAB71A77 /* BatchSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchSources.swift; sourceTree = "<group>"; };
 		3F1F5DEA395E5D1958134178 /* AnalysisControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisControlsTests.swift; sourceTree = "<group>"; };
 		403F53BCE698D0D519672617 /* IOSImageSourceStaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSImageSourceStaging.swift; sourceTree = "<group>"; };
+		4430711A40F6B3A3B8CC099A /* OFFICIAL-APP-STORE-PERMISSION.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFFICIAL-APP-STORE-PERMISSION.txt"; sourceTree = "<group>"; };
 		45E32EBF2EF7AA4BCF3DB762 /* AnalysisRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecordView.swift; sourceTree = "<group>"; };
 		4AA1394DCE931A77332C36FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D35CADF0F16DFE4B94B9F1F /* BatchStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchStorage.swift; sourceTree = "<group>"; };
@@ -278,6 +294,7 @@
 		6655F2DE37021A1390EF7A1B /* OFL-IBM-Plex-Sans.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-IBM-Plex-Sans.txt"; sourceTree = "<group>"; };
 		6A1315BF5219FC8C0BF7C402 /* KLTImageIOSTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KLTImageIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ABA994D4D6CFEA02E88EFD6 /* IBMPlexSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		6E2BA23EF9AEDF2D0B8C4202 /* KLTImageIOSUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KLTImageIOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F02485CB23D9C8401DA0D38 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 		6FF858A7CF62D40CCD118D23 /* BatchRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchRunner.swift; sourceTree = "<group>"; };
 		716026DFEE283F60BE6D4111 /* AnalysisTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisTypes.swift; sourceTree = "<group>"; };
@@ -285,6 +302,7 @@
 		7C212D8968B0240B8D9CB7E3 /* IOSDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSDesign.swift; sourceTree = "<group>"; };
 		82CA3E10AF62F8363B9264D8 /* ComparisonCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCanvas.swift; sourceTree = "<group>"; };
 		8447BC0D15F924277856CCFF /* MethodDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodDocuments.swift; sourceTree = "<group>"; };
+		844F7A7FAAC978B7DE2480DE /* KLT-Image-Notice.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "KLT-Image-Notice.txt"; sourceTree = "<group>"; };
 		8544CA3C07629C36D73BDB46 /* ExtendedAnalysisRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedAnalysisRecord.swift; sourceTree = "<group>"; };
 		86586C3D5940EBC2EBA0B10C /* AnalysisControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisControlsView.swift; sourceTree = "<group>"; };
 		88EC820EA66EC4781A49B54F /* KLTImageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTImageUITests.swift; sourceTree = "<group>"; };
@@ -295,12 +313,14 @@
 		9A911F3B31AA58649486F467 /* MethodLibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodLibraryStore.swift; sourceTree = "<group>"; };
 		9E6D24B454F6A5683C63264D /* WorkspaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModel.swift; sourceTree = "<group>"; };
 		A03417358DC58628252EE97E /* KLTImageUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTImageUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A13D6E070338A223ED37979E /* IOSReleaseLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSReleaseLinks.swift; sourceTree = "<group>"; };
 		A23475334AC619E94A301CF7 /* AnalysisRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRecord.swift; sourceTree = "<group>"; };
 		AB4EEE159AE3DD4CF609A5AA /* RegisteredCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredCanvas.swift; sourceTree = "<group>"; };
 		AB7586A8530DDEEFC9B1C5C7 /* BatchPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchPublisher.swift; sourceTree = "<group>"; };
 		B0D8D8E2546F53EE82FBD5EA /* MethodFileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodFileIO.swift; sourceTree = "<group>"; };
 		B28412EFCDF9044828E08C81 /* KLTCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTCoreTests.swift; sourceTree = "<group>"; };
 		BDE215DECB5D7F641AA742F7 /* WorkingSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSpace.swift; sourceTree = "<group>"; };
+		BF2DCD37397C5E3E6D6CAE50 /* LICENSE-AGPL-3.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "LICENSE-AGPL-3.0.txt"; sourceTree = "<group>"; };
 		C081CF8E6F53A09BF7A6E5C5 /* BatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchView.swift; sourceTree = "<group>"; };
 		C446D1EA64AFE7CAB63E1380 /* KLTCoreIOSTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KLTCoreIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C674ACA4F9FEEEDAAE4DB49D /* MetadataStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataStrip.swift; sourceTree = "<group>"; };
@@ -310,8 +330,10 @@
 		DC7BAF8148E3C49049591897 /* KLTImageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLTImageApp.swift; sourceTree = "<group>"; };
 		DC94B40BF767D3BFC067C3E4 /* IBMPlexMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-SemiBold.ttf"; sourceTree = "<group>"; };
 		DD0B03022F931525A97D7025 /* KLTImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KLTImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB5ABCFCDE463B0DB4E27868 /* IOSAdaptiveLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAdaptiveLayout.swift; sourceTree = "<group>"; };
 		F527D7A85C856DDD813827D2 /* Matrix3x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix3x3.swift; sourceTree = "<group>"; };
 		F6719754678F70869AAC82FE /* KLTImageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KLTImageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9F91F032A3D78BEC97AEBA3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		FE88CB44704F4E57178D390B /* MethodLibraryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodLibraryStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -379,6 +401,14 @@
 			path = KLTCoreTests;
 			sourceTree = "<group>";
 		};
+		2E032BEFED454EDE4942504B /* KLTImageIOSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				04261E6FAA4AF53ECCD74632 /* AdaptiveWorkspaceUITests.swift */,
+			);
+			path = KLTImageIOSUITests;
+			sourceTree = "<group>";
+		};
 		466100E76049048B65EBF66F /* SharedBatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -396,6 +426,10 @@
 			isa = PBXGroup;
 			children = (
 				8E16F7D803152C0213A6A6B1 /* Assets.xcassets */,
+				844F7A7FAAC978B7DE2480DE /* KLT-Image-Notice.txt */,
+				BF2DCD37397C5E3E6D6CAE50 /* LICENSE-AGPL-3.0.txt */,
+				4430711A40F6B3A3B8CC099A /* OFFICIAL-APP-STORE-PERMISSION.txt */,
+				F9F91F032A3D78BEC97AEBA3 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -423,6 +457,7 @@
 				79CB89C2DAC6EFF225ACD603 /* KLTImage */,
 				D237129CCDC3A6AB414AA02A /* KLTImageIOS */,
 				B9AB8268693C61D3CEF281E9 /* KLTImageIOSTests */,
+				2E032BEFED454EDE4942504B /* KLTImageIOSUITests */,
 				C63AEB2BA528262B22F83546 /* KLTImageTests */,
 				BF15049F344A4B2A20016C31 /* KLTImageUITests */,
 				466100E76049048B65EBF66F /* SharedBatch */,
@@ -471,6 +506,7 @@
 				DD0B03022F931525A97D7025 /* KLTImage.app */,
 				1778DC480CB6B5A15EED4B1E /* KLTImageIOS.app */,
 				6A1315BF5219FC8C0BF7C402 /* KLTImageIOSTests.xctest */,
+				6E2BA23EF9AEDF2D0B8C4202 /* KLTImageIOSUITests.xctest */,
 				F6719754678F70869AAC82FE /* KLTImageTests.xctest */,
 				A03417358DC58628252EE97E /* KLTImageUITests.xctest */,
 			);
@@ -515,10 +551,12 @@
 			isa = PBXGroup;
 			children = (
 				3B49AD686BE7CEEBDAB71A77 /* BatchSources.swift */,
+				EB5ABCFCDE463B0DB4E27868 /* IOSAdaptiveLayout.swift */,
 				7C212D8968B0240B8D9CB7E3 /* IOSDesign.swift */,
 				403F53BCE698D0D519672617 /* IOSImageSourceStaging.swift */,
 				1B46AEE1A5586C9A71636A8C /* IOSLibraryView.swift */,
 				DC1FDF4ED386FBE21556EF6E /* IOSMethodLibrary.swift */,
+				A13D6E070338A223ED37979E /* IOSReleaseLinks.swift */,
 				8B38A6D09BA76AE9273A63BF /* IOSRootView.swift */,
 				00F016D70DC65D6B80E9F8A2 /* IOSWorkspace.swift */,
 				24B983A83BF793021CA68A3C /* KLTImageIOSApp.swift */,
@@ -645,6 +683,24 @@
 			productReference = F6719754678F70869AAC82FE /* KLTImageTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		9C253EFEF9FABC2A2816DFE3 /* KLTImageIOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DF854BDEC5120C0C9E9DBC0 /* Build configuration list for PBXNativeTarget "KLTImageIOSUITests" */;
+			buildPhases = (
+				BA1EFBCC2A0ED6A25E5957F2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8ECDDF36F02407FF1A72D7D /* PBXTargetDependency */,
+			);
+			name = KLTImageIOSUITests;
+			packageProductDependencies = (
+			);
+			productName = KLTImageIOSUITests;
+			productReference = 6E2BA23EF9AEDF2D0B8C4202 /* KLTImageIOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		A0C589BC2FF6349AA9926908 /* KLTCoreIOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CB5AE4984DB4D4EBFAB29A52 /* Build configuration list for PBXNativeTarget "KLTCoreIOS" */;
@@ -736,6 +792,9 @@
 					4D4E433BCDB3E6D26A95372A = {
 						TestTargetID = DACC569635522C29C548C649;
 					};
+					9C253EFEF9FABC2A2816DFE3 = {
+						TestTargetID = BBDDAA526D27D580EDF9CAF1;
+					};
 				};
 			};
 			buildConfigurationList = AC1D7B496E10B60AD1E9402E /* Build configuration list for PBXProject "KLTImage" */;
@@ -759,6 +818,7 @@
 				DACC569635522C29C548C649 /* KLTImage */,
 				BBDDAA526D27D580EDF9CAF1 /* KLTImageIOS */,
 				6C3814C5F9B91449AF7601C2 /* KLTImageIOSTests */,
+				9C253EFEF9FABC2A2816DFE3 /* KLTImageIOSUITests */,
 				7B009687077C5AA7842F8C22 /* KLTImageTests */,
 				4D4E433BCDB3E6D26A95372A /* KLTImageUITests */,
 			);
@@ -776,8 +836,12 @@
 				26008FCB94F7E8B786AE2BB6 /* IBMPlexSans-Bold.ttf in Resources */,
 				870786AFFEAD37CFA52433BA /* IBMPlexSans-Regular.ttf in Resources */,
 				118F79B75DA4B6CC73BAF6FC /* IBMPlexSans-SemiBold.ttf in Resources */,
+				A757C1B705B0216EA45503F6 /* KLT-Image-Notice.txt in Resources */,
+				93F665CBC00F05F80DDE30A0 /* LICENSE-AGPL-3.0.txt in Resources */,
+				591B828EE5ECDD8CB3968A4F /* OFFICIAL-APP-STORE-PERMISSION.txt in Resources */,
 				A5D18AABF2832F37D8E58F1B /* OFL-IBM-Plex-Mono.txt in Resources */,
 				F85C233A638C2A6B9A419665 /* OFL-IBM-Plex-Sans.txt in Resources */,
+				ABC51507087636E9DF05B51D /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -862,6 +926,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BA1EFBCC2A0ED6A25E5957F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9178D1D697878643C2640AC4 /* AdaptiveWorkspaceUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CF98A185D2D83347505AFFBE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -921,10 +993,12 @@
 				DEEC04A1AE974A42EEFEE57C /* BatchTypes.swift in Sources */,
 				B41A45994B31B9F75FF917F4 /* BatchView.swift in Sources */,
 				B3F6AB7801F194C4BB2BC789 /* DesignSystem.swift in Sources */,
+				A9F302B17700B45282753A1E /* IOSAdaptiveLayout.swift in Sources */,
 				04F1C8866E609AEC8D434BDB /* IOSDesign.swift in Sources */,
 				1DCB1D5134F15DB66E850AC7 /* IOSImageSourceStaging.swift in Sources */,
 				A5D64C50D1A5C61A27D60C7B /* IOSLibraryView.swift in Sources */,
 				C046C02D46D3DEEBA01C60BF /* IOSMethodLibrary.swift in Sources */,
+				FD7A97FEA4CCCDE0AF2EA050 /* IOSReleaseLinks.swift in Sources */,
 				EC35260B3C2E69E8FC9B4328 /* IOSRootView.swift in Sources */,
 				8DCEFC62A909205DF8B8BE6C /* IOSWorkspace.swift in Sources */,
 				75BEDDC248D21BCECE351087 /* KLTImageIOSApp.swift in Sources */,
@@ -971,6 +1045,11 @@
 			isa = PBXTargetDependency;
 			target = BBDDAA526D27D580EDF9CAF1 /* KLTImageIOS */;
 			targetProxy = AD480E325F7401958D1EF2BE /* PBXContainerItemProxy */;
+		};
+		C8ECDDF36F02407FF1A72D7D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BBDDAA526D27D580EDF9CAF1 /* KLTImageIOS */;
+			targetProxy = 7FAECD831F7F66624A82D9F6 /* PBXContainerItemProxy */;
 		};
 		F17673A0F1AE980247B8C4EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1088,7 +1167,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1144,6 +1223,23 @@
 				SDKROOT = macosx;
 			};
 			name = ReleaseTests;
+		};
+		589A76B30F56DB4D2A2975BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kltimage.ios.ui-tests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = KLTImageIOS;
+			};
+			name = Release;
 		};
 		6036E8774DBB903A886FC793 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1204,6 +1300,23 @@
 			};
 			name = ReleaseTests;
 		};
+		6EE1158E6A3C7A5543FD18E2 /* ReleaseTests */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kltimage.ios.ui-tests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = KLTImageIOS;
+			};
+			name = ReleaseTests;
+		};
 		774ADA747F2B5AF1D641FA26 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1242,7 +1355,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1303,6 +1416,23 @@
 			};
 			name = Release;
 		};
+		8FB53FD596AE7EB70D677BB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kltimage.ios.ui-tests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = KLTImageIOS;
+			};
+			name = Debug;
+		};
 		90502A40B5FB69B489CD2CE7 /* ReleaseTests */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1325,7 +1455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1736,6 +1866,16 @@
 				A4E284B84DB7E735842B60F6 /* Debug */,
 				3D147BEBE6B58098138D249C /* Release */,
 				BE2BF6967C14540003327EEA /* ReleaseTests */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7DF854BDEC5120C0C9E9DBC0 /* Build configuration list for PBXNativeTarget "KLTImageIOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8FB53FD596AE7EB70D677BB0 /* Debug */,
+				589A76B30F56DB4D2A2975BF /* Release */,
+				6EE1158E6A3C7A5543FD18E2 /* ReleaseTests */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

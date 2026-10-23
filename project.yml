@@ -75,7 +75,7 @@ targets:
         PRODUCT_NAME: KLT Image
         PRODUCT_MODULE_NAME: KLTImageIOS
         MARKETING_VERSION: 1.1
-        CURRENT_PROJECT_VERSION: 3
+        CURRENT_PROJECT_VERSION: 6
         VERSIONING_SYSTEM: apple-generic
         INFOPLIST_FILE: KLTImageIOS/Info.plist
         GENERATE_INFOPLIST_FILE: NO
@@ -110,6 +110,18 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/KLT Image.app/KLT Image"
         BUNDLE_LOADER: "$(TEST_HOST)"
+
+  KLTImageIOSUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: KLTImageIOSUITests
+    dependencies:
+      - target: KLTImageIOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.ios.ui-tests
+        GENERATE_INFOPLIST_FILE: YES
 
   KLTImage:
     type: application
@@ -215,3 +227,11 @@ schemes:
         - KLTCoreIOSTests
         - KLTImageIOSTests
       gatherCoverageData: true
+
+  KLTImageIOSAdaptiveUI:
+    build:
+      targets:
+        KLTImageIOS: all
+    test:
+      targets:
+        - KLTImageIOSUITests

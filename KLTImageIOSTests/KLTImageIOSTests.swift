@@ -42,6 +42,20 @@ final class KLTImageIOSTests: XCTestCase {
         XCTAssertEqual(workspace.source?.height, 6)
         let record = try await workspace.prepareRecordExport()
         XCTAssertTrue(String(decoding: record, as: UTF8.self).contains("field-source.png"))
+        workspace.remapCanvas(to: CGSize(width: 390, height: 600))
+        workspace.zoom = 10
+        workspace.pan = CGSize(width: 300, height: -200)
+        workspace.reveal = 0.37
+        for size in [CGSize(width: 800, height: 400), CGSize(width: 330, height: 500), CGSize(width: 460, height: 300)] {
+            workspace.remapCanvas(to: size)
+            XCTAssertEqual(workspace.currentResult?.job, first.job)
+            XCTAssertEqual(workspace.currentResult?.generation, first.generation)
+            XCTAssertEqual(workspace.currentResult?.request, first.request)
+            XCTAssertEqual(workspace.reveal, 0.37)
+            XCTAssertEqual(workspace.zoom, 10)
+            let resizedRecord = try await workspace.prepareRecordExport()
+            XCTAssertEqual(resizedRecord, record, "Resizing must not change documentary bytes")
+        }
         workspace.matrixMode = .correlation
         XCTAssertNil(workspace.currentResult)
         for _ in 0..<100 where workspace.currentResult == nil {
@@ -133,6 +147,49 @@ final class KLTImageIOSTests: XCTestCase {
         XCTAssertEqual(edgePan.height, -(zoomed.fit.height * newZoom - canvas.height) / 2)
         // An overshooting pinch at the ceiling must not move the anchor.
         XCTAssertEqual(zoomed.zoomedPan(factor: 1, around: point, newZoom: newZoom), newPan)
+    }
+
+    func testResizeRemapsFocusAndCancelsStaleGestureEnds() {
+        let source = CGSize(width: 4608, height: 2592)
+        for zoom: CGFloat in [1, 2, 10] {
+            let old = RegisteredViewport(source: source, canvas: CGSize(width: 390, height: 500),
+                                         zoom: zoom, pan: zoom == 1 ? .zero : CGSize(width: 80, height: -40))
+            let focus = old.sourcePoint(CGPoint(x: 195, y: 250))
+            let newSize = CGSize(width: 760, height: 440)
+            let resized = RegisteredViewport(source: source, canvas: newSize, zoom: zoom,
+                                             pan: old.remappedPan(to: newSize))
+            let actual = resized.sourcePoint(CGPoint(x: 380, y: 220))
+            XCTAssertEqual(actual.x, focus.x, accuracy: 0.001)
+            XCTAssertEqual(actual.y, focus.y, accuracy: 0.001)
+            XCTAssertEqual(resized.pan, resized.clampedPan(resized.pan))
+        }
+        var gesture = CanvasGestureSession()
+        XCTAssertTrue(gesture.accepts(.began))
+        XCTAssertTrue(gesture.accepts(.changed))
+        gesture.cancel()
+        XCTAssertFalse(gesture.accepts(.changed))
+        XCTAssertFalse(gesture.accepts(.ended), "Old sample end must never commit")
+        XCTAssertTrue(gesture.accepts(.began))
+        XCTAssertTrue(gesture.accepts(.cancelled))
+        XCTAssertFalse(gesture.accepts(.ended))
+        XCTAssertTrue(gesture.accepts(.began))
+        XCTAssertTrue(gesture.accepts(.ended))
+    }
+
+    func testAdaptiveWorkspaceKeepsCanvasAndAvoidsReservedRegions() {
+        XCTAssertTrue(IOSWorkspaceLayout.showsInspector(size: CGSize(width: 900, height: 600), regularWidth: true, accessibilityText: false))
+        XCTAssertFalse(IOSWorkspaceLayout.showsInspector(size: CGSize(width: 900, height: 320), regularWidth: true, accessibilityText: false))
+        XCTAssertFalse(IOSWorkspaceLayout.showsInspector(size: CGSize(width: 900, height: 600), regularWidth: true, accessibilityText: true))
+        XCTAssertFalse(IOSWorkspaceLayout.showsInspector(size: CGSize(width: 900, height: 600), regularWidth: false, accessibilityText: false))
+        let size = CGSize(width: 900, height: 600)
+        let fold = CGRect(x: 430, y: 0, width: 40, height: 600)
+        XCTAssertTrue(IOSWorkspaceLayout.showsInspector(size: size, regularWidth: true, accessibilityText: false, divisions: [fold]))
+        let safe = IOSWorkspaceLayout.usableRect(size: size, avoiding: [fold])
+        XCTAssertEqual(safe.width, 430)
+        XCTAssertEqual(safe.height, 600)
+        XCTAssertEqual(safe.intersection(fold).width, 0)
+        let camera = CGRect(x: 820, y: 0, width: 80, height: 60)
+        XCTAssertEqual(IOSWorkspaceLayout.usableRect(size: size, avoiding: [camera]).width, 820)
     }
 
     func testCorruptIOSStoreIsNotReplaced() async throws {

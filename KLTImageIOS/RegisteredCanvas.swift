@@ -42,6 +42,15 @@ struct RegisteredViewport {
                       height: min(limitY, max(-limitY, proposed.height)))
     }
 
+    func remappedPan(to newCanvas: CGSize) -> CGSize {
+        guard canvas.width > 0, canvas.height > 0, newCanvas.width > 0, newCanvas.height > 0 else { return .zero }
+        let center = sourcePoint(CGPoint(x: canvas.width / 2, y: canvas.height / 2))
+        let next = RegisteredViewport(source: source, canvas: newCanvas, zoom: zoom, pan: .zero)
+        let proposed = CGSize(width: (0.5 - center.x / source.width) * next.fit.width * zoom,
+                              height: (0.5 - center.y / source.height) * next.fit.height * zoom)
+        return next.clampedPan(proposed)
+    }
+
     func zoomedPan(factor: CGFloat, around point: CGPoint, newZoom: CGFloat) -> CGSize {
         let relative = CGPoint(x: point.x - canvas.width / 2, y: point.y - canvas.height / 2)
         let proposed = CGSize(width: (pan.width - relative.x) * factor + relative.x,
@@ -50,11 +59,34 @@ struct RegisteredViewport {
     }
 }
 
-private enum TouchPhase { case began, changed, ended }
+enum CanvasTouchPhase { case began, changed, ended, cancelled }
+
+/// UIKit can deliver cancellation or an end after bounds change. Only a gesture
+/// begun in the current geometry may change or commit the workspace.
+struct CanvasGestureSession {
+    private(set) var active = false
+    mutating func accepts(_ phase: CanvasTouchPhase) -> Bool {
+        switch phase {
+        case .began: active = true; return true
+        case .changed: return active
+        case .ended: let accepted = active; active = false; return accepted
+        case .cancelled: let accepted = active; active = false; return accepted
+        }
+    }
+    mutating func cancel() { active = false }
+}
+
+private struct CanvasTouchGeometry: Equatable {
+    let size: CGSize
+    let comparison: IOSComparisonMode
+    let source: ObjectIdentifier?
+}
+
 
 private struct TouchSurface: UIViewRepresentable {
-    var pan: (TouchPhase, CGPoint, CGSize) -> Void
-    var pinch: (TouchPhase, CGFloat, CGPoint) -> Void
+    let geometry: CanvasTouchGeometry
+    var pan: (CanvasTouchPhase, CGPoint, CGSize) -> Void
+    var pinch: (CanvasTouchPhase, CGFloat, CGPoint) -> Void
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView()
@@ -71,29 +103,59 @@ private struct TouchSurface: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
+        if context.coordinator.geometry != geometry {
+            context.coordinator.invalidate()
+            // Disabling resets recognition; cancelled callbacks never commit.
+            for recognizer in uiView.gestureRecognizers ?? [] {
+                recognizer.isEnabled = false
+                recognizer.isEnabled = true
+            }
+            context.coordinator.geometry = geometry
+        }
         context.coordinator.pan = pan
         context.coordinator.pinch = pinch
     }
 
-    func makeCoordinator() -> Coordinator { Coordinator(pan: pan, pinch: pinch) }
+    func makeCoordinator() -> Coordinator { Coordinator(geometry: geometry, pan: pan, pinch: pinch) }
+
+    static func dismantleUIView(_ view: UIView, coordinator: Coordinator) {
+        coordinator.invalidate()
+        for recognizer in view.gestureRecognizers ?? [] { recognizer.isEnabled = false }
+    }
 
     final class Coordinator: NSObject, UIGestureRecognizerDelegate {
-        var pan: (TouchPhase, CGPoint, CGSize) -> Void
-        var pinch: (TouchPhase, CGFloat, CGPoint) -> Void
-        init(pan: @escaping (TouchPhase, CGPoint, CGSize) -> Void,
-             pinch: @escaping (TouchPhase, CGFloat, CGPoint) -> Void) {
-            self.pan = pan; self.pinch = pinch
+        var pan: (CanvasTouchPhase, CGPoint, CGSize) -> Void
+        var pinch: (CanvasTouchPhase, CGFloat, CGPoint) -> Void
+        var geometry: CanvasTouchGeometry
+        var panSession = CanvasGestureSession()
+        var pinchSession = CanvasGestureSession()
+        init(geometry: CanvasTouchGeometry, pan: @escaping (CanvasTouchPhase, CGPoint, CGSize) -> Void,
+             pinch: @escaping (CanvasTouchPhase, CGFloat, CGPoint) -> Void) {
+            self.geometry = geometry; self.pan = pan; self.pinch = pinch
+        }
+        func invalidate() {
+            // SwiftUI's geometry onChange clears its draft state. Suppress the
+            // recognizers synchronously without mutating SwiftUI during update.
+            panSession.cancel(); pinchSession.cancel()
+        }
+        private func phase(_ gesture: UIGestureRecognizer) -> CanvasTouchPhase {
+            switch gesture.state {
+            case .began: .began
+            case .changed: .changed
+            case .ended: .ended
+            default: .cancelled
+            }
         }
         @objc func panned(_ gesture: UIPanGestureRecognizer) {
-            let phase: TouchPhase = gesture.state == .began ? .began :
-                gesture.state == .changed ? .changed : .ended
+            let phase = phase(gesture)
+            guard panSession.accepts(phase) else { return }
             let translation = gesture.translation(in: gesture.view)
             pan(phase, gesture.location(in: gesture.view),
                 CGSize(width: translation.x, height: translation.y))
         }
         @objc func pinched(_ gesture: UIPinchGestureRecognizer) {
-            let phase: TouchPhase = gesture.state == .began ? .began :
-                gesture.state == .changed ? .changed : .ended
+            let phase = phase(gesture)
+            guard pinchSession.accepts(phase) else { return }
             pinch(phase, gesture.scale, gesture.location(in: gesture.view))
             gesture.scale = 1
         }
@@ -164,6 +226,12 @@ struct RegisteredCanvas: View {
                 }
             }
             .clipped()
+            .onChange(of: CanvasTouchGeometry(size: size, comparison: workspace.comparison,
+                                              source: workspace.source.map { ObjectIdentifier($0.originalImage) }), initial: true) { _, _ in
+                draftRegion = nil; owner = .none; regionStart = nil
+                let paneWidth = workspace.comparison == .sideBySide ? max(1, (size.width - 1) / 2) : size.width
+                workspace.remapCanvas(to: CGSize(width: paneWidth, height: size.height))
+            }
         }
         .accessibilityLabel("Registered comparison image, zoom \(Int(workspace.zoom * 100)) percent")
     }
@@ -246,6 +314,8 @@ struct RegisteredCanvas: View {
 
     private func touchLayer(size: CGSize) -> some View {
         TouchSurface(
+            geometry: CanvasTouchGeometry(size: size, comparison: workspace.comparison,
+                                          source: workspace.source.map { ObjectIdentifier($0.originalImage) }),
             pan: { phase, location, translation in handlePan(phase, location: location, translation: translation, size: size) },
             pinch: { phase, scale, location in handlePinch(phase, scale: scale, location: location, size: size) }
         )
@@ -268,7 +338,7 @@ struct RegisteredCanvas: View {
         return (viewport, local)
     }
 
-    private func handlePan(_ phase: TouchPhase, location: CGPoint, translation: CGSize, size: CGSize) {
+    private func handlePan(_ phase: CanvasTouchPhase, location: CGPoint, translation: CGSize, size: CGSize) {
         guard workspace.source != nil else { return }
         let (viewport, local) = paneContext(location, size: size)
         switch phase {
@@ -300,6 +370,10 @@ struct RegisteredCanvas: View {
                 draftRegion = transformedRegion(translation: translation, viewport: viewport)
             case .none: break
             }
+        case .cancelled:
+            draftRegion = nil
+            regionStart = nil
+            owner = .none
         case .ended:
             if let draftRegion, owner.isRegionEdit {
                 workspace.setRegion(draftRegion)
@@ -345,7 +419,7 @@ struct RegisteredCanvas: View {
         }
     }
 
-    private func handlePinch(_ phase: TouchPhase, scale: CGFloat, location: CGPoint, size: CGSize) {
+    private func handlePinch(_ phase: CanvasTouchPhase, scale: CGFloat, location: CGPoint, size: CGSize) {
         guard workspace.source != nil, owner == .none || owner == .canvas else { return }
         guard phase == .changed else { return }
         let (viewport, local) = paneContext(location, size: size)

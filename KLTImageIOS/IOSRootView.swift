@@ -34,6 +34,8 @@ private enum DetailSheet: String, Identifiable { case analysis, record, coordina
 struct IOSRootView: View {
     let workspace: IOSWorkspace
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.dynamicTypeSize) private var textSize
     @State private var batch: BatchModel?
     @State private var tab = 0
     @State private var sheet: DetailSheet?
@@ -47,13 +49,15 @@ struct IOSRootView: View {
     @State private var showingExporter = false
 
     var body: some View {
-        GeometryReader { geometry in
-            if geometry.size.width >= 850 {
-                wideLayout
-            } else {
-                compactLayout
+        TabView(selection: $tab) {
+            Tab("Workspace", systemImage: "photo.on.rectangle", value: 0) {
+                NavigationStack { workspaceScreen }
+            }
+            Tab("Library", systemImage: "square.stack", value: 1) {
+                NavigationStack { IOSLibraryView(workspace: workspace, export: exportMethod) }
             }
         }
+        .toolbarBackground(IOSPalette.surface, for: .tabBar)
         .tint(IOSPalette.accent)
         .background(IOSPalette.surface)
         .task { await workspace.loadLibrary() }
@@ -67,11 +71,10 @@ struct IOSRootView: View {
             case let .failure(error): workspace.presentError("Files could not provide the image: \(error.localizedDescription)")
             }
         }
-        .fullScreenCover(isPresented: Binding(get: { UIDevice.current.userInterfaceIdiom == .phone && batch != nil }, set: { if !$0 { batch?.dismiss { batch = nil } } })) {
-            if let batch { BatchView(model: batch, close: { self.batch = nil }) }
-        }
-        .sheet(isPresented: Binding(get: { UIDevice.current.userInterfaceIdiom != .phone && batch != nil }, set: { if !$0 { batch?.dismiss { batch = nil } } })) {
-            if let batch { BatchView(model: batch, close: { self.batch = nil }).presentationDetents([.large]) }
+        .sheet(isPresented: Binding(get: { batch != nil }, set: { if !$0 { batch?.dismiss { batch = nil } } })) {
+            IOSReservedSafeContent { _ in
+                if let batch { BatchView(model: batch, close: { self.batch = nil }) }
+            }.presentationDetents([.large])
         }
         .sheet(isPresented: $photosPicker) {
             PhotosSourcePicker { result in
@@ -120,119 +123,156 @@ struct IOSRootView: View {
         }
     }
 
-    private var compactLayout: some View {
-        TabView(selection: $tab) {
-            NavigationStack { workspaceScreen }
-                .tabItem { Label("Workspace", systemImage: "photo.on.rectangle") }.tag(0)
-            NavigationStack { IOSLibraryView(workspace: workspace, export: exportMethod) }
-                .tabItem { Label("Library", systemImage: "square.stack") }.tag(1)
-        }
-        .toolbarBackground(IOSPalette.surface, for: .tabBar)
-    }
-
-    private var wideLayout: some View {
-        HStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 10) {
-                Text("KLT IMAGE").font(IOSFont.mono(11)).foregroundStyle(IOSPalette.inkMuted).padding(.bottom, 16)
-                Button("Workspace", systemImage: "photo.on.rectangle") { tab = 0 }
-                Button("Library", systemImage: "square.stack") { tab = 1 }
-                Spacer()
-                Text("Local scientific imaging").font(IOSFont.body(11)).foregroundStyle(IOSPalette.inkMuted)
-            }
-            .buttonStyle(.plain)
-            .padding(16)
-            .frame(width: 166).frame(maxHeight: .infinity, alignment: .topLeading)
-            .background(IOSPalette.surfaceTint)
-            Divider()
-            if tab == 0 {
-                NavigationStack { workspaceScreen }
-                Divider()
-                ScrollView { AnalysisInspector(workspace: workspace, openAnalysis: { sheet = .analysis },
-                                               openRecord: { sheet = .record }, exportImage: exportImage,
-                                               exportRecord: exportRecord) }
-                    .frame(width: 266)
-                    .background(IOSPalette.surface)
-            } else {
-                NavigationStack { IOSLibraryView(workspace: workspace, export: exportMethod) }
-            }
-        }
-    }
-
     private var workspaceScreen: some View {
-        VStack(spacing: 0) {
-            if workspace.source == nil {
-                Spacer()
-                Image(systemName: "photo.artframe").font(.system(size: 44)).foregroundStyle(IOSPalette.accent)
-                    .padding(20).background(IOSPalette.surfaceTint, in: RoundedRectangle(cornerRadius: 14))
-                Text("Reveal subtle color structure").font(IOSFont.display()).padding(.top, 18)
-                Text("Choose a photograph. Analysis stays on this device, and the source stays unchanged.")
-                    .font(IOSFont.body()).foregroundStyle(IOSPalette.ink).multilineTextAlignment(.center)
-                    .padding(.horizontal, 36).padding(.top, 4)
-                Button("Open image") { sourceChoice = true }
-                    .buttonStyle(PrimaryActionButtonStyle()).padding(.top, 16)
-                Spacer()
-            } else {
-                comparisonControl
-                ZStack(alignment: .bottom) {
-                    RegisteredCanvas(workspace: workspace, drawingSample: $drawingSample)
-                    if workspace.isProcessing || workspace.isImporting || workspace.isPreparingExport {
-                        HStack {
-                            ProgressView().tint(IOSPalette.accent)
-                            Text(workspace.isImporting ? "Opening original…" : workspace.isProcessing ? "Processing…" : "Preparing export…")
-                            Button("Cancel") { workspace.cancel() }
-                        }
-                        .font(IOSFont.label())
-                        .padding(10)
-                        .background(IOSPalette.surface.opacity(0.97), in: RoundedRectangle(cornerRadius: 10))
-                        .padding(.bottom, 63)
-                    }
-                    canvasControls
+        GeometryReader { geometry in
+            let inspector = showsInspector(geometry)
+            if #available(iOS 27.1, *), inspector {
+                ArrangementView {
+                    IOSReservedSafeContent { size in workspaceContent(size: size, inspector: inspector) }
+                        .splitArrangementLayoutSize(minWidth: 280, idealWidth: 560, minHeight: 280)
+                } secondary: {
+                    analysisInspector.splitArrangementLayoutSize(minWidth: 240, idealWidth: 280, maxWidth: 340, minHeight: 280)
                 }
-                .frame(maxHeight: .infinity)
-                metadataStrip
-                if tab == 0 { compactSummary }
+                .arrangementViewStyle(.split)
+            } else if #available(iOS 27.1, *) {
+                IOSReservedSafeContent { size in workspaceContent(size: size, inspector: false) }
+            } else {
+                HStack(spacing: 0) {
+                    workspaceContent(size: CGSize(width: geometry.size.width - (inspector ? 281 : 0),
+                                                  height: geometry.size.height), inspector: inspector)
+                    if inspector { Divider(); analysisInspector.frame(width: 280) }
+                }
             }
         }
         .navigationTitle("KLT Image")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Menu {
-                    Button("Batch processing") {
-                        batch = BatchModel(library: { workspace.library }, workspaceBusy: { workspace.batchBusy })
-                    }.disabled(BatchWorkspaceLease.shared.isPresented)
-                } label: { Image(systemName: "ellipsis.circle").accessibilityLabel("Workspace actions") }
-            }
-            ToolbarItem(placement: .topBarLeading) { Button("Methods", systemImage: "square.stack") { sheet = .library } }
-            ToolbarItemGroup(placement: .topBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button("Open image", systemImage: "plus") { sourceChoice = true }
+            }
+            ToolbarItem(placement: .secondaryAction) {
                 Button("Analysis record", systemImage: "doc.text") { sheet = .record }
                     .disabled(workspace.currentResult == nil)
+            }
+            if #available(iOS 27.0, *) {
+                ToolbarOverflowMenu { workspaceActions }
+            } else {
+                ToolbarItem(placement: .topBarLeading) {
+                    Menu { workspaceActions } label: {
+                        Label("Workspace actions", systemImage: "ellipsis.circle")
+                    }
+                }
             }
         }
         .foregroundStyle(IOSPalette.inkStrong)
     }
 
-    private var comparisonControl: some View {
-        HStack(spacing: 2) {
-            ForEach(IOSComparisonMode.allCases) { mode in
-                Button(mode.rawValue) {
-                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.18)) { workspace.comparison = mode }
-                }
-                .font(IOSFont.label(11))
-                .foregroundStyle(workspace.comparison == mode ? IOSPalette.inkStrong : IOSPalette.ink)
-                .frame(maxWidth: .infinity, minHeight: 44)
-                .background(workspace.comparison == mode ? IOSPalette.surface : IOSPalette.surfaceTint,
-                            in: RoundedRectangle(cornerRadius: 8))
-                .accessibilityAddTraits(workspace.comparison == mode ? .isSelected : [])
-            }
-        }
-        .padding(4).background(IOSPalette.surfaceTint, in: RoundedRectangle(cornerRadius: 10))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(IOSPalette.divider, lineWidth: 1))
-        .padding(8)
+    private func showsInspector(_ geometry: GeometryProxy) -> Bool {
+        let divisions: [CGRect]
+        if #available(iOS 27.1, *) { divisions = geometry.reservedRegions(kind: .division).map(\.frame) }
+        else { divisions = [] }
+        return workspace.source != nil && sheet == nil && IOSWorkspaceLayout.showsInspector(
+            size: geometry.size, regularWidth: horizontalSizeClass == .regular,
+            accessibilityText: textSize.isAccessibilitySize, divisions: divisions)
     }
 
-    private var canvasControls: some View {
+    private var analysisInspector: some View {
+        IOSReservedSafeContent { _ in
+            ScrollView {
+                AnalysisInspector(workspace: workspace, openAnalysis: { sheet = .analysis },
+                                  openRecord: { sheet = .record }, exportImage: exportImage, exportRecord: exportRecord)
+            }
+            .background(IOSPalette.surface)
+            .accessibilityIdentifier("analysis-inspector")
+        }
+    }
+
+    @ViewBuilder private var workspaceActions: some View {
+        Button("Methods", systemImage: "square.stack") { sheet = .library }
+        Button("Batch processing", systemImage: "square.stack.3d.up") {
+            batch = BatchModel(library: { workspace.library }, workspaceBusy: { workspace.batchBusy })
+        }.disabled(BatchWorkspaceLease.shared.isPresented)
+        Divider()
+        if let url = IOSReleaseLinks.privacy { Link(destination: url) { Label("Privacy policy", systemImage: "hand.raised") } }
+        if let url = IOSReleaseLinks.support { Link(destination: url) { Label("Support", systemImage: "questionmark.circle") } }
+    }
+
+    private func workspaceContent(size: CGSize, inspector: Bool) -> some View {
+        // This ScrollView keeps all controls reachable at short heights and the
+        // largest text sizes. Canvas height is an allocation, never a bar offset.
+        ScrollView {
+            VStack(spacing: 0) {
+                if workspace.source == nil {
+                    VStack(spacing: 16) {
+                        Image(systemName: "photo.artframe").font(.system(size: 44)).foregroundStyle(IOSPalette.accent)
+                        Text("Reveal subtle color structure").font(IOSFont.display())
+                        Text("Choose a photograph. Analysis stays on this device, and the source stays unchanged.")
+                            .font(IOSFont.body()).foregroundStyle(IOSPalette.ink)
+                        Button("Open image") { sourceChoice = true }.buttonStyle(IOSActionButtonStyle(primary: true))
+                    }
+                    .multilineTextAlignment(.center).padding(24)
+                    .frame(maxWidth: .infinity, minHeight: size.height)
+                } else {
+                    Text(workspace.sourceName).font(IOSFont.label(14)).lineLimit(2)
+                        .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 14).padding(.top, 8)
+                    comparisonControl
+                    RegisteredCanvas(workspace: workspace, drawingSample: $drawingSample)
+                        .frame(height: max(160, size.height - (inspector ? 220 : 340)))
+                    if workspace.isProcessing || workspace.isImporting || workspace.isPreparingExport {
+                        ViewThatFits(in: .horizontal) {
+                            HStack { busyMessage; cancelButton }
+                            VStack { busyMessage; cancelButton }
+                        }
+                        .padding(8).background(IOSPalette.surfaceTint)
+                    }
+                    canvasControls
+                    metadataStrip
+                    if !inspector { compactSummary }
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+    }
+
+    private var busyMessage: some View {
+        Label(workspace.isImporting ? "Opening original…" : workspace.isProcessing ? "Processing…" : "Preparing export…",
+              systemImage: "hourglass").font(IOSFont.label())
+    }
+    private var cancelButton: some View {
+        Button("Cancel") { workspace.cancel() }.frame(minWidth: 44, minHeight: 44)
+    }
+
+    private var comparisonBinding: Binding<IOSComparisonMode> {
+        Binding(get: { workspace.comparison }, set: { value in
+            withAnimation(reduceMotion ? nil : .easeOut(duration: 0.18)) { workspace.comparison = value }
+        })
+    }
+
+    private var comparisonControl: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 4) {
+                ForEach(IOSComparisonMode.allCases) { mode in
+                    Button(mode.rawValue) { comparisonBinding.wrappedValue = mode }
+                        .font(IOSFont.label(12)).fixedSize(horizontal: true, vertical: false)
+                        .padding(.horizontal, 10).frame(minHeight: 44)
+                        .foregroundStyle(IOSPalette.inkStrong)
+                        .background(workspace.comparison == mode ? IOSPalette.surface : IOSPalette.surfaceTint,
+                                    in: RoundedRectangle(cornerRadius: 8))
+                        .accessibilityAddTraits(workspace.comparison == mode ? .isSelected : [])
+                }
+            }
+            Picker("Comparison", selection: comparisonBinding) {
+                ForEach(IOSComparisonMode.allCases) { Text($0.rawValue).tag($0) }
+            }
+            .pickerStyle(.menu).frame(minHeight: 44)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(4).background(IOSPalette.surfaceTint, in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(IOSPalette.divider, lineWidth: 1)).padding(8)
+    }
+
+    private var zoomControls: some View {
         HStack(spacing: 2) {
             Button("Zoom out", systemImage: "minus") { workspace.zoomOut() }
                 .labelStyle(.iconOnly).frame(minWidth: 44, minHeight: 44)
@@ -241,65 +281,60 @@ struct IOSRootView: View {
             Button("Zoom in", systemImage: "plus") { workspace.zoomIn() }
                 .labelStyle(.iconOnly).frame(minWidth: 44, minHeight: 44)
             Button("Fit") { workspace.fit() }.frame(minWidth: 44, minHeight: 44)
-            Divider().frame(height: 24)
-            Button(drawingSample ? "Drawing…" : "Draw sample") {
-                drawingSample.toggle()
-                if drawingSample { workspace.comparison = .original }
-            }.frame(minHeight: 44)
-            Button("Coordinates") { sheet = .coordinates }.frame(minHeight: 44)
+        }.fixedSize(horizontal: true, vertical: false)
+    }
+    private var drawButton: some View {
+        Button(drawingSample ? "Drawing…" : "Draw sample", systemImage: "rectangle.dashed") {
+            drawingSample.toggle()
+            if drawingSample { workspace.comparison = .original }
+        }.frame(minHeight: 44)
+    }
+    private var coordinatesButton: some View {
+        Button("Coordinates", systemImage: "number") { sheet = .coordinates }.frame(minHeight: 44)
+    }
+    private var sampleMenu: some View {
+        Menu { drawButton; coordinatesButton } label: {
+            Label("Sample actions", systemImage: "ellipsis").labelStyle(.iconOnly).frame(minWidth: 44, minHeight: 44)
         }
-        .font(IOSFont.label(10))
-        .buttonStyle(.plain)
-        .foregroundStyle(IOSPalette.inkStrong)
-        .controlSize(.regular)
-        .padding(6)
-        .background(IOSPalette.surface.opacity(0.96), in: RoundedRectangle(cornerRadius: 12))
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(IOSPalette.divider, lineWidth: 1))
-        .padding(.bottom, 10)
+    }
+    private var canvasControls: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 8) { zoomControls; drawButton; coordinatesButton }.fixedSize(horizontal: true, vertical: false)
+            HStack(spacing: 8) { zoomControls; sampleMenu }.fixedSize(horizontal: true, vertical: false)
+            VStack(alignment: .leading, spacing: 4) { zoomControls; sampleMenu }
+        }
+        .font(IOSFont.label(12)).buttonStyle(IOSCanvasButtonStyle()).foregroundStyle(IOSPalette.inkStrong)
+        .padding(8).frame(maxWidth: .infinity).background(IOSPalette.surface)
     }
 
     private var metadataStrip: some View {
-        VStack(alignment: .leading, spacing: 3) {
-            HStack {
-                Text(workspace.methodName)
-                Text("·")
-                Text(workspace.isReplayed ? "replayed" : workspace.matrixMode.displayName.lowercased())
-                Text("·")
-                Text(workspace.sampleSource.displayName.lowercased())
-                Spacer()
-                Text(workspace.currentResult == nil ? "WAITING" : workspace.isReplayed ? "REPLAYED" : "CALCULATED")
-            }
-            Text("Enhanced color is exploratory evidence. Lighting, noise, compression and clipping can influence appearance.")
-                .foregroundStyle(IOSPalette.inkMuted)
+        VStack(alignment: .leading, spacing: 4) {
+            Text("\(workspace.methodName) · \(workspace.isReplayed ? "replayed" : workspace.matrixMode.displayName.lowercased()) · \(workspace.sampleSource.displayName.lowercased())")
+            Text("Source unchanged. Enhanced color is exploratory evidence. Lighting, noise, compression and clipping can influence appearance.")
+                .foregroundStyle(IOSPalette.ink)
         }
-        .font(IOSFont.label(10))
-        .padding(.horizontal, 14).padding(.vertical, 9)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(IOSPalette.surfaceTint)
+        .font(IOSFont.label(10)).fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 14).padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading).background(IOSPalette.surfaceTint)
         .accessibilityElement(children: .combine)
     }
 
     private var compactSummary: some View {
-        VStack(alignment: .leading, spacing: 7) {
-            HStack {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(workspace.currentResult == nil
-                         ? "Waiting for analysis"
-                         : workspace.isReplayed ? "Replayed saved transform" : "Calculated for this image")
-                        .font(IOSFont.label(14))
-                    Text(workspace.status).font(IOSFont.body(11)).foregroundStyle(IOSPalette.inkMuted)
-                }
-                Spacer()
-                Button("Analysis", systemImage: "chevron.right") { sheet = .analysis }.labelStyle(.iconOnly)
-            }
-            HStack {
-                Button("Analysis") { sheet = .analysis }.buttonStyle(SecondaryActionButtonStyle())
-                Button("Export result") { exportImage() }
-                    .buttonStyle(PrimaryActionButtonStyle())
-                    .disabled(workspace.currentResult == nil)
+        VStack(alignment: .leading, spacing: 8) {
+            Text(workspace.currentResult == nil ? "Waiting for analysis" : workspace.isReplayed ? "Replayed saved transform" : "Calculated for this image")
+                .font(IOSFont.label(14))
+            Text(workspace.status).font(IOSFont.body(11)).foregroundStyle(IOSPalette.ink)
+            ViewThatFits(in: .horizontal) {
+                HStack { summaryActions }.fixedSize(horizontal: true, vertical: false)
+                VStack(alignment: .leading) { summaryActions }
             }
         }
-        .padding(14).background(IOSPalette.surface)
+        .padding(14).frame(maxWidth: .infinity, alignment: .leading).background(IOSPalette.surface)
+        .accessibilityIdentifier("analysis-summary")
+    }
+    @ViewBuilder private var summaryActions: some View {
+        Button("Analysis") { sheet = .analysis }.buttonStyle(IOSActionButtonStyle())
+        Button("Export result") { exportImage() }.buttonStyle(IOSActionButtonStyle(primary: true)).disabled(workspace.currentResult == nil)
     }
 
     private func exportImage() {
@@ -357,11 +392,11 @@ private struct AnalysisInspector: View {
             if let source = workspace.source {
                 LabeledContent("Source", value: "\(source.width) × \(source.height)")
             }
-            Button("Change analysis") { openAnalysis() }
-            Button("Inspect record") { openRecord() }.disabled(workspace.currentResult == nil)
-            Button("Export record") { exportRecord() }.disabled(workspace.currentResult == nil)
+            Button("Change analysis") { openAnalysis() }.frame(minHeight: 44)
+            Button("Inspect record") { openRecord() }.frame(minHeight: 44).disabled(workspace.currentResult == nil)
+            Button("Export record") { exportRecord() }.frame(minHeight: 44).disabled(workspace.currentResult == nil)
             Button("Export result") { exportImage() }
-                .buttonStyle(PrimaryActionButtonStyle()).disabled(workspace.currentResult == nil)
+                .buttonStyle(IOSActionButtonStyle(primary: true)).disabled(workspace.currentResult == nil)
             Text("Enhanced color is exploratory evidence.")
                 .font(IOSFont.body(11)).foregroundStyle(IOSPalette.inkMuted)
         }
@@ -459,6 +494,8 @@ private struct CoordinatesDetail: View {
     @State private var y = ""
     @State private var width = ""
     @State private var height = ""
+    @State private var validationMessage: String?
+    @State private var initialized = false
     var body: some View {
         Form {
             Section("Exact source pixels") {
@@ -470,16 +507,25 @@ private struct CoordinatesDetail: View {
                     .font(IOSFont.body(12))
                 Button("Use rectangle") {
                     guard let x = Int(x), let y = Int(y), let width = Int(width), let height = Int(height) else {
-                        workspace.presentError("Enter whole source-pixel values in all four fields.")
+                        validationMessage = "Enter whole source-pixel values in all four fields."
                         return
                     }
-                    workspace.setRegion(SourcePixelRegion(x: x, y: y, width: width, height: height))
-                    if workspace.error == nil { dismiss() }
+                    let proposed = SourcePixelRegion(x: x, y: y, width: width, height: height)
+                    guard let source = workspace.source else { return }
+                    do {
+                        _ = try SourcePixelRegionValidator.validate(proposed, sourceWidth: source.width, sourceHeight: source.height)
+                        workspace.setRegion(proposed)
+                        validationMessage = nil
+                        dismiss()
+                    } catch { validationMessage = error.localizedDescription }
                 }
+                if let validationMessage { Text(validationMessage).foregroundStyle(IOSPalette.warning) }
             }
         }
         .navigationTitle("Sample coordinates")
         .onAppear {
+            guard !initialized else { return }
+            initialized = true
             if let region = workspace.region {
                 x = String(region.x); y = String(region.y)
                 width = String(region.width); height = String(region.height)

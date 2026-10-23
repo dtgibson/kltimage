@@ -25,40 +25,18 @@ struct BatchView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            headerLayout {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("KLT IMAGE").font(.plexMono(10, weight: .semibold)).tracking(1).foregroundStyle(KLTColor.inkMuted)
-                    Text(model.heading).font(.plexSans(20, weight: .bold)).accessibilityAddTraits(.isHeader)
-                        .accessibilityFocused($headingFocused)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                if !stacksHeader { Spacer(minLength: 8) }
-                Button("Close", action: requestClose).keyboardShortcut(.cancelAction)
-                    .buttonStyle(BatchActionStyle(kind: .secondary))
-                    .accessibilityIdentifier("batch-close")
-            }.frame(maxWidth: .infinity, alignment: .leading).padding(24).background(KLTColor.surfaceRaised)
-            Divider()
+        Group {
+            #if os(iOS)
             GeometryReader { geometry in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        if let notice = model.notice { Text(notice).foregroundStyle(KLTColor.ink).accessibilityIdentifier("batch-notice") }
-                        if !model.receipts.isEmpty { cleanupSection }
-                        if model.waiting {
-                            Text("Waiting for the current operation…")
-                            Text("The current image stays unchanged. Finish or cancel that operation before setting up a batch.")
-                                .foregroundStyle(KLTColor.inkMuted)
-                        } else if model.running || model.finished { outcomes }
-                        else if geometry.size.width >= 900 && !textSize.isAccessibilitySize {
-                            HStack(alignment: .top, spacing: 24) {
-                                sources(compact: false).frame(width: (geometry.size.width - 72) * 0.4)
-                                Divider()
-                                settings.frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        } else { sources(compact: true); Divider(); settings }
-                    }.padding(24).frame(maxWidth: .infinity, alignment: .leading)
+                if textSize.isAccessibilitySize || geometry.size.height < 600 {
+                    scrollingMobileLayout(width: geometry.size.width)
+                } else {
+                    standardLayout
                 }
             }
+            #else
+            standardLayout
+            #endif
         }
         #if os(iOS)
         .disclosureGroupStyle(BatchDisclosureStyle())
@@ -66,7 +44,6 @@ struct BatchView: View {
         #endif
         .font(.plexSans(14)).foregroundStyle(KLTColor.inkStrong)
         .background(KLTColor.surface).tint(KLTColor.accent).preferredColorScheme(.light)
-        .safeAreaInset(edge: .bottom, spacing: 0) { footer }
         .interactiveDismissDisabled()
         .task { await model.prepare() }
         .animation(reduceMotion ? nil : .easeOut(duration: 0.18), value: model.mode)
@@ -101,6 +78,88 @@ struct BatchView: View {
         .background(BatchMacWindowGuard(model: model, close: close))
         #endif
     }
+    private var heading: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("KLT IMAGE").font(.plexMono(10, weight: .semibold)).tracking(1).foregroundStyle(KLTColor.inkMuted)
+            Text(model.heading).font(.plexSans(20, weight: .bold)).accessibilityAddTraits(.isHeader)
+                .accessibilityFocused($headingFocused)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private var standardLayout: some View {
+        VStack(spacing: 0) {
+            headerLayout {
+                heading
+                if !stacksHeader { Spacer(minLength: 8) }
+                Button("Close", action: requestClose).keyboardShortcut(.cancelAction)
+                    .buttonStyle(BatchActionStyle(kind: .secondary))
+                    .accessibilityIdentifier("batch-close")
+            }.frame(maxWidth: .infinity, alignment: .leading).padding(24).background(KLTColor.surfaceRaised)
+            Divider()
+            GeometryReader { geometry in
+                ScrollView { batchContent(width: geometry.size.width) }
+            }
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) { footer() }
+    }
+
+    #if os(iOS)
+    /// Large instructions and titles must scroll instead of consuming the
+    /// setup viewport. Only dismissal and an active stop action remain pinned.
+    private func scrollingMobileLayout(width: CGFloat) -> some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                Button(action: requestClose) {
+                    Image(systemName: "xmark").font(.system(size: 20, weight: .semibold))
+                        .frame(width: 44, height: 44).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain).accessibilityLabel("Close")
+                .accessibilityIdentifier("batch-close").keyboardShortcut(.cancelAction)
+                Spacer(minLength: 0)
+                if model.running {
+                    Button { model.stop() } label: {
+                        Image(systemName: "stop.circle").font(.system(size: 24))
+                            .frame(width: 44, height: 44).contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain).disabled(model.stopping)
+                    .accessibilityLabel(model.stopping ? "Stopping…" : "Cancel batch")
+                    .accessibilityIdentifier("batch-cancel")
+                }
+            }.padding(.horizontal, 16).padding(.vertical, 6).background(KLTColor.surfaceRaised)
+            Divider()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    heading.frame(maxWidth: .infinity, alignment: .leading).padding(24)
+                    Divider()
+                    batchContent(width: width)
+                    footer(showsRunningAction: false)
+                }
+            }
+            .accessibilityIdentifier("batch-scroll-content")
+        }
+    }
+    #endif
+
+    private func batchContent(width: CGFloat) -> some View {
+        VStack(alignment: .leading, spacing: 24) {
+            if let notice = model.notice { Text(notice).foregroundStyle(KLTColor.ink).accessibilityIdentifier("batch-notice") }
+            if !model.receipts.isEmpty { cleanupSection }
+            if model.waiting {
+                Text("Waiting for the current operation…")
+                Text("The current image stays unchanged. Finish or cancel that operation before setting up a batch.")
+                    .foregroundStyle(KLTColor.inkMuted)
+            } else if model.running || model.finished { outcomes }
+            else if width >= 900 && !textSize.isAccessibilitySize {
+                HStack(alignment: .top, spacing: 24) {
+                    sources(compact: false).frame(width: (width - 72) * 0.4)
+                    Divider()
+                    settings.frame(maxWidth: .infinity, alignment: .leading)
+                }
+            } else { sources(compact: true); Divider(); settings }
+        }.padding(24).frame(maxWidth: .infinity, alignment: .leading)
+    }
+
     private func sources(compact: Bool) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack { sectionTitle("Images"); Spacer(); Text("\(model.entries.count) / 100").font(.plexMono(12)) }
@@ -264,7 +323,7 @@ struct BatchView: View {
             Button("Select run folder…") { choose(.cleanup) }.batchQuietAction().disabled(model.running || model.picking)
         }.padding(16).background(KLTColor.surfaceTint, in: RoundedRectangle(cornerRadius: 8))
     }
-    private var footer: some View {
+    private func footer(showsRunningAction: Bool = true) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Divider()
             VStack(alignment: .leading, spacing: 12) {
@@ -272,8 +331,10 @@ struct BatchView: View {
                 Text("Keep KLT Image open in the foreground").font(.plexSans(12, weight: .semibold))
                 #endif
                 if model.running {
-                    Button(model.stopping ? "Stopping…" : "Cancel batch") { model.stop() }
-                        .disabled(model.stopping).buttonStyle(BatchActionStyle(kind: .secondary)).accessibilityIdentifier("batch-cancel")
+                    if showsRunningAction {
+                        Button(model.stopping ? "Stopping…" : "Cancel batch") { model.stop() }
+                            .disabled(model.stopping).buttonStyle(BatchActionStyle(kind: .secondary)).accessibilityIdentifier("batch-cancel")
+                    }
                 } else if model.finished {
                     Button("Return to setup") { model.returnToSetup(); headingFocused = true }
                         .buttonStyle(BatchActionStyle(kind: .primary)).accessibilityIdentifier("batch-return")

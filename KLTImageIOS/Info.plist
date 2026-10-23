@@ -16,4 +16,6 @@
 <key>UISupportedInterfaceOrientations</key><array><string>UIInterfaceOrientationPortrait</string><string>UIInterfaceOrientationLandscapeLeft</string><string>UIInterfaceOrientationLandscapeRight</string></array>
 <key>UISupportedInterfaceOrientations~ipad</key><array><string>UIInterfaceOrientationPortrait</string><string>UIInterfaceOrientationPortraitUpsideDown</string><string>UIInterfaceOrientationLandscapeLeft</string><string>UIInterfaceOrientationLandscapeRight</string></array>
 <key>UIAppFonts</key><array><string>IBMPlexSans-Regular.ttf</string><string>IBMPlexSans-SemiBold.ttf</string><string>IBMPlexSans-Bold.ttf</string><string>IBMPlexMono-Regular.ttf</string><string>IBMPlexMono-SemiBold.ttf</string></array>
+<key>KLTSupportURL</key><string>https://dtgibson.github.io/kltimage/support.html</string>
+<key>KLTPrivacyPolicyURL</key><string>https://dtgibson.github.io/kltimage/privacy.html</string>
 </dict></plist>

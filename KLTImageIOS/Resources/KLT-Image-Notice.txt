@@ -1,0 +1,28 @@
+KLT Image — iOS 1.1 (6)
+Copyright 2026 David Gibson
+
+Source code is available under the GNU Affero General Public License,
+version 3. You may use, modify and redistribute those AGPLv3 copies under
+that license. Existing AGPLv3 grants remain intact.
+The official App Store build is distributed with an additional permission
+from its copyright holder. See OFFICIAL-APP-STORE-PERMISSION.txt for the
+exact limited grant. That permission does not relicense third-party
+material or extend to other distribution channels.
+
+The AGPLv3 software is provided WITHOUT ANY WARRANTY, including implied
+warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Read LICENSE-AGPL-3.0.txt for the complete license terms.
+
+Corresponding Source for this build:
+https://github.com/dtgibson/kltimage/releases/tag/ios-1.1-build-6
+The source download is provided without charge. Build instructions and
+an exact file inventory are included. Support and readable legal information:
+https://dtgibson.github.io/kltimage/support.html#license
+Public support contact: developer@dtgibson.com
+
+IBM Plex Sans and IBM Plex Mono remain separately licensed under the SIL
+Open Font License 1.1. Their original notices accompany the bundled fonts.
+
+Release change notice, 2026-10-23: build 5 added license and source notices
+to build 4. Build 6 adds the approved limited official App Store permission
+and corresponding notices. Scientific algorithms and app UI are unchanged.

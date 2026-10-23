@@ -1,0 +1,6 @@
+KLT Image — Additional Official App Store Permission
+Copyright 2026 David Gibson
+
+For KLT Image (bundle identifier com.kltimage.ios), the copyright holder grants Apple and its App Store distribution affiliates a nonexclusive, royalty-free permission, solely in the portions of the official application owned by that copyright holder, to reproduce, digitally sign, encrypt, make delivery-format adaptations to, and distribute the official application through the App Store under Apple's Standard EULA and applicable App Store terms. This permission applies notwithstanding an AGPLv3 condition that would otherwise prevent that specific Store distribution. Recipients may install and use that Store copy as those terms permit.
+
+This additional permission is conditioned on the publisher making the complete Corresponding Source for each distributed build available to the public at no charge under GNU AGPL version 3. Public source releases remain under AGPLv3, and existing AGPLv3 grants are not withdrawn. Recipients remain free to obtain, use, modify and redistribute those AGPLv3 copies under that license. This permission does not relicense third-party material, extend to other distribution channels, or change Apple's terms.

@@ -77,6 +77,7 @@ final class IOSWorkspace {
         get { zoomValue }
         set { guard !BatchWorkspaceLease.shared.isHeld else { return }; zoomValue = newValue }
     }
+    private var canvasSize: CGSize?
     private var panValue = CGSize.zero
     var pan: CGSize {
         get { panValue }
@@ -367,9 +368,24 @@ final class IOSWorkspace {
         status = "Canceled. Current accepted work is unchanged."
     }
 
+    /// View-only geometry changes never flow through controlsChanged or job IDs.
+    func remapCanvas(to size: CGSize) {
+        guard size.width > 0, size.height > 0, let source else { return }
+        if let previous = canvasSize, previous != size {
+            panValue = RegisteredViewport(source: CGSize(width: source.width, height: source.height),
+                                          canvas: previous, zoom: zoom, pan: pan).remappedPan(to: size)
+        }
+        canvasSize = size
+    }
+
     func fit() { zoom = 1; pan = .zero }
-    func zoomIn() { zoom = ImageZoom.clamped(zoom * 1.25, minimum: 1) }
-    func zoomOut() { zoom = max(1, zoom / 1.25); if zoom == 1 { pan = .zero } }
+    func zoomIn() { zoom = ImageZoom.clamped(zoom * 1.25, minimum: 1); clampCanvasPan() }
+    func zoomOut() { zoom = max(1, zoom / 1.25); if zoom == 1 { pan = .zero }; clampCanvasPan() }
+    private func clampCanvasPan() {
+        guard let source, let canvasSize else { return }
+        pan = RegisteredViewport(source: CGSize(width: source.width, height: source.height),
+                                 canvas: canvasSize, zoom: zoom, pan: pan).clampedPan(pan)
+    }
 
     func setRegion(_ proposed: SourcePixelRegion) {
         guard !BatchWorkspaceLease.shared.isHeld else { return }

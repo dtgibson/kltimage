@@ -8,17 +8,17 @@ KLT Image supports standard RGB and Lab processing plus documented curated and u
 
 - macOS 14 or later
 - Apple silicon or Intel Mac
-- iOS/iPadOS 18 or later for the separate internal TestFlight app
+- iOS/iPadOS 18 or later for the iPhone and iPad app
 
 ## Download
 
-Download KLT Image 1.4.0 build 10 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip).
+**Mac:** Download KLT Image 1.4.0 build 10 from [GitHub Releases](https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip).
 
 SHA-256: `a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4`
 
 Build 10 adds batch processing for up to 100 images, with a choice of independent calculation or unchanged saved-transform replay. It is a universal Apple silicon and Intel app signed with Developer ID, notarized by Apple, stapled, and independently verified under quarantine. GitHub is the canonical Mac release channel. Trusted Build 8 remains available as the rollback release.
 
-iOS 1.1 (3) is processed and available through the existing **KLT Image Internal** TestFlight group for iPhone and iPad. It is not a public App Store release; installation of this build remains unverified.
+**iPhone and iPad:** Download KLT Image 1.1 from the [App Store](https://apps.apple.com/app/id6818412230).
 
 ## What it does
 

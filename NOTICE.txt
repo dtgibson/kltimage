@@ -26,3 +26,9 @@ source bytes are unchanged. Exact packaged hashes are in source-manifest.json.
 Public source publication and binary delivery remain pending. This source
 package alone does not establish App Store acceptance or legal clearance.
 Public support contact: developer@dtgibson.com
+
+Version 1.1.1 build 7, 2026-11-01: changes only version/build identity
+and the embedded exact Corresponding Source destination from build 6.
+Scientific algorithms, app UI and all license/grant terms remain unchanged.
+This candidate and matching source are locally prepared, not yet published
+or delivered. Planned exact source tag: ios-1.1.1-build-7.

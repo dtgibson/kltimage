@@ -1,8 +1,10 @@
 # Building the corresponding source
 
-This archive is the source for KLT Image iOS 1.1 (6), including the uncommitted native changes that were used for the local candidate. It is not a claim that the current public GitHub main branch matches the binary. `source-manifest.json` lists every packaged file and hashes; `candidate-source-sha256.json` is the frozen 71-entry inventory already verified against the local build 6 IPA preparation.
+This archive is the source for KLT Image iOS 1.1.1 (7), prepared from the exact published 1.1 (6) source archive. Only required version/build metadata and the embedded build/source-tag notice changed; all 42 shipping Swift files and all 52 packaged Swift files remain byte-identical. It is not a claim that the current public GitHub main branch matches the binary. `source-manifest.json` lists every packaged file and hash; `candidate-source-sha256.json` records the 71-entry candidate inventory.
 
-The locally signed distribution IPA has SHA-256 `53752e4b4dd62471d0ca50d335bc73d37f68b2a159fed4661e584702ac1b650f`. A simulator build from this source is source-equivalent; it is not byte-identical to that signed distribution IPA.
+This candidate and its matching source are prepared locally and have not been uploaded, submitted or published. The planned Corresponding Source destination is https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.1-build-7; that destination must be published and verified before delivery of this candidate.
+
+The locally signed distribution IPA has SHA-256 `c60eb3f6c27427c6a4f73553e9acd26880a9fab4ffd455e3a2973b5ca0e333b4`. A simulator build from this source is source-equivalent; it is not byte-identical to that signed distribution IPA.
 
 Use a development Mac with Xcode and an available local iOS simulator. The project uses Swift 6, SwiftUI, Accelerate, Core Graphics, ImageIO, UIKit and PhotosUI from Apple's SDK. There are no third-party source-code package dependencies. IBM Plex font resources and their OFL notices are included. The project targets iOS/iPadOS 18 or later. XcodeGen generates the project from `project.yml`; the generated project and shared schemes are also included.
 

@@ -45,7 +45,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.ios.core
-        MARKETING_VERSION: 1.1
+        MARKETING_VERSION: 1.1.1
         PRODUCT_NAME: KLTCore
         PRODUCT_MODULE_NAME: KLTCore
         GENERATE_INFOPLIST_FILE: YES
@@ -74,8 +74,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.kltimage.ios
         PRODUCT_NAME: KLT Image
         PRODUCT_MODULE_NAME: KLTImageIOS
-        MARKETING_VERSION: 1.1
-        CURRENT_PROJECT_VERSION: 6
+        MARKETING_VERSION: 1.1.1
+        CURRENT_PROJECT_VERSION: 7
         VERSIONING_SYSTEM: apple-generic
         INFOPLIST_FILE: KLTImageIOS/Info.plist
         GENERATE_INFOPLIST_FILE: NO

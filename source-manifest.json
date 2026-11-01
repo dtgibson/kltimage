@@ -1,10 +1,13 @@
 {
-  "version": "1.1",
-  "build": "6",
-  "distributionIPA_SHA256": "53752e4b4dd62471d0ca50d335bc73d37f68b2a159fed4661e584702ac1b650f",
-  "status": "Prepared locally; public source URL not published",
+  "version": "1.1.1",
+  "build": "7",
+  "distributionIPA_SHA256": "c60eb3f6c27427c6a4f73553e9acd26880a9fab4ffd455e3a2973b5ca0e333b4",
+  "status": "Prepared locally; binary not uploaded and source not published",
+  "sourceTagPlanned": "ios-1.1.1-build-7",
+  "baselineSourceZIP_SHA256": "2a804cc9a8bb4a0e2974b22baff66031638c8e7c4ad50c1a11765193c908a4b7",
   "frozenSourceEntriesMatched": 71,
   "files": {
+    "BUILDING.md": "dfc1dd2791342ee44379a9debba738187126e668ec4c5ef7b865b06005eb9a02",
     "BatchTests/BatchProcessingTests.swift": "4df068e8b485d98b7962dc5ddf8a138abad1623041545bda8fb30242ce92bb33",
     "KLTCore/AnalysisRecord.swift": "d7f780e440f97f59bd7a1cff25359a4809e73b056db8310f1c7f644e494e334e",
     "KLTCore/AnalysisTypes.swift": "ad19f191c1945bf7e1dd7eba85a080993cef45fde8d7079dc405e369eb1e2960",
@@ -20,7 +23,7 @@
     "KLTCoreTests/IOSDecodePolicyTests.swift": "6ebd819311835aa01b48d6dbbf955483f93f349eb21939bd6eff0965677adfe2",
     "KLTCoreTests/KLTCoreTests.swift": "e7aa55ea80b2ff229acf0d4e17cb7de3384ef83de326b0a4209ffe67ce2fdeca",
     "KLTCoreTests/MethodFeatureTests.swift": "f2c49bbb98450a184bbd415ba19e32153562de0927248fc7ef3917bab885eb44",
-    "KLTImage.xcodeproj/project.pbxproj": "2f2e7092cdfa567780277eefe85db65c5a71e59b0576ed9694ba4b0ca826d926",
+    "KLTImage.xcodeproj/project.pbxproj": "520ddf03a478df5f187eac899853cfb5167d0ba235731dece7df430fb591825d",
     "KLTImage.xcodeproj/project.xcworkspace/contents.xcworkspacedata": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f",
     "KLTImage.xcodeproj/xcshareddata/xcschemes/KLTImage.xcscheme": "aea7cc7bc09014235ad7f8fd40e776d7779d9dfb7189d45ab24c90ca56dae972",
     "KLTImage.xcodeproj/xcshareddata/xcschemes/KLTImageIOS.xcscheme": "9550cb7db1968a50edb0e961fd50308b282b730f2e9f7e6a0057c90adb60eb94",
@@ -73,7 +76,7 @@
     "KLTImageIOS/RegisteredCanvas.swift": "4464f774184c0a012d33424b9319ef8656c000ee6e142488931ea0441768da5f",
     "KLTImageIOS/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json": "4d5955ff0fce7898c6752e1399fef5823fe104176bd6131637933fe6faf4e78d",
     "KLTImageIOS/Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png": "3ae22ad1be07dc65ce9275e92700d28b67b09cdbd0c1e36825381867471f7282",
-    "KLTImageIOS/Resources/KLT-Image-Notice.txt": "484baed94b793abb7dd75a11ef8dd2e8103a5e00522f166344fb62d68b53c097",
+    "KLTImageIOS/Resources/KLT-Image-Notice.txt": "324a288df5062bc7c97ec477d0c8bc1c150ce6244496bae7bf36b5e7bae7b489",
     "KLTImageIOS/Resources/LICENSE-AGPL-3.0.txt": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
     "KLTImageIOS/Resources/OFFICIAL-APP-STORE-PERMISSION.txt": "82267cc0c95d46e395e4ef9ff393cd5fb59e62088c926cc4bd5a451fb4d70d6b",
     "KLTImageIOS/Resources/PrivacyInfo.xcprivacy": "4fd7ad982b982fa53c433377729d7af64361e550d4d97aa884cab708e4d1ac01",
@@ -84,6 +87,7 @@
     "KLTImageTests/MethodLibraryStoreTests.swift": "1013f8ab7a6782ed450b78c6b890390b9a03716ef5b7dba084a8a3a02799ba64",
     "KLTImageUITests/KLTImageUITests.swift": "e1424c7c52ff4e0d52def1de5d29a31595b5e0a53d3c307f022a3b0d6b7d3b6c",
     "LICENSE": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+    "NOTICE.txt": "2faa2b47b0cfa7dae29cea38f824ea4eb8973a8cd9da954e34b943efe3a089a1",
     "README.md": "4d9e02ff39afef40ff9b72aadcc6013887f171fcce4586720dea36fd4008802c",
     "SharedBatch/BatchModel.swift": "46af536bb23e4fb15523a30c40f1249aac814c60c900aaa88723bde0bf4378f1",
     "SharedBatch/BatchPublisher.swift": "e7d396835f10f87c2320d94a80d4cb5f64a7b9129311d477fb338d5734e63dce",
@@ -91,9 +95,7 @@
     "SharedBatch/BatchStorage.swift": "d74c14e84887f9f322387227bbf7de1079200db5d19f7bf95c0c26677ae334f4",
     "SharedBatch/BatchTypes.swift": "f75576b0f2924372be6e94c10966020bd5159421dd9950d30e10230e2c9d94e1",
     "SharedBatch/BatchView.swift": "ebbef40dfc1631582a4d943f89d9a294897e1278d1c06e3cfc7141b8b3de5ef5",
-    "project.yml": "8d0448f2bea446c542e702d154352b2f163a019decf95ed7ad4bb8d34d937dd8",
-    "NOTICE.txt": "bdb323b5d420756573a22b87fa40d24841a047c3d9c24aa8c2f8f885cf274b9d",
-    "BUILDING.md": "304f2013b47dbeae64f1880aefb5918b6076cdc7198b5919f5c71d7a7d44ac09",
-    "candidate-source-sha256.json": "b1733968e524dd5a58e419451921b0bc645e01ece817a33a7bcd3aad9e9982b6"
+    "candidate-source-sha256.json": "d6c1b6c30760d944f360d99571e716de3b34495478353d860793380925c1ff9a",
+    "project.yml": "c62720658d82b78faedac369b16b495759f7471963eba13924156d5b18c43b1e"
   }
 }

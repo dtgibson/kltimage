@@ -302,6 +302,19 @@ final class ImagePipelineTests: XCTestCase {
         }
     }
 
+    func testUnsupportedImageContentIsRejectedEvenWithASupportedExtension() throws {
+        let gif = try fixtureData(width: 6, height: 4, type: .gif)
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".png")
+        try gif.write(to: url)
+        defer { try? FileManager.default.removeItem(at: url) }
+        XCTAssertThrowsError(try ImagePipeline.decode(at: url)) {
+            XCTAssertEqual($0 as? ImagePipelineError, .unreadableImage)
+        }
+        XCTAssertThrowsError(try ImagePipeline.decode(gif)) {
+            XCTAssertEqual($0 as? ImagePipelineError, .unreadableImage)
+        }
+    }
+
     func testFullFrameProcessingLimitAllowsExactlySixtyFourMegapixels() throws {
         XCTAssertEqual(ImageProcessingLimits.maximumPixelCount, 64_000_000)
         XCTAssertEqual(

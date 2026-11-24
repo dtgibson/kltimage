@@ -28,17 +28,21 @@ actor MethodLibraryStore {
     }
 
     private let url: URL
-    private let writeFailure: MethodFileIO.DurableWriteCheckpoint?
     private var snapshot: MethodLibrarySnapshot = .empty
     private var didLoad = false
 
-    init(
-        url: URL? = nil,
-        writeFailure: MethodFileIO.DurableWriteCheckpoint? = nil
-    ) {
+    init(url: URL? = nil) {
         self.url = url ?? (try! Self.defaultURL())
+    }
+
+    #if DEBUG
+    private var writeFailure: MethodFileIO.DurableWriteCheckpoint?
+
+    init(url: URL, writeFailure: MethodFileIO.DurableWriteCheckpoint) {
+        self.url = url
         self.writeFailure = writeFailure
     }
+    #endif
 
     func load() throws -> MethodLibrarySnapshot {
         if didLoad { return snapshot }
@@ -49,7 +53,7 @@ actor MethodLibraryStore {
         }
         let data = try MethodFileIO.readRegularFile(
             at: url,
-            maximumByteCount: MethodLibraryDocumentCodec.maximumByteCount
+            maximumByteCount: MethodLibraryDocumentCodec.maximumByteCount, sizeError: .oversizedLibrary
         )
         snapshot = try MethodLibraryDocumentCodec.decode(data)
         didLoad = true
@@ -57,9 +61,12 @@ actor MethodLibraryStore {
     }
 
     func replace(with proposed: MethodLibrarySnapshot) throws -> MethodLibrarySnapshot {
-        try MethodLibraryDocumentCodec.validate(proposed)
         let data = try MethodLibraryDocumentCodec.data(for: proposed)
+        #if DEBUG
         try MethodFileIO.durableAtomicWrite(data, to: url, failingAt: writeFailure)
+        #else
+        try MethodFileIO.durableAtomicWrite(data, to: url)
+        #endif
         snapshot = proposed
         didLoad = true
         return proposed

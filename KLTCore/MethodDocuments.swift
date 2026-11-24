@@ -2,6 +2,7 @@ import Foundation
 
 public enum MethodDocumentError: Error, Equatable, LocalizedError, Sendable {
     case oversized
+    case oversizedLibrary
     case invalidUTF8
     case malformedJSON
     case duplicateKey(String)
@@ -16,6 +17,7 @@ public enum MethodDocumentError: Error, Equatable, LocalizedError, Sendable {
     public var errorDescription: String? {
         switch self {
         case .oversized: "The method file exceeds the 256 KiB import limit."
+        case .oversizedLibrary: "The method library exceeds the 16 MiB storage limit."
         case .invalidUTF8: "The method file must be UTF-8 JSON without a byte-order mark."
         case .malformedJSON: "The method file is not one complete valid JSON document."
         case let .duplicateKey(key): "The method file contains the duplicate field “\(key)”."
@@ -157,16 +159,18 @@ public enum MethodLibraryDocumentCodec {
         let recipes = snapshot.savedTransforms.sorted {
             $0.recipe.identifier.uuidString < $1.recipe.identifier.uuidString
         }.map(SavedTransformV1.init)
-        return try CanonicalMethodJSON.encode(MethodLibraryDocumentV1(
+        let data = try CanonicalMethodJSON.encode(MethodLibraryDocumentV1(
             schema: schemaIdentifier,
             version: schemaVersion,
             userWorkingSpaces: spaces,
             savedTransforms: recipes
         ))
+        guard data.count <= maximumByteCount else { throw MethodDocumentError.oversizedLibrary }
+        return data
     }
 
     public static func decode(_ data: Data) throws -> MethodLibrarySnapshot {
-        try StrictMethodJSON.prepare(data, limit: maximumByteCount)
+        try StrictMethodJSON.prepare(data, limit: maximumByteCount, sizeError: .oversizedLibrary)
         let object = try StrictMethodJSON.object(data)
         try StrictMethodJSON.validateLibrary(object)
         let dto = try CanonicalMethodJSON.decode(MethodLibraryDocumentV1.self, from: data)
@@ -677,8 +681,8 @@ private struct MethodLibraryDocumentV1: Codable {
 }
 
 private enum StrictMethodJSON {
-    static func prepare(_ data: Data, limit: Int) throws {
-        guard data.count <= limit else { throw MethodDocumentError.oversized }
+    static func prepare(_ data: Data, limit: Int, sizeError: MethodDocumentError = .oversized) throws {
+        guard data.count <= limit else { throw sizeError }
         guard !data.starts(with: [0xEF, 0xBB, 0xBF]), String(data: data, encoding: .utf8) != nil else {
             throw MethodDocumentError.invalidUTF8
         }

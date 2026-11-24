@@ -1,4 +1,6 @@
+#if os(macOS)
 import CoreText
+#endif
 import SwiftUI
 
 enum KLTColor {
@@ -53,6 +55,7 @@ extension Font {
     }
 }
 
+#if os(macOS)
 enum FontCatalog {
     static func registerBundledFonts() {
         guard let resources = Bundle.main.resourceURL else { return }
@@ -68,6 +71,8 @@ enum FontCatalog {
         }
     }
 }
+
+#endif
 
 struct PrimaryActionButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled

@@ -24,7 +24,7 @@ actor IOSMethodLibrary {
         }
         do {
             let data = try MethodFileIO.readRegularFile(
-                at: url, maximumByteCount: MethodLibraryDocumentCodec.maximumByteCount
+                at: url, maximumByteCount: MethodLibraryDocumentCodec.maximumByteCount, sizeError: .oversizedLibrary
             )
             current = try MethodLibraryDocumentCodec.decode(data)
             loaded = true
@@ -41,7 +41,6 @@ actor IOSMethodLibrary {
             catch { throw IOSLibraryError.recoveryRequired }
         }
         guard !readOnly else { throw IOSLibraryError.recoveryRequired }
-        try MethodLibraryDocumentCodec.validate(proposed)
         let data = try MethodLibraryDocumentCodec.data(for: proposed)
         try MethodFileIO.durableAtomicWrite(data, to: url)
         current = proposed
@@ -112,6 +111,14 @@ enum IOSMethodImport: Sendable {
 enum IOSImportChoice { case add, replace, copy }
 
 enum IOSLibraryMutation {
+    static func canReplace(_ existing: WorkingSpaceRevision, with incoming: WorkingSpaceRevision) -> Bool {
+        guard incoming.definitionVersion >= existing.definitionVersion else { return false }
+        if incoming.identity == existing.identity && incoming.definitionVersion == existing.definitionVersion {
+            return incoming == existing
+        }
+        return true
+    }
+
     static func uniqueName(_ requested: String, in snapshot: MethodLibrarySnapshot) throws -> String {
         let name = requested.trimmingCharacters(in: .whitespacesAndNewlines)
         let existing = Set((snapshot.userWorkingSpaces.map(\.libraryName) + snapshot.savedTransforms.map(\.libraryName))
@@ -140,7 +147,7 @@ enum IOSLibraryMutation {
                 name = try uniqueName(name, in: snapshot)
             case .replace:
                 guard matches.count == 1,
-                      value.revision.definitionVersion >= matches[0].revision.definitionVersion else {
+                      canReplace(matches[0].revision, with: value.revision) else {
                     throw IOSLibraryError.incompatibleReplacement
                 }
                 spaces.removeAll { item in matches.contains { $0.id == item.id } }

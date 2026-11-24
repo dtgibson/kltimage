@@ -1,4 +1,4 @@
-KLT Image — iOS 1.1.1 (7)
+KLT Image — iOS 1.1.2 (8)
 Copyright 2026 David Gibson
 
 Source code is available under the GNU Affero General Public License,
@@ -14,7 +14,7 @@ warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Read LICENSE-AGPL-3.0.txt for the complete license terms.
 
 Corresponding Source for this build:
-https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.1-build-7
+https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.2-build-8
 The source download is provided without charge. Build instructions and
 an exact file inventory are included. Support and readable legal information:
 https://dtgibson.github.io/kltimage/support.html#license
@@ -30,3 +30,6 @@ and corresponding notices. Scientific algorithms and app UI are unchanged.
 Release identity notice, 2026-11-01: version 1.1.1 build 7 changes only
 version/build identity and this exact Corresponding Source destination.
 Scientific algorithms, app UI and license terms are unchanged from build 6.
+
+Version 1.1.2 build 8, 2026-11-24, hardens image and method imports and
+method-library saves. This notice identifies its corresponding source.

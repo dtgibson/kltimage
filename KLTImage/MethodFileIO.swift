@@ -20,7 +20,8 @@ enum MethodFileIOError: Error, Equatable, LocalizedError {
 }
 
 enum MethodFileIO {
-    enum DurableWriteCheckpoint: CaseIterable, Equatable {
+    #if DEBUG && os(macOS)
+    enum DurableWriteCheckpoint: String, CaseIterable {
         case beforeTemporaryCreation
         case afterTemporaryCreation
         case afterWrite
@@ -42,20 +43,21 @@ enum MethodFileIO {
         }
     }
 
-    static func readRegularFile(at url: URL, maximumByteCount: Int) throws -> Data {
+    static func durableAtomicWrite(_ data: Data, to destination: URL, failingAt failure: DurableWriteCheckpoint?) throws {
+        try write(data, to: destination) { checkpoint in
+            if checkpoint == failure?.rawValue { throw MethodFileIOError.writeFailed }
+        }
+    }
+    #endif
+
+    static func readRegularFile(
+        at url: URL, maximumByteCount: Int, sizeError: MethodDocumentError = .oversized
+    ) throws -> Data {
         guard url.isFileURL, (0..<Int.max).contains(maximumByteCount) else {
             throw MethodFileIOError.notRegularFile
         }
 
-        var pathMetadata = stat()
-        guard lstat(url.path, &pathMetadata) == 0 else {
-            throw MethodFileIOError.readFailed
-        }
-        guard (pathMetadata.st_mode & S_IFMT) == S_IFREG else {
-            throw MethodFileIOError.notRegularFile
-        }
-
-        let descriptor = open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+        let descriptor = open(url.path, O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
         guard descriptor >= 0 else {
             if errno == ELOOP { throw MethodFileIOError.notRegularFile }
             throw MethodFileIOError.readFailed
@@ -71,7 +73,7 @@ enum MethodFileIO {
             throw MethodFileIOError.readFailed
         }
         guard openedMetadata.st_size <= maximumByteCount else {
-            throw MethodDocumentError.oversized
+            throw sizeError
         }
 
         var data = Data()
@@ -90,17 +92,17 @@ enum MethodFileIO {
             }
             data.append(contentsOf: buffer.prefix(count))
             guard data.count <= maximumByteCount else {
-                throw MethodDocumentError.oversized
+                throw sizeError
             }
         }
         return data
     }
 
-    static func durableAtomicWrite(
-        _ data: Data,
-        to destination: URL,
-        failingAt injectedFailure: DurableWriteCheckpoint? = nil
-    ) throws {
+    static func durableAtomicWrite(_ data: Data, to destination: URL) throws {
+        try write(data, to: destination) { _ in }
+    }
+
+    private static func write(_ data: Data, to destination: URL, checkpoint: (String) throws -> Void) throws {
         guard destination.isFileURL else { throw MethodFileIOError.writeFailed }
         let fileManager = FileManager.default
         let directory = destination.deletingLastPathComponent()
@@ -112,7 +114,7 @@ enum MethodFileIO {
         let temporary = directory.appendingPathComponent(
             ".klt-method-\(UUID().uuidString.lowercased()).tmp"
         )
-        try failIfRequested(.beforeTemporaryCreation, injectedFailure)
+        try checkpoint("beforeTemporaryCreation")
         let descriptor = open(
             temporary.path,
             O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC,
@@ -126,7 +128,7 @@ enum MethodFileIO {
             if descriptorIsOpen { close(descriptor) }
             if removeTemporary { try? fileManager.removeItem(at: temporary) }
         }
-        try failIfRequested(.afterTemporaryCreation, injectedFailure)
+        try checkpoint("afterTemporaryCreation")
 
         try data.withUnsafeBytes { rawBuffer in
             guard var pointer = rawBuffer.baseAddress else { return }
@@ -139,19 +141,19 @@ enum MethodFileIO {
                 pointer = pointer.advanced(by: count)
             }
         }
-        try failIfRequested(.afterWrite, injectedFailure)
+        try checkpoint("afterWrite")
         guard synchronize(descriptor) else { throw MethodFileIOError.writeFailed }
         let fileCloseResult = close(descriptor)
         descriptorIsOpen = false
         guard fileCloseResult == 0 else { throw MethodFileIOError.writeFailed }
-        try failIfRequested(.afterFileSynchronization, injectedFailure)
+        try checkpoint("afterFileSynchronization")
 
-        try failIfRequested(.beforeRename, injectedFailure)
+        try checkpoint("beforeRename")
         guard rename(temporary.path, destination.path) == 0 else {
             throw MethodFileIOError.writeFailed
         }
         removeTemporary = false
-        try failIfRequested(.afterRename, injectedFailure)
+        try checkpoint("afterRename")
 
         let directoryDescriptor = open(directory.path, O_RDONLY | O_DIRECTORY | O_CLOEXEC)
         guard directoryDescriptor >= 0 else { throw MethodFileIOError.writeFailed }
@@ -159,22 +161,15 @@ enum MethodFileIO {
         defer {
             if directoryDescriptorIsOpen { _ = close(directoryDescriptor) }
         }
-        try failIfRequested(.afterDirectoryOpen, injectedFailure)
+        try checkpoint("afterDirectoryOpen")
         guard synchronize(directoryDescriptor) else { throw MethodFileIOError.writeFailed }
-        try failIfRequested(.afterDirectorySynchronization, injectedFailure)
+        try checkpoint("afterDirectorySynchronization")
         guard close(directoryDescriptor) == 0 else {
             directoryDescriptorIsOpen = false
             throw MethodFileIOError.writeFailed
         }
         directoryDescriptorIsOpen = false
-        try failIfRequested(.afterDirectoryClose, injectedFailure)
-    }
-
-    private static func failIfRequested(
-        _ checkpoint: DurableWriteCheckpoint,
-        _ injectedFailure: DurableWriteCheckpoint?
-    ) throws {
-        if checkpoint == injectedFailure { throw MethodFileIOError.writeFailed }
+        try checkpoint("afterDirectoryClose")
     }
 
     private static func synchronize(_ descriptor: Int32) -> Bool {

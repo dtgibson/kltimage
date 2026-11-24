@@ -214,7 +214,7 @@ struct IOSLibraryView: View {
             let matching = workspace.library.userWorkingSpaces.filter {
                 $0.revision.identity == space.revision.identity || WorkingSpaceValidator.normalizedName($0.libraryName) == WorkingSpaceValidator.normalizedName(space.libraryName)
             }
-            return matching.count == 1 && space.revision.definitionVersion >= matching[0].revision.definitionVersion
+            return matching.count == 1 && IOSLibraryMutation.canReplace(matching[0].revision, with: space.revision)
         case let .recipe(recipe):
             if workspace.library.userWorkingSpaces.contains(where: {
                 WorkingSpaceValidator.normalizedName($0.libraryName) == WorkingSpaceValidator.normalizedName(recipe.libraryName)

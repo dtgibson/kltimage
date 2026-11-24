@@ -813,12 +813,12 @@
 			targets = (
 				3F9F8A3D18B389656B283A76 /* KLTCore */,
 				A0C589BC2FF6349AA9926908 /* KLTCoreIOS */,
-				B453483943BC1D6F593762B1 /* KLTCoreIOSTests */,
-				26456D4847D867A5874D0ECC /* KLTCoreTests */,
-				DACC569635522C29C548C649 /* KLTImage */,
 				BBDDAA526D27D580EDF9CAF1 /* KLTImageIOS */,
+				B453483943BC1D6F593762B1 /* KLTCoreIOSTests */,
 				6C3814C5F9B91449AF7601C2 /* KLTImageIOSTests */,
 				9C253EFEF9FABC2A2816DFE3 /* KLTImageIOSUITests */,
+				DACC569635522C29C548C649 /* KLTImage */,
+				26456D4847D867A5874D0ECC /* KLTCoreTests */,
 				7B009687077C5AA7842F8C22 /* KLTImageTests */,
 				4D4E433BCDB3E6D26A95372A /* KLTImageUITests */,
 			);
@@ -1079,7 +1079,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;
@@ -1167,14 +1167,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios;
 				PRODUCT_MODULE_NAME = KLTImageIOS;
 				PRODUCT_NAME = "KLT Image";
@@ -1289,7 +1289,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;
@@ -1355,14 +1355,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios;
 				PRODUCT_MODULE_NAME = KLTImageIOS;
 				PRODUCT_NAME = "KLT Image";
@@ -1455,14 +1455,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KLTImageIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios;
 				PRODUCT_MODULE_NAME = KLTImageIOS;
 				PRODUCT_NAME = "KLT Image";
@@ -1826,7 +1826,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kltimage.ios.core;
 				PRODUCT_MODULE_NAME = KLTCore;
 				PRODUCT_NAME = KLTCore;

@@ -6,7 +6,6 @@ import SwiftUI
     init() {
         IOSImageSourceStaging.removeAbandonedFiles()
         Task.detached { _ = BatchStorage.shared }
-        FontCatalog.registerBundledFonts()
     }
 
     var body: some Scene {

@@ -1,10 +1,8 @@
 # Building the corresponding source
 
-This archive is the source for KLT Image iOS 1.1.1 (7), prepared from the exact published 1.1 (6) source archive. Only required version/build metadata and the embedded build/source-tag notice changed; all 42 shipping Swift files and all 52 packaged Swift files remain byte-identical. It is not a claim that the current public GitHub main branch matches the binary. `source-manifest.json` lists every packaged file and hash; `candidate-source-sha256.json` records the 71-entry candidate inventory.
+This archive contains the source for KLT Image iOS 1.1.2 (8). It starts from the published 1.1.1 (7) source and includes the reviewed import and method-library hardening. The official signed distribution IPA has SHA-256 `5afe8e8b083602fbe4e6f3d5e0f40132213a56dafe95e2a0ed7cc76701d592a3`.
 
-This candidate and its matching source are prepared locally and have not been uploaded, submitted or published. The planned Corresponding Source destination is https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.1-build-7; that destination must be published and verified before delivery of this candidate.
-
-The locally signed distribution IPA has SHA-256 `c60eb3f6c27427c6a4f73553e9acd26880a9fab4ffd455e3a2973b5ca0e333b4`. A simulator build from this source is source-equivalent; it is not byte-identical to that signed distribution IPA.
+The file source-manifest.json lists source paths and hashes. The candidate-source-sha256.json file records the 71-entry build inventory. The public source release is https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.2-build-8.
 
 Use a development Mac with Xcode and an available local iOS simulator. The project uses Swift 6, SwiftUI, Accelerate, Core Graphics, ImageIO, UIKit and PhotosUI from Apple's SDK. There are no third-party source-code package dependencies. IBM Plex font resources and their OFL notices are included. The project targets iOS/iPadOS 18 or later. XcodeGen generates the project from `project.yml`; the generated project and shared schemes are also included.
 

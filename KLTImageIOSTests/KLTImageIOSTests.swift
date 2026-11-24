@@ -238,6 +238,33 @@ final class KLTImageIOSTests: XCTestCase {
         XCTAssertEqual(library.userWorkingSpaces.count, 2)
     }
 
+    func testWorkingSpaceImportPreservesTheMathOfAnExistingRevision() throws {
+        let identity = WorkingSpaceIdentity(kind: .user, identifier: UUID().uuidString.lowercased())
+        let draft = WorkingSpaceEditorDraft(libraryName: "Pigments")
+        let original = try draft.validatedRevision(identity: identity, definitionVersion: 1).revision
+        let now = Date()
+        let local = UserWorkingSpaceItem(libraryName: draft.libraryName, purpose: nil,
+                                         revision: original, createdAt: now, modifiedAt: now)
+        let library = MethodLibrarySnapshot(userWorkingSpaces: [local])
+        func revision(version: Int) throws -> WorkingSpaceRevision {
+            try WorkingSpaceValidator.makeRevision(identity: identity, definitionVersion: version,
+                base: original.base, workingChannelNames: original.workingChannelNames,
+                forwardValues: [0, 1, 0, 1, 0, 0, 0, 0, 1], offsetValues: [0, 0, 0]).revision
+        }
+        let changed = try revision(version: 1)
+        let incoming = IOSMethodImport.space(WorkingSpaceInterchange(libraryName: draft.libraryName,
+                                                                     purpose: nil, revision: changed))
+        XCTAssertFalse(IOSLibraryMutation.canReplace(original, with: changed))
+        XCTAssertThrowsError(try IOSLibraryMutation.importValue(incoming, choice: .replace, into: library))
+        let copied = try IOSLibraryMutation.importValue(incoming, choice: .copy, into: library)
+        XCTAssertEqual(copied.userWorkingSpaces.first, local)
+        let copy = try XCTUnwrap(copied.userWorkingSpaces.last)
+        XCTAssertNotEqual(copy.revision.identity, identity)
+        XCTAssertEqual(copy.revision.forward, changed.forward)
+        XCTAssertTrue(IOSLibraryMutation.canReplace(original, with: original))
+        XCTAssertTrue(IOSLibraryMutation.canReplace(original, with: try revision(version: 2)))
+    }
+
     func testMutationBeforeLoadDoesNotOverwriteCorruptStore() async throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

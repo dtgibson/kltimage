@@ -20,15 +20,7 @@ third-party material nor extends to other distribution channels.
 IBM Plex Sans and IBM Plex Mono remain under the SIL Open Font License 1.1;
 their original notices and complete license texts accompany the font files.
 
-Version 1.1 build 6, 2026-10-23: adds the approved official Store permission
-and notice wording to build 5's legal resources. Scientific and UI Swift
-source bytes are unchanged. Exact packaged hashes are in source-manifest.json.
-Public source publication and binary delivery remain pending. This source
-package alone does not establish App Store acceptance or legal clearance.
-Public support contact: developer@dtgibson.com
+Version 1.1.2 build 8, 2026-11-24, adds safeguards for image imports, method files and saved libraries. Public support contact: developer@dtgibson.com
 
-Version 1.1.1 build 7, 2026-11-01: changes only version/build identity
-and the embedded exact Corresponding Source destination from build 6.
-Scientific algorithms, app UI and all license/grant terms remain unchanged.
-This candidate and matching source are locally prepared, not yet published
-or delivered. Planned exact source tag: ios-1.1.1-build-7.
+Corresponding Source for this version:
+https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.2-build-8

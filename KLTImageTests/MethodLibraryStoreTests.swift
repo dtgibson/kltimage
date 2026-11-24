@@ -50,6 +50,27 @@ final class MethodLibraryStoreTests: XCTestCase {
         )
     }
 
+    func testOversizedLibraryKeepsTheLastReadableStore() async throws {
+        let (directory, url) = try temporaryStoreURL()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let store = MethodLibraryStore(url: url)
+        let original = try snapshot(count: 1)
+        _ = try await store.replace(with: original)
+        let originalBytes = try Data(contentsOf: url)
+
+        let purpose = String(repeating: "🌊", count: 500)
+        let proposed = try snapshot(count: MethodLibraryDocumentCodec.maximumByteCount / purpose.utf8.count + 1,
+                                    purpose: purpose)
+        await XCTAssertThrowsErrorAsync(try await store.replace(with: proposed)) {
+            XCTAssertEqual($0 as? MethodDocumentError, .oversizedLibrary)
+        }
+        XCTAssertEqual(try Data(contentsOf: url), originalBytes)
+        let cached = try await store.load()
+        let reloaded = try await MethodLibraryStore(url: url).load()
+        XCTAssertEqual(cached, original)
+        XCTAssertEqual(reloaded, original)
+    }
+
     func testEveryPrecommitWriteFaultPreservesPriorBytesAndRemovesTemporaryFiles() async throws {
         for checkpoint in MethodFileIO.DurableWriteCheckpoint.allCases where !checkpoint.occursAfterRename {
             let (directory, url) = try temporaryStoreURL()
@@ -255,7 +276,7 @@ final class MethodLibraryStoreTests: XCTestCase {
         return (directory, directory.appendingPathComponent("library.json"))
     }
 
-    private func snapshot(count: Int) throws -> MethodLibrarySnapshot {
+    private func snapshot(count: Int, purpose: String? = nil) throws -> MethodLibrarySnapshot {
         let timestamp = Date(timeIntervalSince1970: 1_700_000_000.123)
         let spaces = try (0..<count).map { index in
             let identifier = String(format: "00000000-0000-0000-0000-%012x", index + 1)
@@ -269,7 +290,7 @@ final class MethodLibraryStoreTests: XCTestCase {
             ).revision
             return UserWorkingSpaceItem(
                 libraryName: "Space \(index + 1)",
-                purpose: nil,
+                purpose: purpose,
                 revision: revision,
                 createdAt: timestamp,
                 modifiedAt: timestamp

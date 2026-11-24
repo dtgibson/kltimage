@@ -197,6 +197,31 @@ final class MethodImportAndWorkspaceTests: XCTestCase {
     }
 
     @MainActor
+    func testMacImportRejectsAnOversizedEncodedFileBeforeDecoding() async throws {
+        let (directory, storeURL) = try temporaryStoreURL()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("oversized.tiff")
+        try Data().write(to: url)
+        let file = try FileHandle(forWritingTo: url)
+        try file.truncate(atOffset: UInt64(BatchLimits.current.sourceBytes) + 1)
+        try file.close()
+        let model = WorkspaceModel(
+            methodLibrary: MethodLibraryModel(store: MethodLibraryStore(url: storeURL)),
+            decodeImage: { _ in
+                XCTFail("The encoded-size check should precede ImageIO")
+                throw ImagePipelineError.unreadableImage
+            }
+        )
+        model.openImage(at: url)
+        await waitUntil {
+            if case .failed = model.phase { return true }
+            return false
+        }
+        guard case let .failed(message) = model.phase else { return XCTFail() }
+        XCTAssertTrue(message.contains("1 GiB"))
+    }
+
+    @MainActor
     func testSupersededApplyDecodeCannotReplaceTheNewerAcceptedSourceOrRecipe() async throws {
         let (directory, storeURL) = try temporaryStoreURL()
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -858,7 +883,7 @@ private final class ControlledDecoder: @unchecked Sendable {
         release.signal()
     }
 
-    func decode(_ data: Data) throws -> DecodedImage {
+    func decode(_ url: URL) throws -> DecodedImage {
         let block = lock.withLock { () -> Bool in
             defer { shouldBlock = false }
             return shouldBlock
@@ -867,7 +892,7 @@ private final class ControlledDecoder: @unchecked Sendable {
             blocked.signal()
             _ = release.wait(timeout: .now() + 5)
         }
-        return try ImagePipeline.decode(data)
+        return try ImagePipeline.decode(at: url)
     }
 }
 

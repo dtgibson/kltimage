@@ -73,7 +73,7 @@ The numerical and image-processing code lives in `KLTCore`; native app code live
 
 The Mac download is signed with Developer ID and notarized by Apple. Release notes include verification results for that build. [Mac release notes](https://github.com/dtgibson/kltimage/releases/tag/v1.4.1)
 
-KLT Image 1.1.1 is available on the App Store. Its corresponding-source archive includes build instructions and the notice for the official App Store distribution. [iOS 1.1.1 source release](https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.1-build-7)
+For iPhone and iPad, download the source archive that matches your installed version. Each archive includes build instructions and the notice for the official App Store distribution. [iOS 1.1.2 build 8 source](https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.2-build-8) · [iOS 1.1.1 build 7 source](https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.1-build-7)
 
 ## License
 

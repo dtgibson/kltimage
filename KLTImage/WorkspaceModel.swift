@@ -205,7 +205,7 @@ final class WorkspaceModel {
     private var operationID = UUID()
     private var exportKind: ExportKind?
     private var imageImportRollbackPhase: WorkspacePhase?
-    private let decodeImage: @Sendable (Data) throws -> DecodedImage
+    private let decodeImage: @Sendable (URL) throws -> DecodedImage
     private let calculateImage: @Sendable (
         DecodedImage,
         CalculatedAnalysisRequest,
@@ -221,7 +221,7 @@ final class WorkspaceModel {
 
     init(
         methodLibrary: MethodLibraryModel = MethodLibraryModel(),
-        decodeImage: @escaping @Sendable (Data) throws -> DecodedImage = ImagePipeline.decode,
+        decodeImage: @escaping @Sendable (URL) throws -> DecodedImage = { try ImagePipeline.decode(at: $0) },
         calculateImage: @escaping @Sendable (
             DecodedImage,
             CalculatedAnalysisRequest,
@@ -401,9 +401,18 @@ final class WorkspaceModel {
                 if accessedSecurityScope { url.stopAccessingSecurityScopedResource() }
             }
             do {
-                let data = try Data(contentsOf: url, options: [.mappedIfSafe])
-                try Task.checkCancellation()
-                let decoded = try decodeImage(data)
+                guard url.isFileURL else { throw ImagePipelineError.unreadableImage }
+                let decoded = try BatchIO.coordinateRead(url) { file in
+                    try Task.checkCancellation()
+                    let info = try file.resourceValues(forKeys: [.isRegularFileKey, .fileSizeKey])
+                    guard info.isRegularFile == true, let size = info.fileSize else {
+                        throw ImagePipelineError.unreadableImage
+                    }
+                    guard size <= BatchLimits.current.sourceBytes else {
+                        throw BatchFailure.item("This image exceeds the 1 GiB encoded-file limit. Choose a smaller original.")
+                    }
+                    return try decodeImage(file)
+                }
                 try Task.checkCancellation()
                 await self?.acceptDecodedImage(
                     decoded,

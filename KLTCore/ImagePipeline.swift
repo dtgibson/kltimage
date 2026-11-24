@@ -193,7 +193,10 @@ public enum ImagePipeline {
     private static func decode(
         _ source: CGImageSource, maximumPixelCount: Int
     ) throws -> DecodedImage {
-        guard CGImageSourceGetCount(source) > 0 else {
+        guard let identifier = CGImageSourceGetType(source) as String?,
+              let type = UTType(identifier),
+              [UTType.jpeg, .png, .tiff, .heic].contains(where: { type.conforms(to: $0) }),
+              CGImageSourceGetCount(source) > 0 else {
             throw ImagePipelineError.unreadableImage
         }
 
@@ -267,7 +270,7 @@ public enum ImagePipeline {
         return DecodedImage(
             width: width,
             height: height,
-            sourceTypeIdentifier: CGImageSourceGetType(source) as String?,
+            sourceTypeIdentifier: identifier,
             hasAlpha: hasAlpha,
             originalImage: originalImage,
             analysisSourceFingerprint: fingerprint,

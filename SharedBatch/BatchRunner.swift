@@ -1,8 +1,6 @@
 import Darwin
 import Foundation
-import ImageIO
 import KLTCore
-import UniformTypeIdentifiers
 
 struct BatchRunResult: Sendable {
     let outcomes: [BatchOutcome]
@@ -68,11 +66,6 @@ enum BatchRunner {
         var privateFiles = [sourceURL]; var receipt = BatchCommitReceipt(); var warning: String?
         do {
             try stop.check()
-            guard let imageSource = CGImageSourceCreateWithURL(sourceURL as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
-                  let rawType = CGImageSourceGetType(imageSource), let type = UTType(rawType as String),
-                  [UTType.jpeg, .png, .tiff, .heic].contains(where: { type.conforms(to: $0) }) else {
-                throw BatchFailure.item("Choose a complete JPEG, PNG, TIFF, or HEIC original.")
-            }
             let source: DecodedImage
             do { source = try ImagePipeline.decode(at: sourceURL, maximumPixelCount: request.limits.pixels) }
             catch ImagePipelineError.imageTooLarge { throw BatchFailure.item("This image exceeds the \(request.limits.pixels / 1_000_000)-million-pixel limit. No smaller substitute was used.") }

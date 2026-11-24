@@ -8,10 +8,10 @@ Open a photo, compare the enhanced image with the original using the slider, and
 
 ## Download
 
-- [Download for Mac](https://github.com/dtgibson/kltimage/releases/download/v1.4.0/KLT-Image-1.4.0-build-10.zip). Version 1.4.0 build 10 supports Apple silicon and Intel Macs running macOS 14 or later.
+- [Download for Mac](https://github.com/dtgibson/kltimage/releases/download/v1.4.1/KLT-Image-1.4.1-build-11.zip). Version 1.4.1 build 11 supports Apple silicon and Intel Macs running macOS 14 or later.
 - [Download for iPhone or iPad](https://apps.apple.com/app/id6818412230). Requires iOS or iPadOS 18 or later.
 
-Mac download SHA-256: `a67fc50bdd60fd2ea8ba4621316a67f51a42cd475d23616ca4d34b69d42206d4`
+Mac download SHA-256: `8ff62c0f91a60836878db5a3d35c71f55ab493ca92349913cb0b4c52a31fe90a`
 
 ## What it does
 
@@ -71,7 +71,7 @@ The numerical and image-processing code lives in `KLTCore`; native app code live
 
 ## Release information
 
-The Mac download is signed with Developer ID and notarized by Apple. Release notes include verification results for that build. [Mac release notes](https://github.com/dtgibson/kltimage/releases/tag/v1.4.0)
+The Mac download is signed with Developer ID and notarized by Apple. Release notes include verification results for that build. [Mac release notes](https://github.com/dtgibson/kltimage/releases/tag/v1.4.1)
 
 KLT Image 1.1.1 is available on the App Store. Its corresponding-source archive includes build instructions and the notice for the official App Store distribution. [iOS 1.1.1 source release](https://github.com/dtgibson/kltimage/releases/tag/ios-1.1.1-build-7)
 
